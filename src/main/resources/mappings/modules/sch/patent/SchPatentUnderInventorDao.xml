@@ -4,7 +4,7 @@
     
 	<sql id="schPatentUnderInventorColumns">
 		a.spi_id AS "spiId",
-		a.spi_patent_id AS "spiPatentId",
+		a.spi_patent_id AS "spiPatent.spuId",
 		a.spi_type_code AS "spiTypeCode",
 		a.spi_user_id AS "spiUserId",
 		a.spi_user_name AS "spiUserName",
@@ -20,7 +20,7 @@
 	</sql>
 	
 	<sql id="schPatentUnderInventorJoins">
-		LEFT JOIN sch_patent_under b ON b.id = a.spi_patent_id
+		LEFT JOIN sch_patent_under b ON b.spu_id = a.spi_patent_id
 		LEFT JOIN sys_user u5 ON u5.id = a.spi_user_name
 		LEFT JOIN sys_office o7 ON o7.id = a.spi_office_name
 	</sql>
@@ -30,7 +30,7 @@
 			<include refid="schPatentUnderInventorColumns"/>
 		FROM sch_patent_under_inventor a
 		<include refid="schPatentUnderInventorJoins"/>
-		WHERE a.id = #{id}
+		WHERE a.spi_id = #{spiId}
 	</select>
 	
 	<select id="findList" resultType="SchPatentUnderInventor">
@@ -40,8 +40,8 @@
 		<include refid="schPatentUnderInventorJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="spiPatentId != null and spiPatentId != ''">
-				AND a.spi_patent_id = #{spiPatentId}
+			<if test="spiPatent.spuId != null and spiPatent.spuId != ''">
+				AND a.spi_patent_id = #{spiPatent.spuId}
 			</if>
 		</where>
 		<choose>
@@ -74,7 +74,6 @@
 	
 	<insert id="insert">
 		INSERT INTO sch_patent_under_inventor(
-			spi_id,
 			spi_patent_id,
 			spi_type_code,
 			spi_user_id,
@@ -89,7 +88,6 @@
 			update_date,
 			del_flag
 		) VALUES (
-			#{spiId},
 			#{spiPatentId},
 			#{spiTypeCode},
 			#{spiUserId},
@@ -108,7 +106,6 @@
 	
 	<update id="update">
 		UPDATE sch_patent_under_inventor SET 	
-			spi_id = #{spiId},
 			spi_patent_id = #{spiPatentId},
 			spi_type_code = #{spiTypeCode},
 			spi_user_name = #{spiUserName},
@@ -117,9 +114,9 @@
 			spi_remark = #{spiRemark},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
-		WHERE id = #{id}
+		WHERE spi_id = #{spiId}
 	</update>
-	
+<!-- 	
 	<update id="delete">
 		UPDATE sch_patent_under_inventor SET 
 			del_flag = #{DEL_FLAG_DELETE}
@@ -131,6 +128,11 @@
 				WHERE spi_patent_id = #{spiPatentId}
 			</otherwise>
 		</choose>
+	</update>
+ -->	
+	<update id="delete">
+		DELETE FROM sch_patent_under_inventor
+		WHERE spi_patent_id =  #{spiPatent.spuId}
 	</update>
 	
 </mapper>

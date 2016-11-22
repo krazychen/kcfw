@@ -4,6 +4,8 @@
 package com.krazy.kcfw.modules.sch.entity.patent;
 
 import org.hibernate.validator.constraints.Length;
+
+import java.util.Date;
 import java.util.List;
 import com.google.common.collect.Lists;
 
@@ -22,14 +24,23 @@ public class SchPatentUnder extends DataEntity<SchPatentUnder> {
 	private String spuTypeCode;		// 专利类型代码
 	private String spuTypeName;		// 专利类型名称
 	private String spuApplySchoolName;		// 专利申请人
-	private String spuApplyUserId;		// 联络人
-	private String spuApplyUserOfficeId;		// 所属院系
+	private String spuApplyUserId;		// 联络人Id
+	private String spuApplyUserName;		// 联络人
+	private String spuApplyUserOfficeId;		// 所属院系Id
+	private String spuApplyUserOfficeName;		// 所属院系
 	private String spuApplyPhone;		// 联系电话
-	private String schAdvisTeacherId;		// 指导老师
-	private String schAdvisTeacherOfficeId;		// 指导老师所属院系
-	private String schProxyId;		// 专利代理机构
-	private String schRemark;		// 专利摘要
+	private String spuAdvisTeacherId;		// 指导老师Id
+	private String spuAdvisTeacherName;		// 指导老师
+	private String spuAdvisTeacherOfficeId;		// 指导老师所属院系Id
+	private String spuAdvisTeacherOfficeName;		// 指导老师所属院系
+	private String spuProxyId;		// 专利代理机构ID
+	private String spuProxyName;	// 专利代理机构
+	private String spuRemark;		// 专利摘要
+	private String spuStatus;		// 状态
 	private List<SchPatentUnderInventor> schPatentUnderInventorList = Lists.newArrayList();		// 子表列表
+	
+	protected Date createDateFrom;	// 创建日期From
+	protected Date createDateTo;	// 创建日期To
 	
 	public SchPatentUnder() {
 		super();
@@ -39,7 +50,23 @@ public class SchPatentUnder extends DataEntity<SchPatentUnder> {
 		super(id);
 	}
 
-	@Length(min=1, max=11, message="spu_id长度必须介于 1 和 11 之间")
+	public Date getCreateDateFrom() {
+		return createDateFrom;
+	}
+
+	public void setCreateDateFrom(Date createDateFrom) {
+		this.createDateFrom = createDateFrom;
+	}
+
+	public Date getCreateDateTo() {
+		return createDateTo;
+	}
+
+	public void setCreateDateTo(Date createDateTo) {
+		this.createDateTo = createDateTo;
+	}
+
+//	@Length(min=1, max=11, message="spu_id长度必须介于 1 和 11 之间")
 	public String getSpuId() {
 		return spuId;
 	}
@@ -84,7 +111,7 @@ public class SchPatentUnder extends DataEntity<SchPatentUnder> {
 		this.spuApplySchoolName = spuApplySchoolName;
 	}
 	
-	@Length(min=1, max=64, message="联络人长度必须介于 1 和 64 之间")
+	@Length(min=1, max=64, message="联络人ID长度必须介于 1 和 64 之间")
 	public String getSpuApplyUserId() {
 		return spuApplyUserId;
 	}
@@ -93,13 +120,31 @@ public class SchPatentUnder extends DataEntity<SchPatentUnder> {
 		this.spuApplyUserId = spuApplyUserId;
 	}
 	
-	@Length(min=1, max=64, message="所属院系长度必须介于 1 和 64 之间")
+	@Length(min=1, max=64, message="联络人长度必须介于 1 和 100 之间")
+	public String getSpuApplyUserName() {
+		return spuApplyUserName;
+	}
+
+	public void setSpuApplyUserName(String spuApplyUserName) {
+		this.spuApplyUserName = spuApplyUserName;
+	}
+	
+	@Length(min=1, max=64, message="所属院系ID长度必须介于 1 和 64 之间")
 	public String getSpuApplyUserOfficeId() {
 		return spuApplyUserOfficeId;
 	}
 
 	public void setSpuApplyUserOfficeId(String spuApplyUserOfficeId) {
 		this.spuApplyUserOfficeId = spuApplyUserOfficeId;
+	}
+	
+	@Length(min=1, max=64, message="所属院系长度必须介于 1 和 64 之间")
+	public String getSpuApplyUserOfficeName() {
+		return spuApplyUserOfficeName;
+	}
+
+	public void setSpuApplyUserOfficeName(String spuApplyUserOfficeName) {
+		this.spuApplyUserOfficeName = spuApplyUserOfficeName;
 	}
 	
 	@Length(min=1, max=45, message="联系电话长度必须介于 1 和 45 之间")
@@ -111,42 +156,78 @@ public class SchPatentUnder extends DataEntity<SchPatentUnder> {
 		this.spuApplyPhone = spuApplyPhone;
 	}
 	
-	@Length(min=1, max=64, message="指导老师长度必须介于 1 和 64 之间")
-	public String getSchAdvisTeacherId() {
-		return schAdvisTeacherId;
+	@Length(min=1, max=64, message="指导老师Id长度必须介于 1 和 64 之间")
+	public String getSpuAdvisTeacherId() {
+		return spuAdvisTeacherId;
 	}
 
-	public void setSchAdvisTeacherId(String schAdvisTeacherId) {
-		this.schAdvisTeacherId = schAdvisTeacherId;
+	public void setSpuAdvisTeacherId(String spuAdvisTeacherId) {
+		this.spuAdvisTeacherId = spuAdvisTeacherId;
+	}
+	
+	@Length(min=1, max=64, message="指导老师长度必须介于 1 和 64 之间")
+	public String getSpuAdvisTeacherName() {
+		return spuAdvisTeacherName;
+	}
+
+	public void setSpuAdvisTeacherName(String spuAdvisTeacherName) {
+		this.spuAdvisTeacherName = spuAdvisTeacherName;
+	}
+	
+	@Length(min=1, max=64, message="指导老师Id所属院系长度必须介于 1 和 64 之间")
+	public String getSpuAdvisTeacherOfficeId() {
+		return spuAdvisTeacherOfficeId;
+	}
+
+	public void setSpuAdvisTeacherOfficeId(String spuAdvisTeacherOfficeId) {
+		this.spuAdvisTeacherOfficeId = spuAdvisTeacherOfficeId;
 	}
 	
 	@Length(min=1, max=64, message="指导老师所属院系长度必须介于 1 和 64 之间")
-	public String getSchAdvisTeacherOfficeId() {
-		return schAdvisTeacherOfficeId;
+	public String getSpuAdvisTeacherOfficeName() {
+		return spuAdvisTeacherOfficeName;
 	}
 
-	public void setSchAdvisTeacherOfficeId(String schAdvisTeacherOfficeId) {
-		this.schAdvisTeacherOfficeId = schAdvisTeacherOfficeId;
+	public void setSpuAdvisTeacherOfficeName(String spuAdvisTeacherOfficeName) {
+		this.spuAdvisTeacherOfficeName = spuAdvisTeacherOfficeName;
 	}
 	
 	@Length(min=1, max=45, message="专利代理机构长度必须介于 1 和 45 之间")
-	public String getSchProxyId() {
-		return schProxyId;
+	public String getSpuProxyId() {
+		return spuProxyId;
 	}
 
-	public void setSchProxyId(String schProxyId) {
-		this.schProxyId = schProxyId;
+	public void setSpuProxyId(String spuProxyId) {
+		this.spuProxyId = spuProxyId;
+	}
+	
+	@Length(min=1, max=45, message="专利代理机构长度必须介于 1 和 100 之间")
+	public String getSpuProxyName() {
+		return spuProxyName;
+	}
+
+	public void setSpuProxyName(String spuProxyId) {
+		this.spuProxyId = spuProxyId;
 	}
 	
 	@Length(min=1, max=2000, message="专利摘要长度必须介于 1 和 2000 之间")
-	public String getSchRemark() {
-		return schRemark;
+	public String getSpuRemark() {
+		return spuRemark;
 	}
 
-	public void setSchRemark(String schRemark) {
-		this.schRemark = schRemark;
+	public void setSpuRemark(String spuRemark) {
+		this.spuRemark = spuRemark;
 	}
 	
+	@Length(min=1, max=1, message="状态长度必须介于 1 和 2000 之间")
+	public String getSpuStatus() {
+		return spuStatus;
+	}
+
+	public void setSpuStatus(String spuStatus) {
+		this.spuStatus = spuStatus;
+	}
+
 	public List<SchPatentUnderInventor> getSchPatentUnderInventorList() {
 		return schPatentUnderInventorList;
 	}

@@ -17,7 +17,7 @@ public class SchPatentUnderInventor extends DataEntity<SchPatentUnderInventor> {
 	
 	private static final long serialVersionUID = 1L;
 	private String spiId;		// spi_id
-	private SchPatentUnder spiPatentId;		// 专利ID 父类
+	private SchPatentUnder spiPatent;		// 专利ID 父类
 	private String spiTypeCode;		// 发明人类型
 	private String spiUserId;		// 发明人姓名id
 	private String spiUserName;		// 发明人姓名
@@ -34,8 +34,8 @@ public class SchPatentUnderInventor extends DataEntity<SchPatentUnderInventor> {
 		super(id);
 	}
 
-	public SchPatentUnderInventor(SchPatentUnder spiPatentId){
-		this.spiPatentId = spiPatentId;
+	public SchPatentUnderInventor(SchPatentUnder spiPatent){
+		this.spiPatent = spiPatent;
 	}
 
 	@Length(min=1, max=11, message="spi_id长度必须介于 1 和 11 之间")
@@ -47,13 +47,13 @@ public class SchPatentUnderInventor extends DataEntity<SchPatentUnderInventor> {
 		this.spiId = spiId;
 	}
 	
-	@Length(min=1, max=11, message="专利ID长度必须介于 1 和 11 之间")
-	public SchPatentUnder getSpiPatentId() {
-		return spiPatentId;
+	@Length(min=1, max=11, message="专利长度必须介于 1 和 11 之间")
+	public SchPatentUnder getSpiPatent() {
+		return spiPatent;
 	}
 
-	public void setSpiPatentId(SchPatentUnder spiPatentId) {
-		this.spiPatentId = spiPatentId;
+	public void setSpiPatent(SchPatentUnder spiPatent) {
+		this.spiPatent = spiPatent;
 	}
 	
 	@Length(min=1, max=45, message="发明人类型长度必须介于 1 和 45 之间")

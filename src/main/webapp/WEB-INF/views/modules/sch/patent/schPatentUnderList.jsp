@@ -38,11 +38,22 @@
 				<form:input path="spuApplySchoolName" htmlEscape="false" maxlength="100" class="input-medium"/>
 			</li>
 			<li><label>指导老师：</label>
-				<sys:treeselect id="schAdvisTeacherId" name="schAdvisTeacherId" value="${schPatentUnder.schAdvisTeacherId}" labelName="" labelValue=""
+				<sys:treeselect id="spuAdvisTeacherId" name="spuAdvisTeacherId" value="${schPatentUnder.spuAdvisTeacherId}" labelName="spuAdvisTeacherName" labelValue="${schPatentUnder.spuAdvisTeacherName}"
 					title="用户" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</li>
-			<li><label>创建时间：</label>
-				<input name="createDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+			<li><label>申请状态：</label>
+				<form:select path="spuStatus" class="input-medium">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('PATENT_STATUS')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</li>
+			<li><label>创建时间从：</label>
+				<input name="createDateFrom" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					value="<fmt:formatDate value="${schPatentUnder.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+			</li>
+			<li><label>创建时间到：</label>
+				<input name="createDateTo" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
 					value="<fmt:formatDate value="${schPatentUnder.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</li>
@@ -61,44 +72,44 @@
 				<th>所属院系</th>
 				<th>指导老师</th>
 				<th>所属院系</th>
-				<th>创建时间</th>
-				<th>更新时间</th>
+				<th>申请时间</th>
+				<th>申请状态</th>
 				<shiro:hasPermission name="sch:patent:schPatentUnder:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="schPatentUnder">
 			<tr>
-				<td><a href="${ctx}/sch/patent/schPatentUnder/form?id=${schPatentUnder.id}">
+				<td><a href="${ctx}/sch/patent/schPatentUnder/form?id=${schPatentUnder.spuId}">
 					${schPatentUnder.spuName}
 				</a></td>
 				<td>
-					${fns:getDictLabel(schPatentUnder.spuTypeName, 'PATENT_TYPE', '')}
+					${fns:getDictLabel(schPatentUnder.spuTypeCode, 'PATENT_TYPE', '')}
 				</td>
 				<td>
 					${schPatentUnder.spuApplySchoolName}
 				</td>
 				<td>
-					${schPatentUnder.}
+					${schPatentUnder.spuApplyUserName}
 				</td>
 				<td>
-					${schPatentUnder.}
+					${schPatentUnder.spuApplyUserOfficeName}
 				</td>
 				<td>
-					${schPatentUnder.}
+					${schPatentUnder.spuAdvisTeacherName}
 				</td>
 				<td>
-					${schPatentUnder.}
+					${schPatentUnder.spuAdvisTeacherOfficeName}
 				</td>
 				<td>
 					<fmt:formatDate value="${schPatentUnder.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
-					<fmt:formatDate value="${schPatentUnder.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					${fns:getDictLabel(schPatentUnder.spuStatus, 'PATENT_STATUS', '')}
 				</td>
 				<shiro:hasPermission name="sch:patent:schPatentUnder:edit"><td>
-    				<a href="${ctx}/sch/patent/schPatentUnder/form?id=${schPatentUnder.id}">修改</a>
-					<a href="${ctx}/sch/patent/schPatentUnder/delete?id=${schPatentUnder.id}" onclick="return confirmx('确认要删除该发明专利吗？', this.href)">删除</a>
+    				<a href="${ctx}/sch/patent/schPatentUnder/form?id=${schPatentUnder.spuId}">修改</a>
+					<a href="${ctx}/sch/patent/schPatentUnder/delete?id=${schPatentUnder.spuId}" onclick="return confirmx('确认要删除该发明专利吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

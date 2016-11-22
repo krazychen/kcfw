@@ -40,6 +40,7 @@ public class SchPatentUnderService extends CrudService<SchPatentUnderDao, SchPat
 	}
 	
 	public Page<SchPatentUnder> findPage(Page<SchPatentUnder> page, SchPatentUnder schPatentUnder) {
+		schPatentUnder.getSqlMap().put("dsf", dataScopeFilter(schPatentUnder.getCurrentUser(), "o", "u"));
 		return super.findPage(page, schPatentUnder);
 	}
 	
@@ -52,7 +53,7 @@ public class SchPatentUnderService extends CrudService<SchPatentUnderDao, SchPat
 			}
 			if (SchPatentUnderInventor.DEL_FLAG_NORMAL.equals(schPatentUnderInventor.getDelFlag())){
 				if (StringUtils.isBlank(schPatentUnderInventor.getId())){
-					schPatentUnderInventor.setSpiPatentId(schPatentUnder);
+					schPatentUnderInventor.setSpiPatent(schPatentUnder);
 					schPatentUnderInventor.preInsert();
 					schPatentUnderInventorDao.insert(schPatentUnderInventor);
 				}else{

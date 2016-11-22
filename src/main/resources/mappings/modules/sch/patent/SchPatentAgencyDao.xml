@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krazy.kcfw.modules.sch.dao.patent.SchPatentAgencyDao">
+    
+	<sql id="schPatentAgencyColumns">
+		a.spa_code AS "spaCode",
+		a.spa_name AS "spaName",
+		a.spa_contacts AS "spaContacts",
+		a.spa_phone AS "spaPhone",
+		a.spa_address AS "spaAddress",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="schPatentAgencyJoins">
+	</sql>
+	
+	<sql id="userJoins">
+		JOIN sys_user u ON u.id = a.create_by
+		JOIN sys_office o ON o.id = u.office_id
+    </sql>
+    
+	<select id="get" resultType="SchPatentAgency">
+		SELECT 
+			<include refid="schPatentAgencyColumns"/>
+		FROM sch_patent_agency a
+		<include refid="schPatentAgencyJoins"/>
+		WHERE a.spa_code = #{spaCode}
+	</select>
+	
+	<select id="findList" resultType="SchPatentAgency">
+		SELECT 
+			<include refid="schPatentAgencyColumns"/>
+		FROM sch_patent_agency a
+		<include refid="schPatentAgencyJoins"/>
+		<include refid="userJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="spaName != null and spaName != ''">
+				AND a.spa_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{spaName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{spaName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{spaName},'%')</if>
+			</if>
+			<if test="spaContacts != null and spaContacts != ''">
+				AND a.spa_contacts LIKE 
+					<if test="dbName == 'oracle'">'%'||#{spaContacts}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{spaContacts}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{spaContacts},'%')</if>
+			</if>
+		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SchPatentAgency">
+		SELECT 
+			<include refid="schPatentAgencyColumns"/>
+		FROM sch_patent_agency a
+		<include refid="schPatentAgencyJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO sch_patent_agency(
+			spa_code,
+			spa_name,
+			spa_contacts,
+			spa_phone,
+			spa_address,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{spaCode},
+			#{spaName},
+			#{spaContacts},
+			#{spaPhone},
+			#{spaAddress},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sch_patent_agency SET 	
+			spa_name = #{spaName},
+			spa_contacts = #{spaContacts},
+			spa_phone = #{spaPhone},
+			spa_address = #{spaAddress}
+		WHERE spa_code = #{spaCode}
+	</update>
+	
+	<!-- 
+	<update id="delete">
+		UPDATE sch_patent_agency SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update> -->
+	
+	<update id="delete">
+		DELETE FROM sch_patent_agency
+		WHERE spa_code = #{spaCode}
+	</update>
+	
+</mapper>

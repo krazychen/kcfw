@@ -3,6 +3,10 @@
  */
 package com.krazy.kcfw.modules.sch.web.patent;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,7 +23,9 @@ import com.krazy.kcfw.common.config.Global;
 import com.krazy.kcfw.common.persistence.Page;
 import com.krazy.kcfw.common.web.BaseController;
 import com.krazy.kcfw.common.utils.StringUtils;
+import com.krazy.kcfw.modules.sch.entity.patent.SchPatentAgency;
 import com.krazy.kcfw.modules.sch.entity.patent.SchPatentUnder;
+import com.krazy.kcfw.modules.sch.service.patent.SchPatentAgencyService;
 import com.krazy.kcfw.modules.sch.service.patent.SchPatentUnderService;
 
 /**
@@ -33,6 +39,9 @@ public class SchPatentUnderController extends BaseController {
 
 	@Autowired
 	private SchPatentUnderService schPatentUnderService;
+	
+	@Autowired
+	private SchPatentAgencyService schPatentAgencyService;
 	
 	@ModelAttribute
 	public SchPatentUnder get(@RequestParam(required=false) String id) {
@@ -57,6 +66,14 @@ public class SchPatentUnderController extends BaseController {
 	@RequiresPermissions("sch:patent:schPatentUnder:view")
 	@RequestMapping(value = "form")
 	public String form(SchPatentUnder schPatentUnder, Model model) {
+		List<SchPatentAgency> schPatentAgencyList=schPatentAgencyService.findList(new SchPatentAgency());
+		
+		Map<String,String> schPatentAgencys=new HashMap<String,String>();
+		schPatentAgencys.put("", "");
+		for(SchPatentAgency spa:schPatentAgencyList){
+			schPatentAgencys.put(spa.getSpaCode(), spa.getSpaName()+" | "+spa.getSpaPhone()+" | "+spa.getSpaAddress());
+		}
+		model.addAttribute("schPatentAgencyLiss", schPatentAgencys);
 		model.addAttribute("schPatentUnder", schPatentUnder);
 		return "modules/sch/patent/schPatentUnderForm";
 	}
@@ -67,6 +84,7 @@ public class SchPatentUnderController extends BaseController {
 		if (!beanValidator(model, schPatentUnder)){
 			return form(schPatentUnder, model);
 		}
+		schPatentUnder.setSpuStatus("1");
 		schPatentUnderService.save(schPatentUnder);
 		addMessage(redirectAttributes, "保存发明专利成功");
 		return "redirect:"+Global.getAdminPath()+"/sch/patent/schPatentUnder/?repage";
