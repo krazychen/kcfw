@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krazy.kcfw.modules.sch.dao.contract.SchComConcractDao">
+    
+	<sql id="schComConcractColumns">
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.scc_name AS "sccName",
+		a.scc_no AS "sccNo",
+		a.scc_type AS "sccType",
+		a.scc_research_type AS "sccResearchType",
+		a.scc_research_type_sub AS "sccResearchTypeSub",
+		a.scc_industry AS "sccIndustry",
+		a.scc_response_user_id AS "sccResponseUserId",
+		u13.name AS "sccResponseUserName",
+		a.scc_response_office_id AS "sccResponseOfficeId",
+		o14.name AS "sccResponseOfficeName",
+		a.scc_company_name AS "sccCompanyName",
+		a.scc_company_area AS "sccCompanyArea",
+		a.scc_company_type AS "sccCompanyType",
+		a.scc_status AS "sccStatus",
+		a.scc_files AS "sccFiles",
+		a.scc_submit_date AS "sccSubmitDate"
+	</sql>
+	
+	<sql id="schComConcractJoins">
+		LEFT JOIN sys_user u13 ON u13.id = a.scc_response_user_id
+		LEFT JOIN sys_office o14 ON o14.id = a.scc_response_office_id
+		LEFT JOIN sys_area a16 ON a16.id = a.scc_company_area
+	</sql>
+    
+	<select id="get" resultType="SchComConcract">
+		SELECT 
+			<include refid="schComConcractColumns"/>
+		FROM sch_com_concract a
+		<include refid="schComConcractJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="SchComConcract">
+		SELECT 
+			<include refid="schComConcractColumns"/>
+		FROM sch_com_concract a
+		<include refid="schComConcractJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="sccName != null and sccName != ''">
+				AND a.scc_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{sccName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{sccName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{sccName},'%')</if>
+			</if>
+			<if test="sccNo != null and sccNo != ''">
+				AND a.scc_no LIKE 
+					<if test="dbName == 'oracle'">'%'||#{sccNo}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{sccNo}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{sccNo},'%')</if>
+			</if>
+			<if test="sccType != null and sccType != ''">
+				AND a.scc_type = #{sccType}
+			</if>
+			<if test="sccResponseUserId != null and sccResponseUserId != ''">
+				AND a.scc_response_user_id = #{sccResponseUserId}
+			</if>
+			<if test="sccStatus != null and sccStatus != ''">
+				AND a.scc_status = #{sccStatus}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SchComConcract">
+		SELECT 
+			<include refid="schComConcractColumns"/>
+		FROM sch_com_concract a
+		<include refid="schComConcractJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO sch_com_concract(
+			id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			scc_name,
+			scc_no,
+			scc_type,
+			scc_research_type,
+			scc_research_type_sub,
+			scc_industry,
+			scc_response_user_id,
+			scc_response_office_id,
+			scc_company_name,
+			scc_company_area,
+			scc_company_type,
+			scc_status,
+			scc_files,
+			scc_submit_date
+		) VALUES (
+			#{id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{sccName},
+			#{sccNo},
+			#{sccType},
+			#{sccResearchType},
+			#{sccResearchTypeSub},
+			#{sccIndustry},
+			#{sccResponseUserId},
+			#{sccResponseOfficeId},
+			#{sccCompanyName},
+			#{sccCompanyArea},
+			#{sccCompanyType},
+			#{sccStatus},
+			#{sccFiles},
+			#{sccSubmitDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sch_com_concract SET 	
+			scc_name = #{sccName},
+			scc_type = #{sccType},
+			scc_research_type = #{sccResearchType},
+			scc_research_type_sub = #{sccResearchTypeSub},
+			scc_industry = #{sccIndustry},
+			scc_response_user_id = #{sccResponseUserId},
+			scc_response_office_id = #{sccResponseOfficeId},
+			scc_company_name = #{sccCompanyName},
+			scc_company_area = #{sccCompanyArea},
+			scc_company_type = #{sccCompanyType},
+			scc_files = #{sccFiles},
+			scc_submit_date = #{sccSubmitDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE sch_com_concract SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

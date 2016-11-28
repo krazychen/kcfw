@@ -22,6 +22,8 @@
 <%@ attribute name="hideBtn" type="java.lang.Boolean" required="false" description="是否显示按钮"%>
 <%@ attribute name="disabled" type="java.lang.String" required="false" description="是否限制选择，如果限制，设置为disabled"%>
 <%@ attribute name="dataMsgRequired" type="java.lang.String" required="false" description=""%>
+<%@ attribute name="roleEnName" type="java.lang.String" required="false" description="角色英文名称，用来过滤指定角色的用户"%>
+<%@ attribute name="userURL" type="java.lang.String" required="false" description="用来获取用户数据的方法名"%>
 <div class="input-append">
 	<input id="${id}Id" name="${name}" class="${cssClass}" type="hidden" value="${value}"/>
 	<input id="${id}Name" name="${labelName}" ${allowInput?'':'readonly="readonly"'} type="text" value="${labelValue}" data-msg-required="${dataMsgRequired}"
@@ -34,7 +36,7 @@
 			return true;
 		}
 		// 正常打开	
-		top.$.jBox.open("iframe:${ctx}/tag/treeselect?url="+encodeURIComponent("${url}")+"&module=${module}&checked=${checked}&extId=${extId}&isAll=${isAll}", "选择${title}", 300, 420, {
+		top.$.jBox.open("iframe:${ctx}/tag/treeselect?url="+encodeURIComponent("${url}")+"&module=${module}&checked=${checked}&extId=${extId}&isAll=${isAll}&roleEnName=${roleEnName}&userURL=${userURL}", "选择${title}", 300, 420, {
 			ajaxData:{selectIds: $("#${id}Id").val()},buttons:{"确定":"ok", ${allowClear?"\"清除\":\"clear\", ":""}"关闭":true}, submit:function(v, h, f){
 				if (v=="ok"){
 					var tree = h.find("iframe")[0].contentWindow.tree;//h.find("iframe").contents();

@@ -16,13 +16,17 @@ import com.krazy.kcfw.common.persistence.DataEntity;
 public class SchPatentUnderInventor extends DataEntity<SchPatentUnderInventor> {
 	
 	private static final long serialVersionUID = 1L;
-	private String spiId;		// spi_id
 	private SchPatentUnder spiPatent;		// 专利ID 父类
 	private String spiTypeCode;		// 发明人类型
-	private String spiUserId;		// 发明人姓名id
-	private String spiUserName;		// 发明人姓名
+	private String spiTypeName;		// 发明人类型名称
+	private String spiUserId;		// 发明人学生姓名id
+	private String spiUserName;		// 发明人学生姓名
+	private String spiTeacherId;		// 发明人老师姓名id
+	private String spiTeacherName;		// 发明人老师姓名
+	private String spiUserNameEX;		// 发明人校外姓名
 	private String spiOfficeId;		// 发明人单位代码
 	private String spiOfficeName;		// 发明人单位
+	private String spiOfficeNameEx;		//发明人校外单位
 	private String spiContributionPer;		// 贡献度(%)
 	private String spiRemark;		// 备注
 	
@@ -33,20 +37,47 @@ public class SchPatentUnderInventor extends DataEntity<SchPatentUnderInventor> {
 	public SchPatentUnderInventor(String id){
 		super(id);
 	}
+	
+	
+
+	public String getSpiTeacherId() {
+		return spiTeacherId;
+	}
+
+	public void setSpiTeacherId(String spiTeacherId) {
+		this.spiTeacherId = spiTeacherId;
+	}
+
+	public String getSpiTeacherName() {
+		return spiTeacherName;
+	}
+
+	public void setSpiTeacherName(String spiTeacherName) {
+		this.spiTeacherName = spiTeacherName;
+	}
+
+	public String getSpiUserNameEX() {
+		return spiUserNameEX;
+	}
+
+	public void setSpiUserNameEX(String spiUserNameEX) {
+		this.spiUserNameEX = spiUserNameEX;
+	}
 
 	public SchPatentUnderInventor(SchPatentUnder spiPatent){
 		this.spiPatent = spiPatent;
 	}
-
-	@Length(min=1, max=11, message="spi_id长度必须介于 1 和 11 之间")
-	public String getSpiId() {
-		return spiId;
-	}
-
-	public void setSpiId(String spiId) {
-		this.spiId = spiId;
-	}
 	
+	
+	
+	public String getSpiOfficeNameEx() {
+		return spiOfficeNameEx;
+	}
+
+	public void setSpiOfficeNameEx(String spiOfficeNameEx) {
+		this.spiOfficeNameEx = spiOfficeNameEx;
+	}
+
 	@Length(min=1, max=11, message="专利长度必须介于 1 和 11 之间")
 	public SchPatentUnder getSpiPatent() {
 		return spiPatent;
@@ -65,6 +96,15 @@ public class SchPatentUnderInventor extends DataEntity<SchPatentUnderInventor> {
 		this.spiTypeCode = spiTypeCode;
 	}
 	
+	@Length(min=1, max=45, message="发明人类型长度必须介于 1 和 45 之间")
+	public String getSpiTypeName() {
+		return spiTypeName;
+	}
+
+	public void setSpiTypeName(String spiTypeName) {
+		this.spiTypeName = spiTypeName;
+	}
+
 	@Length(min=1, max=64, message="发明人姓名id长度必须介于 1 和 64 之间")
 	public String getSpiUserId() {
 		return spiUserId;

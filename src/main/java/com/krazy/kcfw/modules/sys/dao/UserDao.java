@@ -3,6 +3,7 @@
  */
 package com.krazy.kcfw.modules.sys.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.krazy.kcfw.common.persistence.CrudDao;
@@ -36,6 +37,12 @@ public interface UserDao extends CrudDao<User> {
 	 * @return
 	 */
 	public long findAllCount(User user);
+	
+	/**
+	 * findUsersByRoleEnName
+	 * @return
+	 */
+	public List<User> findUsersByRoleEnName(HashMap<String,String> parms);
 	
 	/**
 	 * 更新用户密码

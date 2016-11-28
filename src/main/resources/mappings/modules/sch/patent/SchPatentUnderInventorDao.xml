@@ -3,13 +3,18 @@
 <mapper namespace="com.krazy.kcfw.modules.sch.dao.patent.SchPatentUnderInventorDao">
     
 	<sql id="schPatentUnderInventorColumns">
-		a.spi_id AS "spiId",
-		a.spi_patent_id AS "spiPatent.spuId",
+		a.id AS "id",
+		a.spi_patent_id AS "spiPatent.id",
 		a.spi_type_code AS "spiTypeCode",
+		a.spi_type_code AS "spiTypeName",
 		a.spi_user_id AS "spiUserId",
-		a.spi_user_name AS "spiUserName",
+		u5.name AS "spiUserName",
+		a.spi_teacher_id AS "spiTeacherId",
+		u6.name AS "spiUserName",
+		a.SPI_USER_NAME_EX AS "spiUserNameEX",
 		a.spi_office_id AS "spiOfficeId",
-		a.spi_office_name AS "spiOfficeName",
+		a.spi_office_name_ex AS "spaOfficeNameEx",
+		o7.name AS "spiOfficeName",
 		a.spi_contribution_per AS "spiContributionPer",
 		a.spi_remark AS "spiRemark",
 		a.create_by AS "createBy.id",
@@ -20,9 +25,11 @@
 	</sql>
 	
 	<sql id="schPatentUnderInventorJoins">
-		LEFT JOIN sch_patent_under b ON b.spu_id = a.spi_patent_id
-		LEFT JOIN sys_user u5 ON u5.id = a.spi_user_name
-		LEFT JOIN sys_office o7 ON o7.id = a.spi_office_name
+		LEFT JOIN sch_patent_under b ON b.id = a.spi_patent_id
+		LEFT JOIN sys_user u5 ON u5.id = a.spi_user_id
+		LEFT JOIN sys_user u6 ON u6.id = a.spi_teacher_id
+		LEFT JOIN sys_office o7 ON o7.id = a.spi_office_id
+		left join sys_dict c on c.type='INVENTOR_TYPE' and c.value=a.spi_type_code
 	</sql>
     
 	<select id="get" resultType="SchPatentUnderInventor">
@@ -40,8 +47,8 @@
 		<include refid="schPatentUnderInventorJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="spiPatent.spuId != null and spiPatent.spuId != ''">
-				AND a.spi_patent_id = #{spiPatent.spuId}
+			<if test="spiPatent.id != null and spiPatent.id != ''">
+				AND a.spi_patent_id = #{spiPatent.id}
 			</if>
 		</where>
 		<choose>
@@ -74,12 +81,14 @@
 	
 	<insert id="insert">
 		INSERT INTO sch_patent_under_inventor(
+			id,
 			spi_patent_id,
 			spi_type_code,
 			spi_user_id,
-			spi_user_name,
+			spi_teacher_id,
+			spi_user_name_ex,
 			spi_office_id,
-			spi_office_name,
+			spi_office_name_ex,
 			spi_contribution_per,
 			spi_remark,
 			create_by,
@@ -88,12 +97,14 @@
 			update_date,
 			del_flag
 		) VALUES (
-			#{spiPatentId},
+			#{id},
+			#{spiPatent.id},
 			#{spiTypeCode},
 			#{spiUserId},
-			#{spiUserName},
+			#{spiTeacherId},
+			#{spiUserNameEX},
 			#{spiOfficeId},
-			#{spiOfficeName},
+			#{spiOfficeNameEx},
 			#{spiContributionPer},
 			#{spiRemark},
 			#{createBy.id},
@@ -106,15 +117,18 @@
 	
 	<update id="update">
 		UPDATE sch_patent_under_inventor SET 	
-			spi_patent_id = #{spiPatentId},
+			spi_patent_id = #{spiPatent.id},
 			spi_type_code = #{spiTypeCode},
-			spi_user_name = #{spiUserName},
-			spi_office_name = #{spiOfficeName},
+			spi_user_id = #{spiUserId},
+			spi_teacher_id  = #{spiTeacherId},
+			spi_user_name_ex = #{spiUserNameEX},
+			spi_office_id = #{spiOfficeId},
+			spi_office_name_ex = #{spiOfficeNameEx},
 			spi_contribution_per = #{spiContributionPer},
 			spi_remark = #{spiRemark},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
-		WHERE spi_id = #{spiId}
+		WHERE id = #{id}
 	</update>
 <!-- 	
 	<update id="delete">
@@ -132,7 +146,7 @@
  -->	
 	<update id="delete">
 		DELETE FROM sch_patent_under_inventor
-		WHERE spi_patent_id =  #{spiPatent.spuId}
+		WHERE spi_patent_id =  #{spiPatent.id}
 	</update>
 	
 </mapper>

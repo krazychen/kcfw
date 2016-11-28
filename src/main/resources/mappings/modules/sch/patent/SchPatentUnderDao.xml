@@ -3,7 +3,7 @@
 <mapper namespace="com.krazy.kcfw.modules.sch.dao.patent.SchPatentUnderDao">
     
 	<sql id="schPatentUnderColumns">
-		a.spu_id AS "spuId",
+		a.id AS "id",
 		a.spu_name AS "spuName",
 		a.spu_type_code AS "spuTypeCode",
 		a.spu_type_name AS "spuTypeName",
@@ -15,6 +15,7 @@
 		a.spu_apply_phone AS "spuApplyPhone",
 		a.spu_advis_teacher_id AS "spuAdvisTeacherId",
 		u9.name AS "spuAdvisTeacherName",
+		u9.login_name AS "spuAdvisTeacherLoginName",
 		a.spu_advis_teacher_office_id AS "spuAdvisTeacherOfficeId",
 		o10.name AS "spuAdvisTeacherOfficeName",
 		a.spu_proxy_id AS "spuProxyId",
@@ -25,7 +26,11 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		a.first_text AS "firstText",
+		a.lead_text AS "leadText",
+		a.agency_text AS "agencyText",
+		a.PROC_INS_ID AS "procInsId"
 	</sql>
 	
 	<sql id="schPatentUnderJoins">
@@ -46,7 +51,7 @@
 			<include refid="schPatentUnderColumns"/>
 		FROM sch_patent_under a
 		<include refid="schPatentUnderJoins"/>
-		WHERE a.spu_id = #{spuId}
+		WHERE a.id = #{id}
 		
 	</select>
 	
@@ -118,6 +123,7 @@
 	
 	<insert id="insert">
 		INSERT INTO sch_patent_under(
+			id,
 			spu_name,
 			spu_type_code,
 			spu_type_name,
@@ -136,6 +142,7 @@
 			update_date,
 			del_flag
 		) VALUES (
+			#{id},
 			#{spuName},
 			#{spuTypeCode},
 			#{spuTypeName},
@@ -168,7 +175,9 @@
 			spu_advis_teacher_office_id = #{spuAdvisTeacherOfficeId},
 			spu_proxy_id = #{spuProxyId},
 			spu_remark = #{spuRemark},
-			spu_status = #{spuStatus}
+			spu_status = #{spuStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>
 <!-- 	
@@ -180,7 +189,42 @@
  -->	
 	<update id="delete">
 		DELETE FROM sch_patent_under
-		WHERE spu_id = #{spuId}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateStatus">
+		UPDATE sch_patent_under SET 
+			spu_status = #{spuStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateFirstText">
+		UPDATE sch_patent_under SET 
+			first_text = #{firstText},
+			spu_status = #{spuStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateLeadText">
+		UPDATE sch_patent_under SET 
+			lead_text = #{leadText},
+			spu_status = #{spuStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateAgencyText">
+		UPDATE sch_patent_under SET 
+			agency_text = #{agencyText},
+			spu_status = #{spuStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
 	</update>
 	
 </mapper>

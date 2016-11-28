@@ -50,8 +50,8 @@ public class SchPatentAgencyService extends CrudService<SchPatentAgencyDao, SchP
 		
 		//生成代理机构用户
 		User user=new User();
-		user.setCompany(new Office("8065fbd5cce349af9b4d345bcb954d34"));
-		user.setOffice(new Office("8065fbd5cce349af9b4d345bcb954d34"));
+		user.setCompany(new Office("99999"));
+		user.setOffice(new Office("99999"));
 		user.setNo(schPatentAgency.getSpaCode());
 		user.setName(schPatentAgency.getSpaName());																																																																																																																																																																																										
 		user.setLoginName(schPatentAgency.getSpaCode());
@@ -60,7 +60,7 @@ public class SchPatentAgencyService extends CrudService<SchPatentAgencyDao, SchP
 		user.setLoginFlag("1");
 		
 		List<Role> roleList = Lists.newArrayList();
-		roleList.add(new Role("70adf5534cc040d0abfdf2a6d5c0f8d1"));
+		roleList.add(new Role("99999"));
 		user.setRoleList(roleList);
 		
 		// 保存用户信息

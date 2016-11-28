@@ -5,6 +5,7 @@ package com.krazy.kcfw.modules.sch.dao.patent;
 
 import com.krazy.kcfw.common.persistence.CrudDao;
 import com.krazy.kcfw.common.persistence.annotation.MyBatisDao;
+import com.krazy.kcfw.modules.oa.entity.TestAudit;
 import com.krazy.kcfw.modules.sch.entity.patent.SchPatentUnder;
 
 /**
@@ -14,5 +15,14 @@ import com.krazy.kcfw.modules.sch.entity.patent.SchPatentUnder;
  */
 @MyBatisDao
 public interface SchPatentUnderDao extends CrudDao<SchPatentUnder> {
+	
+	public int updateStatus(SchPatentUnder schPatentUnder);
+	
+	public int updateFirstText(SchPatentUnder schPatentUnder);
+	
+	public int updateLeadText(SchPatentUnder schPatentUnder);
+	
+	public int updateAgencyText(SchPatentUnder schPatentUnder);
+
 	
 }

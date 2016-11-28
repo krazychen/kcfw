@@ -5,6 +5,7 @@ package com.krazy.kcfw.modules.sys.service;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -123,6 +124,26 @@ public class SystemService extends BaseService implements InitializingBean {
 			user.setOffice(new Office(officeId));
 			list = userDao.findUserByOfficeId(user);
 			CacheUtils.put(UserUtils.USER_CACHE, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + officeId, list);
+		}
+		return list;
+	}
+	
+	/**
+	 * 通过部门ID和角色英文名称获取用户列表，仅返回用户id和name（树查询用户时用）
+	 * @param user
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<User> findUserByOfficeIdAndRoleEnName(String officeId,String roleEnName) {
+		List<User> list = (List<User>)CacheUtils.get(UserUtils.USER_CACHE+"-"+roleEnName, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + officeId);
+		if (list == null){
+			
+			HashMap<String,String> pars=new HashMap<String,String>();
+			pars.put("roleEnName",roleEnName );
+			pars.put("officeId", officeId);
+			
+			list = userDao.findUsersByRoleEnName(pars);
+			CacheUtils.put(UserUtils.USER_CACHE+"-"+roleEnName, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + officeId, list);
 		}
 		return list;
 	}

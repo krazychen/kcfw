@@ -7,8 +7,9 @@ import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
 import java.util.List;
-import com.google.common.collect.Lists;
 
+import com.google.common.collect.Lists;
+import com.krazy.kcfw.common.persistence.ActEntity;
 import com.krazy.kcfw.common.persistence.DataEntity;
 
 /**
@@ -16,10 +17,9 @@ import com.krazy.kcfw.common.persistence.DataEntity;
  * @author Krazy
  * @version 2016-11-20
  */
-public class SchPatentUnder extends DataEntity<SchPatentUnder> {
+public class SchPatentUnder extends ActEntity<SchPatentUnder> {
 	
 	private static final long serialVersionUID = 1L;
-	private String spuId;		// spu_id
 	private String spuName;		// 专利名称
 	private String spuTypeCode;		// 专利类型代码
 	private String spuTypeName;		// 专利类型名称
@@ -31,6 +31,7 @@ public class SchPatentUnder extends DataEntity<SchPatentUnder> {
 	private String spuApplyPhone;		// 联系电话
 	private String spuAdvisTeacherId;		// 指导老师Id
 	private String spuAdvisTeacherName;		// 指导老师
+	private String spuAdvisTeacherLoginName;		// 指导老师登录名
 	private String spuAdvisTeacherOfficeId;		// 指导老师所属院系Id
 	private String spuAdvisTeacherOfficeName;		// 指导老师所属院系
 	private String spuProxyId;		// 专利代理机构ID
@@ -41,6 +42,9 @@ public class SchPatentUnder extends DataEntity<SchPatentUnder> {
 	
 	protected Date createDateFrom;	// 创建日期From
 	protected Date createDateTo;	// 创建日期To
+	private String firstText;       //初审评审意见
+	private String leadText;		//审核评审意见
+	private String agencyText;		//机构评审意见
 	
 	public SchPatentUnder() {
 		super();
@@ -48,6 +52,32 @@ public class SchPatentUnder extends DataEntity<SchPatentUnder> {
 
 	public SchPatentUnder(String id){
 		super(id);
+	}
+	
+	
+
+	public String getFirstText() {
+		return firstText;
+	}
+
+	public void setFirstText(String firstText) {
+		this.firstText = firstText;
+	}
+
+	public String getLeadText() {
+		return leadText;
+	}
+
+	public void setLeadText(String leadText) {
+		this.leadText = leadText;
+	}
+
+	public String getAgencyText() {
+		return agencyText;
+	}
+
+	public void setAgencyText(String agencyText) {
+		this.agencyText = agencyText;
 	}
 
 	public Date getCreateDateFrom() {
@@ -64,15 +94,6 @@ public class SchPatentUnder extends DataEntity<SchPatentUnder> {
 
 	public void setCreateDateTo(Date createDateTo) {
 		this.createDateTo = createDateTo;
-	}
-
-//	@Length(min=1, max=11, message="spu_id长度必须介于 1 和 11 之间")
-	public String getSpuId() {
-		return spuId;
-	}
-
-	public void setSpuId(String spuId) {
-		this.spuId = spuId;
 	}
 	
 	@Length(min=1, max=200, message="专利名称长度必须介于 1 和 200 之间")
@@ -192,6 +213,14 @@ public class SchPatentUnder extends DataEntity<SchPatentUnder> {
 		this.spuAdvisTeacherOfficeName = spuAdvisTeacherOfficeName;
 	}
 	
+	public String getSpuAdvisTeacherLoginName() {
+		return spuAdvisTeacherLoginName;
+	}
+
+	public void setSpuAdvisTeacherLoginName(String spuAdvisTeacherLoginName) {
+		this.spuAdvisTeacherLoginName = spuAdvisTeacherLoginName;
+	}
+
 	@Length(min=1, max=45, message="专利代理机构长度必须介于 1 和 45 之间")
 	public String getSpuProxyId() {
 		return spuProxyId;
@@ -206,8 +235,8 @@ public class SchPatentUnder extends DataEntity<SchPatentUnder> {
 		return spuProxyName;
 	}
 
-	public void setSpuProxyName(String spuProxyId) {
-		this.spuProxyId = spuProxyId;
+	public void setSpuProxyName(String spuProxyName) {
+		this.spuProxyName = spuProxyName;
 	}
 	
 	@Length(min=1, max=2000, message="专利摘要长度必须介于 1 和 2000 之间")

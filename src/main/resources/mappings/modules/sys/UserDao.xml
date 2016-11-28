@@ -223,6 +223,25 @@
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
 	</select>
 	
+	<sql id="roleEnJoins">
+		left join sys_user_role sur on sur.user_id=a.id
+		left join sys_role sr on sr.id = sur.role_id
+    </sql>
+	
+		<!-- 按照角色英文名查询和当前用户同一部门的用户 -->
+	<select id="findUsersByRoleEnName" resultType="User">
+		SELECT
+			<include refid="userColumns"/>
+		FROM sys_user a
+		<include refid="userJoins"/>
+		<include refid="roleEnJoins"/>
+		WHERE 1=1
+		<if test="roleEnName != null and roleEnName != ''">
+			and sr.enname like '%'||#{roleEnName}||'%'
+		</if>
+		and a.office_id = #{officeId}
+	</select>
+	
 	<!-- 插入用户 -->
 	<insert id="insert">
 		INSERT INTO sys_user(

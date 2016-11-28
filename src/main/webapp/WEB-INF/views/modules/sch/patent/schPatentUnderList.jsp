@@ -80,7 +80,7 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="schPatentUnder">
 			<tr>
-				<td><a href="${ctx}/sch/patent/schPatentUnder/form?id=${schPatentUnder.spuId}">
+				<td><a href="${ctx}/sch/patent/schPatentUnder/form?id=${schPatentUnder.id}">
 					${schPatentUnder.spuName}
 				</a></td>
 				<td>
@@ -108,8 +108,16 @@
 					${fns:getDictLabel(schPatentUnder.spuStatus, 'PATENT_STATUS', '')}
 				</td>
 				<shiro:hasPermission name="sch:patent:schPatentUnder:edit"><td>
-    				<a href="${ctx}/sch/patent/schPatentUnder/form?id=${schPatentUnder.spuId}">修改</a>
-					<a href="${ctx}/sch/patent/schPatentUnder/delete?id=${schPatentUnder.spuId}" onclick="return confirmx('确认要删除该发明专利吗？', this.href)">删除</a>
+					<c:if test="${schPatentUnder.spuStatus==1}">
+					<!--	<input id="btnSubmit2" class="btn btn-primary" type="submit" value="提交申请" onclick="$('#flag').val('yes')"/>&nbsp;
+					  -->	
+					  <a href="${ctx}/sch/patent/schPatentUnder/form?id=${schPatentUnder.id}">修改</a>
+					  <a href="${ctx}/sch/patent/schPatentUnder/delete?id=${schPatentUnder.id}" onclick="return confirmx('确认要删除该发明专利吗？', this.href)">删除</a>
+					</c:if>
+					<c:if test="${not empty schPatentUnder.id && not empty schPatentUnder.act.procInsId}">
+					<!--	<input id="btnSubmit3" class="btn btn-inverse" type="submit" value="取消申请" onclick="$('#flag').val('no')"/>&nbsp;
+					  -->
+					</c:if>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

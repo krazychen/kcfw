@@ -33,6 +33,8 @@ public class TagController extends BaseController {
 		model.addAttribute("selectIds", request.getParameter("selectIds")); // 指定默认选中的ID
 		model.addAttribute("isAll", request.getParameter("isAll")); 	// 是否读取全部数据，不进行权限过滤
 		model.addAttribute("module", request.getParameter("module"));	// 过滤栏目模型（仅针对CMS的Category树）
+		model.addAttribute("roleEnName", request.getParameter("roleEnName"));	//角色英文名称，用来过滤指定角色的用户
+		model.addAttribute("userURL", request.getParameter("userURL"));	//用来获取用户数据的方法名
 		return "modules/sys/tagTreeselect";
 	}
 	
