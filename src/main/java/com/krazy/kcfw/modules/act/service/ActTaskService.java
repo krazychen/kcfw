@@ -369,6 +369,22 @@ public class ActTaskService extends BaseService {
 	public ProcessInstance getProcIns(String procInsId) {
 		return runtimeService.createProcessInstanceQuery().processInstanceId(procInsId).singleResult();
 	}
+	
+	/**
+	 * 获取流程实例对象
+	 * @param procInsId
+	 * @return
+	 */
+	@Transactional(readOnly = false)
+	public HistoricProcessInstance getHisProcIns(String procInsId) {
+//		HistoricProcessInstance hpi = processEngine.getHistoryService()/**与历史数据（历史表）相关的Service*/  
+//                .createHistoricProcessInstanceQuery()/**创建历史流程实例查询*/  
+//                .processInstanceId(procInsId)/**使用流程实例ID查询*/  
+//                .singleResult();  
+		return historyService.createHistoricProcessInstanceQuery().processInstanceId(procInsId).singleResult();
+	}
+	
+	
 
 	/**
 	 * 启动流程

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.history.HistoricActivityInstance;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -149,6 +150,15 @@ public class Act extends BaseEntity<Act> {
 		this.procIns = procIns;
 		if (procIns != null && procIns.getBusinessKey() != null){
 			String[] ss = procIns.getBusinessKey().split(":");
+			setBusinessTable(ss[0]);
+			setBusinessId(ss[1]);
+		}
+	}
+	
+	public void setHisProcIns(HistoricProcessInstance hisProcIns) {
+//		this.procIns = procIns;
+		if (hisProcIns != null && hisProcIns.getBusinessKey() != null){
+			String[] ss = hisProcIns.getBusinessKey().split(":");
 			setBusinessTable(ss[0]);
 			setBusinessId(ss[1]);
 		}

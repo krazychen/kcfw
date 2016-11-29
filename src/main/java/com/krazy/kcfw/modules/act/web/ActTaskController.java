@@ -10,6 +10,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,7 +117,13 @@ public class ActTaskController extends BaseController {
 
 		// 获取流程实例对象
 		if (act.getProcInsId() != null){
-			act.setProcIns(actTaskService.getProcIns(act.getProcInsId()));
+			ProcessInstance pi=actTaskService.getProcIns(act.getProcInsId());
+			if(pi!=null){
+				act.setProcIns(pi);
+			}else{
+				HistoricProcessInstance hpi=actTaskService.getHisProcIns(act.getProcInsId());
+				act.setHisProcIns(hpi);
+			}
 		}
 		
 		return "redirect:" + ActUtils.getFormUrl(formKey, act);
