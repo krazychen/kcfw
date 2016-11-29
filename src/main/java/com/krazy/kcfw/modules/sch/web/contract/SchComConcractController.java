@@ -23,7 +23,6 @@ import com.krazy.kcfw.common.persistence.Page;
 import com.krazy.kcfw.common.web.BaseController;
 import com.krazy.kcfw.common.utils.StringUtils;
 import com.krazy.kcfw.modules.sch.entity.contract.SchComConcract;
-import com.krazy.kcfw.modules.sch.entity.patent.SchPatentUnder;
 import com.krazy.kcfw.modules.sch.service.contract.SchComConcractService;
 import com.krazy.kcfw.modules.sys.entity.Dict;
 import com.krazy.kcfw.modules.sys.utils.DictUtils;
@@ -106,6 +105,8 @@ public class SchComConcractController extends BaseController {
 				// 副处长审核环节
 				else if ("ddirect_audit".equals(taskDefKey)){
 					view = "schComConcractFormAudit";
+				}else if("apply_end".equals(taskDefKey)){
+					view="schComConcractFormView";
 				}
 			}
 		}
@@ -124,13 +125,13 @@ public class SchComConcractController extends BaseController {
 		if (!beanValidator(model, schComConcract)){
 			return form(schComConcract, model);
 		}
+		String flag=schComConcract.getAct().getTaskId();
 		schComConcractService.save(schComConcract);
-		if("".equals(schComConcract.getAct().getFlag())){
+		if("".equals(flag)){
 			addMessage(redirectAttributes, "保存合同成功");
 			return "redirect:"+Global.getAdminPath()+"/sch/contract/schComConcract/?repage";
-
 		}else{
-			addMessage(redirectAttributes, "保存合同审核成功");
+			addMessage(redirectAttributes, "提交合同审批成功");
 			return "redirect:"+Global.getAdminPath()+"/act/task/todo/";
 		}
 	}
@@ -141,7 +142,7 @@ public class SchComConcractController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequiresPermissions("sch:patent:schPatentUnder:edit")
+	@RequiresPermissions("sch:contract:schComConcract:edit")
 	@RequestMapping(value = "saveAudit")
 	public String saveAudit(SchComConcract schComConcract, Model model) {
 		if (StringUtils.isBlank(schComConcract.getAct().getFlag())

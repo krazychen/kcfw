@@ -18,31 +18,31 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/sch/contract/schComConcract/">合同列表</a></li>
-		<shiro:hasPermission name="sch:contract:schComConcract:edit"><li><a href="${ctx}/sch/contract/schComConcract/form">合同添加</a></li></shiro:hasPermission>
+		<li class="active"><a href="${ctx}/sch/contract/schTechConcract/">合同列表</a></li>
+		<shiro:hasPermission name="sch:contract:schTechConcract:edit"><li><a href="${ctx}/sch/contract/schTechConcract/form">合同添加</a></li></shiro:hasPermission>
 	</ul>
-	<form:form id="searchForm" modelAttribute="schComConcract" action="${ctx}/sch/contract/schComConcract/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="schTechConcract" action="${ctx}/sch/contract/schTechConcract/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
 			<li><label>合同名称：</label>
-				<form:input path="sccName" htmlEscape="false" maxlength="64" class="input-medium"/>
+				<form:input path="stcName" htmlEscape="false" maxlength="64" class="input-medium"/>
 			</li>
 			<li><label>合同编号：</label>
-				<form:input path="sccNo" htmlEscape="false" maxlength="64" class="input-medium"/>
+				<form:input path="stcNo" htmlEscape="false" maxlength="64" class="input-medium"/>
 			</li>
 			<li><label>合同类别：</label>
-				<form:select path="sccType" class="input-medium">
+				<form:select path="stcType" class="input-medium">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('CONTRACT_TYPE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
 			<li><label>负责人：</label>
-				<sys:treeselect id="sccResponseUserId" name="sccResponseUserId" value="${schComConcract.sccResponseUserId}" labelName="sccResponseUserName" labelValue="${schComConcract.sccResponseUserName}"
+				<sys:treeselect id="stcResponseUserId" name="stcResponseUserId" value="${schTechConcract.stcResponseUserId}" labelName="stcResponseUserName" labelValue="${schTechConcract.stcResponseUserName}"
 					title="用户" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</li>
 			<li><label>合同状态：</label>
-				<form:select path="sccStatus" class="input-medium">
+				<form:select path="stcStatus" class="input-medium">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('CONTRACT_STATUS')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
@@ -64,43 +64,43 @@
 				<th>负责人所属院系</th>
 				<th>合同状态</th>
 				<th>合同签订日期</th>
-				<shiro:hasPermission name="sch:contract:schComConcract:edit"><th>操作</th></shiro:hasPermission>
+				<shiro:hasPermission name="sch:contract:schTechConcract:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="schComConcract">
+		<c:forEach items="${page.list}" var="schTechConcract">
 			<tr>
-				<td><a href="${ctx}/sch/contract/schComConcract/form?id=${schComConcract.id}">
-					${schComConcract.sccName}
+				<td><a href="${ctx}/sch/contract/schTechConcract/form?id=${schTechConcract.id}">
+					${schTechConcract.stcName}
 				</a></td>
 				<td>
-					${schComConcract.sccNo}
+					${schTechConcract.stcNo}
 				</td>
 				<td>
-					${fns:getDictLabel(schComConcract.sccType, 'CONTRACT_TYPE', '')}
+					${fns:getDictLabel(schTechConcract.stcType, 'CONTRACT_TYPE', '')}
 				</td>
 				<td>
-					${fns:getDictLabel(schComConcract.sccResearchType, 'CONTRACT_RESEARCH_TYPE', '')}
+					${fns:getDictLabel(schTechConcract.stcResearchType, 'CONTRACT_RESEARCH_TYPE', '')}
 				</td>
 				<td>
-					${fns:getDictLabel(schComConcract.sccIndustry, 'CONTRACT_INDUSTRY', '')}
+					${fns:getDictLabel(schTechConcract.stcIndustry, 'CONTRACT_INDUSTRY', '')}
 				</td>
 				<td>
-					${schComConcract.sccResponseUserName}
+					${schTechConcract.stcResponseUserName}
 				</td>
 				<td>
-					${schComConcract.sccResponseOfficeName}
+					${schTechConcract.stcResponseOfficeName}
 				</td>
 				<td>
-					${fns:getDictLabel(schComConcract.sccStatus, 'CONTRACT_STATUS', '')}
+					${fns:getDictLabel(schTechConcract.stcStatus, 'CONTRACT_STATUS', '')}
 				</td>
 				<td>
-					<fmt:formatDate value="${schComConcract.sccSubmitDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					<fmt:formatDate value="${schTechConcract.stcSubmitDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
-				<shiro:hasPermission name="sch:contract:schComConcract:edit"><td>
-					<c:if test="${schComConcract.sccStatus==1}">
-    					<a href="${ctx}/sch/contract/schComConcract/form?id=${schComConcract.id}">修改</a>
-						<a href="${ctx}/sch/contract/schComConcract/delete?id=${schComConcract.id}" onclick="return confirmx('确认要删除该合同吗？', this.href)">删除</a>
+				<shiro:hasPermission name="sch:contract:schTechConcract:edit"><td>
+					<c:if test="${schTechConcract.stcStatus==1}">
+    					<a href="${ctx}/sch/contract/schTechConcract/form?id=${schTechConcract.id}">修改</a>
+						<a href="${ctx}/sch/contract/schTechConcract/delete?id=${schTechConcract.id}" onclick="return confirmx('确认要删除该合同吗？', this.href)">删除</a>
 					</c:if>
 				</td></shiro:hasPermission>
 			</tr>

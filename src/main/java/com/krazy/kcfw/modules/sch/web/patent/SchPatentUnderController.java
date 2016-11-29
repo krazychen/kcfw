@@ -106,6 +106,8 @@ public class SchPatentUnderController extends BaseController {
 				// 审核环节3
 				else if ("agency_audit".equals(taskDefKey)){
 					view = "schPatentUnderFormAudit";
+				}else if("apply_end".equals(taskDefKey)){
+					view="schComConcractFormView";
 				}
 			}
 		}
@@ -127,8 +129,9 @@ public class SchPatentUnderController extends BaseController {
 		if (!beanValidator(model, schPatentUnder)){
 			return form(schPatentUnder, model);
 		}
+		String flag=schPatentUnder.getAct().getTaskId();
 		schPatentUnderService.save(schPatentUnder);
-		if("".equals(schPatentUnder.getAct().getFlag())){
+		if("".equals(flag)){
 			addMessage(redirectAttributes, "保存专利申报成功");
 			return "redirect:"+Global.getAdminPath()+"/sch/patent/schPatentUnder/?repage";
 		}else{

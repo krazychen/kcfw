@@ -27,7 +27,6 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/sch/contract/schComConcract/">合同列表</a></li>
 		<li class="active"><a href="${ctx}/sch/contract/schComConcract/form?id=${schComConcract.id}">合同详情</a></li>
 	</ul>
 	<form:form id="inputForm" modelAttribute="schComConcract" action="${ctx}/sch/contract/schComConcract/save" method="post" class="form-horizontal">
@@ -125,15 +124,20 @@
 					</td>
 					<td colspan="5">
 						<form:hidden id="sccFiles" path="sccFiles" htmlEscape="false" maxlength="1000" class="input-large"/>
-						<sys:ckfinder input="sccFiles" type="files" uploadPath="/concract_file" selectMultiple="true" readonly="true"/>
+						<sys:ckfinder input="sccFiles" type="files" uploadPath="/com_concract_file" selectMultiple="true" readonly="true"/>
 					</td>
 				</tr>
 			</table>
 		</fieldset>
 		
-		<c:if test="${not empty schComConcract.id}">
+		<c:if test="${not empty schComConcract.act.procInsId}">
 			</br>
 			<act:histoicFlow procInsId="${schComConcract.act.procInsId}" />
+		</c:if>
+		
+		<c:if test="${empty schComConcract.act.procInsId}">
+			</br>
+			<act:histoicFlow procInsId="${schComConcract.procInsId}" />
 		</c:if>
 
 		<div class="form-actions">

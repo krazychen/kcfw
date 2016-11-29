@@ -20,21 +20,21 @@ import com.krazy.kcfw.common.service.CrudService;
 import com.krazy.kcfw.common.utils.StringUtils;
 import com.krazy.kcfw.modules.act.service.ActTaskService;
 import com.krazy.kcfw.modules.act.utils.ActUtils;
-import com.krazy.kcfw.modules.sch.entity.contract.SchComConcract;
-import com.krazy.kcfw.modules.sch.dao.contract.SchComConcractDao;
+import com.krazy.kcfw.modules.sch.entity.contract.SchTechConcract;
+import com.krazy.kcfw.modules.sch.dao.contract.SchTechConcractDao;
 import com.krazy.kcfw.modules.sys.dao.UserDao;
 import com.krazy.kcfw.modules.sys.entity.Role;
 import com.krazy.kcfw.modules.sys.entity.User;
 import com.krazy.kcfw.modules.sys.utils.UserUtils;
 
 /**
- * 普通合同Service
+ * 技贸合同Service
  * @author Krazy
  * @version 2016-11-27
  */
 @Service
 @Transactional(readOnly = true)
-public class SchComConcractService extends CrudService<SchComConcractDao, SchComConcract> {
+public class SchTechConcractService extends CrudService<SchTechConcractDao, SchTechConcract> {
 
 	@Autowired
 	private UserDao userDao;
@@ -42,55 +42,55 @@ public class SchComConcractService extends CrudService<SchComConcractDao, SchCom
 	@Autowired
 	private ActTaskService actTaskService;
 	
-	public SchComConcract get(String id) {
+	public SchTechConcract get(String id) {
 		return super.get(id);
 	}
 	
-	public List<SchComConcract> findList(SchComConcract schComConcract) {
-		schComConcract.getSqlMap().put("dsf", dataScopeFilter(schComConcract.getCurrentUser(), "o", "u"));
-		return super.findList(schComConcract);
+	public List<SchTechConcract> findList(SchTechConcract schTechConcract) {
+		schTechConcract.getSqlMap().put("dsf", dataScopeFilter(schTechConcract.getCurrentUser(), "o", "u"));
+		return super.findList(schTechConcract);
 	}
 	
-	public Page<SchComConcract> findPage(Page<SchComConcract> page, SchComConcract schComConcract) {
-		schComConcract.getSqlMap().put("dsf", dataScopeFilter(schComConcract.getCurrentUser(), "o", "u"));
-		return super.findPage(page, schComConcract);
+	public Page<SchTechConcract> findPage(Page<SchTechConcract> page, SchTechConcract schTechConcract) {
+		schTechConcract.getSqlMap().put("dsf", dataScopeFilter(schTechConcract.getCurrentUser(), "o", "u"));
+		return super.findPage(page, schTechConcract);
 	}
 	
 	@Transactional(readOnly = false)
-	public void save(SchComConcract schComConcract) {
+	public void save(SchTechConcract schTechConcract) {
 		
-		if (StringUtils.isBlank(schComConcract.getId())){
-			schComConcract.preInsert();
+		if (StringUtils.isBlank(schTechConcract.getId())){
+			schTechConcract.preInsert();
 			//获取当前年月日
 			SimpleDateFormat df = new SimpleDateFormat("yyMMdd");//设置日期格式
-			SchComConcract schSCCNO=new SchComConcract();
-			schSCCNO.setSccNo(df.format(new Date()));// new Date()为获取当前系统时间
-			SchComConcract schComConcractCurr=dao.getSCCNO(schSCCNO);
-			if(schComConcractCurr!=null){
-				String ss=schComConcractCurr.getSccNo().substring(4);
+			SchTechConcract schSTCNO=new SchTechConcract();
+			schSTCNO.setStcNo(df.format(new Date()));// new Date()为获取当前系统时间
+			SchTechConcract schTechConcractCurr=dao.getStcNO(schSTCNO);
+			if(schTechConcractCurr!=null){
+				String ss=schTechConcractCurr.getStcNo().substring(4);
 				Integer sccNo=Integer.parseInt(ss)+1;
-				schComConcract.setSccNo("XMUT"+sccNo.toString());
+				schTechConcract.setStcNo("XMUT"+sccNo.toString());
 			}else{
-				schComConcract.setSccNo("XMUT"+df.format(new Date())+"001");
+				schTechConcract.setStcNo("XMUT"+df.format(new Date())+"001");
 			}
-			schComConcract.setSccStatus("1");
-			dao.insert(schComConcract);
+			schTechConcract.setStcStatus("1");
+			dao.insert(schTechConcract);
 		}else{
-			schComConcract.preUpdate();
-			dao.update(schComConcract);
+			schTechConcract.preUpdate();
+			dao.update(schTechConcract);
 		}
 		
-		if("".equals(schComConcract.getAct().getFlag())) {
+		if("".equals(schTechConcract.getAct().getFlag())) {
 			return;
 		}
 		//第一次申请
-		if(StringUtils.isBlank(schComConcract.getAct().getTaskId())){
+		if(StringUtils.isBlank(schTechConcract.getAct().getTaskId())){
 			
 			Map<String, Object> vars = Maps.newHashMap();
 			//获取院系秘书
 			HashMap<String,String> pars=new HashMap<String,String>();
 			pars.put("roleEnName", "DepartmentSecretary");
-			User user=userDao.get(schComConcract.getCreateBy().getId());
+			User user=userDao.get(schTechConcract.getCreateBy().getId());
 			pars.put("officeId", user.getOffice().getId());
 			List<User> users=userDao.findUsersByRoleEnName(pars);					
 			StringBuffer sec=new StringBuffer();;
@@ -103,29 +103,29 @@ public class SchComConcractService extends CrudService<SchComConcractDao, SchCom
 			vars.put("sec", sec.toString());
 			// 启动流程
 			//vars.put("pass", pass);
-			actTaskService.startProcess(ActUtils.PD_COMMON_CONCRACT[0], ActUtils.PD_COMMON_CONCRACT[1], schComConcract.getId(), schComConcract.getSccName(),vars);
+			actTaskService.startProcess(ActUtils.PD_TECH_CONCRACT[0], ActUtils.PD_TECH_CONCRACT[1], schTechConcract.getId(), schTechConcract.getStcName(),vars);
 		
 			//更新状态为提交申请
-			schComConcract.setSccStatus("2");
-			dao.updateStatus(schComConcract);
+			schTechConcract.setStcStatus("2");
+			dao.updateStatus(schTechConcract);
 		}else {
 			// 重新编辑申请	
-			schComConcract.getAct().setComment(("yes".equals(schComConcract.getAct().getFlag())?"[重新申请] ":"[取消申请] "));
+			schTechConcract.getAct().setComment(("yes".equals(schTechConcract.getAct().getFlag())?"[重新申请] ":"[取消申请] "));
 			
 			// 完成流程任务
 			Map<String, Object> vars = Maps.newHashMap();
 			String pass="0";
-			if("no".equals(schComConcract.getAct().getFlag())){
+			if("no".equals(schTechConcract.getAct().getFlag())){
 				pass="0";
 				//取消提交后更新状态为新增
-				schComConcract.setSccStatus("1");
-				dao.updateStatus(schComConcract);
+				schTechConcract.setStcStatus("1");
+				dao.updateStatus(schTechConcract);
 			}else{
 				//获取当前用户的角色
 				//获取院系秘书
 				HashMap<String,String> pars=new HashMap<String,String>();
 				pars.put("roleEnName", "DepartmentSecretary");
-				User user=userDao.get(schComConcract.getCreateBy().getId());
+				User user=userDao.get(schTechConcract.getCreateBy().getId());
 				pars.put("officeId", user.getOffice().getId());
 				List<User> users=userDao.findUsersByRoleEnName(pars);					
 				StringBuffer sec=new StringBuffer();;
@@ -137,46 +137,46 @@ public class SchComConcractService extends CrudService<SchComConcractDao, SchCom
 				}
 				vars.put("sec", sec.toString());
 				//更新状态为提交申请
-				schComConcract.setSccStatus("2");
-				dao.updateStatus(schComConcract);
+				schTechConcract.setStcStatus("2");
+				dao.updateStatus(schTechConcract);
 			}
 			vars.put("pass", pass);
-			actTaskService.complete(schComConcract.getAct().getTaskId(), schComConcract.getAct().getProcInsId(), schComConcract.getAct().getComment(),schComConcract.getSccName(), vars);
+			actTaskService.complete(schTechConcract.getAct().getTaskId(), schTechConcract.getAct().getProcInsId(), schTechConcract.getAct().getComment(),schTechConcract.getStcName(), vars);
 		}
 		
 
-		//super.save(schComConcract);
+		//super.save(schTechConcract);
 	}
 	
 	@Transactional(readOnly = false)
-	public void delete(SchComConcract schComConcract) {
-		super.delete(schComConcract);
+	public void delete(SchTechConcract schTechConcract) {
+		super.delete(schTechConcract);
 	}
 	
 	
 	@Transactional(readOnly = false)
-	public void auditSave(SchComConcract schComConcract) {
+	public void auditSave(SchTechConcract schTechConcract) {
 		Map<String, Object> vars = Maps.newHashMap();
 		
 		// 设置意见
-		schComConcract.getAct().setComment(("yes".equals(schComConcract.getAct().getFlag())?"[同意] ":"[驳回] ")+schComConcract.getAct().getComment());
+		schTechConcract.getAct().setComment(("yes".equals(schTechConcract.getAct().getFlag())?"[同意] ":"[驳回] ")+schTechConcract.getAct().getComment());
 		
-		schComConcract.preUpdate();
+		schTechConcract.preUpdate();
 		
 		// 对不同环节的业务逻辑进行操作
-		String taskDefKey = schComConcract.getAct().getTaskDefKey();
+		String taskDefKey = schTechConcract.getAct().getTaskDefKey();
 		
-		String pass= "yes".equals(schComConcract.getAct().getFlag())? "1" : "0";
+		String pass= "yes".equals(schTechConcract.getAct().getFlag())? "1" : "0";
 
 		// 审核环节
 		if ("teacher_audit".equals(taskDefKey)){
-			schComConcract.setSccTeachComment(schComConcract.getAct().getComment());
-			schComConcract.setSccStatus("3");
-			dao.updateTeachComment(schComConcract);
+			schTechConcract.setStcTeachComment(schTechConcract.getAct().getComment());
+			schTechConcract.setStcStatus("3");
+			dao.updateTeachComment(schTechConcract);
 			
 			HashMap<String,String> pars=new HashMap<String,String>();
 			pars.put("roleEnName", "ResearchResp");
-			User user=userDao.get(schComConcract.getCreateBy().getId());
+			User user=userDao.get(schTechConcract.getCreateBy().getId());
 			pars.put("officeId", user.getOffice().getId());
 			List<User> users=userDao.findUsersByRoleEnName(pars);
 			StringBuffer resp=new StringBuffer();;
@@ -189,13 +189,13 @@ public class SchComConcractService extends CrudService<SchComConcractDao, SchCom
 			vars.put("resp", resp.toString());
 		}
 		else if ("resp_audit".equals(taskDefKey)){
-			schComConcract.setSccRespComment(schComConcract.getAct().getComment());
-			schComConcract.setSccStatus("3");
-			dao.updateRespComment(schComConcract);
+			schTechConcract.setStcRespComment(schTechConcract.getAct().getComment());
+			schTechConcract.setStcStatus("3");
+			dao.updateRespComment(schTechConcract);
 
 			HashMap<String,String> pars=new HashMap<String,String>();
 			pars.put("roleEnName", "ContractMana");
-			User user=userDao.get(schComConcract.getCreateBy().getId());
+			User user=userDao.get(schTechConcract.getCreateBy().getId());
 			pars.put("officeId", user.getOffice().getId());
 			List<User> users=userDao.findUsersByRoleEnName(pars);
 			StringBuffer mana=new StringBuffer();;
@@ -209,18 +209,18 @@ public class SchComConcractService extends CrudService<SchComConcractDao, SchCom
 
 		}
 		else if ("mana_audit".equals(taskDefKey)){
-			schComConcract.setSccManaComment(schComConcract.getAct().getComment());
-			schComConcract.setSccStatus("3");
+			schTechConcract.setStcManaComment(schTechConcract.getAct().getComment());
+			schTechConcract.setStcStatus("3");
 			
 			HashMap<String,String> pars=new HashMap<String,String>();
 			
 			//获取金额低于5W
-			if(schComConcract.getSccMoney()<Double.parseDouble(Global.getConfig("commonConcractMin"))){
-				schComConcract.setSccStatus("4");
-			}else if(schComConcract.getSccMoney()>=Double.parseDouble(Global.getConfig("commonConcractMin"))&&schComConcract.getSccMoney()<Double.parseDouble(Global.getConfig("commonConcractMax"))){
+			if(schTechConcract.getStcMoney()<Double.parseDouble(Global.getConfig("commonConcractMin"))){
+				schTechConcract.setStcStatus("4");
+			}else if(schTechConcract.getStcMoney()>=Double.parseDouble(Global.getConfig("commonConcractMin"))&&schTechConcract.getStcMoney()<Double.parseDouble(Global.getConfig("commonConcractMax"))){
 				//获取副处长
 				pars.put("roleEnName", "DeputyDirector");
-				User userdd=userDao.get(schComConcract.getCreateBy().getId());
+				User userdd=userDao.get(schTechConcract.getCreateBy().getId());
 				pars.put("officeId", userdd.getOffice().getId());
 				List<User> users=userDao.findUsersByRoleEnName(pars);
 				StringBuffer ddirector=new StringBuffer();;
@@ -235,7 +235,7 @@ public class SchComConcractService extends CrudService<SchComConcractDao, SchCom
 			}else{
 				//获取处长
 				pars.put("roleEnName", "Director");
-				User userD=userDao.get(schComConcract.getCreateBy().getId());
+				User userD=userDao.get(schTechConcract.getCreateBy().getId());
 				pars.put("officeId", userD.getOffice().getId());
 				List<User> users=userDao.findUsersByRoleEnName(pars);
 				StringBuffer director=new StringBuffer();;
@@ -249,16 +249,16 @@ public class SchComConcractService extends CrudService<SchComConcractDao, SchCom
 				pass="3";
 			}
 				
-			dao.updateManaComment(schComConcract);
+			dao.updateManaComment(schTechConcract);
 			
 		}else if ("ddirect_audit".equals(taskDefKey)){
-			schComConcract.setSccFinalComment(schComConcract.getAct().getComment());
-			schComConcract.setSccStatus("4");
-			dao.updateFinalComment(schComConcract);
+			schTechConcract.setStcFinalComment(schTechConcract.getAct().getComment());
+			schTechConcract.setStcStatus("4");
+			dao.updateFinalComment(schTechConcract);
 		}else if ("direct_audit".equals(taskDefKey)){
-			schComConcract.setSccFinalComment(schComConcract.getAct().getComment());
-			schComConcract.setSccStatus("4");
-			dao.updateFinalComment(schComConcract);
+			schTechConcract.setStcFinalComment(schTechConcract.getAct().getComment());
+			schTechConcract.setStcStatus("4");
+			dao.updateFinalComment(schTechConcract);
 		}
 		
 		// 未知环节，直接返回
@@ -267,14 +267,14 @@ public class SchComConcractService extends CrudService<SchComConcractDao, SchCom
 		}
 		
 		//如果是驳回，更新状态为驳回
-		if("no".equals(schComConcract.getAct().getFlag())){
-			schComConcract.setSccStatus("5");
-			dao.updateStatus(schComConcract);
+		if("no".equals(schTechConcract.getAct().getFlag())){
+			schTechConcract.setStcStatus("5");
+			dao.updateStatus(schTechConcract);
 		}
 		// 提交流程任务
 		
 		vars.put("pass",pass);
-		actTaskService.complete(schComConcract.getAct().getTaskId(), schComConcract.getAct().getProcInsId(), schComConcract.getAct().getComment(), vars);
+		actTaskService.complete(schTechConcract.getAct().getTaskId(), schTechConcract.getAct().getProcInsId(), schTechConcract.getAct().getComment(), vars);
 
 	}
 }

@@ -27,9 +27,9 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/sch/contract/schComConcract/form?id=${schComConcract.id}">合同详情</a></li>
+		<li class="active"><a href="${ctx}/sch/contract/schTechConcract/form?id=${schTechConcract.id}">合同详情</a></li>
 	</ul>
-	<form:form id="inputForm" modelAttribute="schComConcract" action="${ctx}/sch/contract/schComConcract/saveAudit" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="schTechConcract" action="${ctx}/sch/contract/schTechConcract/saveAudit" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<form:hidden path="act.taskId"/>
 		<form:hidden path="act.taskName"/>
@@ -45,19 +45,19 @@
 						<span class="help-inline"><font color="red">*</font> </span>合同名称：
 					</td>
 					<td>
-						${schComConcract.sccName }
+						${schTechConcract.stcName }
 					</td>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>合同类别：
 					</td>
 					<td>
-						${fns:getDictLabel(schComConcract.sccType, 'PATENT_TYPE', '')}
+						${fns:getDictLabel(schTechConcract.stcType, 'PATENT_TYPE', '')}
 					</td>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>所属行业：
 					</td>
 					<td>
-						${fns:getDictLabel(schComConcract.sccIndustry, 'CONTRACT_INDUSTRY', '')}
+						${fns:getDictLabel(schTechConcract.stcIndustry, 'CONTRACT_INDUSTRY', '')}
 					</td>
 					
 				</tr>
@@ -66,7 +66,7 @@
 						<span class="help-inline"><font color="red">*</font> </span>研究方向：
 					</td>
 					<td>
-						${fns:getDictLabel(schComConcract.sccResearchType, 'CONTRACT_RESEARCH_TYPE', '')}
+						${fns:getDictLabel(schTechConcract.stcResearchType, 'CONTRACT_RESEARCH_TYPE', '')}
 					</td>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>研究方向子目：
@@ -79,7 +79,7 @@
 						<span class="help-inline"><font color="red">*</font> </span>负责人：
 					</td>
 					<td>
-						${schComConcract.sccResponseUserName }
+						${schTechConcract.stcResponseUserName }
 					</td>
 				</tr>
 				<tr>
@@ -87,39 +87,39 @@
 						<span class="help-inline"><font color="red">*</font> </span>负责人所属院系：
 					</td>
 					<td>
-						${schComConcract.sccResponseOfficeName }
+						${schTechConcract.stcResponseOfficeName }
 					</td>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>合作企业名称：
 					</td>
 					<td>
-						${schComConcract.sccCompanyName }
+						${schTechConcract.stcCompanyName }
 					</td>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>合作企业地区：
 					</td>
 					<td>
-						${schComConcract.sccCompanyAreaName }
+						${schTechConcract.stcCompanyAreaName }
 					</td>
 				</tr>
 				<td class="tit">
 					<span class="help-inline"><font color="red">*</font> </span>合同金额：
 				</td>
 				<td>
-					${schComConcract.sccMoney }
+					${schTechConcract.stcMoney }
 				</td>
 				<tr>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>合作企业类别：
 					</td>
 					<td>
-						${fns:getDictLabel(schComConcract.sccCompanyType, 'CONTRACT_COMPANY_TYPE', '')}
+						${fns:getDictLabel(schTechConcract.stcCompanyType, 'CONTRACT_COMPANY_TYPE', '')}
 					</td>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>合同签订日期：
 					</td>
 					<td>
-						<fmt:formatDate value="${schComConcract.sccSubmitDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+						<fmt:formatDate value="${schTechConcract.stcSubmitDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 					</td>
 				</tr>
 				<tr>
@@ -127,8 +127,8 @@
 						合同附件：
 					</td>
 					<td colspan="5">
-						<form:hidden id="sccFiles" path="sccFiles" htmlEscape="false" maxlength="1000" class="input-large"/>
-						<sys:ckfinder input="sccFiles" type="files" uploadPath="/com_concract_file" selectMultiple="true" readonly="true"/>
+						<form:hidden id="stcFiles" path="stcFiles" htmlEscape="false" maxlength="1000" class="input-large"/>
+						<sys:ckfinder input="stcFiles" type="files" uploadPath="/tech_concract_file" selectMultiple="true" readonly="true"/>
 					</td>
 				</tr>
 				<tr>
@@ -141,8 +141,8 @@
 		</fieldset>
 		
 		<div class="form-actions">
-			<shiro:hasPermission name="sch:contract:schComConcract:edit">
-				<c:if test="${schComConcract.act.taskDefKey ne 'apply_end'}">
+			<shiro:hasPermission name="sch:contract:schTechConcract:edit">
+				<c:if test="${schTechConcract.act.taskDefKey ne 'apply_end'}">
 					<input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
 					<input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
 				</c:if>			
@@ -150,9 +150,9 @@
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 		
-		<c:if test="${not empty schComConcract.id}">
+		<c:if test="${not empty schTechConcract.id}">
 			</br>
-			<act:histoicFlow procInsId="${schComConcract.act.procInsId}" />
+			<act:histoicFlow procInsId="${schTechConcract.act.procInsId}" />
 		</c:if>
 
 	</form:form>

@@ -138,10 +138,16 @@
 			</table>
 		</fieldset>
 		
-		<c:if test="${not empty schPatentUnder.id}">
+		<c:if test="${not empty schPatentUnder.act.procInsId}">
 			</br>
 			<act:histoicFlow procInsId="${schPatentUnder.act.procInsId}" />
 		</c:if>
+		
+		<c:if test="${empty schPatentUnder.act.procInsId}">
+			</br>
+			<act:histoicFlow procInsId="${schPatentUnder.procInsId}" />
+		</c:if>
+
 
 		<div class="form-actions">
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krazy.kcfw.modules.sch.dao.contract.SchTechConcractDao">
+    
+	<sql id="schTechConcractColumns">
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.stc_name AS "stcName",
+		a.stc_no AS "stcNo",
+		a.stc_type AS "stcType",
+		a.stc_research_type AS "stcResearchType",
+		a.stc_research_type_sub AS "stcResearchTypeSub",
+		a.stc_industry AS "stcIndustry",
+		a.stc_response_user_id AS "stcResponseUserId",
+		u13.name AS "stcResponseUserName",
+		a.stc_response_office_id AS "stcResponseOfficeId",
+		o14.name AS "stcResponseOfficeName",
+		a.stc_company_name AS "stcCompanyName",
+		a.stc_company_area AS "stcCompanyArea",
+		a16.name AS "stcCompanyAreaName",
+		a.stc_company_type AS "stcCompanyType",
+		a.stc_status AS "stcStatus",
+		a.stc_files AS "stcFiles",
+		a.stc_submit_date AS "stcSubmitDate",
+		a.stc_teach_comment AS "stcTeachComment",
+		a.stc_resp_comment AS "stcRespComment",
+		a.stc_mana_comment	AS "stcManaComment",
+		a.stc_final_comment AS "stcFinalComment",
+		a.PROC_INS_ID AS "procInsId",
+		a.stc_money	AS	"stcMoney"
+	</sql>
+	
+	<sql id="schTechConcractJoins">
+		LEFT JOIN sys_user u13 ON u13.id = a.stc_response_user_id
+		LEFT JOIN sys_office o14 ON o14.id = a.stc_response_office_id
+		LEFT JOIN sys_area a16 ON a16.id = a.stc_company_area
+	</sql>
+	
+	<sql id="userJoins">
+		JOIN sys_user u ON u.id = a.create_by
+		JOIN sys_office o ON o.id = u.office_id
+    </sql>
+    
+	<select id="get" resultType="schTechConcract">
+		SELECT 
+			<include refid="schTechConcractColumns"/>
+		FROM sch_tech_concract a
+		<include refid="schTechConcractJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="schTechConcract">
+		SELECT 
+			<include refid="schTechConcractColumns"/>
+		FROM sch_tech_concract a
+		<include refid="schTechConcractJoins"/>
+		<include refid="userJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="stcName != null and stcName != ''">
+				AND a.stc_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{stcName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{stcName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{stcName},'%')</if>
+			</if>
+			<if test="stcNo != null and stcNo != ''">
+				AND a.stc_no LIKE 
+					<if test="dbName == 'oracle'">'%'||#{stcNo}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{stcNo}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{stcNo},'%')</if>
+			</if>
+			<if test="stcType != null and stcType != ''">
+				AND a.stc_type = #{stcType}
+			</if>
+			<if test="stcResponseUserId != null and stcResponseUserId != ''">
+				AND a.stc_response_user_id = #{stcResponseUserId}
+			</if>
+			<if test="stcStatus != null and stcStatus != ''">
+				AND a.stc_status = #{stcStatus}
+			</if>
+		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO sch_tech_concract(
+			id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			stc_name,
+			stc_no,
+			stc_type,
+			stc_research_type,
+			stc_research_type_sub,
+			stc_industry,
+			stc_response_user_id,
+			stc_response_office_id,
+			stc_company_name,
+			stc_company_area,
+			stc_company_type,
+			stc_status,
+			stc_files,
+			stc_submit_date,
+			stc_money
+		) VALUES (
+			#{id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{stcName},
+			#{stcNo},
+			#{stcType},
+			#{stcResearchType},
+			#{stcResearchTypeSub},
+			#{stcIndustry},
+			#{stcResponseUserId},
+			#{stcResponseOfficeId},
+			#{stcCompanyName},
+			#{stcCompanyArea},
+			#{stcCompanyType},
+			#{stcStatus},
+			#{stcFiles},
+			#{stcSubmitDate},
+			#{stcMoney}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sch_tech_concract SET 	
+			stc_name = #{stcName},
+			stc_type = #{stcType},
+			stc_research_type = #{stcResearchType},
+			stc_research_type_sub = #{stcResearchTypeSub},
+			stc_industry = #{stcIndustry},
+			stc_response_user_id = #{stcResponseUserId},
+			stc_response_office_id = #{stcResponseOfficeId},
+			stc_company_name = #{stcCompanyName},
+			stc_company_area = #{stcCompanyArea},
+			stc_company_type = #{stcCompanyType},
+			stc_files = #{stcFiles},
+			stc_submit_date = #{stcSubmitDate},
+			stc_money = #{stcMoney}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		<!--UPDATE sch_tech_concract SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+		-->
+		DELETE FROM sch_tech_concract
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateStatus">
+		UPDATE sch_tech_concract SET 
+			stc_status = #{stcStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateTeachComment">
+		UPDATE sch_tech_concract SET 
+			stc_teach_comment = #{stcTeachComment},
+			stc_status = #{stcStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateRespComment">
+		UPDATE sch_tech_concract SET 
+			stc_resp_comment = #{stcRespComment},
+			stc_status = #{stcStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateManaComment">
+		UPDATE sch_tech_concract SET 
+			stc_mana_comment = #{stcManaComment},
+			stc_status = #{stcStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateFinalComment">
+		UPDATE sch_tech_concract SET 
+			stc_final_comment = #{stcFinalComment},
+			stc_status = #{stcStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="getStcNO" resultType="schTechConcract">
+		SELECT 
+			<include refid="schTechConcractColumns"/>
+		FROM sch_tech_concract a
+		<include refid="schTechConcractJoins"/>
+		<where>
+			1=1
+			<if test="stcNo != null and stcNo != ''">
+				AND a.stc_no LIKE 
+					<if test="dbName == 'oracle'">'%'||#{stcNo}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{stcNo}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{stcNo},'%')</if>
+			</if>
+			AND rownum=1
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.stc_no DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+</mapper>
