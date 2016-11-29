@@ -51,6 +51,7 @@ public class SchPatentUnderService extends CrudService<SchPatentUnderDao, SchPat
 	}
 	
 	public List<SchPatentUnder> findList(SchPatentUnder schPatentUnder) {
+		schPatentUnder.getSqlMap().put("dsf", dataScopeFilter(schPatentUnder.getCurrentUser(), "o", "u"));
 		return super.findList(schPatentUnder);
 	}
 	
@@ -134,8 +135,9 @@ public class SchPatentUnderService extends CrudService<SchPatentUnderDao, SchPat
 			dao.updateStatus(schPatentUnder);
 		}else {
 			// 重新编辑申请	
-			schPatentUnder.getAct().setComment(("yes".equals(schPatentUnder.getAct().getFlag())?"[重新申请] ":"[取消申请] ")+schPatentUnder.getAct().getComment());
-			
+			//schPatentUnder.getAct().setComment(("yes".equals(schPatentUnder.getAct().getFlag())?"[重新申请] ":"[取消申请] ")+schPatentUnder.getAct().getComment());
+			schPatentUnder.getAct().setComment(("yes".equals(schPatentUnder.getAct().getFlag())?"[重新申请] ":"[取消申请] "));
+
 			// 完成流程任务
 			Map<String, Object> vars = Maps.newHashMap();
 			String pass="0";

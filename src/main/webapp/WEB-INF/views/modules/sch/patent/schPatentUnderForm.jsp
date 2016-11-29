@@ -277,11 +277,11 @@
 
 		<div class="form-actions">
 			<shiro:hasPermission name="sch:patent:schPatentUnder:edit">
-				<c:if test="${empty schPatentUnder.act.procInsId}">
+				<c:if test="${schPatentUnder.spuStatus==1 || empty schPatentUnder.id}">
 					<input id="btnSubmit" class="btn btn-primary" type="submit" value="保存"/>&nbsp;
 				</c:if>
 				<input id="btnSubmit2" class="btn btn-primary" type="submit" value="提交申请" onclick="$('#flag').val('yes')"/>&nbsp;
-				<c:if test="${empty schPatentUnder.act.procInsId}">
+				<c:if test="${schPatentUnder.spuStatus==1}">
 					<input id="btnAdd" class="btn btn-primary" type="button" value="新 增" onClick="location.href='${ctx}onClick="location.href='${ctx}/sch/patent/schPatentAgency/form'"/>&nbsp;
 				</c:if>
 				<c:if test="${not empty schPatentUnder.id && not empty schPatentUnder.act.procInsId}">

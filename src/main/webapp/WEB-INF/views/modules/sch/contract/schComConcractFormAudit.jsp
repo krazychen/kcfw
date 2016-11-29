@@ -1,0 +1,161 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+<html>
+<head>
+	<title>合同管理</title>
+	<meta name="decorator" content="default"/>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			//$("#name").focus();
+			$("#inputForm").validate({
+				submitHandler: function(form){
+					loading('正在提交，请稍等...');
+					form.submit();
+				},
+				errorContainer: "#messageBox",
+				errorPlacement: function(error, element) {
+					$("#messageBox").text("输入有误，请先更正。");
+					if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
+						error.appendTo(element.parent().parent());
+					} else {
+						error.insertAfter(element);
+					}
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<ul class="nav nav-tabs">
+		<li><a href="${ctx}/sch/contract/schComConcract/">合同列表</a></li>
+		<li class="active"><a href="${ctx}/sch/contract/schComConcract/form?id=${schComConcract.id}">合同详情</a></li>
+	</ul>
+	<form:form id="inputForm" modelAttribute="schComConcract" action="${ctx}/sch/contract/schComConcract/saveAduit" method="post" class="form-horizontal">
+		<form:hidden path="id"/>
+		<form:hidden path="act.taskId"/>
+		<form:hidden path="act.taskName"/>
+		<form:hidden path="act.taskDefKey"/>
+		<form:hidden path="act.procInsId"/>
+		<form:hidden path="act.procDefId"/>
+		<form:hidden id="flag" path="act.flag"/>
+		<sys:message content="${message}"/>	
+		<fieldset>
+			<table class="table-form">	
+				<tr>
+					<td class="tit">
+						<span class="help-inline"><font color="red">*</font> </span>合同名称：
+					</td>
+					<td>
+						${schComConcract.sccName }
+					</td>
+					<td class="tit">
+						<span class="help-inline"><font color="red">*</font> </span>合同类别：
+					</td>
+					<td>
+						${fns:getDictLabel(schComConcract.sccType, 'PATENT_TYPE', '')}
+					</td>
+					<td class="tit">
+						<span class="help-inline"><font color="red">*</font> </span>所属行业：
+					</td>
+					<td>
+						${fns:getDictLabel(schComConcract.sccIndustry, 'CONTRACT_INDUSTRY', '')}
+					</td>
+					
+				</tr>
+				<tr>
+					<td class="tit">
+						<span class="help-inline"><font color="red">*</font> </span>研究方向：
+					</td>
+					<td>
+						${fns:getDictLabel(schComConcract.sccResearchType, 'CONTRACT_RESEARCH_TYPE', '')}
+					</td>
+					<td class="tit">
+						<span class="help-inline"><font color="red">*</font> </span>研究方向子目：
+					</td>
+					<td>
+						${resTypeSub}
+					</td>
+					
+					<td class="tit">
+						<span class="help-inline"><font color="red">*</font> </span>负责人：
+					</td>
+					<td>
+						${schComConcract.sccResponseUserName }
+					</td>
+				</tr>
+				<tr>
+					<td class="tit">
+						<span class="help-inline"><font color="red">*</font> </span>负责人所属院系：
+					</td>
+					<td>
+						${schComConcract.sccResponseOfficeName }
+					</td>
+					<td class="tit">
+						<span class="help-inline"><font color="red">*</font> </span>合作企业名称：
+					</td>
+					<td>
+						${schComConcract.sccCompanyName }
+					</td>
+					<td class="tit">
+						<span class="help-inline"><font color="red">*</font> </span>合作企业地区：
+					</td>
+					<td>
+						${schComConcract.sccCompanyAreaName }
+					</td>
+				</tr>
+				<td class="tit">
+					<span class="help-inline"><font color="red">*</font> </span>合同金额：
+				</td>
+				<td>
+					${schComConcract.sccMoney }
+				</td>
+				<tr>
+					<td class="tit">
+						<span class="help-inline"><font color="red">*</font> </span>合作企业类别：
+					</td>
+					<td>
+						${fns:getDictLabel(schComConcract.sccCompanyType, 'CONTRACT_COMPANY_TYPE', '')}
+					</td>
+					<td class="tit">
+						<span class="help-inline"><font color="red">*</font> </span>合同签订日期：
+					</td>
+					<td>
+						<fmt:formatDate value="${schComConcract.sccSubmitDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="tit">
+						合同附件：
+					</td>
+					<td colspan="5">
+						<form:hidden id="sccFiles" path="sccFiles" htmlEscape="false" maxlength="1000" class="input-large"/>
+						<sys:ckfinder input="sccFiles" type="files" uploadPath="/concract_file" selectMultiple="true" readonly="true"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="tit">您的审批意见</td>
+					<td colspan="5">
+						<form:textarea path="act.comment" class="required" rows="5" maxlength="20" cssStyle="width:500px"/>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+		
+		<div class="form-actions">
+			<shiro:hasPermission name="sch:patent:schPatentUnder:edit">
+				<c:if test="${schComConcract.act.taskDefKey ne 'apply_end'}">
+					<input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
+					<input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
+				</c:if>			
+			</shiro:hasPermission>
+			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+		</div>
+		
+		<c:if test="${not empty schComConcract.id}">
+			</br>
+			<act:histoicFlow procInsId="${schComConcract.act.procInsId}" />
+		</c:if>
+
+	</form:form>
+</body>
+</html>

@@ -8,6 +8,18 @@
 		$(document).ready(function() {
 			//$("#name").focus();
 			$("#inputForm").validate({
+				rules: {
+					sccMoney: {
+		                required: true,
+		                number: true
+		            }
+		        },
+		        messages: {
+		        	rules: {
+		                required: "必填信息",
+		                number: "请输入数字"
+		            }
+		        },
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
 					form.submit();
@@ -23,6 +35,25 @@
 				}
 			});
 		});
+		
+		function getResTypeSub(){
+			var type=$("#sccResearchType").find("option:selected").val();  
+			$.ajax({
+				type: "POST",
+				url: "${ctx}/sch/contract/schComConcract/getResTypeSub",
+				data: { //发送给数据库的数据
+					type: type
+			},
+			dataType: 'json',
+			success: function(data) {
+				$("#sccResearchTypeSub").empty();
+				$("#sccResearchTypeSub").append("<option class='required' value=''> </option>")
+				$.each(data, function(index,item){
+					$("#sccResearchTypeSub").append("<option class='required' value='"+item.value+"'>"+item.label+"</option>")
+				});
+			}
+			})
+		}
 	</script>
 </head>
 <body>
@@ -32,6 +63,13 @@
 	</ul>
 	<form:form id="inputForm" modelAttribute="schComConcract" action="${ctx}/sch/contract/schComConcract/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
+		<form:hidden path="act.taskId"/>
+		<form:hidden path="act.taskName"/>
+		<form:hidden path="act.taskDefKey"/>
+		<form:hidden path="act.procInsId"/>
+		<form:hidden path="act.procDefId"/>
+		<form:hidden id="flag" path="act.flag"/>
+		<form:hidden path="sccNo"/>
 		<sys:message content="${message}"/>	
 		<fieldset>
 			<table class="table-form">	
@@ -67,7 +105,7 @@
 						<span class="help-inline"><font color="red">*</font> </span>研究方向：
 					</td>
 					<td>
-						<form:select path="sccResearchType" class="input-large required" style="width:223px">
+						<form:select path="sccResearchType" onchange="getResTypeSub()" class="input-large required" style="width:223px">
 							<form:option value="" label=""/>
 							<form:options items="${fns:getDictList('CONTRACT_RESEARCH_TYPE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 						</form:select>
@@ -78,7 +116,7 @@
 					<td>
 						<form:select path="sccResearchTypeSub" class="input-large required" style="width:223px">
 							<form:option value="" label=""/>
-							<form:options items="${fns:getDictList('CONTRACT_RESEARCH_TYPE_SUB1')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+							<form:options items="${dicts}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 						</form:select>
 					</td>
 					
@@ -123,6 +161,12 @@
 						</form:select>
 					</td>
 					<td class="tit">
+						<span class="help-inline"><font color="red">*</font> </span>合同金额：
+					</td>
+					<td>
+						<form:input path="sccMoney" htmlEscape="false" maxlength="13" class="input-large required"/>
+					</td>
+					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>合同签订日期：
 					</td>
 					<td>
@@ -130,8 +174,6 @@
 							value="<fmt:formatDate value="${schComConcract.sccSubmitDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 							onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 					</td>
-					<td class="tit">
-					</td><td></td>
 				</tr>
 				<tr>
 					<td class="tit">
@@ -146,8 +188,16 @@
 		</fieldset>
 		<div class="form-actions">
 			<shiro:hasPermission name="sch:contract:schComConcract:edit">
-				<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
-				<input id="btnAdd" class="btn btn-primary" type="button" value="新 增" onClick="location.href='${ctx}/sch/contract/schComConcract/form'"/>&nbsp;
+				<c:if test="${schComConcract.sccStatus==1 || empty schComConcract.id}">
+					<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
+				</c:if>
+					<input id="btnSubmit2" class="btn btn-primary" type="submit" value="提交申请" onclick="$('#flag').val('yes')"/>&nbsp;
+				<c:if test="${schComConcract.sccStatus==1}">
+					<input id="btnAdd" class="btn btn-primary" type="button" value="新 增" onClick="location.href='${ctx}/sch/contract/schComConcract/form'"/>&nbsp;
+				</c:if>
+				<c:if test="${not empty schComConcract.id && not empty schComConcract.act.procInsId}">
+					<input id="btnSubmit3" class="btn btn-inverse" type="submit" value="取消申请" onclick="$('#flag').val('no')"/>&nbsp;
+				</c:if>
 			</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>

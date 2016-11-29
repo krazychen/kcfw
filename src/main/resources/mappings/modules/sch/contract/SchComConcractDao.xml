@@ -21,10 +21,17 @@
 		o14.name AS "sccResponseOfficeName",
 		a.scc_company_name AS "sccCompanyName",
 		a.scc_company_area AS "sccCompanyArea",
+		a16.name AS "sccCompanyAreaName",
 		a.scc_company_type AS "sccCompanyType",
 		a.scc_status AS "sccStatus",
 		a.scc_files AS "sccFiles",
-		a.scc_submit_date AS "sccSubmitDate"
+		a.scc_submit_date AS "sccSubmitDate",
+		a.scc_teach_comment AS "sccTeachComment",
+		a.scc_resp_comment AS "sccRespComment",
+		a.scc_mana_comment	AS "sccManaComment",
+		a.scc_final_comment AS "sccFinalComment",
+		a.PROC_INS_ID AS "procInsId",
+		a.scc_money	AS	"sccMoney"
 	</sql>
 	
 	<sql id="schComConcractJoins">
@@ -32,6 +39,11 @@
 		LEFT JOIN sys_office o14 ON o14.id = a.scc_response_office_id
 		LEFT JOIN sys_area a16 ON a16.id = a.scc_company_area
 	</sql>
+	
+	<sql id="userJoins">
+		JOIN sys_user u ON u.id = a.create_by
+		JOIN sys_office o ON o.id = u.office_id
+    </sql>
     
 	<select id="get" resultType="SchComConcract">
 		SELECT 
@@ -46,6 +58,7 @@
 			<include refid="schComConcractColumns"/>
 		FROM sch_com_concract a
 		<include refid="schComConcractJoins"/>
+		<include refid="userJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="sccName != null and sccName != ''">
@@ -70,24 +83,8 @@
 				AND a.scc_status = #{sccStatus}
 			</if>
 		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
-	
-	<select id="findAllList" resultType="SchComConcract">
-		SELECT 
-			<include refid="schComConcractColumns"/>
-		FROM sch_com_concract a
-		<include refid="schComConcractJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -119,7 +116,8 @@
 			scc_company_type,
 			scc_status,
 			scc_files,
-			scc_submit_date
+			scc_submit_date,
+			scc_money
 		) VALUES (
 			#{id},
 			#{createBy.id},
@@ -140,7 +138,8 @@
 			#{sccCompanyType},
 			#{sccStatus},
 			#{sccFiles},
-			#{sccSubmitDate}
+			#{sccSubmitDate},
+			#{sccMoney}
 		)
 	</insert>
 	
@@ -157,14 +156,87 @@
 			scc_company_area = #{sccCompanyArea},
 			scc_company_type = #{sccCompanyType},
 			scc_files = #{sccFiles},
-			scc_submit_date = #{sccSubmitDate}
+			scc_submit_date = #{sccSubmitDate},
+			scc_money = #{sccMoney}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
-		UPDATE sch_com_concract SET 
+		<!--UPDATE sch_com_concract SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
+		-->
+		DELETE FROM sch_com_concract
+		WHERE id = #{id}
 	</update>
+	
+	<update id="updateStatus">
+		UPDATE sch_com_concract SET 
+			scc_status = #{sccStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateTeachComment">
+		UPDATE sch_com_concract SET 
+			scc_teach_comment = #{sccTeachComment},
+			scc_status = #{sccStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateRespComment">
+		UPDATE sch_com_concract SET 
+			scc_resp_comment = #{sccRespComment},
+			scc_status = #{sccStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateManaComment">
+		UPDATE sch_com_concract SET 
+			scc_mana_comment = #{sccManaComment},
+			scc_status = #{sccStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateFinalComment">
+		UPDATE sch_com_concract SET 
+			scc_final_comment = #{sccFinalComment},
+			scc_status = #{sccStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="getSCCNO" resultType="SchComConcract">
+		SELECT 
+			<include refid="schComConcractColumns"/>
+		FROM sch_com_concract a
+		<include refid="schComConcractJoins"/>
+		<where>
+			1=1
+			<if test="sccNo != null and sccNo != ''">
+				AND a.scc_no LIKE 
+					<if test="dbName == 'oracle'">'%'||#{sccNo}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{sccNo}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{sccNo},'%')</if>
+			</if>
+			AND rownum=1
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.scc_no DESC
+			</otherwise>
+		</choose>
+	</select>
 	
 </mapper>

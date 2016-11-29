@@ -4,10 +4,14 @@
 package com.krazy.kcfw.modules.sch.entity.contract;
 
 import org.hibernate.validator.constraints.Length;
+
 import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.validation.constraints.NotNull;
 
+import com.krazy.kcfw.common.persistence.ActEntity;
 import com.krazy.kcfw.common.persistence.DataEntity;
 
 /**
@@ -15,7 +19,7 @@ import com.krazy.kcfw.common.persistence.DataEntity;
  * @author Krazy
  * @version 2016-11-27
  */
-public class SchComConcract extends DataEntity<SchComConcract> {
+public class SchComConcract extends ActEntity<SchComConcract> {
 	
 	private static final long serialVersionUID = 1L;
 	private String sccName;		// 合同名称
@@ -35,6 +39,12 @@ public class SchComConcract extends DataEntity<SchComConcract> {
 	private String sccStatus;		// 合同状态
 	private String sccFiles;		// 合同附件
 	private Date sccSubmitDate;		// 合同签订日期
+	private String sccTeachComment; 	//院系秘书审批意见
+	private String sccRespComment;		//科研负责人审批意见
+	private String sccManaComment;		//合同管理员审批意见
+	private String sccFinalComment;		//合同管理员审批意见
+	private String procInsId;	//流程实例ID
+	private double sccMoney;	//合同金额
 	
 	public SchComConcract() {
 		super();
@@ -42,6 +52,55 @@ public class SchComConcract extends DataEntity<SchComConcract> {
 
 	public SchComConcract(String id){
 		super(id);
+	}
+	
+
+	public String getProcInsId() {
+		return procInsId;
+	}
+
+	public void setProcInsId(String procInsId) {
+		this.procInsId = procInsId;
+	}
+	
+	public double getSccMoney() {
+		return sccMoney;
+	}
+
+	public void setSccMoney(double sccMoney) {
+		this.sccMoney = sccMoney;
+	}
+
+	public String getSccTeachComment() {
+		return sccTeachComment;
+	}
+
+	public void setSccTeachComment(String sccTeachComment) {
+		this.sccTeachComment = sccTeachComment;
+	}
+
+	public String getSccRespComment() {
+		return sccRespComment;
+	}
+
+	public void setSccRespComment(String sccRespComment) {
+		this.sccRespComment = sccRespComment;
+	}
+
+	public String getSccManaComment() {
+		return sccManaComment;
+	}
+
+	public void setSccManaComment(String sccManaComment) {
+		this.sccManaComment = sccManaComment;
+	}
+
+	public String getSccFinalComment() {
+		return sccFinalComment;
+	}
+
+	public void setSccFinalComment(String sccFinalComment) {
+		this.sccFinalComment = sccFinalComment;
 	}
 
 	@Length(min=1, max=64, message="合同名称长度必须介于 1 和 64 之间")
@@ -53,7 +112,6 @@ public class SchComConcract extends DataEntity<SchComConcract> {
 		this.sccName = sccName;
 	}
 	
-	@Length(min=1, max=64, message="合同编号长度必须介于 1 和 64 之间")
 	public String getSccNo() {
 		return sccNo;
 	}

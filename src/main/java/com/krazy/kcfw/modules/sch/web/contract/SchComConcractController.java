@@ -3,6 +3,8 @@
  */
 package com.krazy.kcfw.modules.sch.web.contract;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.krazy.kcfw.common.config.Global;
@@ -20,7 +23,10 @@ import com.krazy.kcfw.common.persistence.Page;
 import com.krazy.kcfw.common.web.BaseController;
 import com.krazy.kcfw.common.utils.StringUtils;
 import com.krazy.kcfw.modules.sch.entity.contract.SchComConcract;
+import com.krazy.kcfw.modules.sch.entity.patent.SchPatentUnder;
 import com.krazy.kcfw.modules.sch.service.contract.SchComConcractService;
+import com.krazy.kcfw.modules.sys.entity.Dict;
+import com.krazy.kcfw.modules.sys.utils.DictUtils;
 
 /**
  * 普通合同Controller
@@ -57,8 +63,59 @@ public class SchComConcractController extends BaseController {
 	@RequiresPermissions("sch:contract:schComConcract:view")
 	@RequestMapping(value = "form")
 	public String form(SchComConcract schComConcract, Model model) {
+		
+		String view = "schComConcractForm";
+		
+		// 查看审批申请单
+		if (StringUtils.isNotBlank(schComConcract.getId())){//.getAct().getProcInsId())){
+
+			// 环节编号
+			String taskDefKey = schComConcract.getAct().getTaskDefKey();
+			
+			if(StringUtils.isBlank(schComConcract.getProcInsId())){
+				view="schComConcractForm";
+			}else {
+			
+				if("1".equals(schComConcract.getSccStatus())){
+					view="schComConcractForm";
+					
+				}else if(schComConcract.getAct().isFinishTask()){
+					// 查看工单
+					view = "schComConcractFormView";
+				}
+				// 修改环节
+				else if ("modify_audit".equals(taskDefKey)){
+					view = "schComConcractForm";
+				}
+				// 院系秘书审核环节
+				else if ("teacher_audit".equals(taskDefKey)){
+					view = "schComConcractFormAudit";
+				}
+				// 科研负责人审核环节
+				else if ("resp_audit".equals(taskDefKey)){
+					view = "schComConcractFormAudit";
+				}
+				// 合同管理员审核环节
+				else if ("mana_audit".equals(taskDefKey)){
+					view = "schComConcractFormAudit";
+				}
+				// 处长审核环节
+				else if ("direct_audit".equals(taskDefKey)){
+					view = "schComConcractFormAudit";
+				}
+				// 副处长审核环节
+				else if ("ddirect_audit".equals(taskDefKey)){
+					view = "schComConcractFormAudit";
+				}
+			}
+		}
+		
 		model.addAttribute("schComConcract", schComConcract);
-		return "modules/sch/contract/schComConcractForm";
+		String resType=schComConcract.getSccResearchType();
+		List<Dict> dicts=DictUtils.getDictList("CONTRACT_RESEARCH_TYPE_SUB"+resType);
+		model.addAttribute("dicts", dicts);
+		model.addAttribute("resTypeSub",DictUtils.getDictLabel(schComConcract.getSccResearchTypeSub(), "CONTRACT_RESEARCH_TYPE_SUB"+resType, ""));
+		return "modules/sch/contract/"+view;
 	}
 
 	@RequiresPermissions("sch:contract:schComConcract:edit")
@@ -68,8 +125,32 @@ public class SchComConcractController extends BaseController {
 			return form(schComConcract, model);
 		}
 		schComConcractService.save(schComConcract);
-		addMessage(redirectAttributes, "保存合同成功");
-		return "redirect:"+Global.getAdminPath()+"/sch/contract/schComConcract/?repage";
+		if("".equals(schComConcract.getAct().getFlag())){
+			addMessage(redirectAttributes, "保存合同成功");
+			return "redirect:"+Global.getAdminPath()+"/sch/contract/schComConcract/?repage";
+
+		}else{
+			addMessage(redirectAttributes, "保存合同审核成功");
+			return "redirect:"+Global.getAdminPath()+"/act/task/todo/";
+		}
+	}
+	
+	/**
+	 * 工单执行（完成任务）
+	 * @param testAudit
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("sch:patent:schPatentUnder:edit")
+	@RequestMapping(value = "saveAudit")
+	public String saveAudit(SchComConcract schComConcract, Model model) {
+		if (StringUtils.isBlank(schComConcract.getAct().getFlag())
+				|| StringUtils.isBlank(schComConcract.getAct().getComment())){
+			addMessage(model, "请填写审核意见。");
+			return form(schComConcract, model);
+		}
+		schComConcractService.auditSave(schComConcract);
+		return "redirect:"+Global.getAdminPath()+"/act/task/todo/";
 	}
 	
 	@RequiresPermissions("sch:contract:schComConcract:edit")
@@ -78,6 +159,11 @@ public class SchComConcractController extends BaseController {
 		schComConcractService.delete(schComConcract);
 		addMessage(redirectAttributes, "删除合同成功");
 		return "redirect:"+Global.getAdminPath()+"/sch/contract/schComConcract/?repage";
+	}
+	
+	@RequestMapping(value="getResTypeSub")
+	public @ResponseBody List<Dict> getResTypeSub(String type){
+		return DictUtils.getDictList("CONTRACT_RESEARCH_TYPE_SUB"+type);
 	}
 
 }
