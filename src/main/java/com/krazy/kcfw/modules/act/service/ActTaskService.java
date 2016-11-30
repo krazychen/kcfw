@@ -40,6 +40,7 @@ import org.activiti.engine.repository.ProcessDefinitionQuery;
 import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Comment;
+import org.activiti.engine.task.IdentityLink;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
 import org.activiti.spring.ProcessEngineFactoryBean;
@@ -136,6 +137,20 @@ public class ActTaskService extends BaseService {
 //			e.setProcIns(runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult());
 //			e.setProcExecUrl(ActUtils.getProcExeUrl(task.getProcessDefinitionId()));
 			e.setStatus("todo");
+			e.setProcessType("todo");
+			String apply=(String)e.getVars().getMap().get("apply");
+			if(StringUtils.isNoneBlank(apply)){
+				e.setCreateName(UserUtils.getByLoginName(apply).getName());
+			}
+			List<IdentityLink> illist=taskService.getIdentityLinksForTask(task.getId());
+			if(illist!=null){
+				for(IdentityLink il:illist){
+					if(il.getType().equals("candidate")){
+						e.setIsCliamed("true");
+						break;
+					}
+				}
+			}
 			result.add(e);
 		}
 		
@@ -166,6 +181,11 @@ public class ActTaskService extends BaseService {
 //			e.setProcIns(runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult());
 //			e.setProcExecUrl(ActUtils.getProcExeUrl(task.getProcessDefinitionId()));
 			e.setStatus("claim");
+			e.setProcessType("claim");
+			String apply=(String)e.getVars().getMap().get("apply");
+			if(StringUtils.isNoneBlank(apply)){
+				e.setCreateName(UserUtils.getByLoginName(apply).getName());
+			}
 			result.add(e);
 		}
 		return result;
@@ -211,6 +231,10 @@ public class ActTaskService extends BaseService {
 //			e.setProcIns(runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult());
 //			e.setProcExecUrl(ActUtils.getProcExeUrl(task.getProcessDefinitionId()));
 			e.setStatus("finish");
+			String apply=(String)e.getVars().getMap().get("apply");
+			if(StringUtils.isNoneBlank(apply)){
+				e.setCreateName(UserUtils.getByLoginName(apply).getName());
+			}
 			actList.add(e);
 			//page.getList().add(e);
 		}
@@ -476,6 +500,15 @@ public class ActTaskService extends BaseService {
 	@Transactional(readOnly = false)
 	public void claim(String taskId, String userId){
 		taskService.claim(taskId, userId);
+	}
+	
+	/**
+	 * 取消签收任务
+	 * @param taskId 任务ID
+	 */
+	@Transactional(readOnly = false)
+	public void unClaim(String taskId){
+		taskService.unclaim(taskId);
 	}
 	
 	/**

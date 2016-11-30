@@ -17,7 +17,7 @@
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/act/task/todo/">待办任务</a></li>
 		<li class="active"><a href="${ctx}/act/task/historic/">已办任务</a></li>
-		<li><a href="${ctx}/act/task/process/">新建任务</a></li>
+	<!-- 	<li><a href="${ctx}/act/task/process/">新建任务</a></li> -->
 	</ul>
 	<form:form id="searchForm" modelAttribute="act" action="${ctx}/act/task/historic/" method="get" class="breadcrumb form-search">
 		<div>
@@ -46,7 +46,8 @@
 				<th>当前环节</th><%--
 				<th>任务内容</th> --%>
 				<th>流程名称</th>
-				<th>流程版本</th>
+				<!--  <th>流程版本</th>-->
+				<th>发起人</th>
 				<th>完成时间</th>
 				<th>操作</th>
 			</tr>
@@ -69,7 +70,8 @@
 					</td><%--
 					<td>${task.description}</td> --%>
 					<td>${procDef.name}</td>
-					<td><b title='流程版本号'>V: ${procDef.version}</b></td>
+					<!--  <td><b title='流程版本号'>V: ${procDef.version}</b></td>-->	
+					<td>${act.createName} </td>
 					<td><fmt:formatDate value="${task.endTime}" type="both"/></td>
 					<td>
 						<a href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">详情</a>

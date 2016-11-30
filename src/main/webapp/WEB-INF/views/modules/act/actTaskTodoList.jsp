@@ -12,14 +12,38 @@
 		 * 签收任务
 		 */
 		function claim(taskId) {
-			$.get('${ctx}/act/task/claim' ,{taskId: taskId}, function(data) {
-				if (data == 'true'){
-		        	top.$.jBox.tip('签收完成');
-		            location = '${ctx}/act/task/todo/';
-				}else{
-		        	top.$.jBox.tip('签收失败');
+			top.$.jBox.confirm("确定接受此任务吗？","系统提示",function(v,h,f){
+				if(v=="ok"){
+					$.get('${ctx}/act/task/claim' ,{taskId: taskId}, function(data) {
+						if (data == 'true'){
+				        	top.$.jBox.tip('接受任务完成',"success",{persistent:true,opacity:0});
+				            location = '${ctx}/act/task/todo/';
+						}else{
+				        	top.$.jBox.tip('接受任务失败',"error",{persistent:true,opacity:0});
+						}
+				    });
 				}
-		    });
+			},{buttonsFocus:1});
+			top.$('.jbox-body .jbox-icon').css('top','55px');
+		}
+		
+		/**
+		 * 取消签收任务
+		 */
+		function unClaim(taskId) {
+			top.$.jBox.confirm("确定取消接受此任务吗？","系统提示",function(v,h,f){
+				if(v=="ok"){
+					$.get('${ctx}/act/task/unClaim' ,{taskId: taskId}, function(data) {
+						if (data == 'true'){
+				        	top.$.jBox.tip('取消接受完成',"success",{persistent:true,opacity:0});
+				            location = '${ctx}/act/task/todo/';
+						}else{
+				        	top.$.jBox.tip('取消接受失败',"error",{persistent:true,opacity:0});
+						}
+				    });
+				}
+			},{buttonsFocus:1});
+			top.$('.jbox-body .jbox-icon').css('top','55px');
 		}
 	</script>
 </head>
@@ -27,7 +51,7 @@
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/act/task/todo/">待办任务</a></li>
 		<li><a href="${ctx}/act/task/historic/">已办任务</a></li>
-		<li><a href="${ctx}/act/task/process/">新建任务</a></li>
+	<!-- <li><a href="${ctx}/act/task/process/">新建任务</a></li> -->	
 	</ul>
 	<form:form id="searchForm" modelAttribute="act" action="${ctx}/act/task/todo/" method="get" class="breadcrumb form-search">
 		<div>
@@ -55,7 +79,9 @@
 				<th>当前环节</th><%--
 				<th>任务内容</th> --%>
 				<th>流程名称</th>
-				<th>流程版本</th>
+				<!--  <th>流程版本</th>-->
+				<th>发起人</th>
+				<th>流程类型</th>
 				<th>创建时间</th>
 				<th>操作</th>
 			</tr>
@@ -81,11 +107,16 @@
 					</td><%--
 					<td>${task.description}</td> --%>
 					<td>${procDef.name}</td>
-					<td><b title='流程版本号'>V: ${procDef.version}</b></td>
+				<!--  <td><b title='流程版本号'>V: ${procDef.version}</b></td>-->	
+					<td>${act.createName} </td>
+					<td><c:if test="${act.processType=='claim'}">待接受任务</c:if><c:if test="${act.processType=='todo'}">待办理任务</c:if></td>
 					<td><fmt:formatDate value="${task.createTime}" type="both"/></td>
 					<td>
 						<c:if test="${empty task.assignee}">
-							<a href="javascript:claim('${task.id}');">签收任务</a>
+							<a href="javascript:claim('${task.id}');">接受任务</a>
+						</c:if>
+						<c:if test="${act.isCliamed == 'true'}">
+							<a href="javascript:unClaim('${task.id}');">取消接受</a>
 						</c:if>
 						<c:if test="${not empty task.assignee}"><%--
 							<a href="${ctx}${procExecUrl}/exec/${task.taskDefinitionKey}?procInsId=${task.processInstanceId}&act.taskId=${task.id}">办理</a> --%>

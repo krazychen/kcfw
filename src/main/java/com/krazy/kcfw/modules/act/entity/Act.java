@@ -65,6 +65,34 @@ public class Act extends BaseEntity<Act> {
 	private Date endDate;	// 结束查询日期
 
 	private List<Act> list; // 任务列表
+	
+	private String createName; //流程发起人
+	private String processType; //流程类型
+	private String isCliamed; //任务是否签收过
+	
+	public String getIsCliamed() {
+		return isCliamed;
+	}
+
+	public void setIsCliamed(String isCliamed) {
+		this.isCliamed = isCliamed;
+	}
+
+	public String getProcessType() {
+		return processType;
+	}
+
+	public void setProcessType(String processType) {
+		this.processType = processType;
+	}
+
+	public String getCreateName() {
+		return createName;
+	}
+
+	public void setCreateName(String createName) {
+		this.createName = createName;
+	}
 
 	public Act() {
 		super();

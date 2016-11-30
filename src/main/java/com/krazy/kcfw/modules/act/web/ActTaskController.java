@@ -160,6 +160,18 @@ public class ActTaskController extends BaseController {
 	}
 	
 	/**
+	 * 取消签收任务
+	 * @param taskId 任务ID
+	 */
+	@RequestMapping(value = "unClaim")
+	@ResponseBody
+	public String unClaim(Act act) {
+		String userId = UserUtils.getUser().getLoginName();//ObjectUtils.toString(UserUtils.getUser().getId());
+		actTaskService.unClaim(act.getTaskId());
+		return "true";//adminPath + "/act/task";
+	}
+	
+	/**
 	 * 完成任务
 	 * @param taskId 任务ID
 	 * @param procInsId 流程实例ID，如果为空，则不保存任务提交意见
