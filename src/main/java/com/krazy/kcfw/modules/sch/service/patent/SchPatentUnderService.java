@@ -71,7 +71,7 @@ public class SchPatentUnderService extends CrudService<SchPatentUnderDao, SchPat
 			schPatentUnder.preUpdate();
 			dao.update(schPatentUnder);
 		}
-		
+
 		for (SchPatentUnderInventor schPatentUnderInventor : schPatentUnder.getSchPatentUnderInventorList()){
 			if (schPatentUnderInventor.getId() == null){
 				continue;
@@ -103,7 +103,8 @@ public class SchPatentUnderService extends CrudService<SchPatentUnderDao, SchPat
 				Role role=roles.get(i);
 				if(StringUtils.isNoneBlank(role.getEnname())&&"UndergraduateStudents".equals(role.getEnname())){
 					pass="0";
-					vars.put("teacher", schPatentUnder.getSpuAdvisTeacherLoginName());
+					SchPatentUnder underTemp=this.dao.get(schPatentUnder.getId());
+					vars.put("teacher", underTemp.getSpuAdvisTeacherLoginName());
 					break;
 				}
 				if(StringUtils.isNoneBlank(role.getEnname())&&"PostgraduateStudent".equals(role.getEnname())){
@@ -140,7 +141,7 @@ public class SchPatentUnderService extends CrudService<SchPatentUnderDao, SchPat
 
 			// 完成流程任务
 			Map<String, Object> vars = Maps.newHashMap();
-			String pass="0";
+			String pass="yes".equals(schPatentUnder.getAct().getFlag())? "1" : "0";
 			if("no".equals(schPatentUnder.getAct().getFlag())){
 				pass="0";
 				//取消提交后更新状态为新增

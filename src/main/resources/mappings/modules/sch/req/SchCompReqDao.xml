@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krazy.kcfw.modules.sch.dao.req.SchCompReqDao">
+    
+	<sql id="schCompReqColumns">
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.scr_name AS "scrName",
+		a.scr_status AS "scrStatus",
+		a.scr_industry AS "scrIndustry",
+		a.scr_content AS "scrContent",
+		a.scr_market AS "scrMarket",
+		a.scr_coop_method AS "scrCoopMethod",
+		a.scr_expiry_date AS "scrExpiryDate",
+		a.scr_company_name AS "scrCompanyName",
+		a.scr_company_contact AS "scrCompanyContact",
+		a.scr_company_phone AS "scrCompanyPhone",
+		a.scr_company_email AS "scrCompanyEmail",
+		a.scr_files AS "scrFiles",
+		a.proc_ins_id AS "procInsId",
+		a.scr_rec_teach_id AS "scrRecTeachId",
+		a.scr_rec_comment AS "scrRecComment",
+		a.scr_final_comment AS "scrFinalComment"
+	</sql>
+	
+	<sql id="schCompReqJoins">
+	</sql>
+    
+	<select id="get" resultType="SchCompReq">
+		SELECT 
+			<include refid="schCompReqColumns"/>
+		FROM sch_comp_req a
+		<include refid="schCompReqJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="SchCompReq">
+		SELECT 
+			<include refid="schCompReqColumns"/>
+		FROM sch_comp_req a
+		<include refid="schCompReqJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="scrName != null and scrName != ''">
+				AND a.scr_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{scrName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{scrName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{scrName},'%')</if>
+			</if>
+			<if test="scrStatus != null and scrStatus != ''">
+				AND a.scr_status = #{scrStatus}
+			</if>
+			<if test="scrIndustry != null and scrIndustry != ''">
+				AND a.scr_industry = #{scrIndustry}
+			</if>
+			<if test="scrCompanyContact != null and scrCompanyContact != ''">
+				AND a.scr_company_contact LIKE 
+					<if test="dbName == 'oracle'">'%'||#{scrCompanyContact}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{scrCompanyContact}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{scrCompanyContact},'%')</if>
+			</if>
+		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}	
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SchCompReq">
+		SELECT 
+			<include refid="schCompReqColumns"/>
+		FROM sch_comp_req a
+		<include refid="schCompReqJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO sch_comp_req(
+			id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			scr_name,
+			scr_status,
+			scr_industry,
+			scr_content,
+			scr_market,
+			scr_coop_method,
+			scr_expiry_date,
+			scr_company_name,
+			scr_company_contact,
+			scr_company_phone,
+			scr_company_email,
+			scr_files
+		) VALUES (
+			#{id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{scrName},
+			#{scrStatus},
+			#{scrIndustry},
+			#{scrContent},
+			#{scrMarket},
+			#{scrCoopMethod},
+			#{scrExpiryDate},
+			#{scrCompanyName},
+			#{scrCompanyContact},
+			#{scrCompanyPhone},
+			#{scrCompanyEmail},
+			#{scrFiles}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sch_comp_req SET 	
+			scr_name = #{scrName},
+			scr_status = #{scrStatus},
+			scr_industry = #{scrIndustry},
+			scr_content = #{scrContent},
+			scr_market = #{scrMarket},
+			scr_coop_method = #{scrCoopMethod},
+			scr_expiry_date = #{scrExpiryDate},
+			scr_company_name = #{scrCompanyName},
+			scr_company_contact = #{scrCompanyContact},
+			scr_company_phone = #{scrCompanyPhone},
+			scr_company_email = #{scrCompanyEmail},
+			scr_files = #{scrFiles}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		<!--UPDATE sch_comp_req SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}-->
+		
+		DELETE FROM sch_comp_req
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

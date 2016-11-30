@@ -114,7 +114,7 @@ public class SchComConcractService extends CrudService<SchComConcractDao, SchCom
 			
 			// 完成流程任务
 			Map<String, Object> vars = Maps.newHashMap();
-			String pass="0";
+			String pass="yes".equals(schComConcract.getAct().getFlag())? "1" : "0";
 			if("no".equals(schComConcract.getAct().getFlag())){
 				pass="0";
 				//取消提交后更新状态为新增

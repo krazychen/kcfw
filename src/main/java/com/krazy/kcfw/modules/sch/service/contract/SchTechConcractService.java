@@ -114,7 +114,7 @@ public class SchTechConcractService extends CrudService<SchTechConcractDao, SchT
 			
 			// 完成流程任务
 			Map<String, Object> vars = Maps.newHashMap();
-			String pass="0";
+			String pass="yes".equals(schTechConcract.getAct().getFlag())? "1" : "0";
 			if("no".equals(schTechConcract.getAct().getFlag())){
 				pass="0";
 				//取消提交后更新状态为新增

@@ -6,7 +6,7 @@
     <endEvent id="apply_end" name="结束审批"></endEvent>
     <exclusiveGateway id="sid-87EBB40E-B538-4B30-994C-B7B03FA0038D"></exclusiveGateway>
     <sequenceFlow id="sid-84C8FEEB-0808-44EC-A808-418597BA58EC" sourceRef="start" targetRef="sid-87EBB40E-B538-4B30-994C-B7B03FA0038D"></sequenceFlow>
-    <userTask id="lead_audit" name="专利审核" activiti:assignee="${sec}"></userTask>
+    <userTask id="lead_audit" name="专利审核" activiti:candidateUsers="${sec}"></userTask>
     <exclusiveGateway id="sid-C22B5073-33D9-4CCD-BDAC-3A83EF15CEDC"></exclusiveGateway>
     <userTask id="modify_audit" name="专利申请修改" activiti:assignee="${apply}"></userTask>
     <exclusiveGateway id="sid-F13D31A6-3468-496E-8DE7-0BC45018CB10"></exclusiveGateway>
@@ -128,8 +128,8 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-C1B34845-E1B2-4465-9585-CECAD8B78FE2" id="BPMNEdge_sid-C1B34845-E1B2-4465-9585-CECAD8B78FE2">
         <omgdi:waypoint x="230.5" y="384.5"></omgdi:waypoint>
-        <omgdi:waypoint x="230.5" y="460.1328125"></omgdi:waypoint>
-        <omgdi:waypoint x="285.0" y="460.0635466507177"></omgdi:waypoint>
+        <omgdi:waypoint x="230.5" y="460.0"></omgdi:waypoint>
+        <omgdi:waypoint x="285.0" y="460.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="0.0" width="0.0" x="230.5" y="384.5"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
