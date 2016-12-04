@@ -4,7 +4,13 @@
 <%@ attribute name="startAct" type="java.lang.String" required="false" description="开始活动节点名称"%>
 <%@ attribute name="endAct" type="java.lang.String" required="false" description="结束活动节点名称"%>
 <fieldset>
-	<legend>流转信息</legend>
+	<!-- 
+	<legend>流转信息</legend> -->
+	<table class="table-form">
+	<tr>
+		<td colspan="6"><h5>流转信息</h5></td>
+	</tr>
+	</table>
 	<div id="histoicFlowList">
 		正在加载流转信息...
 	</div>

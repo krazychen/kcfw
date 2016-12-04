@@ -58,31 +58,33 @@
 			<table class="table-form">
 				<tr>
 					<td class="tit" ><span class="help-inline"><font color="red">*</font> </span>专利名称：</td>
-					<td>
+					<td colspan="3">
 						${schPatentUnder.spuName}
 					</td><td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利类型：</td>
 					<td>
 						${fns:getDictLabel(schPatentUnder.spuTypeCode, 'PATENT_TYPE', '')}
-					</td><td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利申请人：</td>
-					<td>
-						${schPatentUnder.spuApplySchoolName}
 					</td>
 				</tr>
 				
 				<tr>
+					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利申请人：</td>
+					<td>
+						${schPatentUnder.spuApplySchoolName}
+					</td>
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>联络人：</td>
 					<td>
 						${schPatentUnder.spuApplyUserName}					
 					</td><td class="tit"><span class="help-inline"><font color="red">*</font> </span>所属院系：</td>
 					<td>
 						${schPatentUnder.spuApplyUserOfficeName}
-					</td><td class="tit"><span class="help-inline"><font color="red">*</font> </span>联系电话：</td>
-					<td>
-						${schPatentUnder.spuApplyPhone}
 					</td>
 				</tr>
 				
 				<tr>
+					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>联系电话：</td>
+					<td>
+						${schPatentUnder.spuApplyPhone}
+					</td>
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>指导老师：</td>
 					<td>
 						${schPatentUnder.spuAdvisTeacherName}					
@@ -90,12 +92,17 @@
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>老师所属院系：</td>
 					<td>
 						${schPatentUnder.spuAdvisTeacherOfficeName}			
-					</td><td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利代理机构：</td>
+					</td>
+				</tr>
+				<tr>
+					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利代理机构：</td>
 					<td>
 						${schPatentUnder.spuProxyName}	
 					</td>
+					<td colspan="3">
+						<span id="spuProxyInfo"><c:if test="${not empty schPatentUnder.spuProxyId }">&nbsp;&nbsp;&nbsp;&nbsp;代理机构联系人:${schPatentUnder.spuProxyContact }&nbsp;&nbsp;&nbsp;&nbsp;代理机构联系方式：${schPatentUnder.spuProxyPhone }</c:if></span>
+					</td>
 				</tr>
-				
 				<tr>
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利摘要：</td>
 					<td colspan="5">
@@ -125,8 +132,8 @@
 											${inventor.id}
 										</td>
 										<td>${inventor.spiTypeName}</td>
-										<td>${inventor.spiUserName}</td>
-										<td>${inventor.spiOfficeName}</td>
+										<td>${inventor.spiUserName}${inventor.spiTeacherName}${inventor.spiUserNameEX}</td>
+										<td>${inventor.spiUserOfficeName}${inventor.spiTeacherOfficeName}${inventor.spiOfficeNameEx}</td>
 										<td>${inventor.spiContributionPer}</td>
 										<td>${inventor.spiRemark}</td>
 									</tr>

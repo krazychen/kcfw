@@ -107,7 +107,7 @@ public class SchPatentUnderService extends CrudService<SchPatentUnderDao, SchPat
 					vars.put("teacher", underTemp.getSpuAdvisTeacherLoginName());
 					break;
 				}
-				if(StringUtils.isNoneBlank(role.getEnname())&&"PostgraduateStudent".equals(role.getEnname())){
+				if(StringUtils.isNoneBlank(role.getEnname())&&("PostgraduateStudent".equals(role.getEnname())||"teacher".equals(role.getEnname()))){
 					pass="1";
 					
 					HashMap<String,String> pars=new HashMap<String,String>();

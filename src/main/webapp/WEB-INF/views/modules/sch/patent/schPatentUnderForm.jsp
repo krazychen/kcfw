@@ -40,17 +40,104 @@
 			$("#spuTypeCode").change(function(){
 				$("#spuTypeName").val($(this).children('option:selected').text());
 			});
+			$("#spuProxyId").change(function(){
+				var pv=$(this).children('option:selected').val();
+				if(pv){
+					$("#spuProxyInfo").show();
+					$.ajax({
+						type: "POST",
+						url: "${ctx}/sch/patent/schPatentUnder/getSpaProxyInfo",
+						data: { //发送给数据库的数据
+							code: pv
+					},
+					dataType: 'json',
+					success: function(data) {
+						$("#spuProxyInfo").html("&nbsp;&nbsp;&nbsp;&nbsp;代理机构联系人:"+data.spaContacts+"&nbsp;&nbsp;&nbsp;&nbsp;代理机构联系方式:"+data.spaPhone);
+					}
+					})
+				}else{
+					$("#spuProxyInfo").hide();
+				}
+			});
 			if($("[id='act.taskId']").val()){
 				$("#listli").hide();
 			}
 
 		});
+		function spuApplyUserIdTreeselectCallBack(v,h,f){
+			if (v=="ok"){
+				var userId=$("#spuApplyUserIdId").val();
+				if(userId){
+					setOffice(userId,"spuApplyUserOfficeId","spuApplyUserOfficeName");
+				}
+				
+			}else if (v=="clear"){
+				$("#spuApplyUserOfficeId").val("");
+				$("#spuApplyUserOfficeName").val("");
+			}
+		}
+		
+		function spuAdvisTeacherIdTreeselectCallBack(v,h,f){
+			if (v=="ok"){
+				var userId=$("#spuAdvisTeacherIdId").val();
+				if(userId){
+					setOffice(userId,"spuAdvisTeacherOfficeId","spuAdvisTeacherOfficeName");
+				}
+				
+			}else if (v=="clear"){
+				$("#spuAdvisTeacherOfficeId").val("");
+				$("#spuAdvisTeacherOfficeName").val("");
+			}
+		}
+		
+		function setOffice(userId,code,name){
+			$.ajax({
+				type: "POST",
+				url: "${ctx}/sys/user/infoDataById",
+				data: { //发送给数据库的数据
+					id: userId
+			},
+			dataType: 'json',
+			success: function(data) {
+					$("#"+code).val(data.id);
+					$("#"+name).val(data.name);
+				}
+			})
+		}
+		
 		function addRow(list, idx, tpl, row){
+			var userIdName='schPatentUnderInventorList'+idx+'_spiUserId';
+			window[userIdName+'TreeselectCallBack'] = function (v,h,f) { 
+				if (v=="ok"){
+					var userId=$("#"+userIdName+"Id").val();
+					if(userId){
+						setOffice(userId,'schPatentUnderInventorList'+idx+'_spiUserOfficeId','schPatentUnderInventorList'+idx+'_spiUserOfficeName');
+					}
+					
+				}else if (v=="clear"){
+					$("#"+"schPatentUnderInventorList"+idx+"_spiUserOfficeId").val("");
+					$("#"+"schPatentUnderInventorList"+idx+"_spiUserOfficeName").val("");
+				}
+			};
+			var teacherIdName='schPatentUnderInventorList'+idx+'_spiTeacherId';
+			window[teacherIdName+'TreeselectCallBack'] = function (v,h,f) { 
+				if (v=="ok"){
+					var teacherId=$("#"+teacherIdName+"Id").val();
+					if(teacherId){
+						setOffice(teacherId,'schPatentUnderInventorList'+idx+'_spiTeacherOfficeId','schPatentUnderInventorList'+idx+'_spiTeacherOfficeName');
+					}
+					
+				}else if (v=="clear"){
+					$("#"+"schPatentUnderInventorList"+idx+"_spiTeacherOfficeId").val("");
+					$("#"+"schPatentUnderInventorList"+idx+"_spiTeacherOfficeName").val("");
+				}
+			};
 			$(list).append(Mustache.render(tpl, {
 				idx: idx, delBtn: true, row: row
 			}));
 			$(list+idx).find("select").each(function(){
 				$(this).val($(this).attr("data-value"));
+				$(this).change();
 			});
 			$(list+idx).find("input[type='checkbox'], input[type='radio']").each(function(){
 				var ss = $(this).attr("data-value").split(',');
@@ -60,6 +147,7 @@
 					}
 				}
 			});
+			
 		}
 		function delRow(obj, prefix){
 			var id = $(prefix+"_id");
@@ -82,34 +170,44 @@
 			//	var html='<input id="schPatentUnderInventorList{{idx}}_spiUserId" name="schPatentUnderInventorList{{idx}}_spiUserId" type="text" value="{{row.spiUserId}}" maxlength="11" class="input-small required"/>';
 			 	//alert($(prefix+"_spiUserNameEx").html());	 
 			//$(prefix+"_spiUserId").hide();
-				$(obj).parent().next().children().eq(0).hide();
-				$(obj).parent().next().children().eq(1).hide();
-				 $(prefix+"_spiUserNameEx").show();
-				 $(obj).parent().next().next().children().eq(0).hide();
-				 $(prefix+"_spiOfficeNameEx").show();
+				//$(obj).parent().next().children().eq(0).hide();
+				//$(obj).parent().next().children().eq(1).hide();
+				// $(prefix+"_spiUserNameEx").show();
+				// $(obj).parent().next().next().children().eq(0).hide();
+				 //$(prefix+"_spiOfficeNameEx").show();
+				$(prefix+"_spiUserIdTd").hide();
+				$(prefix+"_spiTeacherIdTd").hide();
+				$(prefix+"_spiUserNameExTd").show();
+				$(prefix+"_spiUserOfficeIdTd").hide();
+				$(prefix+"_spiTeacherOfficeIdTd").hide();
+				$(prefix+"_spiOfficeNameExTd").show();
 			}else if ($(obj).children('option:selected').text()=='老师'){
-				//alert(row)
-				//$(obj).parent().next().children().hide();
+				//$(obj).parent().next().children().eq(0).hide();
 				//$(obj).parent().next().children().eq(1).show();
-				// $(obj).parent().next().next().children().hide();
-				// $(prefix+"_spiOfficeId").show();
-				//alert($(obj).parent().next().children().eq(1).html());
-				//$(obj).parent().next().children().eq(0).show();;
-				//$(obj).parent().next().children().eq(2).hide();
-				$(obj).parent().next().children().eq(0).hide();
-				$(obj).parent().next().children().eq(1).show();
-				$(prefix+"_spiTeacherId").show()//.css('display','block');
-				//$(prefix+"_spiTeacherIdButton").show()//css('display','block');
-				//$(prefix+"_spiTeacherIdButton").addClass("btn");
-				 $(prefix+"_spiUserNameEx").hide();
-				 $(obj).parent().next().next().children().eq(0).show();
-				 $(prefix+"_spiOfficeNameEx").hide();
+				//$(prefix+"_spiTeacherIdName").show()
+				//$(prefix+"_spiTeacherIdButton").css('display', 'initial');
+				//$(prefix+"_spiTeacherIdButton").show();
+				 //$(prefix+"_spiUserNameEx").hide();
+				$(prefix+"_spiUserIdTd").hide();
+				$(prefix+"_spiTeacherIdTd").show();
+				$(prefix+"_spiUserNameExTd").hide();
+				$(prefix+"_spiUserOfficeIdTd").hide();
+				$(prefix+"_spiTeacherOfficeIdTd").show();
+				$(prefix+"_spiOfficeNameExTd").hide();
+				 //$(obj).parent().next().next().children().eq(0).show();
+				// $(prefix+"_spiOfficeNameEx").hide();
 			}else {
-				$(obj).parent().next().children().eq(0).show();
-				$(obj).parent().next().children().eq(1).hide();
-				 $(prefix+"_spiUserNameEx").hide();
-				 $(obj).parent().next().next().children().eq(0).show();
-				 $(prefix+"_spiOfficeNameEx").hide();
+				//$(obj).parent().next().children().eq(0).show();
+				//$(obj).parent().next().children().eq(1).hide();
+				// $(prefix+"_spiUserNameEx").hide();
+				$(prefix+"_spiUserIdTd").show();
+				$(prefix+"_spiTeacherIdTd").hide();
+				$(prefix+"_spiUserNameExTd").hide();
+				$(prefix+"_spiUserOfficeIdTd").show();
+				$(prefix+"_spiTeacherOfficeIdTd").hide();
+				$(prefix+"_spiOfficeNameExTd").hide();
+				// $(obj).parent().next().next().children().eq(0).show();
+				// $(prefix+"_spiOfficeNameEx").hide();
 			}
 			//$(obj).parent().next().children().hide();
 			//$(obj).parent().next().children().append(html);
@@ -133,50 +231,75 @@
 		<fieldset>
 			<table class="table-form">
 				<tr>
-					<td class="tit" ><span class="help-inline"><font color="red">*</font> </span>专利名称：</td><td>
-						<form:input path="spuName" htmlEscape="false" maxlength="200" class="input-large required" style="width:195px"/>
-					</td><td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利类型：</td><td>
+					<td class="tit" ><span class="help-inline"><font color="red">*</font> </span>专利名称：</td>
+					<td colspan="3">
+						<form:input path="spuName" htmlEscape="false" maxlength="200" class="input-large editForm2ColWidth required"/>
+					</td>
+					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利类型：</td>
+					<td>
 						<form:hidden path="spuTypeName"/>
-						<form:select path="spuTypeCode" class="input-large required">
+						<form:select path="spuTypeCode" class="input-large editFormSelectWidth required">
 							<form:option value="" label=""/>
 							<form:options items="${fns:getDictList('PATENT_TYPE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 						</form:select>
-					</td><td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利申请人：</td><td>
-						<form:input path="spuApplySchoolName" htmlEscape="false" maxlength="100" class="input-large required"/>
 					</td>
 				</tr>
 				
 				<tr>
+					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利申请人：</td><td>
+						<form:input path="spuApplySchoolName" value="${schPatentUnder.spuApplySchoolName!=null ? schPatentUnder.spuApplySchoolName : fns:getUser().getName()} " htmlEscape="false" maxlength="100" class="input-large editFormFieldWidth required"/>
+					</td>
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>联络人：</td><td>
-						<sys:treeselect id="spuApplyUserId" name="spuApplyUserId" value="${schPatentUnder.spuApplyUserId}" labelName="spuApplyUserName" labelValue="${schPatentUnder.spuApplyUserName}"
-					title="用户" roleEnName="Student" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="required"  cssStyle="width:150px"  allowClear="true" notAllowSelectParent="true"/>
-					</td><td class="tit"><span class="help-inline"><font color="red">*</font> </span>所属院系：</td><td>
-						<sys:treeselect id="spuApplyUserOfficeId" name="spuApplyUserOfficeId" value="${schPatentUnder.spuApplyUserOfficeId}" labelName="spuApplyUserOfficeName" labelValue="${schPatentUnder.spuApplyUserOfficeName}"
-					title="部门" url="/sys/office/treeData?type=2" cssClass="required" cssStyle="width:150px"  allowClear="true" notAllowSelectParent="true"/>
-					</td><td class="tit"><span class="help-inline"><font color="red">*</font> </span>联系电话：</td><td>
-						<form:input path="spuApplyPhone" htmlEscape="false" maxlength="45" class="input-large required"/>
+						<sys:treeselect id="spuApplyUserId" name="spuApplyUserId" value="${schPatentUnder.spuApplyUserId!=null ? schPatentUnder.spuApplyUserId : fns:getUser().getId()}" labelName="spuApplyUserName" labelValue="${schPatentUnder.spuApplyUserName!=null ? schPatentUnder.spuApplyUserName : fns:getUser().getName()}"
+					title="用户" roleEnName="Student" allowInput="true" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required"  allowClear="true" notAllowSelectParent="true"/>
+					</td>
+					<td class="tit">
+						<span class="help-inline"><font color="red">*</font> </span>所属院系：
+					</td>
+					<td>
+						<!--<sys:treeselect id="spuApplyUserOfficeId" name="spuApplyUserOfficeId" value="${schPatentUnder.spuApplyUserOfficeId}" labelName="spuApplyUserOfficeName" labelValue="${schPatentUnder.spuApplyUserOfficeName}"
+					title="部门" url="/sys/office/treeData?type=2" cssClass="editFormTreeWidth required" allowClear="true" notAllowSelectParent="true"/>
+						-->
+						<form:hidden path="spuApplyUserOfficeId" value="${schPatentUnder.spuApplyUserOfficeId!=null ? schPatentUnder.spuApplyUserOfficeId : fns:getUser().getOffice().getId()}"/>
+						<form:input path="spuApplyUserOfficeName" value="${schPatentUnder.spuApplyUserOfficeName!=null ? schPatentUnder.spuApplyUserOfficeName : fns:getUser().getOffice().getName()}" readonly="true" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required" />
 					</td>
 				</tr>
 				
 				<tr>
+					</td><td class="tit"><span class="help-inline"><font color="red">*</font> </span>联系电话：</td><td>
+						<form:input path="spuApplyPhone" htmlEscape="false" maxlength="45" class="input-large editFormFieldWidth required"/>
+					</td>
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>指导老师：</td><td>
 						<sys:treeselect id="spuAdvisTeacherId" name="spuAdvisTeacherId" value="${schPatentUnder.spuAdvisTeacherId}" labelName="spuAdvisTeacherName" labelValue="${schPatentUnder.spuAdvisTeacherName}"
-					title="用户" roleEnName="teacher" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="required" cssStyle="width:150px"  allowClear="true" notAllowSelectParent="true"/>
-					</td><td class="tit"><span class="help-inline"><font color="red">*</font> </span>老师所属院系：</td><td>
+					title="用户" roleEnName="teacher" allowInput="${schPatentUnder.isTeacher=='true' ? 'false':'true'}" disabled="${schPatentUnder.isTeacher=='true' ? 'disabled' :''}" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required" allowClear="true" notAllowSelectParent="true"/>
+					</td>
+					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>老师所属院系：</td>
+					<td>
+						<!--
 						<sys:treeselect id="spuAdvisTeacherOfficeId" name="spuAdvisTeacherOfficeId" value="${schPatentUnder.spuAdvisTeacherOfficeId}" labelName="spuAdvisTeacherOfficeName" labelValue="${schPatentUnder.spuAdvisTeacherOfficeName}"
-					title="部门" url="/sys/office/treeData?type=2" cssClass="required" cssStyle="width:150px"  allowClear="true" notAllowSelectParent="true"/>
-					</td><td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利代理机构：</td><td>
-						<form:select path="spuProxyId" class="input-large required">
+					title="部门" url="/sys/office/treeData?type=2" cssClass="editFormTreeWidth required" allowClear="true" notAllowSelectParent="true"/>
+						-->
+						<form:hidden path="spuAdvisTeacherOfficeId"/>
+						<form:input path="spuAdvisTeacherOfficeName" readonly="true" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required" />
+					</td>
+				</tr>
+				<tr>
+					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利代理机构：</td>
+					<td>
+						<form:select path="spuProxyId" class="input-large editFormSelectWidth required">
 							<form:option value="" label=""/>
 							<form:options items="${schPatentAgencyLiss}" htmlEscape="false"/>
 						</form:select>
+					</td>
+					<td colspan="3">
+						<span id="spuProxyInfo"><c:if test="${not empty schPatentUnder.spuProxyId }">&nbsp;&nbsp;&nbsp;&nbsp;代理机构联系人:${schPatentUnder.spuProxyContact }&nbsp;&nbsp;&nbsp;&nbsp;代理机构联系方式：${schPatentUnder.spuProxyPhone }</c:if></span>
 					</td>
 				</tr>
 				
 				<tr>
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利摘要：</td>
 					<td colspan="5">
-						<form:textarea path="spuRemark" htmlEscape="false" rows="4" maxlength="2000" class="input-xxlarge required"/>
+						<form:textarea path="spuRemark" htmlEscape="false" rows="4" maxlength="2000" class="input-xxlarge editFormSelectWidth required"/>
 					</td>
 				</tr>
 				<tr>
@@ -210,30 +333,47 @@
 								<input id="schPatentUnderInventorList{{idx}}_spiId" name="schPatentUnderInventorList[{{idx}}].spiId" type="text" value="{{row.spiId}}" maxlength="11" class="input-small required"/>
 							</td>
 							<td>
-								<select onchange="changeInvType(this,'#schPatentUnderInventorList{{idx}}',{{idx}})" id="schPatentUnderInventorList{{idx}}_spiTypeCode" name="schPatentUnderInventorList[{{idx}}].spiTypeCode" data-value="{{row.spiTypeCode}}" maxlength="45" class="input-small required">
-									<option value=""></option>
+								<select onchange="changeInvType(this,'#schPatentUnderInventorList{{idx}}',{{idx}})" id="schPatentUnderInventorList{{idx}}_spiTypeCode" name="schPatentUnderInventorList[{{idx}}].spiTypeCode" data-value="{{row.spiTypeCode}}" maxlength="45" class="input-small editFormSelectWidth required">
 									<c:forEach items="${fns:getDictList('INVENTOR_TYPE')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
 									</c:forEach>
 								</select>
 							</td>
-							<td>
+							<td id="schPatentUnderInventorList{{idx}}_spiUserIdTd">
 								<sys:treeselect id="schPatentUnderInventorList{{idx}}_spiUserId" name="schPatentUnderInventorList[{{idx}}].spiUserId" value="{{row.spiUserId}}" labelName="schPatentUnderInventorList{{idx}}.spiUserName" labelValue="{{row.spiUserName}}"
-									title="用户" roleEnName="Student" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
-								<sys:treeselect id="schPatentUnderInventorList{{idx}}_spiTeacherId" name="schPatentUnderInventorList[{{idx}}].spiTeacherName" value="{{row.spiTeacherId}}" labelName="schPatentUnderInventorList{{idx}}.spiTeacherName" labelValue="{{row.spiTeacherName}}"
-									title="用户" roleEnName="teacher" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="required" cssStyle="display:none" hideBtn="true" allowClear="true" notAllowSelectParent="true"/>
-								<input id="schPatentUnderInventorList{{idx}}_spiUserNameEx" name="schPatentUnderInventorList{{idx}}_spiUserNameEx" type="text" value="{{row.spiUserNameEx}}" maxlength="11" class="input-small required" style="display:none;width:250px"/>
+									title="用户" allowInput="true" roleEnName="Student" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required" allowClear="true" notAllowSelectParent="true"/>
+							</td>
+							<td id="schPatentUnderInventorList{{idx}}_spiTeacherIdTd" style="display:none">	
+								<sys:treeselect id="schPatentUnderInventorList{{idx}}_spiTeacherId" name="schPatentUnderInventorList[{{idx}}].spiTeacherId" value="{{row.spiTeacherId}}" labelName="schPatentUnderInventorList{{idx}}.spiTeacherName" labelValue="{{row.spiTeacherName}}"
+									title="用户" allowInput="true" roleEnName="teacher" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required" allowClear="true" notAllowSelectParent="true"/>
+							</td>
+							<td id="schPatentUnderInventorList{{idx}}_spiUserNameExTd" style="display:none">
+								<input id="schPatentUnderInventorList{{idx}}_spiUserNameEx" name="schPatentUnderInventorList{{idx}}_spiUserNameEx" type="text" value="{{row.spiUserNameEx}}" maxlength="11" class="input-small editFormFieldWidth required"/>
+							</td>
+							<td id="schPatentUnderInventorList{{idx}}_spiUserOfficeIdTd">
+								<!--
+								<sys:treeselect id="schPatentUnderInventorList{{idx}}_spiUserOfficeId" name="schPatentUnderInventorList[{{idx}}].spiUserOfficeIdTd" value="{{row.spiUserOfficeId}}" labelName="schPatentUnderInventorList{{idx}}.spiUserOfficeName" labelValue="{{row.spiUserOfficeName}}"
+									title="部门" url="/sys/office/treeData?type=2" cssClass="editFormTreeWidth required" allowClear="true" notAllowSelectParent="true"/>
+								-->
+								<input type="hidden" id="schPatentUnderInventorList{{idx}}_spiUserOfficeId" name="schPatentUnderInventorList[{{idx}}].spiUserOfficeId" value="{{row.spiUserOfficeId}}"/>
+								<input type="text" id="schPatentUnderInventorList{{idx}}_spiUserOfficeName" name="schPatentUnderInventorList[{{idx}}].spiUserOfficeName" value="{{row.spiUserOfficeName}}" readonly="true" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required" />
+							</td>
+							<td id="schPatentUnderInventorList{{idx}}_spiTeacherOfficeIdTd" style="display:none">
+								<!--
+								<sys:treeselect id="schPatentUnderInventorList{{idx}}_spiTeacherOfficeId" name="schPatentUnderInventorList[{{idx}}].spiTeacherOfficeId" value="{{row.spiTeacherOfficeId}}" labelName="schPatentUnderInventorList{{idx}}.spiTeacherOfficeName" labelValue="{{row.spiTeacherOfficeName}}"
+									title="部门" url="/sys/office/treeData?type=2" cssClass="editFormTreeWidth required" allowClear="true" notAllowSelectParent="true"/>
+								-->
+								<input type="hidden" id="schPatentUnderInventorList{{idx}}_spiTeacherOfficeId" name="schPatentUnderInventorList[{{idx}}].spiTeacherOfficeId" value="{{row.spiTeacherOfficeId}}"/>
+								<input type="text" id="schPatentUnderInventorList{{idx}}_spiTeacherOfficeName" name="schPatentUnderInventorList[{{idx}}].spiTeacherOfficeName" value="{{row.spiTeacherOfficeName}}" readonly="true" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required" />
+							</td>
+							<td id="schPatentUnderInventorList{{idx}}_spiOfficeNameExTd" style="display:none">
+								<input id="schPatentUnderInventorList{{idx}}_spiOfficeNameEx" name="schPatentUnderInventorList{{idx}}_spiOfficeNameEx" type="text" value="{{row.spiOfficeNameEx}}" maxlength="11" class="input-small editFormFieldWidth required"/>
 							</td>
 							<td>
-								<sys:treeselect id="schPatentUnderInventorList{{idx}}_spiOfficeId" name="schPatentUnderInventorList[{{idx}}].spiOfficeId" value="{{row.spiOfficeId}}" labelName="schPatentUnderInventorList{{idx}}.spiOfficeName" labelValue="{{row.spiOfficeName}}"
-									title="部门" url="/sys/office/treeData?type=2" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
-								<input id="schPatentUnderInventorList{{idx}}_spiOfficeNameEx" name="schPatentUnderInventorList{{idx}}_spiOfficeNameEx" type="text" value="{{row.spiOfficeNameEx}}" maxlength="11" class="input-small required" style="display:none;width:250px"/>
+								<input id="schPatentUnderInventorList{{idx}}_spiContributionPer" name="schPatentUnderInventorList[{{idx}}].spiContributionPer" type="text" value="{{row.spiContributionPer}}" maxlength="11" class="input-small editFormFieldWidth required"/>
 							</td>
 							<td>
-								<input id="schPatentUnderInventorList{{idx}}_spiContributionPer" name="schPatentUnderInventorList[{{idx}}].spiContributionPer" type="text" value="{{row.spiContributionPer}}" maxlength="11" class="input-small required"/>
-							</td>
-							<td>
-								<input id="schPatentUnderInventorList{{idx}}_spiRemark" name="schPatentUnderInventorList[{{idx}}].spiRemark" type="text" value="{{row.spiRemark}}" maxlength="2000" class="input-small "/>
+								<input id="schPatentUnderInventorList{{idx}}_spiRemark" name="schPatentUnderInventorList[{{idx}}].spiRemark" type="text" value="{{row.spiRemark}}" maxlength="2000" class="input-small editFormFieldWidth"/>
 							</td>
 							<shiro:hasPermission name="sch:patent:schPatentUnder:edit"><td class="text-center" width="10">
 								{{#delBtn}}<span class="close" onclick="delRow(this, '#schPatentUnderInventorList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
@@ -278,11 +418,11 @@
 		<div class="form-actions">
 			<shiro:hasPermission name="sch:patent:schPatentUnder:edit">
 				<c:if test="${schPatentUnder.spuStatus==1 || empty schPatentUnder.id}">
-					<input id="btnSubmit" class="btn btn-primary" type="submit" value="保存"/>&nbsp;
+					<input id="btnSubmit" class="btn btn-primary" type="submit" value="保存草稿"/>&nbsp;
 				</c:if>
 				<input id="btnSubmit2" class="btn btn-primary" type="submit" value="提交申请" onclick="$('#flag').val('yes')"/>&nbsp;
-				<c:if test="${schPatentUnder.spuStatus==1}">
-					<input id="btnAdd" class="btn btn-primary" type="button" value="新 增" onClick="location.href='${ctx}onClick="location.href='${ctx}/sch/patent/schPatentAgency/form'"/>&nbsp;
+				<c:if test="${schPatentUnder.spuStatus==1 || empty schPatentUnder.id}">
+					<input id="btnAdd" class="btn btn-primary" type="button" value="新 增" onClick="location.href='${ctx}/sch/patent/schPatentUnder/form'"/>&nbsp;
 				</c:if>
 				<c:if test="${not empty schPatentUnder.id && not empty schPatentUnder.act.procInsId}">
 					<input id="btnSubmit3" class="btn btn-inverse" type="submit" value="取消申请" onclick="$('#flag').val('no')"/>&nbsp;

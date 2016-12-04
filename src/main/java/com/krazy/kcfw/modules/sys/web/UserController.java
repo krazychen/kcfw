@@ -305,6 +305,17 @@ public class UserController extends BaseController {
 	}
 	
 	/**
+	 * 返回用户信息
+	 * @return
+	 */
+	@RequiresPermissions("user")
+	@ResponseBody
+	@RequestMapping(value = "infoDataById")
+	public Office infoDataById(String id) {
+		return UserUtils.get(id).getOffice();
+	}
+	
+	/**
 	 * 修改个人用户密码
 	 * @param oldPassword
 	 * @param newPassword

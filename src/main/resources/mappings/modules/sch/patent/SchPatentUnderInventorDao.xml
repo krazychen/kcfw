@@ -10,11 +10,13 @@
 		a.spi_user_id AS "spiUserId",
 		u5.name AS "spiUserName",
 		a.spi_teacher_id AS "spiTeacherId",
-		u6.name AS "spiUserName",
+		u6.name AS "spiTeacherName",
 		a.SPI_USER_NAME_EX AS "spiUserNameEX",
-		a.spi_office_id AS "spiOfficeId",
+		a.spi_user_office_id AS "spiUserOfficeId",
+		o7.name AS "spiUserOfficeName",
+		a.spi_teacher_office_id AS "spiTeacherOfficeId",
+		o8.name AS "spiTeacherOfficeName",
 		a.spi_office_name_ex AS "spaOfficeNameEx",
-		o7.name AS "spiOfficeName",
 		a.spi_contribution_per AS "spiContributionPer",
 		a.spi_remark AS "spiRemark",
 		a.create_by AS "createBy.id",
@@ -28,7 +30,8 @@
 		LEFT JOIN sch_patent_under b ON b.id = a.spi_patent_id
 		LEFT JOIN sys_user u5 ON u5.id = a.spi_user_id
 		LEFT JOIN sys_user u6 ON u6.id = a.spi_teacher_id
-		LEFT JOIN sys_office o7 ON o7.id = a.spi_office_id
+		LEFT JOIN sys_office o7 ON o7.id = a.spi_user_office_id
+		LEFT JOIN sys_office o8 ON o8.id = a.spi_teacher_office_id
 		left join sys_dict c on c.type='INVENTOR_TYPE' and c.value=a.spi_type_code
 	</sql>
     
@@ -87,7 +90,8 @@
 			spi_user_id,
 			spi_teacher_id,
 			spi_user_name_ex,
-			spi_office_id,
+			spi_user_office_id,
+			spi_teacher_office_id,
 			spi_office_name_ex,
 			spi_contribution_per,
 			spi_remark,
@@ -103,7 +107,8 @@
 			#{spiUserId},
 			#{spiTeacherId},
 			#{spiUserNameEX},
-			#{spiOfficeId},
+			#{spiUserOfficeId},
+			#{spiTeacherOfficeId},
 			#{spiOfficeNameEx},
 			#{spiContributionPer},
 			#{spiRemark},
@@ -122,7 +127,8 @@
 			spi_user_id = #{spiUserId},
 			spi_teacher_id  = #{spiTeacherId},
 			spi_user_name_ex = #{spiUserNameEX},
-			spi_office_id = #{spiOfficeId},
+			spi_user_office_id = #{spiUserOfficeId},
+			spi_teacher_office_id = #{spiTeacherOfficeId},
 			spi_office_name_ex = #{spiOfficeNameEx},
 			spi_contribution_per = #{spiContributionPer},
 			spi_remark = #{spiRemark},

@@ -69,7 +69,38 @@ public class Act extends BaseEntity<Act> {
 	private String createName; //流程发起人
 	private String processType; //流程类型
 	private String isCliamed; //任务是否签收过
+	private String assigneeOfficeName; //执行人部门
+	private String assigneePhone;	//执行人电话
 	
+	
+	/**
+	 * @return the assigneeOfficeName
+	 */
+	public String getAssigneeOfficeName() {
+		return assigneeOfficeName;
+	}
+
+	/**
+	 * @param assigneeOfficeName the assigneeOfficeName to set
+	 */
+	public void setAssigneeOfficeName(String assigneeOfficeName) {
+		this.assigneeOfficeName = assigneeOfficeName;
+	}
+
+	/**
+	 * @return the assigneePhone
+	 */
+	public String getAssigneePhone() {
+		return assigneePhone;
+	}
+
+	/**
+	 * @param assigneePhone the assigneePhone to set
+	 */
+	public void setAssigneePhone(String assigneePhone) {
+		this.assigneePhone = assigneePhone;
+	}
+
 	public String getIsCliamed() {
 		return isCliamed;
 	}

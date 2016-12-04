@@ -31,7 +31,11 @@ import com.krazy.kcfw.modules.sch.entity.patent.SchPatentAgency;
 import com.krazy.kcfw.modules.sch.entity.patent.SchPatentUnder;
 import com.krazy.kcfw.modules.sch.service.patent.SchPatentAgencyService;
 import com.krazy.kcfw.modules.sch.service.patent.SchPatentUnderService;
+import com.krazy.kcfw.modules.sys.entity.Dict;
 import com.krazy.kcfw.modules.sys.entity.Office;
+import com.krazy.kcfw.modules.sys.entity.Role;
+import com.krazy.kcfw.modules.sys.utils.DictUtils;
+import com.krazy.kcfw.modules.sys.utils.UserUtils;
 
 /**
  * 发明专利（本科）Controller
@@ -56,6 +60,16 @@ public class SchPatentUnderController extends BaseController {
 		}
 		if (entity == null){
 			entity = new SchPatentUnder();
+			//entity.setSpuApplySchoolName(UserUtils.getUser().getName());;
+		}
+		//如果是当前用户是老师
+		List<Role> roles=UserUtils.getUser().getRoleList();
+		for(int i=0;i<roles.size();i++){
+			Role role=roles.get(i);
+			if(StringUtils.isNoneBlank(role.getEnname())&&("PostgraduateStudent".equals(role.getEnname())||"teacher".equals(role.getEnname()))){
+				entity.setIsTeacher("true");
+				break;
+			}
 		}
 		return entity;
 	}
@@ -116,7 +130,7 @@ public class SchPatentUnderController extends BaseController {
 		
 		Map<String,String> schPatentAgencys=new HashMap<String,String>();
 		for(SchPatentAgency spa:schPatentAgencyList){
-			schPatentAgencys.put(spa.getSpaCode(), spa.getSpaName()+" | "+spa.getSpaPhone()+" | "+spa.getSpaAddress());
+			schPatentAgencys.put(spa.getSpaCode(), spa.getSpaName());
 		}
 		model.addAttribute("schPatentAgencyLiss", schPatentAgencys);
 		model.addAttribute("schPatentUnder", schPatentUnder);
@@ -164,6 +178,11 @@ public class SchPatentUnderController extends BaseController {
 		schPatentUnderService.delete(schPatentUnder);
 		addMessage(redirectAttributes, "删除专利申报成功");
 		return "redirect:"+Global.getAdminPath()+"/sch/patent/schPatentUnder/?repage";
+	}
+	
+	@RequestMapping(value="getSpaProxyInfo")
+	public @ResponseBody SchPatentAgency getSpaProxyInfo(String code){
+		return schPatentAgencyService.get(code);
 	}
 
 }

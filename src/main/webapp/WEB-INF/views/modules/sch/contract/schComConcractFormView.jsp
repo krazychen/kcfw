@@ -44,7 +44,7 @@
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>合同名称：
 					</td>
-					<td>
+					<td colspan="3">
 						${schComConcract.sccName }
 					</td>
 					<td class="tit">
@@ -53,6 +53,9 @@
 					<td>
 						${fns:getDictLabel(schComConcract.sccType, 'PATENT_TYPE', '')}
 					</td>
+					
+				</tr>
+				<tr>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>所属行业：
 					</td>
@@ -60,8 +63,6 @@
 						${fns:getDictLabel(schComConcract.sccIndustry, 'CONTRACT_INDUSTRY', '')}
 					</td>
 					
-				</tr>
-				<tr>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>研究方向：
 					</td>
@@ -74,21 +75,28 @@
 					<td>
 						${resTypeSub}
 					</td>
-					
+				</tr>
+				<tr>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>负责人：
 					</td>
 					<td>
 						${schComConcract.sccResponseUserName }
 					</td>
-				</tr>
-				<tr>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>负责人所属院系：
 					</td>
 					<td>
 						${schComConcract.sccResponseOfficeName }
 					</td>
+					<td class="tit">
+						<span class="help-inline"><font color="red">*</font> </span>合同金额：
+					</td>
+					<td>
+						${schComConcract.sccMoney }
+					</td>
+				</tr>
+				<tr>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>合作企业名称：
 					</td>
@@ -101,22 +109,20 @@
 					<td>
 						${schComConcract.sccCompanyAreaName }
 					</td>
-				</tr>
-				<tr>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>合作企业类别：
 					</td>
 					<td>
 						${fns:getDictLabel(schComConcract.sccCompanyType, 'CONTRACT_COMPANY_TYPE', '')}
 					</td>
+				</tr>
+				<tr>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>合同签订日期：
 					</td>
 					<td>
 						<fmt:formatDate value="${schComConcract.sccSubmitDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 					</td>
-					<td class="tit">
-					</td><td></td>
 				</tr>
 				<tr>
 					<td class="tit">

@@ -20,6 +20,8 @@
 		o10.name AS "spuAdvisTeacherOfficeName",
 		a.spu_proxy_id AS "spuProxyId",
 		spa.spa_name AS	"spuProxyName",
+		spa.spa_contacts AS	"spuProxyContact",
+		spa.spa_phone AS	"spuProxyPhone",
 		a.spu_remark AS "spuRemark",
 		a.spu_status AS "spuStatus",
 		a.create_by AS "createBy.id",

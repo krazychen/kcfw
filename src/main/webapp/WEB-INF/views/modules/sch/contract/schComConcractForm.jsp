@@ -77,35 +77,34 @@
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>合同名称：
 					</td>
-					<td>
-						<form:input path="sccName" htmlEscape="false" maxlength="64" class="input-large required"/>
+					<td colspan="3">
+						<form:input path="sccName" htmlEscape="false" maxlength="64" class="input-large editForm2ColWidth required"/>
 					</td>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>合同类别：
 					</td>
 					<td>
-						<form:select path="sccType" class="input-large required" style="width:223px">
+						<form:select path="sccType" class="input-large editFormSelectWidth required">
 							<form:option value="" label=""/>
 							<form:options items="${fns:getDictList('CONTRACT_TYPE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 						</form:select>
-					</td>
+					</td>	
+				</tr>
+				<tr>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>所属行业：
 					</td>
 					<td>
-						<form:select path="sccIndustry" class="input-large required" style="width:223px">
+						<form:select path="sccIndustry" class="input-large editFormSelectWidth required" >
 							<form:option value="" label=""/>
 							<form:options items="${fns:getDictList('CONTRACT_INDUSTRY')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 						</form:select>
 					</td>
-					
-				</tr>
-				<tr>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>研究方向：
 					</td>
 					<td>
-						<form:select path="sccResearchType" onchange="getResTypeSub()" class="input-large required" style="width:223px">
+						<form:select path="sccResearchType" onchange="getResTypeSub()" class="input-large editFormSelectWidth required">
 							<form:option value="" label=""/>
 							<form:options items="${fns:getDictList('CONTRACT_RESEARCH_TYPE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 						</form:select>
@@ -114,63 +113,69 @@
 						<span class="help-inline"><font color="red">*</font> </span>研究方向子目：
 					</td>
 					<td>
-						<form:select path="sccResearchTypeSub" class="input-large required" style="width:223px">
+						<form:select path="sccResearchTypeSub" class="input-large editFormSelectWidth required">
 							<form:option value="" label=""/>
 							<form:options items="${dicts}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 						</form:select>
 					</td>
-					
+				</tr>
+				<tr>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>负责人：
 					</td>
 					<td>
-						<sys:treeselect id="sccResponseUserId" name="sccResponseUserId" value="${schComConcract.sccResponseUserId}" labelName="sccResponseUserName" labelValue="${schComConcract.sccResponseUserName}"
-							title="用户" url="/sys/office/treeData?type=3" cssClass="input-medium required" allowClear="true" notAllowSelectParent="true"/>
+						<sys:treeselect id="sccResponseUserId" name="sccResponseUserId" value="${schComConcract.sccResponseUserId!=null ? schComConcract.sccResponseUserId : fns:getUser().getId()}" labelName="sccResponseUserName" labelValue="${schComConcract.sccResponseUserName!=null ? schComConcract.sccResponseUserName : fns:getUser().getName()}"
+							title="用户" allowInput="true" url="/sys/office/treeData?type=3" cssClass="input-large editFormTreeWidth required" allowClear="true" notAllowSelectParent="true"/>
 					</td>
-				</tr>
-				<tr>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>负责人所属院系：
 					</td>
 					<td>
+						<!--
 						<sys:treeselect id="sccResponseOfficeId" name="sccResponseOfficeId" value="${schComConcract.sccResponseOfficeId}" labelName="sccResponseOfficeName" labelValue="${schComConcract.sccResponseOfficeName}"
 							title="部门" url="/sys/office/treeData?type=2" cssClass="input-medium required" allowClear="true" notAllowSelectParent="true"/>
+						-->
+						<form:hidden path="sccResponseOfficeId" value="${schComConcract.sccResponseOfficeId!=null ? schComConcract.sccResponseOfficeId : fns:getUser().getOffice().getId()}"/>
+						<form:input path="sccResponseOfficeName" value="${schComConcract.sccResponseOfficeName!=null ? schComConcract.sccResponseOfficeName : fns:getUser().getOffice().getName()}" readonly="true" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required" />
+						
 					</td>
+					<td class="tit">
+						<span class="help-inline"><font color="red">*</font> </span>合同金额：
+					</td>
+					<td>
+						<form:input path="sccMoney" htmlEscape="false" maxlength="13" class="input-large editFormFieldWidth required"/>
+					</td>
+				</tr>
+				<tr>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>合作企业名称：
 					</td>
 					<td>
-						<form:input path="sccCompanyName" htmlEscape="false" maxlength="64" class="input-large required"/>
+						<form:input path="sccCompanyName" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required"/>
 					</td>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>合作企业地区：
 					</td>
 					<td>
 						<sys:treeselect id="sccCompanyArea" name="sccCompanyArea" value="${schComConcract.sccCompanyArea}" labelName="sccCompanyAreaName" labelValue="${schComConcract.sccCompanyAreaName}"
-							title="区域" url="/sys/area/treeData" cssClass="input-medium required" allowClear="true" notAllowSelectParent="true"/>
+							title="区域" allowInput="true" url="/sys/area/treeData" cssClass="input-large editFormTreeWidth required" allowClear="true" notAllowSelectParent="true"/>
 					</td>
-				</tr>
-				<tr>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>合作企业类别：
 					</td>
 					<td>
-						<form:select path="sccCompanyType" class="input-large required" style="width:223px">
+						<form:select path="sccCompanyType" class="input-large editFormSelectWidth required">
 							<form:option value="" label=""/>
 							<form:options items="${fns:getDictList('CONTRACT_COMPANY_TYPE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 						</form:select>
 					</td>
-					<td class="tit">
-						<span class="help-inline"><font color="red">*</font> </span>合同金额：
-					</td>
-					<td>
-						<form:input path="sccMoney" htmlEscape="false" maxlength="13" class="input-large required"/>
-					</td>
+				</tr>
+				<tr>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>合同签订日期：
 					</td>
 					<td>
-						<input name="sccSubmitDate" type="text" readonly="readonly" maxlength="20" class="input-large Wdate required"
+						<input name="sccSubmitDate" type="text" readonly="readonly" maxlength="20" class="input-large editFormFieldWidth Wdate required"
 							value="<fmt:formatDate value="${schComConcract.sccSubmitDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 							onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 					</td>
@@ -192,7 +197,7 @@
 					<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
 				</c:if>
 					<input id="btnSubmit2" class="btn btn-primary" type="submit" value="提交申请" onclick="$('#flag').val('yes')"/>&nbsp;
-				<c:if test="${schComConcract.sccStatus==1}">
+				<c:if test="${schComConcract.sccStatus==1 || empty schComConcract.id}">
 					<input id="btnAdd" class="btn btn-primary" type="button" value="新 增" onClick="location.href='${ctx}/sch/contract/schComConcract/form'"/>&nbsp;
 				</c:if>
 				<c:if test="${not empty schComConcract.id && not empty schComConcract.act.procInsId}">

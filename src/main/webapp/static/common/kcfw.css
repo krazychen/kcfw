@@ -92,5 +92,17 @@ input.btn:hover {*color:#333333}
 #openClose.close {background-position:1px center;opacity:0.5;filter:alpha(opacity=50)}
 
 .editFormFieldWidth{
-	width:223px
+	width:92%
+}
+
+.editFormTreeWidth{
+	width:88%
+}
+
+.editForm2ColWidth{
+	width:97%
+}
+
+.editFormSelectWidth{
+	width:98%
 }

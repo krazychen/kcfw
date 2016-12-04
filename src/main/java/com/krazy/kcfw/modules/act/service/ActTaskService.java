@@ -291,6 +291,8 @@ public class ActTaskService extends BaseService {
 							if (user != null){
 								e.setAssignee(histIns.getAssignee());
 								e.setAssigneeName(user.getName());
+								e.setAssigneeOfficeName(user.getOffice().getName());
+								e.setAssigneePhone(user.getPhone());
 							}
 						}
 					}
@@ -301,6 +303,8 @@ public class ActTaskService extends BaseService {
 					if (user != null){
 						e.setAssignee(histIns.getAssignee());
 						e.setAssigneeName(user.getName());
+						e.setAssigneeOfficeName(user.getOffice().getName());
+						e.setAssigneePhone(user.getPhone());
 					}
 				}
 				// 获取意见评论内容

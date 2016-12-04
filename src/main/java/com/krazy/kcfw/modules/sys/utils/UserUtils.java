@@ -219,7 +219,7 @@ public class UserUtils {
 		}
 		return officeList;
 	}
-	
+
 	/**
 	 * 获取授权主要对象
 	 */

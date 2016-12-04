@@ -46,6 +46,11 @@ public class SchPatentUnder extends ActEntity<SchPatentUnder> {
 	private String leadText;		//审核评审意见
 	private String agencyText;		//机构评审意见
 	
+	private String spuProxyContact;	//专利机构显示信息
+	private String spuProxyPhone;	//专利机构显示信息
+	
+	private String isTeacher; //是否是老师
+	
 	public SchPatentUnder() {
 		super();
 	}
@@ -54,7 +59,29 @@ public class SchPatentUnder extends ActEntity<SchPatentUnder> {
 		super(id);
 	}
 	
-	
+	public String getIsTeacher() {
+		return isTeacher;
+	}
+
+	public void setIsTeacher(String isTeacher) {
+		this.isTeacher = isTeacher;
+	}
+
+	public String getSpuProxyPhone() {
+		return spuProxyPhone;
+	}
+
+	public void setSpuProxyPhone(String spuProxyPhone) {
+		this.spuProxyPhone = spuProxyPhone;
+	}
+
+	public String getSpuProxyContact() {
+		return spuProxyContact;
+	}
+
+	public void setSpuProxyContact(String spuProxyContact) {
+		this.spuProxyContact = spuProxyContact;
+	}
 
 	public String getFirstText() {
 		return firstText;
