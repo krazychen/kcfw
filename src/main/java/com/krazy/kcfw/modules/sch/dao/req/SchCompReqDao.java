@@ -15,4 +15,9 @@ import com.krazy.kcfw.modules.sch.entity.req.SchCompReq;
 @MyBatisDao
 public interface SchCompReqDao extends CrudDao<SchCompReq> {
 	
+	public int updateStatus(SchCompReq schCompReq);
+	
+	public int updateRecComment(SchCompReq schCompReq);
+	
+	public int updateFinalComment(SchCompReq schCompReq);
 }

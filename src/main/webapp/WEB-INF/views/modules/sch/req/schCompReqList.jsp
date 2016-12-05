@@ -90,8 +90,10 @@
 					${schCompReq.scrCompanyEmail}
 				</td>
 				<shiro:hasPermission name="sch:req:schCompReq:edit"><td>
-    				<a href="${ctx}/sch/req/schCompReq/form?id=${schCompReq.id}">修改</a>
-					<a href="${ctx}/sch/req/schCompReq/delete?id=${schCompReq.id}" onclick="return confirmx('确认要删除该企业需求吗？', this.href)">删除</a>
+					<c:if test="${schCompReq.scrStatus==1}">
+    					<a href="${ctx}/sch/req/schCompReq/form?id=${schCompReq.id}">修改</a>
+						<a href="${ctx}/sch/req/schCompReq/delete?id=${schCompReq.id}" onclick="return confirmx('确认要删除该企业需求吗？', this.href)">删除</a>
+					</c:if>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

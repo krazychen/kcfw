@@ -12,7 +12,7 @@
 			    var length = value.length;  
 			    var mobile = /^(13[0-9]{9})|(18[0-9]{9})|(14[0-9]{9})|(17[0-9]{9})|(15[0-9]{9})$/;  
 			    return this.optional(element) || (length == 11 && mobile.test(value));  
-			}, "请正确填写您的手机号码");  
+			}, "请正确填写手机号码");  
 			
 			//$("#name").focus();
 			$("#inputForm").validate({
@@ -35,11 +35,11 @@
                 	scrCompanyPhone : {  
                 		required : "请输入手机号",  
                         minlength : "确认手机不能小于11个字符",  
-                        isMobile : "请正确填写您的手机号码"  
+                        isMobile : "请正确填写手机号码"  
                     },
                     scrCompanyEmail : {  
                 		required : "请输入邮箱",  
-                        email : "请正确填写您的邮箱"  
+                        email : "请正确填写邮箱"  
                     }
                 },  
 				errorContainer: "#messageBox",
@@ -62,6 +62,12 @@
 	</ul>
 	<form:form id="inputForm" modelAttribute="schCompReq" action="${ctx}/sch/req/schCompReq/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
+		<form:hidden path="act.taskId"/>
+		<form:hidden path="act.taskName"/>
+		<form:hidden path="act.taskDefKey"/>
+		<form:hidden path="act.procInsId"/>
+		<form:hidden path="act.procDefId"/>
+		<form:hidden id="flag" path="act.flag"/>
 		<sys:message content="${message}"/>	
 		<fieldset>
 			<table class="table-form">	
@@ -161,11 +167,23 @@
 		</fieldset>
 		<div class="form-actions">
 			<shiro:hasPermission name="sch:req:schCompReq:edit">
-				<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
-				<input id="btnAdd" class="btn btn-primary" type="button" value="新 增" onClick="location.href='${ctx}/sch/req/schCompReq/form'"/>&nbsp;
+				<c:if test="${schCompReq.scrStatus==1 || empty schCompReq.id}">
+					<input id="btnSubmit" class="btn btn-primary" type="submit" value="保存草稿"/>&nbsp;
+				</c:if>
+					<input id="btnSubmit2" class="btn btn-primary" type="submit" value="提交申请" onclick="$('#flag').val('yes')"/>&nbsp;
+				<c:if test="${schCompReq.scrStatus==1 || empty schCompReq.id}">
+					<input id="btnAdd" class="btn btn-primary" type="button" value="新 增" onClick="location.href='${ctx}/sch/req/schCompReq/form'"/>&nbsp;
+				</c:if>
+				<c:if test="${not empty schCompReq.id && not empty schCompReq.act.procInsId}">
+					<input id="btnSubmit3" class="btn btn-inverse" type="submit" value="取消申请" onclick="$('#flag').val('no')"/>&nbsp;
+				</c:if>
 			</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
+		
+		<c:if test="${not empty schComConcract.act.procInsId}">
+			<act:histoicFlow procInsId="${schComConcract.act.procInsId}" />
+		</c:if>
 	</form:form>
 </body>
 </html>

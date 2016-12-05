@@ -11,6 +11,7 @@ import java.util.Date;
 import javax.validation.constraints.DecimalMin;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.krazy.kcfw.common.persistence.ActEntity;
 import com.krazy.kcfw.common.persistence.DataEntity;
 
 /**
@@ -18,7 +19,7 @@ import com.krazy.kcfw.common.persistence.DataEntity;
  * @author Krazy
  * @version 2016-11-30
  */
-public class SchCompReq extends DataEntity<SchCompReq> {
+public class SchCompReq extends ActEntity<SchCompReq> {
 	
 	private static final long serialVersionUID = 1L;
 	private String scrName;		// 难题名称

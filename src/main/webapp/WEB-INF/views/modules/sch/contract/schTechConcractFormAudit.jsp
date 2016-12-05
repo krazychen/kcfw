@@ -132,7 +132,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="tit">您的审批意见</td>
+					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>您的审批意见</td>
 					<td colspan="5">
 						<form:textarea path="act.comment" class="required" rows="5" maxlength="20" cssStyle="width:500px"/>
 					</td>

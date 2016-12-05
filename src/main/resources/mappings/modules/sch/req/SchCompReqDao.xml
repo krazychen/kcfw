@@ -29,6 +29,11 @@
 	
 	<sql id="schCompReqJoins">
 	</sql>
+	
+	<sql id="userJoins">
+		JOIN sys_user u ON u.id = a.create_by
+		JOIN sys_office o ON o.id = u.office_id
+    </sql>
     
 	<select id="get" resultType="SchCompReq">
 		SELECT 
@@ -43,6 +48,7 @@
 			<include refid="schCompReqColumns"/>
 		FROM sch_comp_req a
 		<include refid="schCompReqJoins"/>
+		<include refid="userJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="scrName != null and scrName != ''">
@@ -161,6 +167,33 @@
 		WHERE id = #{id}-->
 		
 		DELETE FROM sch_comp_req
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateStatus">
+		UPDATE sch_comp_req SET 
+			scr_status = #{scrStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateRecComment">
+		UPDATE sch_comp_req SET 
+			SCR_REC_TEACH_ID = #{scrRecTeachId},
+			SCR_REC_COMMENT = #{scrRecComment},
+			scr_status = #{scrStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateFinalComment">
+		UPDATE sch_comp_req SET 
+			scr_final_comment = #{scrFinalComment},
+			scr_status = #{scrStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>
 	

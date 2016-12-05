@@ -239,7 +239,9 @@
 		<if test="roleEnName != null and roleEnName != ''">
 			and sr.enname like '%'||#{roleEnName}||'%'
 		</if>
-		and a.office_id = #{officeId}
+		<if test="officeId != null and officeId != ''">
+			and a.office_id = #{officeId}
+		</if>
 	</select>
 	
 	<!-- 插入用户 -->

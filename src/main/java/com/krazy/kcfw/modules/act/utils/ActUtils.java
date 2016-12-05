@@ -43,6 +43,7 @@ public class ActUtils {
 	public static final String[] PD_PATENT_APPROVE = new String[]{"PATENT_APPROVE", "sch_patent_under"};
 	public static final String[] PD_COMMON_CONCRACT = new String[]{"COMMON_CONTRACT", "sch_com_concract"};
 	public static final String[] PD_TECH_CONCRACT = new String[]{"TECH_CONTRACT", "sch_tech_concract"};
+	public static final String[] PD_COMP_REQ = new String[]{"COMP_REQ", "sch_comp_req"};
 	
 //	/**
 //	 * 流程定义Map（自动初始化）

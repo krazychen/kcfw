@@ -57,11 +57,16 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/sch/req/schCompReq/">企业需求列表</a></li>
-		<li class="active"><a href="${ctx}/sch/req/schCompReq/form?id=${schCompReq.id}">企业需求<shiro:hasPermission name="sch:req:schCompReq:edit">${not empty schCompReq.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sch:req:schCompReq:edit">查看</shiro:lacksPermission></a></li>
+		<li class="active"><a href="${ctx}/sch/req/schCompReq/form?id=${schCompReq.id}">企业需求详情</a></li>
 	</ul>
 	<form:form id="inputForm" modelAttribute="schCompReq" action="${ctx}/sch/req/schCompReq/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
+		<form:hidden path="act.taskId"/>
+		<form:hidden path="act.taskName"/>
+		<form:hidden path="act.taskDefKey"/>
+		<form:hidden path="act.procInsId"/>
+		<form:hidden path="act.procDefId"/>
+		<form:hidden id="flag" path="act.flag"/>
 		<sys:message content="${message}"/>	
 		<fieldset>
 			<table class="table-form">	
@@ -70,17 +75,14 @@
 						<span class="help-inline"><font color="red">*</font> </span>难题名称：
 					</td>
 					<td colspan="3">
-						<form:input path="scrName" htmlEscape="false" maxlength="100" class="input-large required editFormSelectWidth"/>
+						${schCompReq.scrName }
 					</td>
 					
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>所属行业：
 					</td>
 					<td>
-						<form:select path="scrIndustry" class="input-large editFormSelectWidth required ">
-							<form:option value="" label=""/>
-							<form:options items="${fns:getDictList('COMPANY_REQ_INDUSTRY')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-						</form:select>
+						${fns:getDictLabel(schCompReq.scrIndustry, 'COMPANY_REQ_INDUSTRY', '')}
 					</td>
 					
 				</tr>
@@ -89,7 +91,7 @@
 						<span class="help-inline"><font color="red">*</font> </span>内容与说明：
 					</td>
 					<td colspan="5">
-						<form:textarea path="scrContent" htmlEscape="false" rows="3" maxlength="2000" class="input-xxlarge editFormSelectWidth required"/>
+						${schCompReq.scrContent }
 					</td>
 				</tr>
 				<tr>
@@ -97,7 +99,7 @@
 						市场前景(方向)：
 					</td>
 					<td colspan="5">
-						<form:textarea path="scrMarket" htmlEscape="false" rows="3" maxlength="2000" class="input-xxlarge editFormSelectWidth"/>
+						${schCompReq.scrMarket }
 					</td>
 				</tr>
 				<tr>
@@ -105,23 +107,20 @@
 						<span class="help-inline"><font color="red">*</font> </span>合作方式：
 					</td>
 					<td>
-						<form:select path="scrCoopMethod" class="input-large editFormSelectWidth required ">
-							<form:option value="" label=""/>
-							<form:options items="${fns:getDictList('COMPANY_REQ_COOP_METHOD')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-						</form:select>
+						${fns:getDictLabel(schCompReq.scrCoopMethod, 'COMPANY_REQ_COOP_METHOD', '')}
 					</td>
 
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>企业名称：
 					</td>
 					<td>
-						<form:input path="scrCompanyName" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required"/>
+						${schCompReq.scrCompanyName }
 					</td>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>联系人：
 					</td>
 					<td>
-						<form:input path="scrCompanyContact" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required"/>
+						${schCompReq.scrCompanyContact }
 					</td>
 					
 
@@ -131,21 +130,19 @@
 						<span class="help-inline"><font color="red">*</font> </span>联系电话：
 					</td>
 					<td>
-						<form:input path="scrCompanyPhone" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required"/>
+						${schCompReq.scrCompanyPhone }
 					</td>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>电子邮箱：
 					</td>
 					<td>
-						<form:input path="scrCompanyEmail" htmlEscape="false" maxlength="100" class="input-large required editFormFieldWidth"/>
+						${schCompReq.scrCompanyEmail }
 					</td>
 					<td class="tit">
 						失效日期：
 					</td>
 					<td>
-						<input name="scrExpiryDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate editFormFieldWidth"
-							value="<fmt:formatDate value="${schCompReq.scrExpiryDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-							onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+						<fmt:formatDate value="${schCompReq.scrExpiryDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 					</td>
 				</tr>
 				<tr>
@@ -154,16 +151,23 @@
 					</td>
 					<td colspan="5">
 						<form:hidden id="scrFiles" path="scrFiles" htmlEscape="false" maxlength="2000" class="input-large editFormFieldWidth"/>
-						<sys:ckfinder input="scrFiles" type="files" uploadPath="/company_req" selectMultiple="true"/>
+						<sys:ckfinder input="scrFiles" type="files" uploadPath="/company_req" selectMultiple="true"  readonly="true"/>
 					</td>
 				</tr>
 			</table>
 		</fieldset>
+		
+		<c:if test="${not empty schCompReq.act.procInsId}">
+			</br>
+			<act:histoicFlow procInsId="${schCompReq.act.procInsId}" />
+		</c:if>
+		
+		<c:if test="${empty schCompReq.act.procInsId}">
+			</br>
+			<act:histoicFlow procInsId="${schCompReq.procInsId}" />
+		</c:if>
+		
 		<div class="form-actions">
-			<shiro:hasPermission name="sch:req:schCompReq:edit">
-				<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
-				<input id="btnAdd" class="btn btn-primary" type="button" value="新 增" onClick="location.href='${ctx}/sch/req/schCompReq/form'"/>&nbsp;
-			</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>

@@ -3,6 +3,8 @@
  */
 package com.krazy.kcfw.modules.sch.web.req;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,6 +23,8 @@ import com.krazy.kcfw.common.web.BaseController;
 import com.krazy.kcfw.common.utils.StringUtils;
 import com.krazy.kcfw.modules.sch.entity.req.SchCompReq;
 import com.krazy.kcfw.modules.sch.service.req.SchCompReqService;
+import com.krazy.kcfw.modules.sys.entity.Dict;
+import com.krazy.kcfw.modules.sys.utils.DictUtils;
 
 /**
  * 需求Controller
@@ -57,8 +61,41 @@ public class SchCompReqController extends BaseController {
 	@RequiresPermissions("sch:req:schCompReq:view")
 	@RequestMapping(value = "form")
 	public String form(SchCompReq schCompReq, Model model) {
+		
+		String view = "schCompReqForm";
+		
+		// 查看审批申请单
+		if (StringUtils.isNotBlank(schCompReq.getId())){//.getAct().getProcInsId())){
+
+			// 环节编号
+			String taskDefKey = schCompReq.getAct().getTaskDefKey();
+			
+			if(StringUtils.isBlank(schCompReq.getProcInsId())){
+				view="schCompReqForm";
+			}else {
+			
+				if("1".equals(schCompReq.getScrStatus())){
+					view="schCompReqForm";
+					
+				}else if(schCompReq.getAct().isFinishTask()){
+					// 查看工单
+					view = "schCompReqFormView";
+				}
+				// 修改环节
+				else if ("modify_audit".equals(taskDefKey)){
+					view = "schCompReqForm";
+				}
+				// 老师解决环节
+				else if ("teacher_audit".equals(taskDefKey)){
+					view = "schCompReqFormAudit";
+				}else if("apply_end".equals(taskDefKey)){
+					view="schComConcractFormView";
+				}
+			}
+		}
+		
 		model.addAttribute("schCompReq", schCompReq);
-		return "modules/sch/req/schCompReqForm";
+		return "modules/sch/req/"+view;
 	}
 
 	@RequiresPermissions("sch:req:schCompReq:edit")
@@ -67,9 +104,33 @@ public class SchCompReqController extends BaseController {
 		if (!beanValidator(model, schCompReq)){
 			return form(schCompReq, model);
 		}
+		String flag=schCompReq.getAct().getTaskId();
 		schCompReqService.save(schCompReq);
-		addMessage(redirectAttributes, "保存企业需求成功");
-		return "redirect:"+Global.getAdminPath()+"/sch/req/schCompReq/?repage";
+		if("".equals(flag)){
+			addMessage(redirectAttributes, "保存企业需求成功");
+			return "redirect:"+Global.getAdminPath()+"/sch/req/schCompReq/?repage";
+		}else{
+			addMessage(redirectAttributes, "提交企业需求成功");
+			return "redirect:"+Global.getAdminPath()+"/act/task/todo/";
+		}
+	}
+	
+	/**
+	 * 工单执行（完成任务）
+	 * @param testAudit
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("sch:req:schCompReq:edit")
+	@RequestMapping(value = "saveAudit")
+	public String saveAudit(SchCompReq schCompReq, Model model) {
+		if (StringUtils.isBlank(schCompReq.getAct().getFlag())
+				|| StringUtils.isBlank(schCompReq.getAct().getComment())){
+			addMessage(model, "请填写解决意见。");
+			return form(schCompReq, model);
+		}
+		schCompReqService.auditSave(schCompReq);
+		return "redirect:"+Global.getAdminPath()+"/act/task/todo/";
 	}
 	
 	@RequiresPermissions("sch:req:schCompReq:edit")

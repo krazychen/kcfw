@@ -193,7 +193,7 @@
 		<div class="form-actions">
 			<shiro:hasPermission name="sch:contract:schTechConcract:edit">
 				<c:if test="${schTechConcract.stcStatus==1 || empty schTechConcract.id}">
-					<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
+					<input id="btnSubmit" class="btn btn-primary" type="submit" value="保存草稿"/>&nbsp;
 				</c:if>
 					<input id="btnSubmit2" class="btn btn-primary" type="submit" value="提交申请" onclick="$('#flag').val('yes')"/>&nbsp;
 				<c:if test="${schTechConcract.stcStatus==1 || empty schTechConcract.id}">
