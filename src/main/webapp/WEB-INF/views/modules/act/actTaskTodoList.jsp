@@ -81,7 +81,9 @@
 				<th>流程名称</th>
 				<!--  <th>流程版本</th>-->
 				<th>发起人</th>
-				<th>流程类型</th>
+				<th>发起人部门</th>
+				<th>发起人电话</th>
+				<!-- <th>流程类型</th>-->
 				<th>创建时间</th>
 				<th>操作</th>
 			</tr>
@@ -109,19 +111,24 @@
 					<td>${procDef.name}</td>
 				<!--  <td><b title='流程版本号'>V: ${procDef.version}</b></td>-->	
 					<td>${act.createName} </td>
-					<td><c:if test="${act.processType=='claim'}">待接受任务</c:if><c:if test="${act.processType=='todo'}">待办理任务</c:if></td>
-					<td><fmt:formatDate value="${task.createTime}" type="both"/></td>
+					<td>${act.assigneeOfficeName} </td>
+					<td>${act.assigneePhone} </td>
+				<!-- 	<td><c:if test="${act.processType=='claim'}">待接受任务</c:if><c:if test="${act.processType=='todo'}">待办理任务</c:if></td>-->
+					<td><fmt:formatDate value="${task.createTime}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 					<td>
+					<!-- 移除签收任务节点，改为在办理时自动完成
 						<c:if test="${empty task.assignee}">
 							<a href="javascript:claim('${task.id}');">接受任务</a>
 						</c:if>
 						<c:if test="${act.isCliamed == 'true'}">
 							<a href="javascript:unClaim('${task.id}');">取消接受</a>
-						</c:if>
-						<c:if test="${not empty task.assignee}"><%--
+						</c:if> -->
+					
+						<a href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}&assignee=${task.assignee}">任务办理</a>
+						
+						<!--<c:if test="${not empty task.assignee}"> --><%--
 							<a href="${ctx}${procExecUrl}/exec/${task.taskDefinitionKey}?procInsId=${task.processInstanceId}&act.taskId=${task.id}">办理</a> --%>
-							<a href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">任务办理</a>
-						</c:if>
+						<!--</c:if>-->
 						<shiro:hasPermission name="act:process:edit">
 							<c:if test="${empty task.executionId}">
 								<a href="${ctx}/act/task/deleteTask?taskId=${task.id}&reason=" onclick="return promptx('删除任务','删除原因',this.href);">删除任务</a>

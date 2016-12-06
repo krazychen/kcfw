@@ -141,6 +141,9 @@ public class SchTechConcractService extends CrudService<SchTechConcractDao, SchT
 				dao.updateStatus(schTechConcract);
 			}
 			vars.put("pass", pass);
+			if(StringUtils.isBlank(schTechConcract.getAct().getAssignee())){
+				actTaskService.claim(schTechConcract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
+			}
 			actTaskService.complete(schTechConcract.getAct().getTaskId(), schTechConcract.getAct().getProcInsId(), schTechConcract.getAct().getComment(),schTechConcract.getStcName(), vars);
 		}
 		
@@ -222,6 +225,7 @@ public class SchTechConcractService extends CrudService<SchTechConcractDao, SchT
 				pars.put("roleEnName", "DeputyDirector");
 				User userdd=userDao.get(schTechConcract.getCreateBy().getId());
 				pars.put("officeId", userdd.getOffice().getId());
+				pars.put("isLike", "false");
 				List<User> users=userDao.findUsersByRoleEnName(pars);
 				StringBuffer ddirector=new StringBuffer();;
 				for(int j=0;j<users.size();j++){
@@ -237,6 +241,7 @@ public class SchTechConcractService extends CrudService<SchTechConcractDao, SchT
 				pars.put("roleEnName", "Director");
 				User userD=userDao.get(schTechConcract.getCreateBy().getId());
 				pars.put("officeId", userD.getOffice().getId());
+				pars.put("isLike", "false");
 				List<User> users=userDao.findUsersByRoleEnName(pars);
 				StringBuffer director=new StringBuffer();;
 				for(int j=0;j<users.size();j++){
@@ -270,10 +275,14 @@ public class SchTechConcractService extends CrudService<SchTechConcractDao, SchT
 		if("no".equals(schTechConcract.getAct().getFlag())){
 			schTechConcract.setStcStatus("5");
 			dao.updateStatus(schTechConcract);
+			pass="0";
 		}
 		// 提交流程任务
 		
 		vars.put("pass",pass);
+		if(StringUtils.isBlank(schTechConcract.getAct().getAssignee())){
+			actTaskService.claim(schTechConcract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
+		}
 		actTaskService.complete(schTechConcract.getAct().getTaskId(), schTechConcract.getAct().getProcInsId(), schTechConcract.getAct().getComment(), vars);
 
 	}

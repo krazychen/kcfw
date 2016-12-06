@@ -236,7 +236,10 @@
 		<include refid="userJoins"/>
 		<include refid="roleEnJoins"/>
 		WHERE 1=1
-		<if test="roleEnName != null and roleEnName != ''">
+		<if test="roleEnName != null and roleEnName != '' and isLike =='false'">
+			and sr.enname = #{roleEnName}
+		</if>
+		<if test="roleEnName != null and roleEnName != '' and isLike == null and isLike !='false'">
 			and sr.enname like '%'||#{roleEnName}||'%'
 		</if>
 		<if test="officeId != null and officeId != ''">

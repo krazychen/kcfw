@@ -155,16 +155,27 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>您的解决意见</td>
+					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>
+					<c:if test="${schCompReq.act.taskDefKey ne 'apply_end' && schCompReq.act.taskDefKey == 'teacher_receive'}">
+						您的接受意见
+					</c:if>
+					<c:if test="${schCompReq.act.taskDefKey ne 'apply_end' && schCompReq.act.taskDefKey == 'teacher_audit'}">
+						您的解决意见
+					</c:if>
+					</td>
 					<td colspan="5">
-						<form:textarea path="act.comment" class="required" rows="5" maxlength="20" cssStyle="width:500px"/>
+						<form:textarea path="act.comment" class="input-xxlarge editFormSelectWidth required" rows="5" maxlength="2000"/>
 					</td>
 				</tr>
 			</table>
 		</fieldset>
 		<div class="form-actions">
 			<shiro:hasPermission name="sch:req:schCompReq:edit">
-				<c:if test="${schCompReq.act.taskDefKey ne 'apply_end'}">
+				<c:if test="${schCompReq.act.taskDefKey ne 'apply_end' && schCompReq.act.taskDefKey == 'teacher_receive'}">
+					<input id="btnSubmit" class="btn btn-primary" type="submit" value="接受" onclick="$('#flag').val('yes')"/>&nbsp;
+					<input id="btnSubmit" class="btn btn-inverse" type="submit" value="拒绝" onclick="$('#flag').val('no')"/>&nbsp;
+				</c:if>	
+				<c:if test="${schCompReq.act.taskDefKey ne 'apply_end' && schCompReq.act.taskDefKey == 'teacher_audit'}">
 					<input id="btnSubmit" class="btn btn-primary" type="submit" value="已解决" onclick="$('#flag').val('yes')"/>&nbsp;
 					<input id="btnSubmit" class="btn btn-inverse" type="submit" value="退回" onclick="$('#flag').val('no')"/>&nbsp;
 				</c:if>		

@@ -180,6 +180,9 @@ public class SchPatentUnderService extends CrudService<SchPatentUnderDao, SchPat
 				dao.updateStatus(schPatentUnder);
 			}
 			vars.put("pass", pass);
+			if(StringUtils.isBlank(schPatentUnder.getAct().getAssignee())){
+				actTaskService.claim(schPatentUnder.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
+			}
 			actTaskService.complete(schPatentUnder.getAct().getTaskId(), schPatentUnder.getAct().getProcInsId(), schPatentUnder.getAct().getComment(),schPatentUnder.getSpuName(), vars);
 		}
 //		
@@ -251,6 +254,9 @@ public class SchPatentUnderService extends CrudService<SchPatentUnderDao, SchPat
 		// 提交流程任务
 		
 		vars.put("pass", "yes".equals(schPatentUnder.getAct().getFlag())? "1" : "0");
+		if(StringUtils.isBlank(schPatentUnder.getAct().getAssignee())){
+			actTaskService.claim(schPatentUnder.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
+		}
 		actTaskService.complete(schPatentUnder.getAct().getTaskId(), schPatentUnder.getAct().getProcInsId(), schPatentUnder.getAct().getComment(), vars);
 
 	}

@@ -85,6 +85,10 @@ public class SchCompReqController extends BaseController {
 				else if ("modify_audit".equals(taskDefKey)){
 					view = "schCompReqForm";
 				}
+				// 老师接受环节
+				else if ("teacher_receive".equals(taskDefKey)){
+					view = "schCompReqFormAudit";
+				}
 				// 老师解决环节
 				else if ("teacher_audit".equals(taskDefKey)){
 					view = "schCompReqFormAudit";

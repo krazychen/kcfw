@@ -140,8 +140,12 @@ public class ActTaskService extends BaseService {
 			e.setProcessType("todo");
 			String apply=(String)e.getVars().getMap().get("apply");
 			if(StringUtils.isNoneBlank(apply)){
-				e.setCreateName(UserUtils.getByLoginName(apply).getName());
+				User userTemp=UserUtils.getByLoginName(apply);
+				e.setCreateName(userTemp.getName());
+				e.setAssigneeOfficeName(userTemp.getOffice().getName());
+				e.setAssigneePhone(userTemp.getPhone());
 			}
+			//判断任务是否需要签收
 			List<IdentityLink> illist=taskService.getIdentityLinksForTask(task.getId());
 			if(illist!=null){
 				for(IdentityLink il:illist){
@@ -184,7 +188,10 @@ public class ActTaskService extends BaseService {
 			e.setProcessType("claim");
 			String apply=(String)e.getVars().getMap().get("apply");
 			if(StringUtils.isNoneBlank(apply)){
-				e.setCreateName(UserUtils.getByLoginName(apply).getName());
+				User userTemp=UserUtils.getByLoginName(apply);
+				e.setCreateName(userTemp.getName());
+				e.setAssigneeOfficeName(userTemp.getOffice().getName());
+				e.setAssigneePhone(userTemp.getPhone());
 			}
 			result.add(e);
 		}

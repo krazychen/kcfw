@@ -141,6 +141,9 @@ public class SchComConcractService extends CrudService<SchComConcractDao, SchCom
 				dao.updateStatus(schComConcract);
 			}
 			vars.put("pass", pass);
+			if(StringUtils.isBlank(schComConcract.getAct().getAssignee())){
+				actTaskService.claim(schComConcract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
+			}
 			actTaskService.complete(schComConcract.getAct().getTaskId(), schComConcract.getAct().getProcInsId(), schComConcract.getAct().getComment(),schComConcract.getSccName(), vars);
 		}
 		
@@ -222,6 +225,7 @@ public class SchComConcractService extends CrudService<SchComConcractDao, SchCom
 				pars.put("roleEnName", "DeputyDirector");
 				User userdd=userDao.get(schComConcract.getCreateBy().getId());
 				pars.put("officeId", userdd.getOffice().getId());
+				pars.put("isLike", "false");
 				List<User> users=userDao.findUsersByRoleEnName(pars);
 				StringBuffer ddirector=new StringBuffer();;
 				for(int j=0;j<users.size();j++){
@@ -237,6 +241,7 @@ public class SchComConcractService extends CrudService<SchComConcractDao, SchCom
 				pars.put("roleEnName", "Director");
 				User userD=userDao.get(schComConcract.getCreateBy().getId());
 				pars.put("officeId", userD.getOffice().getId());
+				pars.put("isLike", "false");
 				List<User> users=userDao.findUsersByRoleEnName(pars);
 				StringBuffer director=new StringBuffer();;
 				for(int j=0;j<users.size();j++){
@@ -270,10 +275,14 @@ public class SchComConcractService extends CrudService<SchComConcractDao, SchCom
 		if("no".equals(schComConcract.getAct().getFlag())){
 			schComConcract.setSccStatus("5");
 			dao.updateStatus(schComConcract);
+			pass="0";
 		}
 		// 提交流程任务
 		
 		vars.put("pass",pass);
+		if(StringUtils.isBlank(schComConcract.getAct().getAssignee())){
+			actTaskService.claim(schComConcract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
+		}
 		actTaskService.complete(schComConcract.getAct().getTaskId(), schComConcract.getAct().getProcInsId(), schComConcract.getAct().getComment(), vars);
 
 	}

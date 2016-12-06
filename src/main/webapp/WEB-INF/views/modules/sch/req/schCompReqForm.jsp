@@ -170,12 +170,12 @@
 				<c:if test="${schCompReq.scrStatus==1 || empty schCompReq.id}">
 					<input id="btnSubmit" class="btn btn-primary" type="submit" value="保存草稿"/>&nbsp;
 				</c:if>
-					<input id="btnSubmit2" class="btn btn-primary" type="submit" value="提交申请" onclick="$('#flag').val('yes')"/>&nbsp;
+					<input id="btnSubmit2" class="btn btn-primary" type="submit" value="提交申报" onclick="$('#flag').val('yes')"/>&nbsp;
 				<c:if test="${schCompReq.scrStatus==1 || empty schCompReq.id}">
 					<input id="btnAdd" class="btn btn-primary" type="button" value="新 增" onClick="location.href='${ctx}/sch/req/schCompReq/form'"/>&nbsp;
 				</c:if>
 				<c:if test="${not empty schCompReq.id && not empty schCompReq.act.procInsId}">
-					<input id="btnSubmit3" class="btn btn-inverse" type="submit" value="取消申请" onclick="$('#flag').val('no')"/>&nbsp;
+					<input id="btnSubmit3" class="btn btn-inverse" type="submit" value="取消申报" onclick="$('#flag').val('no')"/>&nbsp;
 				</c:if>
 			</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
