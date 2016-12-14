@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krazy.kcfw.modules.sch.dao.res.SchTechResourceDao">
+    
+	<sql id="schTechResourceColumns">
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.str_type_code AS "strTypeCode",
+		c.label AS "strTypeName",
+		a.str_name AS "strName",
+		a.str_code AS "strCode",
+		a.str_unit AS "strUnit",
+		a.str_pices AS "strPices",
+		a.str_brand AS "strBrand",
+		a.str_price AS "strPrice",
+		a.str_costs AS "strCosts",
+		a.str_create_date AS "strCreateDate",
+		a.str_office_id AS "strOfficeId",
+		o16.name AS "strOfficeName",
+		a.str_user_id AS "strUserId",
+		u17.name AS "strUserName",
+		a.str_phone AS "strPhone"
+	</sql>
+	
+	<sql id="schTechResourceJoins">
+		LEFT JOIN sys_office o16 ON o16.id = a.str_office_id
+		LEFT JOIN sys_user u17 ON u17.id = a.str_user_id
+		left join sys_dict c on c.type='TECH_RESOURCE_TYPE' and c.value=a.str_type_code
+	</sql>
+	
+	<sql id="userJoins">
+		JOIN sys_user u ON u.id = a.create_by
+		JOIN sys_office o ON o.id = u.office_id
+    </sql>
+    
+	<select id="get" resultType="SchTechResource">
+		SELECT 
+			<include refid="schTechResourceColumns"/>
+		FROM sch_tech_resource a
+		<include refid="schTechResourceJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getByStrCode" resultType="SchTechResource">
+		SELECT 
+			<include refid="schTechResourceColumns"/>
+		FROM sch_tech_resource a
+		<include refid="schTechResourceJoins"/>
+		WHERE a.str_code = #{strCode}
+	</select>
+	
+	<select id="findList" resultType="SchTechResource">
+		SELECT 
+			<include refid="schTechResourceColumns"/>
+		FROM sch_tech_resource a
+		<include refid="schTechResourceJoins"/>
+		<include refid="userJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="strTypeCode != null and strTypeCode != ''">
+				AND a.str_type_code = #{strTypeCode}
+			</if>
+			<if test="strName != null and strName != ''">
+				AND a.str_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{strName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{strName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{strName},'%')</if>
+			</if>
+			<if test="strOfficeId != null and strOfficeId != ''">
+				AND a.str_office_id = #{strOfficeId}
+			</if>
+			<if test="strUserId != null and strUserId != ''">
+				AND a.str_user_id = #{strUserId}
+			</if>
+			<if test="strPhone != null and strPhone != ''">
+				AND a.str_phone = #{strPhone}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SchTechResource">
+		SELECT 
+			<include refid="schTechResourceColumns"/>
+		FROM sch_tech_resource a
+		<include refid="schTechResourceJoins"/>
+		<include refid="userJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO sch_tech_resource(
+			id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			str_type_code,
+			str_name,
+			str_code,
+			str_unit,
+			str_pices,
+			str_brand,
+			str_price,
+			str_costs,
+			str_create_date,
+			str_office_id,
+			str_user_id,
+			str_phone
+		) VALUES (
+			#{id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{strTypeCode},
+			#{strName},
+			#{strCode},
+			#{strUnit},
+			#{strPices},
+			#{strBrand},
+			#{strPrice},
+			#{strCosts},
+			#{strCreateDate},
+			#{strOfficeId},
+			#{strUserId},
+			#{strPhone}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sch_tech_resource SET 	
+			str_type_code = #{strTypeCode},
+			str_name = #{strName},
+			str_code = #{strCode},
+			str_unit = #{strUnit},
+			str_pices = #{strPices},
+			str_brand = #{strBrand},
+			str_price = #{strPrice},
+			str_costs = #{strCosts},
+			str_create_date = #{strCreateDate},
+			str_office_id = #{strOfficeId},
+			str_user_id = #{strUserId},
+			str_phone = #{strPhone},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+	<!-- 	UPDATE sch_tech_resource SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}-->
+		DELETE FROM sch_tech_resource
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -28,6 +28,7 @@ import com.krazy.kcfw.common.utils.Encodes;
 import com.krazy.kcfw.common.utils.StringUtils;
 import com.krazy.kcfw.common.web.Servlets;
 import com.krazy.kcfw.modules.sys.dao.MenuDao;
+import com.krazy.kcfw.modules.sys.dao.OfficeDao;
 import com.krazy.kcfw.modules.sys.dao.RoleDao;
 import com.krazy.kcfw.modules.sys.dao.UserDao;
 import com.krazy.kcfw.modules.sys.entity.Menu;
@@ -57,6 +58,8 @@ public class SystemService extends BaseService implements InitializingBean {
 	private RoleDao roleDao;
 	@Autowired
 	private MenuDao menuDao;
+	@Autowired
+	private OfficeDao officeDao;
 	@Autowired
 	private SessionDAO sessionDao;
 	@Autowired
@@ -258,7 +261,9 @@ public class SystemService extends BaseService implements InitializingBean {
 	//-- Role Service --//
 	
 	public Role getRole(String id) {
-		return roleDao.get(id);
+		Role role=roleDao.get(id);
+		role.setOffice(officeDao.get(role.getOffice().getId()));
+		return role;
 	}
 
 	public Role getRoleByName(String name) {

@@ -157,7 +157,9 @@
 			stc_company_type = #{stcCompanyType},
 			stc_files = #{stcFiles},
 			stc_submit_date = #{stcSubmitDate},
-			stc_money = #{stcMoney}
+			stc_money = #{stcMoney},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>
 	

@@ -157,7 +157,9 @@
 			scc_company_type = #{sccCompanyType},
 			scc_files = #{sccFiles},
 			scc_submit_date = #{sccSubmitDate},
-			scc_money = #{sccMoney}
+			scc_money = #{sccMoney},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>
 	

@@ -113,7 +113,9 @@
 			spa_name = #{spaName},
 			spa_contacts = #{spaContacts},
 			spa_phone = #{spaPhone},
-			spa_address = #{spaAddress}
+			spa_address = #{spaAddress},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
 		WHERE spa_code = #{spaCode}
 	</update>
 	
