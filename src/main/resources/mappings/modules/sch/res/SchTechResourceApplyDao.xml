@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krazy.kcfw.modules.sch.dao.res.SchTechResourceApplyDao">
+    
+	<sql id="schTechResourceApplyColumns">
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.sca_sch_id AS "scaSchId",
+		b.str_name AS "scaSchName",
+		a.sca_apply_user_id AS "scaApplyUserId",
+		u8.name AS "scaApplyUserName",
+		a.sca_apply_time_range AS "scaApplyTimeRange",
+		a.sca_apply_date AS "scaApplyDate",
+		a.sca_apply_status AS "scaApplyStatus",
+		a.sca_apply_comment AS "scaApplyComment",
+		a.proc_ins_id AS "procInsId"
+	</sql>
+	
+	<sql id="schTechResourceApplyJoins">
+		LEFT JOIN sys_user u8 ON u8.id = a.sca_apply_user_id
+		LEFT JOIN sch_tech_resource b on b.id=a.sca_sch_id
+	</sql>
+	
+	<sql id="userJoins">
+		JOIN sys_user u ON u.id = a.create_by
+		JOIN sys_office o ON o.id = u.office_id
+    </sql>
+    
+    
+	<select id="get" resultType="SchTechResourceApply">
+		SELECT 
+			<include refid="schTechResourceApplyColumns"/>
+		FROM sch_tech_resource_apply a
+		<include refid="schTechResourceApplyJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="SchTechResourceApply">
+		SELECT 
+			<include refid="schTechResourceApplyColumns"/>
+		FROM sch_tech_resource_apply a
+		<include refid="schTechResourceApplyJoins"/>
+		<include refid="userJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="scaSchId != null and scaSchId != ''">
+				AND a.sca_sch_id = #{scaSchId}
+			</if>
+			<if test="scaApplyUserId != null and scaApplyUserId != ''">
+				AND a.sca_apply_user_id = #{scaApplyUserId}
+			</if>
+			<if test="monthStart != null and monthStart != ''">
+				<![CDATA[ AND a.sca_apply_date >= #{monthStart} ]]>
+			</if>
+			<if test="monthEnd != null and monthEnd != ''">
+				<![CDATA[ AND a.sca_apply_date <= #{monthEnd} ]]>
+			</if>
+			<if test="filterStatus != null and filterStatus != ''">
+				AND a.sca_apply_status != #{filterStatus}
+			</if>
+		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}	
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SchTechResourceApply">
+		SELECT 
+			<include refid="schTechResourceApplyColumns"/>
+		FROM sch_tech_resource_apply a
+		<include refid="schTechResourceApplyJoins"/>
+		<include refid="userJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}			
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO sch_tech_resource_apply(
+			id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			sca_sch_id,
+			sca_apply_user_id,
+			sca_apply_time_range,
+			sca_apply_date,
+			sca_apply_status,
+			sca_apply_comment,
+			proc_ins_id
+		) VALUES (
+			#{id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{scaSchId},
+			#{scaApplyUserId},
+			#{scaApplyTimeRange},
+			#{scaApplyDate},
+			#{scaApplyStatus},
+			#{scaApplyComment},
+			#{procInsId}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sch_tech_resource_apply SET 	
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			sca_sch_id = #{scaSchId},
+			sca_apply_user_id = #{scaApplyUserId},
+			sca_apply_time_range = #{scaApplyTimeRange},
+			sca_apply_date = #{scaApplyDate},
+			sca_apply_status=#{scaApplyStatus},
+			sca_apply_comment = #{scaApplyComment},
+			proc_ins_id = #{procInsId}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		<!--UPDATE sch_tech_resource_apply SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}-->
+		
+		DELETE FROM sch_tech_resource_apply
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateStatus">
+		UPDATE sch_tech_resource_apply SET 
+			sca_apply_status = #{scaApplyStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateApplyComment">
+		UPDATE sch_tech_resource_apply SET 
+			sca_apply_comment = #{scaApplyComment},
+			sca_apply_status = #{scaApplyStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+</mapper>

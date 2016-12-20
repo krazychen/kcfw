@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="TECH_RESOURCE_APPLY" name="科研资源申请流程" isExecutable="true">
+    <startEvent id="start" name="发起申请" activiti:initiator="apply" activiti:formKey="/sch/res/schTechResourceApply/form"></startEvent>
+    <userTask id="receive" name="科研资源申请审批" activiti:assignee="${owner}"></userTask>
+    <sequenceFlow id="sid-6A875812-B9DC-4294-9C3F-A994257969C0" sourceRef="start" targetRef="receive"></sequenceFlow>
+    <endEvent id="apply_end" name="结束审批"></endEvent>
+    <sequenceFlow id="sid-9238FDC1-90F1-4A60-9145-C3B712DC592E" sourceRef="receive" targetRef="apply_end"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_TECH_RESOURCE_APPLY">
+    <bpmndi:BPMNPlane bpmnElement="TECH_RESOURCE_APPLY" id="BPMNPlane_TECH_RESOURCE_APPLY">
+      <bpmndi:BPMNShape bpmnElement="start" id="BPMNShape_start">
+        <omgdc:Bounds height="30.0" width="30.0" x="159.34375" y="146.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="receive" id="BPMNShape_receive">
+        <omgdc:Bounds height="80.0" width="100.0" x="225.0" y="120.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="apply_end" id="BPMNShape_apply_end">
+        <omgdc:Bounds height="28.0" width="28.0" x="379.34375" y="147.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-9238FDC1-90F1-4A60-9145-C3B712DC592E" id="BPMNEdge_sid-9238FDC1-90F1-4A60-9145-C3B712DC592E">
+        <omgdi:waypoint x="325.0" y="160.0"></omgdi:waypoint>
+        <omgdi:waypoint x="352.171875" y="160.0"></omgdi:waypoint>
+        <omgdi:waypoint x="352.171875" y="161.0"></omgdi:waypoint>
+        <omgdi:waypoint x="379.34375" y="161.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-6A875812-B9DC-4294-9C3F-A994257969C0" id="BPMNEdge_sid-6A875812-B9DC-4294-9C3F-A994257969C0">
+        <omgdi:waypoint x="189.3430098024844" y="160.85098531087255"></omgdi:waypoint>
+        <omgdi:waypoint x="225.0" y="160.4967401428128"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

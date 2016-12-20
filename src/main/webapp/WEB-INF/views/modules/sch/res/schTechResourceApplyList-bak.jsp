@@ -81,7 +81,7 @@
 	
 		#calendar {
 			float: right;
-			width: 710px;
+			width: 700px;
 			padding-right:25px;
 			padding-bottom:10px;
 		}
@@ -91,15 +91,38 @@
 	</style>
 	<script type="text/javascript">
 		var clickcell=null;
-		var resId=null;
 		$(document).ready(function() {
+			/*
+			$("#apply").click(function(){
+				if(clickcell==null){
+					alert("请先选择要预约的科研资源！");
+				}
+				var strList= new Array();
+				var obj=new Object();
+				obj.scaSchId="1234";
+				obj.
+				strList.push(obj);
+				//strList.push({scaSchId:"123",scaApplyUserId:"xx",scaApplyTimeRange:"fff",scaApplyDate:"xxx"});
+				//strList.push({scaSchId:"1234",scaApplyUserId:"xsdx",scaApplyTimeRange:"ffxxf",scaApplyDate:"xxx1"});
+				$.ajax({
+				  url:"${ctx}/sch/res/schTechResourceApply/saveApply",
+				  type:"POST",
+				 // data:{id:"1234",schTechResourceApplys:strList},
+				 data:{schTechResourceApplys:strList},
+				  dataType:"json",
+				  contentType: "application/json; charset=gbk",
+				  success:function(data){
+					  
+				   },error:function(data){
+				  }
+				});
+			});*/
 			
 			$("#contentTable").each(function() {  
 				var self = this; 
 				$("tr", $(self)).click(function (){ 
 					var trThis = this; 
 					clickcell=this;
-					resId=$($(clickcell).find("td")[0]).html();
 					$(self).find(".back").removeClass('back'); 
 					if ($(trThis).get(0) == $("tr:first", $(self)).get(0)){ 
 						clickcell=null;
@@ -113,11 +136,27 @@
 	                    start  : '2016-12-01'
 	                };
 	                $('#calendar').fullCalendar('renderEvent', eventObject, true);**/
-					 $('#calendar').fullCalendar('removeEvents');
-					 $('#calendar').fullCalendar('refetchEvents');
 				}); 
 			});
 			
+			/* initialize the external events
+			----------------------------------------------------------------
+			$('#external-events .fc-event').each(function() {
+
+				// store data so the calendar knows to render an event upon drop
+				$(this).data('event', {
+					title: $.trim($(this).text()), // use the element's text as the event title
+					stick: true // maintain when user navigates (see docs on the renderEvent method)
+				});
+
+				// make the event draggable using jQuery UI
+				$(this).draggable({
+					zIndex: 999,
+					revert: true,      // will cause the event to go back to its
+					revertDuration: 0  //  original position after the drag
+				});
+
+			});**/
 
 			/* initialize the calendar
 			-----------------------------------------------------------------*/
@@ -128,100 +167,43 @@
 		            center: 'title', 
 		            right: 'month' 
 		        },
-		        events: {
-			        url:  '${ctx}/sch/res/schTechResourceApply/getApply',
-			        type: 'POST',
-			        dataType:"JSON",
-			        data: function() { // a function that returns an object
-			            return {
-			            	monthStart:$('#calendar').fullCalendar('getView').start.format(),
-			            	monthEnd:$('#calendar').fullCalendar('getView').end.format(),
-			           		scaSchId:resId
-			            };
-			        },
-			        error: function() {
-			            alert('there was an error while fetching events!');
-			        }
-			    },
 		        locale: 'zh-cn',
 		        height: getWindowSize().toString().split(",")[0]-200,
-		        dayClick: function(date, jsEvent, view) {
-		        	if(clickcell==null){
+		        //editable: true,
+				droppable: true, // this allows things to be dropped onto the calendar
+				dropAccept:function(element,target){
+					if(clickcell==null){
 						alert("请先选择要预约的科研资源！");
 						return false;
+					}else{
+						/*var event = $(element).data("event");
+						var todaysEvents = $('#calendar').fullCalendar('clientEvents', function(event) {
+							return event.start >= date && event.start <= date;
+					   	});
+						for(var i=0;i<todaysEvents.length;i++){
+							if(event.title==todaysEvents[i].title){
+								alert("该时段已经被预约，请选择其他时段！");
+								return false;
+							}
+						}*/
+						return true;
 					}
-		        	var todaysEvents = $('#calendar').fullCalendar('clientEvents', function(event) {
+				},
+				drop: function(date,jsEvent,ui) {
+					event=$(this).data("event");
+					//alert($.fullCalendar.formatDate(date, "yyyy-MM-dd"));
+					// var date2 = new Date(date.getYears(), date.getMonth(), date.getDate()+1);
+					var todaysEvents = $('#calendar').fullCalendar('clientEvents', function(event) {
 						 return event.start >= date && event.start <= date;
-					});
-		        	var html1  ="<br/>"+
-					"<form class='msg-div form-horizontal'>"+
-						"<div class='row'> <div class='span6'>   "+
-							"<div class='control-group'>"+
-								"<label class='control-label' style='width:110px'>预约时间：</label>"+
-								"<div class='controls' style='margin-left:100px'>"+
-									"<select id='applyTime' style='width:160px' multiple='multiple' size='4'>";
-					var html2="<option value='8:00~12:00'>8:00~12:00</option>";
-					var html3="<option value='12:00~14:20'>12:00~14:20</option>";
-					var html4="<option value='14:20~18:00'>14:20~18:00</option>";
-					var html5="<option value='18:00~22:00'>18:00~22:00</option>";
+					 });
 					for(var i=0;i<todaysEvents.length;i++){
-						if(todaysEvents[i].title=="8:00~12:00"){
-							html2="<option disabled='disabled' value='8:00~12:00'>8:00~12:00 已被预约</option>";
-						}else if(todaysEvents[i].title=="12:00~14:20"){
-							html3="<option disabled='disabled' value='12:00~14:20'>12:00~14:20 已被预约</option>";
-						}else if(todaysEvents[i].title=="14:20~18:00"){
-							html4="<option disabled='disabled' value='14:20~18:00'>14:20~18:00 已被预约</option>";
-						}else if(todaysEvents[i].title=="18:00~22:00"){
-							html5="<option disabled='disabled' value='18:00~22:00'>18:00~22:00 已被预约</option>";
-						}
-					}
-										
-										
-										
-										
-					var html=html1+html2+html3+html4+html5+
-									"</select></div>"+
-							"</div>"+
-						"</div></div>"+
-					"</form>";
-		            
-					var submit = function (v, h, f) {
-						if(v==0){
-							return true;
-						}
-						var applyTimeS= h.find("#applyTime");
-						//alert(applyTimeS.val());
-						var resId=$($(clickcell).find("td")[0]).html();
-						//alert('Clicked on: ' + date.format());
-						//alert(resId);
-						if(applyTimeS.val()==null){
-							alert("请先选择要预约的时间段");
+						if(event.title==todaysEvents[i].title){
+							alert("该时段已经被预约，请选择其他时段！");
 							return false;
 						}
-						$.ajax({
-							type: "POST",
-							url: "${ctx}/sch/res/schTechResourceApply/saveApply",
-							data: { //发送给数据库的数据
-								scaApplyDates:applyTimeS.val().toString(),
-								scaApplyDate:date.format(),
-								scaSchId:resId,
-							},
-							dataType: 'json',
-							success: function(data) {
-								$.jBox.tip(data.message);	
-								//重新刷新日历
-								$('#calendar').fullCalendar('removeEvents');
-								$('#calendar').fullCalendar('refetchEvents');
-							}
-						})
-					    return true;
-					};
-
-					top.$.jBox.open(html,"预约",370,200,{
-						buttons:{'确认预约':1,'取消': 0},
-						submit: submit});
-
-		        }
+					}
+					//alert(todaysEvents[0].title);
+				}
 		    })
 		});
 		function page(n,s){
@@ -238,7 +220,7 @@
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/sch/res/schTechResource/">科研资源列表</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="schTechResource" action="${ctx}/sch/res/schTechResourceApply/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="schTechResource" action="${ctx}/sch/res/schTechResource/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<input id="upfile" name="upfile" type="file" style="display:none"/>  
@@ -270,7 +252,6 @@
 		    	<table id="contentTable" class="table table-bordered table-condensed fulltable">
 					<thead>
 						<tr>
-							<th style="display:none">id</th>
 							<th>资产分类代码</th>
 							<th>资产名称</th>
 							<th>计量单位</th>
@@ -283,9 +264,6 @@
 					<tbody>
 					<c:forEach items="${page.list}" var="schTechResource">
 						<tr>
-							<td style="display:none">
-								${schTechResource.id }
-							</td>
 							<td>
 								${fns:getDictLabel(schTechResource.strTypeCode, 'TECH_RESOURCE_TYPE', '')}
 							</td>
@@ -355,7 +333,7 @@
 			mainObj.css("width","auto");
 			frameObj.height(strs[0] - 117);
 			var leftWidth = ($("#left").width() < 0 ? 0 : $("#left").width());
-			$("#right").width($("#content").width()- leftWidth - $("#openClose").width() -25);
+			$("#right").width($("#content").width()- leftWidth - $("#openClose").width() -10);
 			$("#middlecol").width(leftWidth);
 			$("#middlecol").height("100%");
 			$("#left").css({"overflow":"scroll"});

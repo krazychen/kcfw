@@ -6,6 +6,7 @@ package com.krazy.kcfw.modules.sch.entity.res;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -48,6 +49,25 @@ public class SchTechResource extends DataEntity<SchTechResource> {
 	private String strUserName;		// 负责人名称
 	private String strPhone;		// 联系电话
 	
+	private SchTechResourceApply[] schTechResourceApplys;
+	
+	
+	
+	/**
+	 * @return the schTechResourceApplys
+	 */
+	public SchTechResourceApply[] getSchTechResourceApplys() {
+		return schTechResourceApplys;
+	}
+
+	/**
+	 * @param schTechResourceApplys the schTechResourceApplys to set
+	 */
+	public void setSchTechResourceApplys(
+			SchTechResourceApply[] schTechResourceApplys) {
+		this.schTechResourceApplys = schTechResourceApplys;
+	}
+
 	public SchTechResource() {
 		super();
 	}

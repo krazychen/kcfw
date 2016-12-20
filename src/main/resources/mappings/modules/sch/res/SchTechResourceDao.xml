@@ -80,6 +80,8 @@
 				AND a.str_phone = #{strPhone}
 			</if>
 		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}	
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -98,7 +100,9 @@
 		<include refid="userJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
+		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}			
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}

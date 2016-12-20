@@ -36,6 +36,11 @@ public class SchTechResourceService extends CrudService<SchTechResourceDao, SchT
 		return super.findPage(page, schTechResource);
 	}
 	
+	public Page<SchTechResource> findPageWithoutPer(Page<SchTechResource> page, SchTechResource schTechResource) {
+		schTechResource.getSqlMap().put("dsf", "");
+		return super.findPage(page, schTechResource);
+	}
+	
 	@Transactional(readOnly = false)
 	public void save(SchTechResource schTechResource) {
 		super.save(schTechResource);
