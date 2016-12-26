@@ -7,6 +7,7 @@
 	
 	<!-- CMS基础主题装饰页面 -->
 	<decorator name="cms_default_basic" page="modules/cms/front/themes/basic/layouts/default.jsp" />
+	<decorator name="cms_default_sch" page="modules/cms/front/themes/sch/layouts/default.jsp" />
 	<decorator name="cms_default_weixin" page="modules/cms/front/themes/weixin/layouts/default.jsp" />
 	
 </decorators>
