@@ -12,7 +12,7 @@
 					var ils=$("tr[id^=schPatentUnderInventorList]");
 					if(ils.length==0){
 						alert("请填写发明人信息！");	
-						return
+						return;
 					}else{
 						var persum=0;
 						for(var i=0;i<ils.length;i++){
@@ -21,6 +21,7 @@
 						}
 						if(parseInt(persum)!=100){
 							alert("发明人贡献度总和必须等于100%，请调整！");	
+							return;
 						}
 					}
 					loading('正在提交，请稍等...');
@@ -52,7 +53,7 @@
 					},
 					dataType: 'json',
 					success: function(data) {
-						$("#spuProxyInfo").html("&nbsp;&nbsp;&nbsp;&nbsp;代理机构联系人:"+data.spaContacts+"&nbsp;&nbsp;&nbsp;&nbsp;代理机构联系方式:"+data.spaPhone);
+						$("#spuProxyInfo").html("&nbsp;&nbsp;&nbsp;&nbsp;联系人:"+data.spaContacts+"&nbsp;&nbsp;&nbsp;&nbsp;联系方式:"+data.spaPhone);
 					}
 					})
 				}else{
@@ -247,7 +248,7 @@
 				
 				<tr>
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利申请人：</td><td>
-						<form:input path="spuApplySchoolName" value="${schPatentUnder.spuApplySchoolName!=null ? schPatentUnder.spuApplySchoolName : fns:getUser().getName()} " htmlEscape="false" maxlength="100" class="input-large editFormFieldWidth required"/>
+						<form:input path="spuApplySchoolName" value="${schPatentUnder.spuApplySchoolName!=null ? schPatentUnder.spuApplySchoolName : fns:getUser().getCompany().getName()} " htmlEscape="false" maxlength="100" class="input-large editFormFieldWidth required"/>
 					</td>
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>联络人：</td><td>
 						<sys:treeselect id="spuApplyUserId" name="spuApplyUserId" value="${schPatentUnder.spuApplyUserId!=null ? schPatentUnder.spuApplyUserId : fns:getUser().getId()}" labelName="spuApplyUserName" labelValue="${schPatentUnder.spuApplyUserName!=null ? schPatentUnder.spuApplyUserName : fns:getUser().getName()}"
@@ -269,6 +270,7 @@
 					</td><td class="tit"><span class="help-inline"><font color="red">*</font> </span>联系电话：</td><td>
 						<form:input path="spuApplyPhone" htmlEscape="false" maxlength="45" class="input-large editFormFieldWidth required"/>
 					</td>
+				<c:if test="${schPatentUnder.isTeacher ne 'true'}" >
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>指导老师：</td><td>
 						<sys:treeselect id="spuAdvisTeacherId" name="spuAdvisTeacherId" value="${schPatentUnder.spuAdvisTeacherId}" labelName="spuAdvisTeacherName" labelValue="${schPatentUnder.spuAdvisTeacherName}"
 					title="用户" roleEnName="teacher" allowInput="${schPatentUnder.isTeacher=='true' ? 'false':'true'}" disabled="${schPatentUnder.isTeacher=='true' ? 'disabled' :''}" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required" allowClear="true" notAllowSelectParent="true"/>
@@ -292,10 +294,24 @@
 						</form:select>
 					</td>
 					<td colspan="3">
-						<span id="spuProxyInfo"><c:if test="${not empty schPatentUnder.spuProxyId }">&nbsp;&nbsp;&nbsp;&nbsp;代理机构联系人:${schPatentUnder.spuProxyContact }&nbsp;&nbsp;&nbsp;&nbsp;代理机构联系方式：${schPatentUnder.spuProxyPhone }</c:if></span>
+						<span id="spuProxyInfo"><c:if test="${not empty schPatentUnder.spuProxyId }">&nbsp;&nbsp;&nbsp;&nbsp;联系人:${schPatentUnder.spuProxyContact }&nbsp;&nbsp;&nbsp;&nbsp;联系方式：${schPatentUnder.spuProxyPhone }</c:if></span>
 					</td>
 				</tr>
+				</c:if>
 				
+				<c:if test="${schPatentUnder.isTeacher eq 'true'}" >
+					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利代理机构：</td>
+					<td>
+						<form:select path="spuProxyId" class="input-large editFormSelectWidth required">
+							<form:option value="" label=""/>
+							<form:options items="${schPatentAgencyLiss}" htmlEscape="false"/>
+						</form:select>
+					</td>
+					<td colspan="2">
+						<span id="spuProxyInfo"><c:if test="${not empty schPatentUnder.spuProxyId }">&nbsp;&nbsp;&nbsp;&nbsp;联系人:${schPatentUnder.spuProxyContact }&nbsp;&nbsp;&nbsp;&nbsp;联系方式：${schPatentUnder.spuProxyPhone }</c:if></span>
+					</td>
+				</tr>
+				</c:if>
 				<tr>
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利摘要：</td>
 					<td colspan="5">

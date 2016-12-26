@@ -6,7 +6,7 @@
 		a.id AS "id",
 		a.spi_patent_id AS "spiPatent.id",
 		a.spi_type_code AS "spiTypeCode",
-		a.spi_type_code AS "spiTypeName",
+		c.label AS "spiTypeName",
 		a.spi_user_id AS "spiUserId",
 		u5.name AS "spiUserName",
 		a.spi_teacher_id AS "spiTeacherId",
