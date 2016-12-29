@@ -89,7 +89,7 @@ public class SchPatentUnderService extends CrudService<SchPatentUnderDao, SchPat
 				schPatentUnderInventorDao.delete(schPatentUnderInventor);
 			}
 		}
-		if("".equals(schPatentUnder.getAct().getFlag())) {
+		if(StringUtils.isBlank(schPatentUnder.getAct().getFlag())) {
 			return;
 		}
 		//第一次申请

@@ -80,7 +80,7 @@ public class SchComConcractService extends CrudService<SchComConcractDao, SchCom
 			dao.update(schComConcract);
 		}
 		
-		if("".equals(schComConcract.getAct().getFlag())) {
+		if(StringUtils.isBlank(schComConcract.getAct().getFlag())) {
 			return;
 		}
 		//第一次申请

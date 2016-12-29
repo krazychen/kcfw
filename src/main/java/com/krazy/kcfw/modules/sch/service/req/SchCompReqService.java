@@ -68,7 +68,7 @@ public class SchCompReqService extends CrudService<SchCompReqDao, SchCompReq> {
 			dao.update(schCompReq);
 		}
 		
-		if("".equals(schCompReq.getAct().getFlag())) {
+		if(StringUtils.isBlank(schCompReq.getAct().getFlag())) {
 			return;
 		}
 		

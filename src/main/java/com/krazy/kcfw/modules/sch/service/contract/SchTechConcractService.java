@@ -80,7 +80,7 @@ public class SchTechConcractService extends CrudService<SchTechConcractDao, SchT
 			dao.update(schTechConcract);
 		}
 		
-		if("".equals(schTechConcract.getAct().getFlag())) {
+		if(StringUtils.isBlank(schTechConcract.getAct().getFlag())) {
 			return;
 		}
 		//第一次申请

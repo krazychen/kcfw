@@ -185,8 +185,8 @@
 					</td>
 					<td>
 						<input name="stcSubmitDate" type="text" readonly="readonly" maxlength="20" class="input-large editFormFieldWidth Wdate required"
-							value="<fmt:formatDate value="${schTechConcract.stcSubmitDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-							onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+							value="<fmt:formatDate value="${schTechConcract.stcSubmitDate}" pattern="yyyy-MM-dd"/>"
+							onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 					</td>
 				</tr>
 				<tr>

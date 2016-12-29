@@ -187,8 +187,8 @@
 					</td>
 					<td>
 						<input name="sccSubmitDate" type="text" readonly="readonly" maxlength="20" class="input-large editFormFieldWidth Wdate required"
-							value="<fmt:formatDate value="${schComConcract.sccSubmitDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-							onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+							value="<fmt:formatDate value="${schComConcract.sccSubmitDate}" pattern="yyyy-MM-dd"/>"
+							onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 					</td>
 				</tr>
 				<tr>
