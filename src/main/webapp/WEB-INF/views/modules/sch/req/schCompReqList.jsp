@@ -6,7 +6,18 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
+			$("#downloadTemplate").click(function(){
+				$("#searchForm").attr("action","${ctx}/sch/req/schCompReq/downloadTemplate");
+				$("#searchForm").submit();
+				$("#searchForm").attr("action","${ctx}/sch/req/schCompReq/form");
+			});
+			$("#upfile").change(function(){
+				$("#searchForm").attr("action","${ctx}/sch/req/schCompReq/importRes");
+				$("#searchForm").attr("enctype","multipart/form-data");
+				$("#searchForm").submit();
+				$("#searchForm").attr("enctype","");
+				$("#searchForm").attr("action","${ctx}/sch/req/schCompReq/form");
+			});
 		});
 		function page(n,s){
 			$("#pageNo").val(n);
@@ -24,26 +35,29 @@
 	<form:form id="searchForm" modelAttribute="schCompReq" action="${ctx}/sch/req/schCompReq/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		<input id="upfile" name="upfile" type="file" style="display:none"/>  
 		<ul class="ul-form">
 			<li><label>难题名称：</label>
-				<form:input path="scrName" htmlEscape="false" maxlength="100" class="input-medium"/>
+				<form:input path="scrName" htmlEscape="false" maxlength="100" class="input-large"/>
 			</li>
 			<li><label>需求状态：</label>
-				<form:select path="scrStatus" class="input-medium">
+				<form:select path="scrStatus" class="input-large">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('COMPANY_REQ_STATUS')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
 			<li><label>所属行业：</label>
-				<form:select path="scrIndustry" class="input-medium">
+				<form:select path="scrIndustry" class="input-large">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('COMPANY_REQ_INDUSTRY')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
 			<li><label>联系人：</label>
-				<form:input path="scrCompanyContact" htmlEscape="false" maxlength="64" class="input-medium"/>
+				<form:input path="scrCompanyContact" htmlEscape="false" maxlength="64" class="input-large"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+			<li class="btns"><input id="import" onclick="document.getElementById('upfile').click();" class="btn btn-primary" type="button" value="导入"/></li>
+			<li class="btns"><input id="downloadTemplate" class="btn btn-primary" type="button" value="下载模版"/></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>

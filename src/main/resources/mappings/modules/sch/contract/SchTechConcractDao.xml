@@ -21,7 +21,7 @@
 		o14.name AS "stcResponseOfficeName",
 		a.stc_company_name AS "stcCompanyName",
 		a.stc_company_area AS "stcCompanyArea",
-		a16.name AS "stcCompanyAreaName",
+		a.stc_company_area_name AS "stcCompanyAreaName",
 		a.stc_company_type AS "stcCompanyType",
 		a.stc_status AS "stcStatus",
 		a.stc_files AS "stcFiles",
@@ -37,7 +37,6 @@
 	<sql id="schTechConcractJoins">
 		LEFT JOIN sys_user u13 ON u13.id = a.stc_response_user_id
 		LEFT JOIN sys_office o14 ON o14.id = a.stc_response_office_id
-		LEFT JOIN sys_area a16 ON a16.id = a.stc_company_area
 	</sql>
 	
 	<sql id="userJoins">
@@ -113,6 +112,7 @@
 			stc_response_office_id,
 			stc_company_name,
 			stc_company_area,
+			stc_company_area_name,
 			stc_company_type,
 			stc_status,
 			stc_files,
@@ -135,6 +135,7 @@
 			#{stcResponseOfficeId},
 			#{stcCompanyName},
 			#{stcCompanyArea},
+			#{stcCompanyAreaName},
 			#{stcCompanyType},
 			#{stcStatus},
 			#{stcFiles},
@@ -154,6 +155,7 @@
 			stc_response_office_id = #{stcResponseOfficeId},
 			stc_company_name = #{stcCompanyName},
 			stc_company_area = #{stcCompanyArea},
+			stc_company_area_name = #{stcCompanyAreaName},
 			stc_company_type = #{stcCompanyType},
 			stc_files = #{stcFiles},
 			stc_submit_date = #{stcSubmitDate},

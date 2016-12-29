@@ -24,6 +24,7 @@
 <%@ attribute name="dataMsgRequired" type="java.lang.String" required="false" description=""%>
 <%@ attribute name="roleEnName" type="java.lang.String" required="false" description="角色英文名称，用来过滤指定角色的用户"%>
 <%@ attribute name="userURL" type="java.lang.String" required="false" description="用来获取用户数据的方法名"%>
+<%@ attribute name="showParent" type="java.lang.String" required="false" description="显示父节点名称"%>
 <div class="input-append">
 	<input id="${id}Id" name="${name}" class="${cssClass}" type="hidden" value="${value}"/>
 	<input id="${id}Name" name="${labelName}" ${allowInput?'':'readonly="readonly"'} type="text" value="${labelValue}" data-msg-required="${dataMsgRequired}"
@@ -66,7 +67,11 @@
 							return false;
 						}//</c:if>
 						ids.push(nodes[i].id);
-						names.push(nodes[i].name);//<c:if test="${!checked}">
+						if ("${showParent}" == "true"){
+							names.push(nodes[i].getParentNode().name+"/"+nodes[i].name);//<c:if test="${!checked}">
+						}else{
+							names.push(nodes[i].name);
+						}
 						break; // 如果为非复选框选择，则返回第一个选择  </c:if>
 					}
 					$("#${id}Id").val(ids.join(",").replace(/u_/ig,""));

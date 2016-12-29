@@ -21,7 +21,7 @@
 		o14.name AS "sccResponseOfficeName",
 		a.scc_company_name AS "sccCompanyName",
 		a.scc_company_area AS "sccCompanyArea",
-		a16.name AS "sccCompanyAreaName",
+		a.scc_company_area_name AS "sccCompanyAreaName",
 		a.scc_company_type AS "sccCompanyType",
 		a.scc_status AS "sccStatus",
 		a.scc_files AS "sccFiles",
@@ -37,7 +37,6 @@
 	<sql id="schComConcractJoins">
 		LEFT JOIN sys_user u13 ON u13.id = a.scc_response_user_id
 		LEFT JOIN sys_office o14 ON o14.id = a.scc_response_office_id
-		LEFT JOIN sys_area a16 ON a16.id = a.scc_company_area
 	</sql>
 	
 	<sql id="userJoins">
@@ -113,6 +112,7 @@
 			scc_response_office_id,
 			scc_company_name,
 			scc_company_area,
+			scc_company_area_name,
 			scc_company_type,
 			scc_status,
 			scc_files,
@@ -135,6 +135,7 @@
 			#{sccResponseOfficeId},
 			#{sccCompanyName},
 			#{sccCompanyArea},
+			#{sccCompanyAreaName},
 			#{sccCompanyType},
 			#{sccStatus},
 			#{sccFiles},
@@ -154,6 +155,7 @@
 			scc_response_office_id = #{sccResponseOfficeId},
 			scc_company_name = #{sccCompanyName},
 			scc_company_area = #{sccCompanyArea},
+			scc_company_area_name = #{sccCompanyAreaName},
 			scc_company_type = #{sccCompanyType},
 			scc_files = #{sccFiles},
 			scc_submit_date = #{sccSubmitDate},

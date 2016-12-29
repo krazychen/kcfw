@@ -21,6 +21,7 @@ import com.krazy.kcfw.common.utils.StringUtils;
 import com.krazy.kcfw.modules.act.service.ActTaskService;
 import com.krazy.kcfw.modules.act.utils.ActUtils;
 import com.krazy.kcfw.modules.sch.entity.req.SchCompReq;
+import com.krazy.kcfw.modules.sch.entity.res.SchTechResource;
 import com.krazy.kcfw.modules.sch.dao.req.SchCompReqDao;
 import com.krazy.kcfw.modules.sys.dao.UserDao;
 import com.krazy.kcfw.modules.sys.entity.User;
@@ -75,20 +76,34 @@ public class SchCompReqService extends CrudService<SchCompReqDao, SchCompReq> {
 		if(StringUtils.isBlank(schCompReq.getAct().getTaskId())){
 			
 			Map<String, Object> vars = Maps.newHashMap();
-			//获取所有老师
+//			//获取所有老师
+//			HashMap<String,String> pars=new HashMap<String,String>();
+//			pars.put("roleEnName", "teacher");
+//			//User user=userDao.get(schCompReq.getCreateBy().getId());
+//			//pars.put("officeId", user.getOffice().getId());
+//			List<User> users=userDao.findUsersByRoleEnName(pars);					
+//			StringBuffer teacher=new StringBuffer();;
+//			for(int j=0;j<users.size();j++){
+//				teacher.append(users.get(j).getLoginName());
+//				if(j<users.size()-1){
+//					teacher.append(",");
+//				}
+//			}
+//			vars.put("teachers", teacher.toString());
+			//获取本部门的合同管理员
 			HashMap<String,String> pars=new HashMap<String,String>();
-			pars.put("roleEnName", "teacher");
-			//User user=userDao.get(schCompReq.getCreateBy().getId());
-			//pars.put("officeId", user.getOffice().getId());
-			List<User> users=userDao.findUsersByRoleEnName(pars);					
-			StringBuffer teacher=new StringBuffer();;
+			pars.put("roleEnName", "reqmana");
+//			User user=userDao.get(schCompReq.getCreateBy().getId());
+//			pars.put("officeId", user.getOffice().getId());
+			List<User> users=userDao.findUsersByRoleEnName(pars);
+			StringBuffer mana=new StringBuffer();;
 			for(int j=0;j<users.size();j++){
-				teacher.append(users.get(j).getLoginName());
+				mana.append(users.get(j).getLoginName());
 				if(j<users.size()-1){
-					teacher.append(",");
+					mana.append(",");
 				}
 			}
-			vars.put("teachers", teacher.toString());
+			vars.put("mana", mana.toString());
 			// 启动流程
 			//vars.put("pass", pass);
 			actTaskService.startProcess(ActUtils.PD_COMP_REQ[0], ActUtils.PD_COMP_REQ[1], schCompReq.getId(), schCompReq.getScrName(),vars);
@@ -154,12 +169,35 @@ public class SchCompReqService extends CrudService<SchCompReqDao, SchCompReq> {
 		
 		String pass= "yes".equals(schCompReq.getAct().getFlag())? "1" : "0";
 
+		//合同管理员审核环节
+		if ("mana_audit".equals(taskDefKey)){
+			// 设置意见
+			schCompReq.getAct().setComment(("yes".equals(schCompReq.getAct().getFlag())?"[审核通过] ":"[审核不通过] ")+schCompReq.getAct().getComment());
+			schCompReq.setScrManaComment(schCompReq.getAct().getComment());
+			schCompReq.setScrStatus("3");
+			dao.updateManaComment(schCompReq);
+			
+			//获取所有老师
+			HashMap<String,String> pars=new HashMap<String,String>();
+			pars.put("roleEnName", "teacher");
+			//User user=userDao.get(schCompReq.getCreateBy().getId());
+			//pars.put("officeId", user.getOffice().getId());
+			List<User> users=userDao.findUsersByRoleEnName(pars);					
+			StringBuffer teacher=new StringBuffer();;
+			for(int j=0;j<users.size();j++){
+				teacher.append(users.get(j).getLoginName());
+				if(j<users.size()-1){
+					teacher.append(",");
+				}
+			}
+			vars.put("teachers", teacher.toString());
+		}
 		// 接受环节
-		if ("teacher_receive".equals(taskDefKey)){
+		else if ("teacher_receive".equals(taskDefKey)){
 			// 设置意见
 			schCompReq.getAct().setComment(("yes".equals(schCompReq.getAct().getFlag())?"[已接受] ":"[拒绝] ")+schCompReq.getAct().getComment());
 			schCompReq.setScrRecComment(schCompReq.getAct().getComment());
-			schCompReq.setScrStatus("3");
+			schCompReq.setScrStatus("4");
 			schCompReq.setScrRecTeachId(UserUtils.getUser().getId());
 			dao.updateRecComment(schCompReq);
 
@@ -171,7 +209,7 @@ public class SchCompReqService extends CrudService<SchCompReqDao, SchCompReq> {
 			// 设置意见
 			schCompReq.getAct().setComment(("yes".equals(schCompReq.getAct().getFlag())?"[已解决] ":"[退回] ")+schCompReq.getAct().getComment());
 			schCompReq.setScrRecComment(schCompReq.getAct().getComment());
-			schCompReq.setScrStatus("4");
+			schCompReq.setScrStatus("5");
 			dao.updateFinalComment(schCompReq);
 
 		}
@@ -180,7 +218,7 @@ public class SchCompReqService extends CrudService<SchCompReqDao, SchCompReq> {
 			return;
 		}
 		
-		//如果是驳回，更新状态为驳回
+		//如果是驳回，更新状态为提交申请
 		if("no".equals(schCompReq.getAct().getFlag())){
 			schCompReq.setScrStatus("2");
 			dao.updateStatus(schCompReq);
@@ -193,5 +231,16 @@ public class SchCompReqService extends CrudService<SchCompReqDao, SchCompReq> {
 		}
 		actTaskService.complete(schCompReq.getAct().getTaskId(), schCompReq.getAct().getProcInsId(), schCompReq.getAct().getComment(), vars);
 
+	}
+	
+	@Transactional(readOnly = false)
+	public void saveList(List<SchCompReq> lists) {
+		for(int i=0;i<lists.size();i++){
+			SchCompReq strl=lists.get(i);
+//			strl.preInsert();
+//			strl.setScrStatus("1");
+//			dao.insert(strl);
+			this.save(strl);
+		}
 	}
 }

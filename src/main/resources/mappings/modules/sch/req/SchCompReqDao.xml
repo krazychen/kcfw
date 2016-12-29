@@ -23,6 +23,7 @@
 		a.scr_files AS "scrFiles",
 		a.proc_ins_id AS "procInsId",
 		a.scr_rec_teach_id AS "scrRecTeachId",
+		a.scr_mana_comment AS "scrManaComment",
 		a.scr_rec_comment AS "scrRecComment",
 		a.scr_final_comment AS "scrFinalComment"
 	</sql>
@@ -172,6 +173,15 @@
 	
 	<update id="updateStatus">
 		UPDATE sch_comp_req SET 
+			scr_status = #{scrStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateManaComment">
+		UPDATE sch_comp_req SET 
+			SCR_MANA_COMMENT = #{scrManaComment},
 			scr_status = #{scrStatus},
 			update_by = #{updateBy.id}, 
 			update_date = #{updateDate}

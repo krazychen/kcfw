@@ -13,6 +13,7 @@ import javax.validation.constraints.DecimalMin;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.krazy.kcfw.common.persistence.ActEntity;
 import com.krazy.kcfw.common.persistence.DataEntity;
+import com.krazy.kcfw.common.utils.excel.annotation.ExcelField;
 
 /**
  * 需求Entity
@@ -22,20 +23,38 @@ import com.krazy.kcfw.common.persistence.DataEntity;
 public class SchCompReq extends ActEntity<SchCompReq> {
 	
 	private static final long serialVersionUID = 1L;
+	@ExcelField(title="难题名称",type=2)
 	private String scrName;		// 难题名称
 	private String scrStatus;		// 需求状态
+	@ExcelField(title="所属行业",type=2)
 	private String scrIndustry;		// 所属行业
+	@ExcelField(title="内容与说明",type=2)
 	private String scrContent;		// 内容与说明
+	@ExcelField(title="市场前景(方向)",type=2)
 	private String scrMarket;		// 市场前景(方向)
+	@ExcelField(title="合作方式",type=2)
 	private String scrCoopMethod;		// 合作方式
-	private Date scrExpiryDate;		// 失效日期
+
+	
+	@ExcelField(title="企业名称",type=2)
 	private String scrCompanyName;		// 企业名称
+	
+	@ExcelField(title="联系人",type=2)
 	private String scrCompanyContact;		// 联系人
+	
+	@ExcelField(title="联系电话",type=2)
 	private String scrCompanyPhone;		// 联系电话
+	
+	@ExcelField(title="电子邮箱",type=2)
 	private String scrCompanyEmail;		// 电子邮箱
+
+	@ExcelField(title="失效日期",type=2)
+	private Date scrExpiryDate;		// 失效日期
+	
 	private String scrFiles;		// 文件
 	private String procInsId;		// 流程实例ID
 	private String scrRecTeachId;		// 接受老师
+	private String scrManaComment;		//合同管理员审核意见
 	private String scrRecComment;		// 接受意见
 	private String scrFinalComment;		// 完成意见
 	
@@ -45,6 +64,20 @@ public class SchCompReq extends ActEntity<SchCompReq> {
 
 	public SchCompReq(String id){
 		super(id);
+	}
+
+	/**
+	 * @return the scrManaComment
+	 */
+	public String getScrManaComment() {
+		return scrManaComment;
+	}
+
+	/**
+	 * @param scrManaComment the scrManaComment to set
+	 */
+	public void setScrManaComment(String scrManaComment) {
+		this.scrManaComment = scrManaComment;
 	}
 
 	@Length(min=1, max=100, message="难题名称长度必须介于 1 和 100 之间")

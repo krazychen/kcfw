@@ -8,6 +8,7 @@
 	<%@include file="/WEB-INF/views/modules/cms/front/include/head.jsp" %>
 	<link href="${ctxStaticTheme}/index.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${ctxStaticTheme}/jquery.SuperSlide.2.1.1.js"></script>
+	<script type="text/javascript" src="${ctxStaticTheme}/height.js"></script>
 	<sitemesh:head/>
 </head>
 <!-- 
@@ -24,16 +25,26 @@
 <!--nav-->
 	<div class="main_top">
 	   <div class="search fr">
+	   	  <form action="${ctx}/search" method="get">
+	           <input  class="input_box fl" type="text" name="q" maxlength="20"  placeholder="全站搜索..." value="${q}">
+	      </form>
+	      <!--  
     	  <form name="searchform4" id="searchform" action="../../index/Search.html" method="post" style=" font-size:12px">
               <input class="input_box fl" name="keyword" id="keyword" type="text" />
               <input type="button" class="input_btn fl" value="" onclick="to_submit();"/>
-          </form>
+          </form>-->
        </div>
        <ul class="nav">
        		<li><a href="${ctx}/index-1${fns:getUrlSuffix()}"><span>${site.id eq '1'?'首　 页':'返回主站'}</span></a></li>
        		<c:forEach items="${fnc:getMainNavList(site.id)}" var="category" varStatus="status">
        			<c:if test="${status.index lt 6}">
-	    		   <li><a href="${category.url}" target="${category.target}" data-toggle="dropdown"><span>${category.name}</span></a></li>
+	    		   <li><a href="${category.url}" target="${category.target}" data-toggle="dropdown"><span>${category.name}</span></a>
+    		   		 <ul>
+    		   		 <c:forEach items="${fnc:getCategoryList(site.id,category.id,10,'')}" var="subCat" varStatus="catStatus">
+	    		   		 <li><a href="${subCat.url}" target="${subCat.target}">${subCat.name}</a></li>
+					 </c:forEach>
+					</ul>
+	    		   </li>
 	    		</c:if>
 	    	</c:forEach>
        </ul>

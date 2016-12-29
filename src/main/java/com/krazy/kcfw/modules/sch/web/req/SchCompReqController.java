@@ -3,11 +3,16 @@
  */
 package com.krazy.kcfw.modules.sch.web.req;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,16 +20,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.krazy.kcfw.common.config.Global;
 import com.krazy.kcfw.common.persistence.Page;
 import com.krazy.kcfw.common.web.BaseController;
+import com.krazy.kcfw.common.utils.FileUtils;
 import com.krazy.kcfw.common.utils.StringUtils;
+import com.krazy.kcfw.common.utils.excel.ImportExcel;
 import com.krazy.kcfw.modules.sch.entity.req.SchCompReq;
+import com.krazy.kcfw.modules.sch.entity.res.SchTechResource;
 import com.krazy.kcfw.modules.sch.service.req.SchCompReqService;
 import com.krazy.kcfw.modules.sys.entity.Dict;
+import com.krazy.kcfw.modules.sys.entity.User;
 import com.krazy.kcfw.modules.sys.utils.DictUtils;
+import com.krazy.kcfw.modules.sys.utils.UserUtils;
 
 /**
  * 需求Controller
@@ -80,6 +92,10 @@ public class SchCompReqController extends BaseController {
 				}else if(schCompReq.getAct().isFinishTask()){
 					// 查看工单
 					view = "schCompReqFormView";
+				}
+				// 合同管理员审核环节
+				else if ("mana_audit".equals(taskDefKey)){
+					view = "schCompReqFormAudit";
 				}
 				// 修改环节
 				else if ("modify_audit".equals(taskDefKey)){
@@ -145,4 +161,75 @@ public class SchCompReqController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/sch/req/schCompReq/?repage";
 	}
 
+	@RequiresPermissions("sch:req:schCompReq:view")
+	@RequestMapping(value="downloadTemplate")
+    public void downloadTemplate(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        File file = new File(request.getSession().getServletContext().getRealPath("/")  +"WEB-INF/template/企业需求导入模板.xls");
+        //判断文件是否存在
+        if(!file.exists()) {
+            return;
+        }
+        FileUtils.downFile(file, request, response);
+    }
+	
+	@RequiresPermissions("sch:req:schCompReq:view")
+	@RequestMapping(value="importRes")
+    public String importRes(HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttributes) throws Exception{
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;    
+          
+        InputStream in =null;  
+        MultipartFile file = multipartRequest.getFile("upfile");  
+        if(file.isEmpty()){  
+			throw new Exception("文件不存在！");
+        }  
+        
+		ImportExcel ie=new ImportExcel(file,0,0);
+		List<SchCompReq> lists=ie.getDataList(SchCompReq.class);
+		//校验数据
+		StringBuffer sb=new StringBuffer();
+		List<SchCompReq> saveLists=new ArrayList<SchCompReq>();
+		for(int i=0;i<lists.size();i++){
+			SchCompReq scr=lists.get(i);
+			SchCompReq saveScr=new SchCompReq();
+			BeanUtils.copyProperties(saveScr, scr);
+			saveScr.setIsNewRecord(false);
+			
+			String industry=DictUtils.getDictLabel(scr.getScrIndustry(), "COMPANY_REQ_INDUSTRY", "");
+			if(StringUtils.isBlank(industry)){
+				sb.append("导入Excel失败，第"+(i+1)+"行所属行业"+scr.getScrIndustry()+"不存在\n\r");
+			}
+			String coopMethod=DictUtils.getDictLabel(scr.getScrCoopMethod(), "COMPANY_REQ_COOP_METHOD", "");
+			if(StringUtils.isBlank(coopMethod)){
+				sb.append("导入Excel失败，第"+(i+1)+"行合作方式"+scr.getScrIndustry()+"不存在\n\r");
+			}
+			if(StringUtils.isBlank(scr.getScrName())){
+				sb.append("导入Excel失败，第"+(i+1)+"行难题名称"+scr.getScrName()+"不能为空\n\r");
+			}
+			if(StringUtils.isBlank(scr.getScrContent())){
+				sb.append("导入Excel失败，第"+(i+1)+"行内容和说明"+scr.getScrContent()+"不能为空\n\r");
+			}
+			if(StringUtils.isBlank(scr.getScrCompanyName())){
+				sb.append("导入Excel失败，第"+(i+1)+"行企业名称"+scr.getScrCompanyName()+"不能为空\n\r");
+			}
+			if(StringUtils.isBlank(scr.getScrCompanyContact())){
+				sb.append("导入Excel失败，第"+(i+1)+"行联系人"+scr.getScrCompanyContact()+"不能为空\n\r");
+			}
+			if(StringUtils.isBlank(scr.getScrCompanyPhone())){
+				sb.append("导入Excel失败，第"+(i+1)+"行联系电话"+scr.getScrCompanyPhone()+"不能为空\n\r");
+			}
+			if(StringUtils.isBlank(scr.getScrCompanyEmail())){
+				sb.append("导入Excel失败，第"+(i+1)+"行电子邮箱"+scr.getScrCompanyEmail()+"不能为空\n\r");
+			}
+			
+			saveLists.add(saveScr);
+		}
+		if(StringUtils.isBlank(sb.toString())){
+			schCompReqService.saveList(saveLists);
+			addMessage(redirectAttributes, "导入Excel成功");
+		}else{
+			addMessage(redirectAttributes, sb.toString());
+		}
+
+        return "redirect:"+Global.getAdminPath()+"/sch/req/schCompReq/?repage";
+    }
 }

@@ -21,8 +21,18 @@
 		            }
 		        },
 				submitHandler: function(form){
-					loading('正在提交，请稍等...');
-					form.submit();
+					if($("#stcMoney").val()<1000){
+						top.$.jBox.confirm("合同金额小于1000，确定保存合同吗？","系统提示",function(v,h,f){
+							if(v=="ok"){
+								loading('正在提交，请稍等...');
+								form.submit();
+							}
+						},{buttonsFocus:1});
+						top.$('.jbox-body .jbox-icon').css('top','55px');
+					}else{
+						loading('正在提交，请稍等...');
+						form.submit();
+					}
 				},
 				errorContainer: "#messageBox",
 				errorPlacement: function(error, element) {
@@ -157,7 +167,7 @@
 					</td>
 					<td>
 						<sys:treeselect id="stcCompanyArea" name="stcCompanyArea" value="${schTechConcract.stcCompanyArea}" labelName="stcCompanyAreaName" labelValue="${schTechConcract.stcCompanyAreaName}"
-							title="区域" url="/sys/area/treeData" cssClass="input-large editFormTreeWidth required" allowClear="true" notAllowSelectParent="true"/>
+							title="区域" url="/sys/area/treeData" cssClass="input-large editFormTreeWidth required" allowClear="true" notAllowSelectParent="false" showParent="true"/>
 					</td>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>合作企业类别：

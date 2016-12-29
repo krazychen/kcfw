@@ -27,10 +27,27 @@ input{ outline:none; font-family:"Microsoft YaHei",宋体;}
 .input_btn{width:24px;height:25px; background:url("./images/search_btn.png") no-repeat center center; cursor:pointer;}
 .nav{overflow:hidden; float:left;}
 .nav li{float:left; display:block;width:115px;height:40px; background:url("./images/nav_li.png") no-repeat right; line-height:40px;}
-.nav a.moren{width:95px;height:40px;background:url("./images/nav_moren.jpg") no-repeat center center;}
-.nav a:hover{width:95px;height:40px;background:url("./images/nav_moren.jpg") no-repeat center center;}
+.nav a.moren{width:95px;height:40px;background:url("./images/nav_moren.jpg") no-repeat center center;background-size:cover; overflow:hidden;}
+.nav a:hover{width:115px;height:40px;background:url("./images/nav_moren.jpg") no-repeat center center;background-size:cover; overflow:hidden;}
 .nav a{display:block;width:95px;height:40px;text-align:center;font-size:14px;font-family:"宋体";font-weight:bold;color:#fff; margin:0 auto;}
-
+.nav li ul{
+	line-height: 30px;
+	list-style-type: none;
+	text-align:left;
+	width: 120px;
+	position: absolute;
+	display: none;
+	z-index: 999;
+}
+.nav li ul li{
+float:left; display:block;width:125px;height:35px; background:url("./images/nav_bg.jpg") no-repeat center; line-height:40px;
+ }
+.nav li ul a{
+display:block;width:95px;height:35px;text-align:center;font-size:13px;font-family:"宋体";font-weight: normal;color:#fff; margin:0 auto;
+}
+.nav li ul a:hover{
+	width:125px;height:35px;background:url("./images/nav_moren.jpg") no-repeat center center; background-size:cover; overflow:hidden;
+}
 
 /*att*/
 .main{width:1000px;margin:0 auto;}
