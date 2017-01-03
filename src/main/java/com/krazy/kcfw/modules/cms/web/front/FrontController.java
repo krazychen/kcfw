@@ -25,6 +25,7 @@ import com.krazy.kcfw.common.servlet.ValidateCodeServlet;
 import com.krazy.kcfw.common.utils.StringUtils;
 import com.krazy.kcfw.common.web.BaseController;
 import com.krazy.kcfw.modules.cms.entity.Article;
+import com.krazy.kcfw.modules.cms.entity.ArticleData;
 import com.krazy.kcfw.modules.cms.entity.Category;
 import com.krazy.kcfw.modules.cms.entity.Comment;
 import com.krazy.kcfw.modules.cms.entity.Link;
@@ -248,13 +249,17 @@ public class FrontController extends BaseController{
 			// 文章阅读次数+1
 			articleService.updateHitsAddOne(contentId);
 			// 获取推荐文章列表
-			List<Object[]> relationList = articleService.findByIds(articleDataService.get(article.getId()).getRelation());
+			ArticleData relaArticleData=articleDataService.get(article.getId());
+			if(relaArticleData!=null){
+				List<Object[]> relationList = articleService.findByIds(relaArticleData.getRelation());
+				model.addAttribute("relationList", relationList); 
+			}
 			// 将数据传递到视图
 			model.addAttribute("category", categoryService.get(article.getCategory().getId()));
 			model.addAttribute("categoryList", categoryList);
 			article.setArticleData(articleDataService.get(article.getId()));
 			model.addAttribute("article", article);
-			model.addAttribute("relationList", relationList); 
+			
             CmsUtils.addViewConfigAttribute(model, article.getCategory());
             CmsUtils.addViewConfigAttribute(model, article.getViewConfig());
             Site site = siteService.get(category.getSite().getId());

@@ -9,60 +9,50 @@
 	<meta name="keywords" content="${article.keywords} ${category.keywords}" />
 	<script type="text/javascript">
 		$(document).ready(function() {
-			if ("${category.allowComment}"=="1" && "${article.articleData.allowComment}"=="1"){
-				$("#comment").show();
-				page(1);
-			}
 		});
-		function page(n,s){
-			$.get("${ctx}/comment",{theme: '${site.theme}', 'category.id': '${category.id}',
-				contentId: '${article.id}', title: '${article.title}', pageNo: n, pageSize: s, date: new Date().getTime()
-			},function(data){
-				$("#comment").html(data);
-			});
-		}
 	</script>
 </head>
 <body>
-	<div class="row">
-	   <div class="span2">
-	   	 <h4>栏目列表</h4>
-		 <ol>
-		 	<cms:frontCategoryList categoryList="${categoryList}"/>
-		 </ol>
-		 <h4>推荐阅读</h4>
-		 <ol>
-		 	<cms:frontArticleHitsTop category="${category}"/>
-		 </ol>
-	   </div>
-	   <div class="span10">
-		 <ul class="breadcrumb">
-		    <cms:frontCurrentPosition category="${category}"/>
-		 </ul>
-	   </div>
-	   <div class="span10">
-	     <div class="row">
-	       <div class="span10">
-			<h3 style="color:#555555;font-size:20px;text-align:center;border-bottom:1px solid #ddd;padding-bottom:15px;margin:25px 0;">${article.title}</h3>
-			<c:if test="${not empty article.description}"><div>摘要：${article.description}</div></c:if>
-			<div>${article.articleData.content}</div>
-			<div style="border-top:1px solid #ddd;padding:10px;margin:25px 0;">发布者：${article.user.name} &nbsp; 点击数：${article.hits} &nbsp; 发布时间：<fmt:formatDate value="${article.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/> &nbsp; 更新时间：<fmt:formatDate value="${article.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
-  	       </div>
-  	     </div>
-	     <div class="row">
-			<div id="comment" class="hide span10">
-				正在加载评论...
-			</div>
-	     </div>
-	     <div class="row">
-	       <div class="span10">
-			<h5>相关文章</h5>
-			<ol><c:forEach items="${relationList}" var="relation">
-				<li style="float:left;width:230px;"><a href="${ctx}/view-${relation[0]}-${relation[1]}${urlSuffix}">${fns:abbr(relation[2],30)}</a></li>
-			</c:forEach></ol>
-	  	  </div>
-  	    </div>
-  	  </div>
-   </div>
+<div style="width:1000px; margin:0 auto; background:#FFF;">
+<div style="width:998px; height:30px; margin:0 auto;border:solid 1px #DADADA;background-repeat:repeat-x; background:url(${ctxStaticTheme}/images/tylm_1.jpg);">
+	<div style="float:left; width:20px; height:30px;"></div>
+	<div style="width:20px; text-align:center; float:left; height:30px;">
+		<img src="${ctxStaticTheme}/images/tylm_7.gif" style="margin-top:5px;">
+	</div>
+	<div style="float:left;line-height:30px;padding-left:10px;">
+		<span style="color:#2F2F2F; font-weight:bold;">您当前的位置：</span>
+		<a href="${ctx}/index-${site.id}${urlSuffix}" style="color:#2F2F2F;">首页</a> 
+		<c:forEach items="${fnc:getCategoryListByIds(category.parentIds)}" var="tpl">
+			<c:if test="${tpl.id ne '1'}"> >> <a href="${ctx}/list-${tpl.id}${urlSuffix}">${tpl.name}</a></c:if>
+		</c:forEach> >> <a href="${ctx}/list-${category.id}${urlSuffix}">${category.name}</a> >> 信息详情
+</div>
+</div>
+</div>
+<div style="width:1000px; height:5px; margin:0 auto;background:#FFF;"></div>
+<div style="width:998px; margin:0 auto;background:#FFF;">
+<div id="contentall" style="width:998px; float:left;background:#FFF;border: 1px solid #CCC;">
+	<div id="titleid" style="color: #d9442e;font-size: 24px;font-weight: bold;line-height: 1.2; padding: 12px 0 12px;text-align: center;">${article.title}                                                                                                                                                                                                                                                        </div>
+    
+	<div style="height:24px; line-height:24px;width:920px;margin:0 auto;">
+		<div style="font-size:12px; color:#666;text-align: center; ">&nbsp;&nbsp;发布时间：<fmt:formatDate value="${article.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>&nbsp;&nbsp;作者：${article.user.name} &nbsp;&nbsp; 文章来源：${article.articleData.copyfrom} &nbsp;&nbsp;  <!--点击率：105   &nbsp;&nbsp;--> 
+        </div>
+    </div>
+    <div id="zoom" style="width:940px;margin:0px auto;min-height:300px;color: #666;font-family: '微软雅黑';font-size: 14px;line-height: 28px;padding: 0 30px; padding-top:36px;text-indent: 28px;">${article.articleData.content}</div>
+ 	<div class="clear" style="background:#FFF; width:1000px; margin:0 auto;"></div>
+	<div class="btn_z" style="height: 28px; margin: 10px;">
+    	<a class="newbtn_z" href="javascript:window.close()">关闭窗口</a>
+ <!--    <a class="newbtn_z" href="javascript:window.print()">打印本页</a> -->
+    	<a class="newbtn_z" href="#">回到顶端</a>
+	</div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+	function init(){
+	  $("#zoom img").css("width","600px");
+	  $("#zoom img").css("height","400px");
+	}
+	init();
+</script>
 </body>
 </html>

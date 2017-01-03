@@ -3,51 +3,87 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>${category.name}</title>
-	<meta name="decorator" content="cms_default_${site.theme}"/>
-	<meta name="description" content="${category.description}" />
-	<meta name="keywords" content="${category.keywords}" />
+<title>${category.name}</title>
+<meta name="decorator" content="cms_default_${site.theme}" />
+<meta name="description" content="${category.description}" />
+<meta name="keywords" content="${category.keywords}" />
 </head>
 <body>
-	<div class="row">
-	   <div class="span2">
-	   	 <h4>栏目列表</h4>
-		 <ol>
-		 	<cms:frontCategoryList categoryList="${categoryList}"/>
-		 </ol>
-		 <h4>推荐阅读</h4>
-		 <ol>
-		 	<cms:frontArticleHitsTop category="${category}"/>
-		 </ol>
-	   </div>
-	   <div class="span10">
-		 <ul class="breadcrumb">
-		    <cms:frontCurrentPosition category="${category}"/>
-		 </ul>
-	   </div>
-	   <div class="span10">
-	      <c:set var="index" value="1"/>
-		  <c:forEach items="${categoryList}" var="tpl">
-			<c:if test="${tpl.inList eq '1' && tpl.module ne ''}">
-				<c:set var="index" value="${index+1}"/>
-				${index % 2 eq 0 ? '<div class="row">':''}
-		    	<div class="span5">
-		    		<h4><small><a href="${ctx}/list-${tpl.id}${urlSuffix}" class="pull-right">更多&gt;&gt;</a></small>${tpl.name}</h4>
-					<c:if test="${tpl.module eq 'article'}">
-		    			<ul><c:forEach items="${fnc:getArticleList(site.id, tpl.id, 5, '')}" var="article">
-							<li><span class="pull-right"><fmt:formatDate value="${article.updateDate}" pattern="yyyy.MM.dd"/></span><a href="${ctx}/view-${article.category.id}-${article.id}${urlSuffix}" style="color:${article.color}">${fns:abbr(article.title,40)}</a></li>
-						</c:forEach></ul>
+	<div style="width: 1000px; margin: 0 auto; background: #FFF;">
+		<div
+			style="width:998px; height:30px; margin:0 auto;border:solid 1px #DADADA;background-repeat:repeat-x; background:url(${ctxStaticTheme}/images/tylm_1.jpg);">
+			<div style="float: left; width: 20px; height: 30px;"></div>
+			<div
+				style="width: 20px; text-align: center; float: left; height: 30px;">
+				<img src="${ctxStaticTheme}/images/tylm_7.gif"
+					style="margin-top: 5px;">
+			</div>
+			<div style="float: left; line-height: 30px; padding-left: 10px;">
+				<span style="color: #2F2F2F; font-weight: bold;">您当前的位置：</span> <a
+					href="${ctx}/index-${site.id}${urlSuffix}" style="color: #2F2F2F;">首页</a>
+				<c:forEach items="${fnc:getCategoryListByIds(category.parentIds)}"
+					var="tpl">
+					<c:if test="${tpl.id ne '1'}"> >> <a
+							href="${ctx}/list-${tpl.id}${urlSuffix}">${tpl.name}</a>
 					</c:if>
-					<c:if test="${tpl.module eq 'link'}">
-		    			<ul><c:forEach items="${fnc:getLinkList(site.id, tpl.id, 5, '')}" var="link">
-							<li><span class="pull-right"><fmt:formatDate value="${link.updateDate}" pattern="yyyy.MM.dd"/></span><a target="_blank" href="${link.href}" style="color:${link.color}">${fns:abbr(link.title,40)}</a></li>
-						</c:forEach></ul>
-					</c:if>
-		    	</div>
-		    	${index % 2 ne 0 ? '</div>':''}
-			</c:if>
-		  </c:forEach>
-	   </div>
+				</c:forEach>
+				>> <a href="${ctx}/list-${category.id}${urlSuffix}">${category.name}</a>
+			</div>
+		</div>
+	</div>
+	<div class="main" style="min-height: 300px;">
+		<!--gover-->
+		<div class="gover" style="margin-top: 10px;">
+			<div class="gover_lt">
+				<c:forEach items="${categoryList}" var="tpl">
+					<c:choose>
+			   			<c:when test="${not empty tpl.href}">
+			    			<c:choose>
+				    			<c:when test="${fn:indexOf(tpl.href, '://') eq -1 && fn:indexOf(tpl.href, 'mailto:') eq -1}">
+				    				<c:set var="url" value="${ctx}${tpl.href}"/>
+				    			</c:when>
+				    			<c:otherwise>
+				    				<c:set var="url" value="${tpl.href}"/>
+				    			</c:otherwise>
+				    		</c:choose>
+			   			</c:when>
+			   			<c:otherwise><c:set var="url" value="${ctx}/list-${tpl.id}${urlSuffix}"/></c:otherwise>
+			   		</c:choose>
+					<h3><em></em><a href="${url}" target="${tpl.target}" >${tpl.name}</a></h3><ul><li></li></ul>
+				</c:forEach>
+			</div>
+			<script type="text/javascript">
+				jQuery(".gover_lt").slide({
+					titCell : "h3",
+					targetCell : "ul",
+					defaultIndex : 1,
+					delayTime : 0,
+					trigger : "click",
+					triggerTime : 0,
+					defaultPlay : false
+				});
+			</script>
+			<div class="gover_rt">
+				<div class="gover_rt_top">
+					<h3>${category.name}</h3>
+				</div>
+				<div class="cont-detail">
+					<ul class="mypagetitle">
+						<c:forEach items="${fnc:getArticleList(site.id, category.id, 12, '')}" var="article">
+							<li><div class="li_page_time"><fmt:formatDate value="${article.updateDate}" pattern="yyyy.MM.dd"/></div>
+								<div class="pre_img1"><img src="${ctxStaticTheme}/images/jiantou.jpg"/></div>
+								<div class="mypagelink">
+								<a href="${ctx}/view-${article.category.id}-${article.id}${urlSuffix}">${fns:abbr(article.title,100)}</a>
+								</div>
+							</li>
+						</c:forEach>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--end gover-->
+		<div class="clear"></div>
+	</div>
 	</div>
 </body>
 </html>

@@ -9,6 +9,8 @@
 	<link href="${ctxStaticTheme}/index.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${ctxStaticTheme}/jquery.SuperSlide.2.1.1.js"></script>
 	<script type="text/javascript" src="${ctxStaticTheme}/height.js"></script>
+	<link href="${ctxStatic}/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet" />
+	<script src="${ctxStatic}/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
 	<sitemesh:head/>
 </head>
 <!-- 
