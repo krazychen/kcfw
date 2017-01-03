@@ -273,11 +273,10 @@
 							<th style="display:none">id</th>
 							<th>资产分类代码</th>
 							<th>资产名称</th>
-							<th>计量单位</th>
 							<th>品牌/规格型号</th>
-							<th>单价/均价</th>
-							<th>费用</th>
 							<th>所属部门</th>
+							<th>负责人</th>
+							<th>费用</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -293,19 +292,16 @@
 								${schTechResource.strName}
 							</td>
 							<td>
-								${schTechResource.strUnit}
-							</td>
-							<td>
 								${schTechResource.strBrand}
+							</td>				
+							<td>
+								${schTechResource.strOfficeName}
 							</td>
 							<td>
-								${schTechResource.strPrice}
+								${schTechResource.strUserName}
 							</td>
 							<td>
 								${schTechResource.strCosts}
-							</td>
-							<td>
-								${schTechResource.strOfficeName}
 							</td>
 						</tr>
 					</c:forEach>

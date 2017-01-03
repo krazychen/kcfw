@@ -68,10 +68,10 @@ public class SchTechResourceApplyService extends CrudService<SchTechResourceAppl
 			dao.update(schTechResourceApply);
 		}
 		
-		if(StringUtils.isBlank(schTechResourceApply.getAct().getFlag())) {
-			return;
-		}
-		
+//		if(StringUtils.isBlank(schTechResourceApply.getAct().getFlag())) {
+//			return;
+//		}
+//		
 		//第一次申请
 		if(StringUtils.isBlank(schTechResourceApply.getAct().getTaskId())){
 			
