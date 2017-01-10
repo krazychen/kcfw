@@ -22,4 +22,8 @@ public interface SchCompReqDao extends CrudDao<SchCompReq> {
 	public int updateRecComment(SchCompReq schCompReq);
 	
 	public int updateFinalComment(SchCompReq schCompReq);
+	
+	public Integer getAcceptTimes(SchCompReq schCompReq);
+	
+	public int updateAll(SchCompReq schCompReq);
 }

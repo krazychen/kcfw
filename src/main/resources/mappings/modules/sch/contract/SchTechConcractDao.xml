@@ -243,4 +243,29 @@
 		</choose>
 	</select>
 	
+	<update id="updateAll">
+		UPDATE sch_tech_concract SET 	
+			stc_name = #{stcName},
+			stc_type = #{stcType},
+			stc_research_type = #{stcResearchType},
+			stc_research_type_sub = #{stcResearchTypeSub},
+			stc_industry = #{stcIndustry},
+			stc_response_user_id = #{stcResponseUserId},
+			stc_response_office_id = #{stcResponseOfficeId},
+			stc_company_name = #{stcCompanyName},
+			stc_company_area = #{stcCompanyArea},
+			stc_company_area_name = #{stcCompanyAreaName},
+			stc_company_type = #{stcCompanyType},
+			stc_files = #{stcFiles},
+			stc_submit_date = #{stcSubmitDate},
+			stc_money = #{stcMoney},
+			stc_teach_comment = #{stcTeachComment},
+			stc_resp_comment = #{stcRespComment},
+			stc_mana_comment = #{stcManaComment},
+			stc_final_comment = #{stcFinalComment},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
 </mapper>

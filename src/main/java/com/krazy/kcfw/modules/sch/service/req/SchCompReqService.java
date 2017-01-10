@@ -208,7 +208,7 @@ public class SchCompReqService extends CrudService<SchCompReqDao, SchCompReq> {
 		else if("teacher_audit".equals(taskDefKey)){
 			// 设置意见
 			schCompReq.getAct().setComment(("yes".equals(schCompReq.getAct().getFlag())?"[已解决] ":"[退回] ")+schCompReq.getAct().getComment());
-			schCompReq.setScrRecComment(schCompReq.getAct().getComment());
+			schCompReq.setScrFinalComment(schCompReq.getAct().getComment());
 			schCompReq.setScrStatus("5");
 			dao.updateFinalComment(schCompReq);
 
@@ -242,5 +242,17 @@ public class SchCompReqService extends CrudService<SchCompReqDao, SchCompReq> {
 //			dao.insert(strl);
 			this.save(strl);
 		}
+	}
+	
+	public Integer getAcceptTimes(){
+		SchCompReq schCompReq =new SchCompReq();
+		schCompReq.setScrStatus("4");
+		schCompReq.setScrRecTeachId(UserUtils.getUser().getId());
+		return this.dao.getAcceptTimes(schCompReq);
+	}
+	
+	@Transactional(readOnly = false)
+	public void saveSuper(SchCompReq schCompReq) {
+		this.dao.updateAll(schCompReq);
 	}
 }

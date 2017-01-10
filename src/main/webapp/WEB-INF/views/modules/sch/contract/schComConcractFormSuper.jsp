@@ -72,7 +72,7 @@
 		<li><a href="${ctx}/sch/contract/schComConcract/">合同列表</a></li>
 		<li class="active"><a href="${ctx}/sch/contract/schComConcract/form?id=${schComConcract.id}">合同<shiro:hasPermission name="sch:contract:schComConcract:edit">${not empty schComConcract.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sch:contract:schComConcract:edit">查看</shiro:lacksPermission></a></li>
 	</ul>
-	<form:form id="inputForm" modelAttribute="schComConcract" action="${ctx}/sch/contract/schComConcract/save" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="schComConcract" action="${ctx}/sch/contract/schComConcract/saveSuper" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<form:hidden path="act.taskId"/>
 		<form:hidden path="act.taskName"/>
@@ -136,7 +136,7 @@
 					</td>
 					<td>
 						<sys:treeselect id="sccResponseUserId" name="sccResponseUserId" value="${schComConcract.sccResponseUserId!=null ? schComConcract.sccResponseUserId : fns:getUser().getId()}" labelName="sccResponseUserName" labelValue="${schComConcract.sccResponseUserName!=null ? schComConcract.sccResponseUserName : fns:getUser().getName()}"
-							title="用户" allowInput="true" url="/sys/office/treeData?type=3" cssClass="input-large editFormTreeWidth required" allowClear="true" notAllowSelectParent="true"/>
+							title="用户" allowInput="true" url="/sys/office/treeData?type=3" cssClass="input-large required" allowClear="true" notAllowSelectParent="true"/>
 					</td>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>负责人所属院系：
@@ -169,7 +169,7 @@
 					</td>
 					<td>
 						<sys:treeselect id="sccCompanyArea" name="sccCompanyArea" value="${schComConcract.sccCompanyArea}" labelName="sccCompanyAreaName" labelValue="${schComConcract.sccCompanyAreaName}"
-							title="区域" allowInput="true" url="/sys/area/treeData" cssClass="input-large editFormTreeWidth required" allowClear="true" notAllowSelectParent="false" showParent="true"/>
+							title="区域" allowInput="true" url="/sys/area/treeData" cssClass="input-large required" allowClear="true" notAllowSelectParent="false" showParent="true"/>
 					</td>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>合作企业类别：
@@ -200,26 +200,47 @@
 						<sys:ckfinder input="sccFiles" type="files" uploadPath="/com_concract_file" selectMultiple="true"/>
 					</td>
 				</tr>
+				<tr>
+					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>院系秘书审批意见</td>
+					<td colspan="5">
+						<form:textarea path="sccTeachComment" class="input-xxlarge editFormSelectWidth required" rows="5" maxlength="2000" />
+					</td>
+				</tr>
+				<tr>
+					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>科研负责人审批意见</td>
+					<td colspan="5">
+						<form:textarea path="sccRespComment" class="input-xxlarge editFormSelectWidth required" rows="5" maxlength="2000" />
+					</td>
+				</tr>
+				<tr>
+					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>合同管理员审批意见</td>
+					<td colspan="5">
+						<form:textarea path="sccManaComment" class="input-xxlarge editFormSelectWidth required" rows="5" maxlength="2000" />
+					</td>
+				</tr>
+				<tr>
+					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>副处长/处长审批意见</td>
+					<td colspan="5">
+						<form:textarea path="sccFinalComment" class="input-xxlarge editFormSelectWidth required" rows="5" maxlength="2000" />
+					</td>
+				</tr>
 			</table>
 		</fieldset>
 		<div class="form-actions">
 			<shiro:hasPermission name="sch:contract:schComConcract:edit">
-				<c:if test="${schComConcract.sccStatus==1 || empty schComConcract.id}">
-					<input id="btnSubmit" class="btn btn-primary" type="submit" value="保存草稿"/>&nbsp;
-				</c:if>
-					<input id="btnSubmit2" class="btn btn-primary" type="submit" value="提交申请" onclick="$('#flag').val('yes')"/>&nbsp;
-				<c:if test="${schComConcract.sccStatus==1 || empty schComConcract.id}">
-					<input id="btnAdd" class="btn btn-primary" type="button" value="新 增" onClick="location.href='${ctx}/sch/contract/schComConcract/form'"/>&nbsp;
-				</c:if>
-				<c:if test="${not empty schComConcract.id && not empty schComConcract.act.procInsId}">
-					<input id="btnSubmit3" class="btn btn-inverse" type="submit" value="取消申请" onclick="$('#flag').val('no')"/>&nbsp;
-				</c:if>
+				<input id="btnSubmit" class="btn btn-primary" type="submit" value="保存"/>&nbsp;
 			</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 		
 		<c:if test="${not empty schComConcract.act.procInsId}">
+			</br>
 			<act:histoicFlow procInsId="${schComConcract.act.procInsId}" />
+		</c:if>
+		
+		<c:if test="${empty schComConcract.act.procInsId}">
+			</br>
+			<act:histoicFlow procInsId="${schComConcract.procInsId}" />
 		</c:if>
 	</form:form>
 </body>

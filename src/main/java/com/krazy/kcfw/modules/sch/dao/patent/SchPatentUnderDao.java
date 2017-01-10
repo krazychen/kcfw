@@ -24,5 +24,5 @@ public interface SchPatentUnderDao extends CrudDao<SchPatentUnder> {
 	
 	public int updateAgencyText(SchPatentUnder schPatentUnder);
 
-	
+	public int updateAll(SchPatentUnder schPatentUnder);
 }

@@ -207,4 +207,38 @@
 		WHERE id = #{id}
 	</update>
 	
+	<select id="getAcceptTimes" resultType="Integer">
+		select count(*) from sch_comp_req a
+		<where>
+			<if test="scrStatus != null and scrStatus != ''">
+				AND a.scr_status = #{scrStatus}
+			</if>
+			<if test="scrRecTeachId != null and scrRecTeachId != ''">
+				AND a.scr_rec_teach_id = #{scrRecTeachId}
+			</if>
+		</where>
+	</select>
+	
+	
+	<update id="updateAll">
+		UPDATE sch_comp_req SET 	
+			scr_name = #{scrName},
+			scr_status = #{scrStatus},
+			scr_industry = #{scrIndustry},
+			scr_content = #{scrContent},
+			scr_market = #{scrMarket},
+			scr_coop_method = #{scrCoopMethod},
+			scr_expiry_date = #{scrExpiryDate},
+			scr_company_name = #{scrCompanyName},
+			scr_company_contact = #{scrCompanyContact},
+			scr_company_phone = #{scrCompanyPhone},
+			scr_company_email = #{scrCompanyEmail},
+			scr_files = #{scrFiles},
+			scr_mana_comment = #{scrManaComment},
+			scr_rec_comment = #{scrRecComment},
+			scr_final_comment = #{scrFinalComment},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
 </mapper>

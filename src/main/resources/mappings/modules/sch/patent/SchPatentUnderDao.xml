@@ -229,4 +229,25 @@
 		WHERE id = #{id}
 	</update>
 	
+	<update id="updateAll">
+		UPDATE sch_patent_under SET 
+			spu_name = #{spuName},
+			spu_type_name = #{spuTypeName},
+			spu_apply_school_name = #{spuApplySchoolName},
+			spu_apply_user_id = #{spuApplyUserId},
+			spu_apply_user_office_id = #{spuApplyUserOfficeId},
+			spu_apply_phone = #{spuApplyPhone},
+			spu_advis_teacher_id = #{spuAdvisTeacherId},
+			spu_advis_teacher_office_id = #{spuAdvisTeacherOfficeId},
+			spu_proxy_id = #{spuProxyId},
+			spu_remark = #{spuRemark},
+			spu_status = #{spuStatus},
+			first_text = #{firstText},
+			lead_text = #{leadText},
+			agency_text = #{agencyText},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
 </mapper>

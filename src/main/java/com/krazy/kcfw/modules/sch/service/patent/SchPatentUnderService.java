@@ -260,5 +260,10 @@ public class SchPatentUnderService extends CrudService<SchPatentUnderDao, SchPat
 		actTaskService.complete(schPatentUnder.getAct().getTaskId(), schPatentUnder.getAct().getProcInsId(), schPatentUnder.getAct().getComment(), vars);
 
 	}
+
+	public void saveSuper(SchPatentUnder schPatentUnder) {
+		// TODO Auto-generated method stub
+		this.dao.updateAll(schPatentUnder);
+	}
 	
 }

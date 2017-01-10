@@ -23,7 +23,6 @@ import com.krazy.kcfw.modules.act.utils.ActUtils;
 import com.krazy.kcfw.modules.sch.entity.contract.SchTechConcract;
 import com.krazy.kcfw.modules.sch.dao.contract.SchTechConcractDao;
 import com.krazy.kcfw.modules.sys.dao.UserDao;
-import com.krazy.kcfw.modules.sys.entity.Role;
 import com.krazy.kcfw.modules.sys.entity.User;
 import com.krazy.kcfw.modules.sys.utils.UserUtils;
 
@@ -285,5 +284,10 @@ public class SchTechConcractService extends CrudService<SchTechConcractDao, SchT
 		}
 		actTaskService.complete(schTechConcract.getAct().getTaskId(), schTechConcract.getAct().getProcInsId(), schTechConcract.getAct().getComment(), vars);
 
+	}
+	
+	public void saveSuper(SchTechConcract schTechConcract) {
+		// TODO Auto-generated method stub
+		this.dao.updateAll(schTechConcract);
 	}
 }

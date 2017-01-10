@@ -12,7 +12,7 @@
 			    var length = value.length;  
 			    var mobile = /^(13[0-9]{9})|(18[0-9]{9})|(14[0-9]{9})|(17[0-9]{9})|(15[0-9]{9})$/;  
 			    return this.optional(element) || (length == 11 && mobile.test(value));  
-			}, "请正确填写您的手机号码");  
+			}, "请正确填写手机号码");  
 			
 			//$("#name").focus();
 			$("#inputForm").validate({
@@ -35,11 +35,11 @@
                 	scrCompanyPhone : {  
                 		required : "请输入手机号",  
                         minlength : "确认手机不能小于11个字符",  
-                        isMobile : "请正确填写您的手机号码"  
+                        isMobile : "请正确填写手机号码"  
                     },
                     scrCompanyEmail : {  
                 		required : "请输入邮箱",  
-                        email : "请正确填写您的邮箱"  
+                        email : "请正确填写邮箱"  
                     }
                 },  
 				errorContainer: "#messageBox",
@@ -53,31 +53,14 @@
 				}
 			});
 		});
-		
-		function acceptARejuect(e){
-			$('#flag').val('yes');
-			$.ajax({
-				type: "POST",
-				url: "${ctx}/sch/req/schCompReq/getAcceptTimes",
-				data: { //发送给数据库的数据
-				},
-				dataType: 'json',
-				success: function(data) {
-					if(data!=false){
-						alert("已接受"+data+"个方案，请先解决方案后再接受!");
-					}else{
-						inputForm.submit();
-					}
-				}
-			})
-		}
 	</script>
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/sch/req/schCompReq/form?id=${schCompReq.id}">企业需求详情</a></li>
+		<li><a href="${ctx}/sch/req/schCompReq/">企业需求列表</a></li>
+		<li class="active"><a href="${ctx}/sch/req/schCompReq/form?id=${schCompReq.id}">企业需求<shiro:hasPermission name="sch:req:schCompReq:edit">${not empty schCompReq.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sch:req:schCompReq:edit">查看</shiro:lacksPermission></a></li>
 	</ul>
-	<form:form id="inputForm" modelAttribute="schCompReq" action="${ctx}/sch/req/schCompReq/saveAudit" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="schCompReq" action="${ctx}/sch/req/schCompReq/saveSuper" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<form:hidden path="act.taskId"/>
 		<form:hidden path="act.taskName"/>
@@ -93,14 +76,17 @@
 						<span class="help-inline"><font color="red">*</font> </span>难题名称：
 					</td>
 					<td colspan="3">
-						${schCompReq.scrName }
+						<form:input path="scrName" htmlEscape="false" maxlength="100" class="input-large required editFormSelectWidth"/>
 					</td>
 					
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>所属行业：
 					</td>
 					<td>
-						${fns:getDictLabel(schCompReq.scrIndustry, 'COMPANY_REQ_INDUSTRY', '')}
+						<form:select path="scrIndustry" class="input-large editFormSelectWidth required ">
+							<form:option value="" label=""/>
+							<form:options items="${fns:getDictList('COMPANY_REQ_INDUSTRY')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+						</form:select>
 					</td>
 					
 				</tr>
@@ -109,7 +95,7 @@
 						<span class="help-inline"><font color="red">*</font> </span>内容与说明：
 					</td>
 					<td colspan="5">
-						${schCompReq.scrContent }
+						<form:textarea path="scrContent" htmlEscape="false" rows="3" maxlength="2000" class="input-xxlarge editFormSelectWidth required"/>
 					</td>
 				</tr>
 				<tr>
@@ -117,7 +103,7 @@
 						市场前景(方向)：
 					</td>
 					<td colspan="5">
-						${schCompReq.scrMarket }
+						<form:textarea path="scrMarket" htmlEscape="false" rows="3" maxlength="2000" class="input-xxlarge editFormSelectWidth"/>
 					</td>
 				</tr>
 				<tr>
@@ -125,20 +111,23 @@
 						<span class="help-inline"><font color="red">*</font> </span>合作方式：
 					</td>
 					<td>
-						${fns:getDictLabel(schCompReq.scrCoopMethod, 'COMPANY_REQ_COOP_METHOD', '')}
+						<form:select path="scrCoopMethod" class="input-large editFormSelectWidth required ">
+							<form:option value="" label=""/>
+							<form:options items="${fns:getDictList('COMPANY_REQ_COOP_METHOD')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+						</form:select>
 					</td>
 
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>企业名称：
 					</td>
 					<td>
-						${schCompReq.scrCompanyName }
+						<form:input path="scrCompanyName" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required"/>
 					</td>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>联系人：
 					</td>
 					<td>
-						${schCompReq.scrCompanyContact }
+						<form:input path="scrCompanyContact" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required"/>
 					</td>
 					
 
@@ -148,19 +137,21 @@
 						<span class="help-inline"><font color="red">*</font> </span>联系电话：
 					</td>
 					<td>
-						${schCompReq.scrCompanyPhone }
+						<form:input path="scrCompanyPhone" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required"/>
 					</td>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>电子邮箱：
 					</td>
 					<td>
-						${schCompReq.scrCompanyEmail }
+						<form:input path="scrCompanyEmail" htmlEscape="false" maxlength="100" class="input-large required editFormFieldWidth"/>
 					</td>
 					<td class="tit">
 						失效日期：
 					</td>
 					<td>
-						<fmt:formatDate value="${schCompReq.scrExpiryDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+						<input name="scrExpiryDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate editFormFieldWidth"
+							value="<fmt:formatDate value="${schCompReq.scrExpiryDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+							onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 					</td>
 				</tr>
 				<tr>
@@ -169,48 +160,44 @@
 					</td>
 					<td colspan="5">
 						<form:hidden id="scrFiles" path="scrFiles" htmlEscape="false" maxlength="2000" class="input-large editFormFieldWidth"/>
-						<sys:ckfinder input="scrFiles" type="files" uploadPath="/company_req" selectMultiple="true"  readonly="true"/>
+						<sys:ckfinder input="scrFiles" type="files" uploadPath="/company_req" selectMultiple="true"/>
 					</td>
 				</tr>
 				<tr>
-					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>
-					<c:if test="${schCompReq.act.taskDefKey ne 'apply_end' && schCompReq.act.taskDefKey == 'mana_audit'}">
-						您的审核意见
-					</c:if>
-					<c:if test="${schCompReq.act.taskDefKey ne 'apply_end' && schCompReq.act.taskDefKey == 'teacher_receive'}">
-						您的接受意见
-					</c:if>
-					<c:if test="${schCompReq.act.taskDefKey ne 'apply_end' && schCompReq.act.taskDefKey == 'teacher_audit'}">
-						您的解决意见
-					</c:if>
-					</td>
+					<td class="tit">管理员审核意见</td>
 					<td colspan="5">
-						<form:textarea path="act.comment" class="input-xxlarge editFormSelectWidth required" rows="5" maxlength="2000"/>
+						<form:textarea path="scrManaComment" class="input-xxlarge editFormSelectWidth required" rows="5" maxlength="2000" />						
+					</td>
+				</tr>
+				<tr>
+					<td class="tit">教师接受意见</td>
+					<td colspan="5">
+						<form:textarea path="scrRecComment" class="input-xxlarge editFormSelectWidth required" rows="5" maxlength="2000" />
+					</td>
+				</tr>
+				<tr>
+					<td class="tit">教师解决意见</td>
+					<td colspan="5">
+						<form:textarea path="scrFinalComment" class="input-xxlarge editFormSelectWidth required" rows="5" maxlength="2000" />
 					</td>
 				</tr>
 			</table>
 		</fieldset>
 		<div class="form-actions">
 			<shiro:hasPermission name="sch:req:schCompReq:edit">
-				<c:if test="${schCompReq.act.taskDefKey ne 'apply_end' && schCompReq.act.taskDefKey == 'mana_audit'}">
-					<input id="btnSubmit" class="btn btn-primary" type="submit" value="审核通过" onclick="$('#flag').val('yes')"/>&nbsp;
-					<input id="btnSubmit" class="btn btn-inverse" type="submit" value="审核不通过" onclick="$('#flag').val('no')"/>&nbsp;
-				</c:if>	
-				<c:if test="${schCompReq.act.taskDefKey ne 'apply_end' && schCompReq.act.taskDefKey == 'teacher_receive'}">
-					<input id="btnSubmit" class="btn btn-primary" type="button" value="接受" onclick="acceptARejuect();"/>&nbsp;
-					<input id="btnSubmit" class="btn btn-inverse" type="submit" value="拒绝" onclick="$('#flag').val('no')"/>&nbsp;
-				</c:if>	
-				<c:if test="${schCompReq.act.taskDefKey ne 'apply_end' && schCompReq.act.taskDefKey == 'teacher_audit'}">
-					<input id="btnSubmit" class="btn btn-primary" type="submit" value="已解决" onclick="$('#flag').val('yes')"/>&nbsp;
-					<input id="btnSubmit" class="btn btn-inverse" type="submit" value="退回" onclick="$('#flag').val('no')"/>&nbsp;
-				</c:if>		
+				<input id="btnSubmit" class="btn btn-primary" type="submit" value="保存"/>&nbsp;	
 			</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 		
-		<c:if test="${not empty schCompReq.id}">
+		<c:if test="${not empty schCompReq.act.procInsId}">
 			</br>
 			<act:histoicFlow procInsId="${schCompReq.act.procInsId}" />
+		</c:if>
+		
+		<c:if test="${empty schCompReq.act.procInsId}">
+			</br>
+			<act:histoicFlow procInsId="${schCompReq.procInsId}" />
 		</c:if>
 	</form:form>
 </body>

@@ -22,10 +22,13 @@ import com.krazy.kcfw.common.config.Global;
 import com.krazy.kcfw.common.persistence.Page;
 import com.krazy.kcfw.common.web.BaseController;
 import com.krazy.kcfw.common.utils.StringUtils;
+import com.krazy.kcfw.modules.sch.entity.contract.SchComConcract;
 import com.krazy.kcfw.modules.sch.entity.contract.SchTechConcract;
 import com.krazy.kcfw.modules.sch.service.contract.SchTechConcractService;
 import com.krazy.kcfw.modules.sys.entity.Dict;
+import com.krazy.kcfw.modules.sys.entity.User;
 import com.krazy.kcfw.modules.sys.utils.DictUtils;
+import com.krazy.kcfw.modules.sys.utils.UserUtils;
 
 /**
  * 技贸合同Controller
@@ -106,11 +109,17 @@ public class SchTechConcractController extends BaseController {
 				else if ("ddirect_audit".equals(taskDefKey)){
 					view = "schTechConcractFormAudit";
 				}else if("apply_end".equals(taskDefKey)){
-					view="schComConcractFormView";
+					view="schTechConcractFormView";
 				}
 			}
 		}
 		
+		//判断如果是超级管理员账户，则进入任意修改模式
+		User user=UserUtils.getUser();
+		if(user.getRoleNames().indexOf("系统管理员")!=-1){
+			view="schTechConcractFormSuper";
+		}
+
 		model.addAttribute("schTechConcract", schTechConcract);
 		String resType=schTechConcract.getStcResearchType();
 		List<Dict> dicts=DictUtils.getDictList("CONTRACT_RESEARCH_TYPE_SUB"+resType);
@@ -153,6 +162,17 @@ public class SchTechConcractController extends BaseController {
 		}
 		schTechConcractService.auditSave(schTechConcract);
 		return "redirect:"+Global.getAdminPath()+"/act/task/todo/";
+	}
+	
+	@RequiresPermissions("sch:contract:schTechConcract:edit")
+	@RequestMapping(value = "saveSuper")
+	public String saveSuper(SchTechConcract schTechConcract, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, schTechConcract)){
+			return form(schTechConcract, model);
+		}
+		schTechConcractService.saveSuper(schTechConcract);
+		addMessage(redirectAttributes, "保存合同成功");
+		return "redirect:"+Global.getAdminPath()+"/sch/contract/schTechConcract/?repage";
 	}
 	
 	@RequiresPermissions("sch:contract:schTechConcract:edit")

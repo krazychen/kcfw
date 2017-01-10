@@ -25,7 +25,9 @@ import com.krazy.kcfw.common.utils.StringUtils;
 import com.krazy.kcfw.modules.sch.entity.contract.SchComConcract;
 import com.krazy.kcfw.modules.sch.service.contract.SchComConcractService;
 import com.krazy.kcfw.modules.sys.entity.Dict;
+import com.krazy.kcfw.modules.sys.entity.User;
 import com.krazy.kcfw.modules.sys.utils.DictUtils;
+import com.krazy.kcfw.modules.sys.utils.UserUtils;
 
 /**
  * 普通合同Controller
@@ -62,7 +64,7 @@ public class SchComConcractController extends BaseController {
 	@RequiresPermissions("sch:contract:schComConcract:view")
 	@RequestMapping(value = "form")
 	public String form(SchComConcract schComConcract, Model model) {
-		
+
 		String view = "schComConcractForm";
 		
 		// 查看审批申请单
@@ -111,6 +113,12 @@ public class SchComConcractController extends BaseController {
 			}
 		}
 		
+		//判断如果是超级管理员账户，则进入任意修改模式
+		User user=UserUtils.getUser();
+		if(user.getRoleNames().indexOf("系统管理员")!=-1){
+			view="schComConcractFormSuper";
+		}
+		
 		model.addAttribute("schComConcract", schComConcract);
 		String resType=schComConcract.getSccResearchType();
 		List<Dict> dicts=DictUtils.getDictList("CONTRACT_RESEARCH_TYPE_SUB"+resType);
@@ -134,6 +142,17 @@ public class SchComConcractController extends BaseController {
 			addMessage(redirectAttributes, "提交合同审批成功");
 			return "redirect:"+Global.getAdminPath()+"/act/task/todo/";
 		}
+	}
+	
+	@RequiresPermissions("sch:contract:schComConcract:edit")
+	@RequestMapping(value = "saveSuper")
+	public String saveSuper(SchComConcract schComConcract, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, schComConcract)){
+			return form(schComConcract, model);
+		}
+		schComConcractService.saveSuper(schComConcract);
+		addMessage(redirectAttributes, "保存合同成功");
+		return "redirect:"+Global.getAdminPath()+"/sch/contract/schComConcract/?repage";
 	}
 	
 	/**

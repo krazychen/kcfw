@@ -27,6 +27,7 @@ import com.krazy.kcfw.common.persistence.Page;
 import com.krazy.kcfw.common.web.BaseController;
 import com.krazy.kcfw.common.utils.StringUtils;
 import com.krazy.kcfw.modules.oa.entity.TestAudit;
+import com.krazy.kcfw.modules.sch.entity.contract.SchComConcract;
 import com.krazy.kcfw.modules.sch.entity.patent.SchPatentAgency;
 import com.krazy.kcfw.modules.sch.entity.patent.SchPatentUnder;
 import com.krazy.kcfw.modules.sch.service.patent.SchPatentAgencyService;
@@ -34,6 +35,7 @@ import com.krazy.kcfw.modules.sch.service.patent.SchPatentUnderService;
 import com.krazy.kcfw.modules.sys.entity.Dict;
 import com.krazy.kcfw.modules.sys.entity.Office;
 import com.krazy.kcfw.modules.sys.entity.Role;
+import com.krazy.kcfw.modules.sys.entity.User;
 import com.krazy.kcfw.modules.sys.utils.DictUtils;
 import com.krazy.kcfw.modules.sys.utils.UserUtils;
 
@@ -121,7 +123,7 @@ public class SchPatentUnderController extends BaseController {
 				else if ("agency_audit".equals(taskDefKey)){
 					view = "schPatentUnderFormAudit";
 				}else if("apply_end".equals(taskDefKey)){
-					view="schComConcractFormView";
+					view="schPatentUnderFormView";
 				}
 			}
 		}
@@ -132,6 +134,12 @@ public class SchPatentUnderController extends BaseController {
 		for(SchPatentAgency spa:schPatentAgencyList){
 			schPatentAgencys.put(spa.getSpaCode(), spa.getSpaName());
 		}
+		//判断如果是超级管理员账户，则进入任意修改模式
+		User user=UserUtils.getUser();
+		if(user.getRoleNames().indexOf("系统管理员")!=-1){
+			view="schPatentUnderFormSuper";
+		}
+				
 		model.addAttribute("schPatentAgencyLiss", schPatentAgencys);
 		model.addAttribute("schPatentUnder", schPatentUnder);
 		return "modules/sch/patent/"+view;
@@ -152,6 +160,17 @@ public class SchPatentUnderController extends BaseController {
 			addMessage(redirectAttributes, "提交专利申报成功");
 			return "redirect:"+Global.getAdminPath()+"/act/task/todo/";
 		}
+	}
+	
+	@RequiresPermissions("sch:patent:schPatentUnder:edit")
+	@RequestMapping(value = "saveSuper")
+	public String saveSuper(SchPatentUnder schPatentUnder, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, schPatentUnder)){
+			return form(schPatentUnder, model);
+		}
+		schPatentUnderService.saveSuper(schPatentUnder);
+		addMessage(redirectAttributes, "保存专利申报成功");
+		return "redirect:"+Global.getAdminPath()+"/sch/patent/schPatentUnder/?repage";
 	}
 	
 	/**

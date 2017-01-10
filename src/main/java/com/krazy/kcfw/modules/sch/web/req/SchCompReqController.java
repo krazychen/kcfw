@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -30,6 +31,7 @@ import com.krazy.kcfw.common.web.BaseController;
 import com.krazy.kcfw.common.utils.FileUtils;
 import com.krazy.kcfw.common.utils.StringUtils;
 import com.krazy.kcfw.common.utils.excel.ImportExcel;
+import com.krazy.kcfw.modules.sch.entity.patent.SchPatentUnder;
 import com.krazy.kcfw.modules.sch.entity.req.SchCompReq;
 import com.krazy.kcfw.modules.sch.entity.res.SchTechResource;
 import com.krazy.kcfw.modules.sch.service.req.SchCompReqService;
@@ -109,9 +111,15 @@ public class SchCompReqController extends BaseController {
 				else if ("teacher_audit".equals(taskDefKey)){
 					view = "schCompReqFormAudit";
 				}else if("apply_end".equals(taskDefKey)){
-					view="schComConcractFormView";
+					view="schCompReqFormView";
 				}
 			}
+		}
+		
+		//判断如果是超级管理员账户，则进入任意修改模式
+		User user=UserUtils.getUser();
+		if(user.getRoleNames().indexOf("系统管理员")!=-1){
+			view="schCompReqFormSuper";
 		}
 		
 		model.addAttribute("schCompReq", schCompReq);
@@ -133,6 +141,17 @@ public class SchCompReqController extends BaseController {
 			addMessage(redirectAttributes, "提交企业需求成功");
 			return "redirect:"+Global.getAdminPath()+"/act/task/todo/";
 		}
+	}
+	
+	@RequiresPermissions("sch:req:schCompReq:edit")
+	@RequestMapping(value = "saveSuper")
+	public String saveSuper(SchCompReq schCompReq, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, schCompReq)){
+			return form(schCompReq, model);
+		}
+		schCompReqService.saveSuper(schCompReq);
+		addMessage(redirectAttributes, "保存企业需求成功");
+		return "redirect:"+Global.getAdminPath()+"/sch/req/schCompReq/?repage";
 	}
 	
 	/**
@@ -232,4 +251,16 @@ public class SchCompReqController extends BaseController {
 
         return "redirect:"+Global.getAdminPath()+"/sch/req/schCompReq/?repage";
     }
+	
+	@RequestMapping(value="getAcceptTimes")
+	public @ResponseBody String getAcceptTimes(){
+		String val=DictUtils.getDictValue("times","COMPANY_REQ_ACCEPT_TIMES","");
+		int times=this.schCompReqService.getAcceptTimes();
+		if(times>=Integer.parseInt(val)){
+			return val;
+		}
+		else{
+			return "false";
+		}
+	}
 }

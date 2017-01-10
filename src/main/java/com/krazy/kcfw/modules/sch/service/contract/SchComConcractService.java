@@ -286,4 +286,9 @@ public class SchComConcractService extends CrudService<SchComConcractDao, SchCom
 		actTaskService.complete(schComConcract.getAct().getTaskId(), schComConcract.getAct().getProcInsId(), schComConcract.getAct().getComment(), vars);
 
 	}
+
+	public void saveSuper(SchComConcract schComConcract) {
+		// TODO Auto-generated method stub
+		this.dao.updateAll(schComConcract);
+	}
 }

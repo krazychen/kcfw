@@ -27,4 +27,6 @@ public interface SchComConcractDao extends CrudDao<SchComConcract> {
 	public int updateManaComment(SchComConcract schComConcract);
 	
 	public int updateFinalComment(SchComConcract schComConcract);
+	
+	public int updateAll(SchComConcract schComConcract);
 }

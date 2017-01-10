@@ -90,7 +90,7 @@
 						${schComConcract.sccResponseOfficeName }
 					</td>
 					<td class="tit">
-						<span class="help-inline"><font color="red">*</font> </span>合同金额：
+						<span class="help-inline"><font color="red">*</font> </span>合同金额（元）：
 					</td>
 					<td>
 						${schComConcract.sccMoney }

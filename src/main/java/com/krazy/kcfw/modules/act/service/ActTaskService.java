@@ -29,8 +29,11 @@ import org.activiti.engine.impl.bpmn.behavior.UserTaskActivityBehavior;
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.impl.interceptor.CommandExecutor;
+import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
+import org.activiti.engine.impl.pvm.PvmActivity;
+import org.activiti.engine.impl.pvm.PvmTransition;
 import org.activiti.engine.impl.pvm.delegate.ActivityBehavior;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.impl.task.TaskDefinition;
@@ -279,7 +282,6 @@ public class ActTaskService extends BaseService {
 			if (StringUtils.isNotBlank(histIns.getAssignee())
 					 || "startEvent".equals(histIns.getActivityType())
 					 || "endEvent".equals(histIns.getActivityType())){
-				
 				// 给节点增加一个序号
 				Integer actNum = actMap.get(histIns.getActivityId());
 				if (actNum == null){
@@ -340,6 +342,65 @@ public class ActTaskService extends BaseService {
 					break;
 				}
 			}
+		}
+		
+		
+		return actList;
+	}
+	
+	/**
+	 * 获取流转历史当前节点列表
+	 * @param procInsId 流程实例
+	 * @param startAct 开始活动节点名称
+	 * @param endAct 结束活动节点名称
+	 */
+	public List<Act> histoicFlowCurrentNodeList(String procInsId, String startAct, String endAct){
+		
+		List<Act> actList = Lists.newArrayList();
+		//添加当前执行节点
+		Task currentTask=getCurrentTaskInfo(getProcIns(procInsId));
+		if(currentTask!=null){
+			Act e = new Act();
+			e.setTask(currentTask);
+			//判断任务是否需要签收
+			List<IdentityLink> illist=taskService.getIdentityLinksForTask(currentTask.getId());
+			if(illist!=null){
+				String ids="";
+				String names="";
+				String phones="";
+				String offices="";
+				for(IdentityLink il:illist){
+					if(il.getType().equals("candidate")){
+						User user = UserUtils.getByLoginName(il.getUserId());
+						if (user != null){
+							names+=user.getName()+",";
+							ids+=il.getUserId()+",";
+							if(StringUtils.isNoneBlank(user.getPhone())){
+								phones+=user.getPhone()+",";
+							}
+							offices+=user.getOffice().getName()+",";
+						}
+					}
+				}
+				if(StringUtils.isNoneBlank(ids))
+					e.setAssignee(ids.substring(0, ids.length()-1));
+				if(StringUtils.isNoneBlank(names))
+					e.setAssigneeName(names.substring(0, names.length()-1));
+				if(StringUtils.isNoneBlank(offices))
+					e.setAssigneeOfficeName(offices.substring(0, offices.length()-1));
+				if(StringUtils.isNoneBlank(phones))
+					e.setAssigneePhone(phones.substring(0, phones.length()-1));
+			}
+			if(StringUtils.isNoneBlank(currentTask.getAssignee())){
+				User user = UserUtils.getByLoginName(currentTask.getAssignee());
+				if (user != null){
+					e.setAssignee(currentTask.getAssignee());
+					e.setAssigneeName(user.getName());
+					e.setAssigneeOfficeName(user.getOffice().getName());
+					e.setAssigneePhone(user.getPhone());
+				}
+			}
+			actList.add(e);
 		}
 		return actList;
 	}
@@ -994,6 +1055,74 @@ public class ActTaskService extends BaseService {
 		}
 		return currentTask;
 	}
+	
+	/**
+     * 根据实例编号查找下一个任务节点
+     * @param String procInstId ：实例编号
+     * @return
+     */
+    public TaskDefinition nextTaskDefinition(String procInstId){
+        //流程标示
+        String processDefinitionId = historyService.createHistoricProcessInstanceQuery().processInstanceId(procInstId).singleResult().getProcessDefinitionId();
+           
+        ProcessDefinitionEntity def = (ProcessDefinitionEntity) ((RepositoryServiceImpl)repositoryService).getDeployedProcessDefinition(processDefinitionId);
+        //执行实例
+        ExecutionEntity execution = (ExecutionEntity) runtimeService.createProcessInstanceQuery().processInstanceId(procInstId).singleResult();
+        //当前实例的执行到哪个节点
+        String activitiId = execution.getActivityId();
+        //获得当前任务的所有节点
+        List<ActivityImpl> activitiList = def.getActivities();
+        String id = null;
+        for(ActivityImpl activityImpl:activitiList){
+            id = activityImpl.getId();
+            if(activitiId.equals(id)){
+                System.out.println("当前任务："+activityImpl.getProperty("name"));
+                return nextTaskDefinition(activityImpl, activityImpl.getId(),"${iscorrect==1}");
+//              System.out.println(taskDefinition.getCandidateGroupIdExpressions().toArray()[0]);
+//              return taskDefinition;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * 下一个任务节点
+     * @param activityImpl
+     * @param activityId
+     * @param elString
+     * @return
+     */
+    private TaskDefinition nextTaskDefinition(ActivityImpl activityImpl, String activityId, String elString){
+            if("userTask".equals(activityImpl.getProperty("type")) && !activityId.equals(activityImpl.getId())){
+                TaskDefinition taskDefinition = ((UserTaskActivityBehavior)activityImpl.getActivityBehavior()).getTaskDefinition();
+//              taskDefinition.getCandidateGroupIdExpressions().toArray();
+                return taskDefinition;
+            }else{
+                List<PvmTransition> outTransitions = activityImpl.getOutgoingTransitions();
+                List<PvmTransition> outTransitionsTemp = null;
+                for(PvmTransition tr:outTransitions){
+                    PvmActivity ac = tr.getDestination(); //获取线路的终点节点
+                    if("exclusiveGateway".equals(ac.getProperty("type"))){
+                        outTransitionsTemp = ac.getOutgoingTransitions();
+                        if(outTransitionsTemp.size() == 1){
+                            return nextTaskDefinition((ActivityImpl)outTransitionsTemp.get(0).getDestination(), activityId, elString);
+                        }else if(outTransitionsTemp.size() > 1){
+                            for(PvmTransition tr1 : outTransitionsTemp){
+                                Object s = tr1.getProperty("conditionText");
+                                if(elString.equals(StringUtils.trim(s.toString()))){
+                                    return nextTaskDefinition((ActivityImpl)tr1.getDestination(), activityId, elString);
+                                }
+                            }
+                        }
+                    }else if("userTask".equals(ac.getProperty("type"))){
+                        return ((UserTaskActivityBehavior)((ActivityImpl)ac).getActivityBehavior()).getTaskDefinition();
+                    }else{
+                        logger.debug((String) ac.getProperty("type"));
+                    }
+                }
+            return null;
+        }
+    }
 
 	/**
 	 * 设置宽度、高度属性

@@ -84,6 +84,9 @@ public class ActTaskController extends BaseController {
 		if (StringUtils.isNotBlank(act.getProcInsId())){
 			List<Act> histoicFlowList = actTaskService.histoicFlowList(act.getProcInsId(), startAct, endAct);
 			model.addAttribute("histoicFlowList", histoicFlowList);
+			
+			List<Act> currentNode=actTaskService.histoicFlowCurrentNodeList(act.getProcInsId(), startAct, endAct);
+			model.addAttribute("currentNode", currentNode);
 		}
 		return "modules/act/actTaskHistoricFlow";
 	}
