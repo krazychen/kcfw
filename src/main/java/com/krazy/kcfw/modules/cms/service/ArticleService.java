@@ -160,8 +160,9 @@ public class ArticleService extends CrudService<ArticleDao, Article> {
 	 * 全文检索
 	 */
 	//FIXME 暂不提供检索功能
-	public Page<Article> search(Page<Article> page, String q, String categoryId, String beginDate, String endDate){
-		
+	public Page<Article> search(Page<Article> page, Article searchArticle, String categoryId, String beginDate, String endDate){
+		searchArticle.setPage(page);
+		page.setList(this.dao.search(searchArticle));
 		// 设置查询条件
 //		BooleanQuery query = dao.getFullTextQuery(q, "title","keywords","description","articleData.content");
 //		

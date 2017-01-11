@@ -36,8 +36,8 @@
 	<p>特别关注：</p>
 	<div class="att_box">
 		<div class="search fr">
-	   	  <form action="${ctx}/search" method="get">
-	           <input  class="input_box fl" type="text" name="q" maxlength="20"  placeholder="全站搜索..." value="${q}">
+	   	  <form id="searchform" action="${ctx}/search" method="get">
+	           <input class="input_box fl" type="text" id="q" name="q" maxlength="20"  placeholder="全站搜索..." value="${q}">
 	           <input type="button" class="input_btn fl" value="" onclick="to_submit();"/>
 	      </form>
        </div>
@@ -344,7 +344,7 @@
 
 <script type="text/javascript">
 	function to_submit() {
-		var keyword = document.getElementById("keyword").value;
+		var keyword = document.getElementById("q").value;
 		if (keyword == "") {
 			alert("请输入你想要搜索的内容");
 			return false;

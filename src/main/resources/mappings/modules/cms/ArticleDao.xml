@@ -243,4 +243,27 @@
 			order by cp.sort, cp.id, c.sort, c.id
 		</where>		
 	</select>
+	
+	<select id="search" resultType="Article">
+		SELECT 
+			<include refid="cmsArticleColumns"/>
+		FROM cms_article a
+		left join cms_article_data d on a.id=d.id
+		<include refid="cmsArticleJoins"/>
+		<where>
+			<if test="keywords!= null and keywords != ''">
+				a.title like 
+				<if test="dbName == 'oracle'">'%'||#{keywords}||'%'</if>
+				 or dbms_lob.instr(d.content, #{keywords}, 1, 1) > 0
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.weight DESC, a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
 </mapper>

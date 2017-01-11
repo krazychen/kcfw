@@ -22,6 +22,7 @@ import com.krazy.kcfw.modules.cms.entity.Site;
 import com.krazy.kcfw.modules.cms.service.ArticleService;
 import com.krazy.kcfw.modules.cms.service.GuestbookService;
 import com.krazy.kcfw.modules.cms.utils.CmsUtils;
+import com.krazy.kcfw.modules.sch.entity.contract.SchComConcract;
 import com.krazy.kcfw.modules.sys.utils.UserUtils;
 
 /**
@@ -79,7 +80,9 @@ public class FrontSearchController extends BaseController{
 			}
 			// 文章检索
 			if (StringUtils.isBlank(t) || "article".equals(t)){
-				Page<Article> page = articleService.search(new Page<Article>(request, response), qStr, cid, bd, ed);
+				Article searchArticle=new Article();
+				searchArticle.setKeywords(q);
+				Page<Article> page = articleService.search(new Page<Article>(request, response), searchArticle, cid, bd, ed);
 				page.setMessage("匹配结果，共耗时 " + (System.currentTimeMillis() - start) + "毫秒。");
 				model.addAttribute("page", page);
 			}
