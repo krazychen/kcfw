@@ -21,7 +21,7 @@ input{ outline:none; font-family:"Microsoft YaHei",宋体;}
 
 /*nav*/
 .main_top{width:1000px;margin:0 auto;overflow:hidden; background:url("./images/nav_bg.jpg") no-repeat center center;height:40px;}
-.search{height:25px;margin:px 20px 0 0;}
+.search{height:25px;margin:3px 20px 0 0;}
 .search input{ border:none; outline:none;}
 .input_box{width:140px;height:25px; background:url("./images/search.png") no-repeat center center;padding-left:10px;}
 .input_btn{width:24px;height:25px; background:url("./images/search_btn.png") no-repeat center center; cursor:pointer;}
@@ -29,7 +29,7 @@ input{ outline:none; font-family:"Microsoft YaHei",宋体;}
 .nav li{float:left; display:block;width:110px;height:40px; background:url("./images/nav_li.png") no-repeat right; line-height:40px;}
 .nav a.moren{width:95px;height:40px;background:url("./images/nav_moren.jpg") no-repeat center center;background-size:cover; overflow:hidden;}
 .nav a:hover{width:115px;height:40px;background:url("./images/nav_moren.jpg") no-repeat center center;background-size:cover; overflow:hidden;}
-.nav a{display:block;width:100px;height:40px;text-align:center;font-size:14px;font-family:"宋体";font-weight:bold;color:#fff; margin:0 auto;}
+.nav a{display:block;width:100px;height:40px;text-align:center;font-size:14px;font-family:"Microsoft YaHei",Arial;font-weight:bold;color:#fff; margin:0 auto;}
 .nav li ul{
 	line-height: 30px;
 	list-style-type: none;
@@ -43,7 +43,7 @@ input{ outline:none; font-family:"Microsoft YaHei",宋体;}
 float:left; display:block;width:125px;height:35px; background:url("./images/nav_bg.jpg") no-repeat center; line-height:40px;
  }
 .nav li ul a{
-display:block;width:95px;height:35px;text-align:center;font-size:13px;font-family:"宋体";font-weight: normal;color:#fff; margin:0 auto;
+display:block;width:95px;height:35px;text-align:center;font-size:13px;font-family:"Microsoft YaHei",Arial;font-weight: normal;color:#fff; margin:0 auto;
 }
 .nav li ul a:hover{
 	width:125px;height:35px;background:url("./images/nav_moren.jpg") no-repeat center center; background-size:cover; overflow:hidden;
@@ -52,7 +52,7 @@ display:block;width:95px;height:35px;text-align:center;font-size:13px;font-famil
 /*att*/
 .main{width:1000px;margin:0 auto;}
 .att{width:998px;height:32px; border:1px solid #e1e1e1;border-top:none; line-height:32px;margin-bottom:10px;}
-.att p{font-size:14px;font-family:"宋体";font-weight:bold;display:block;float:left;color:#e60012; padding-left:10px;}
+.att p{font-size:14px;font-family:"Microsoft YaHei",Arial;font-weight:bold;display:block;float:left;color:#e60012; padding-left:10px;}
 .att_box{overflow:hidden;width:900px;float:left;}
 .att_box .tempWrap{overflow:hidden;width:900px !important;float:left;}
 .att_box li{float:left; padding:0 4px;}
@@ -170,7 +170,7 @@ display:block;width:95px;height:35px;text-align:center;font-size:13px;font-famil
 .gover_rt ul li a{padding:0 10px;display:block;float:left;overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
 .gover_rt ul li a:hover{color:#f00; text-decoration:underline;}
 .gover_rt ul li i{font-style:normal;float:right;display:block;color:#999;padding-right:20px;}
-.gover_rt_p{line-height:28px; font-size:14px; font-family:"微软雅黑"; color:#666; text-indent:28px;padding:0 30px;}
+.gover_rt_p{line-height:28px; font-size:14px; font-family:"Microsoft YaHei",Arial; color:#666; text-indent:28px;padding:0 30px;}
 .gover_img{margin:15px 30px; display:block; width:750px;height:400px;}
 
 
@@ -179,7 +179,7 @@ display:block;width:95px;height:35px;text-align:center;font-size:13px;font-famil
 .mart_top h3{font-size:14px;color:#fff;line-height:46px;padding-left:43px;display:block; float:left;}
 .mart_top a{float:right;display:block;line-height:46px;margin-right:20px;color:#9d0c2a;}
 .mart_lt{width:320px;height:190px;padding-left:15px;}
-.mart p{line-height:26px;font-size:12px;font-family:"宋体";display:block; margin-left:20px;}
+.mart p{line-height:26px;font-size:12px;font-family:"Microsoft YaHei",Arial;display:block; margin-left:20px;}
 
 
 /*****common tag style begin*****/

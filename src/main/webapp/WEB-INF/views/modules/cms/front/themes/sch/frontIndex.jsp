@@ -137,8 +137,8 @@
 	</div>
 	<ul class="news_rt notice_ul">
 		<c:forEach items="${fnc:getArticleList(site.id, 'f7eec0ea994246a7be3e8a72f2797b4f', 12, '')}" var="article">
-			<li>
-			<a href="${article.url}"
+			<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
+			<a href="${article.url}" style="width:210px"
 			title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,40)}</a></li>
 		</c:forEach>
 	</ul>
@@ -197,7 +197,7 @@
 <div class="vip">
 	<form id="loginForm" action="${ctxA}/login" method="post">
 		<div class="vip_top">
-			<h3>系统登录</h3>
+			<h3>产学融合信息管理系统</h3>
 		</div>
 		<div id="messageBox">
 			<label id="loginError" >${message}</label>
@@ -261,23 +261,13 @@
 <div class="slideTxtBox product" style="float: left; width: 355px;">
 	<div class="hd">
 		<ul>
-			<li><a href="${ctx}/list-59692a4595954e6a89f56b488aad5974.html">国家政策法规</a></li>
-			<li><a href="${ctx}/list-d4a55c694ac447229fd84e263b6472d6.html">学校规章制度</a></li>
+			<li><a href="${ctx}/list-3f884ab530834375b211f4df7e8d2664.html">外驻机构</a></li>
 		</ul>
 	</div>
 	<div class="bd">
 		<ul class="news_rt1 product_ul">
 			<div style="width: 357px; float: left">
-				<c:forEach items="${fnc:getArticleList(site.id, 'a97d6f514cb740cc83248683ca853df8', 9, '')}" var="article">
-					<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
-					<a href="${article.url}"
-					title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,50)}</a></li>
-				</c:forEach>
-			</div>
-		</ul>
-		<ul class="news_rt1 product_ul">
-			<div style="width: 357px; float: left">
-				<c:forEach items="${fnc:getArticleList(site.id,'8629d5f562fe48e4b2bf78bd93b86e6e',9, '')}" var="article">
+				<c:forEach items="${fnc:getArticleList(site.id, '3f884ab530834375b211f4df7e8d2664', 9, '')}" var="article">
 					<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
 					<a href="${article.url}"
 					title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,50)}</a></li>
@@ -298,7 +288,7 @@
 			style="background: #e4e4e4; font-size: 14px; height: 32px; line-height: 32px; width: 268px;">
 			<li style="background: #9d0c2a; font-weight: bold; width: 90px;"><a
 				href="${ctx}/list-e5fa3e4c6b2f4d66a3d70a6f35502820.html"
-				style="display: block; padding: 0 15px; color: #FFF;">科研成果</a></li>
+				style="display: block; padding: 0 15px; color: #FFF;">组织信息</a></li>
 		</ul>
 	</div>
 	<div id="priceid10"
