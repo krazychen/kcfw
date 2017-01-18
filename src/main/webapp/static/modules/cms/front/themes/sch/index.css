@@ -151,7 +151,7 @@ display:block;width:130px;height:35px;text-align:center;font-size:13px;font-fami
 
 
 /*footer*/
-.footer{width:100%; background:#efefef;height:130px;margin-top:930px;}
+.footer{width:100%; background:#efefef;height:130px;margin-top:950px;}
 .footer_box{width:1000px; margin:0 auto; color:#9d0c2a;}
 .footer span{ display:inline;float:left;margin:25px 0 0 -390px;}
 .footer p{ display:block; float:right;margin:65px 40px 0 0;}

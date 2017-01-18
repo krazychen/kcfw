@@ -210,7 +210,7 @@
 		</div>
 		<div  style="margin-top:13px; line-height:2;">
 			<select style="margin-left:8px;width:270px;height:25px;" onchange="openWindow()" id="links">
-			 	<option value =""></option>
+			 	<option value ="">请选择链接</option>
 				<c:forEach items="${fnc:getLinkList(site.id, 'cb6c8ea2a7c2467d98613b536f17e8eb', 9, '')}" var="link">
 					<option value ="${link.href}" >${link.title}</option>
 				</c:forEach>
@@ -241,23 +241,34 @@
 		<div  style="margin-top:90px; line-height:2;">
 			<img src="${ctxStaticTheme}/images/con1.png" />
 			<br/>
-			<div style="margin-left:10px">开户名称：厦门理工学院<br /> 开户银行：建行厦门学府支行<br /> 帐号：35101547001059000888<br /></div>
-		</div>
-		<div  style="margin-top:7px; line-height:2;">
-			<img src="${ctxStaticTheme}/images/con2.png" />
-			<br/>
-			<div style="margin-left:10px">42660260-7<br /> </div>
-		</div>
-		<div  style="margin-top:7px; line-height:2;">
-			<img src="${ctxStaticTheme}/images/con3.png" />
-			<br/>
-			<div style="margin-left:10px">事证第135020000060<br /></div>
+			<div style="margin-left:10px">
+			<c:set var="article1" value="${fnc:getArticle('8c4295e681044af9bc074eac99f1499f')}"/>
+			 <p>${article1.articleData.content}</p>
+			</div>
 		</div>
 		<div  style="margin-top:7px; line-height:2;">
 			<img src="${ctxStaticTheme}/images/con4.png" />
 			<br/>
-			<div style="margin-left:10px">副处长岗  严老师：6291078<br /> 科长岗  &nbsp;&nbsp;&nbsp;马老师：6291353<br /> 科员岗  &nbsp;&nbsp;&nbsp;周老师：6291358<br />
-		科员岗  &nbsp;&nbsp;&nbsp;杜老师：6291886<br /> 科员岗  &nbsp;&nbsp;&nbsp;柳老师：6291886<br /></div>
+			<div style="margin-left:10px">
+			<c:set var="article2" value="${fnc:getArticle('e2b69c4a1dad4b4191a908c20acf6127')}"/>
+			 <p>${article2.articleData.content}</p>
+			</div>
+		</div>
+		<div  style="margin-top:7px; line-height:2;">
+			<img src="${ctxStaticTheme}/images/con3.png" />
+			<br/>
+			<div style="margin-left:10px">
+			<c:set var="article3" value="${fnc:getArticle('da25ac01e190456794b5b83ef51bde5f')}"/>
+			 <p>${article3.articleData.content}</p>
+			</div>
+		</div>
+		<div  style="margin-top:7px; line-height:2;">
+			<img src="${ctxStaticTheme}/images/con2.png" />
+			<br/>
+			<div style="margin-left:10px">
+			<c:set var="article4" value="${fnc:getArticle('210d3a4d629347bf93344bc1e855e8a1')}"/>
+			 <p>${article4.articleData.content}</p>
+			</div>
 		</div>
 	</div>
 </div>

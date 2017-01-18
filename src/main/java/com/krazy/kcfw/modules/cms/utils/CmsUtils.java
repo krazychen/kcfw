@@ -10,7 +10,6 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.krazy.kcfw.common.config.Global;
 import com.krazy.kcfw.common.utils.StringUtils;
-
 import com.krazy.kcfw.common.mapper.JsonMapper;
 import com.krazy.kcfw.common.persistence.Page;
 import com.krazy.kcfw.common.utils.CacheUtils;
@@ -19,6 +18,7 @@ import com.krazy.kcfw.modules.cms.entity.Article;
 import com.krazy.kcfw.modules.cms.entity.Category;
 import com.krazy.kcfw.modules.cms.entity.Link;
 import com.krazy.kcfw.modules.cms.entity.Site;
+import com.krazy.kcfw.modules.cms.service.ArticleDataService;
 import com.krazy.kcfw.modules.cms.service.ArticleService;
 import com.krazy.kcfw.modules.cms.service.CategoryService;
 import com.krazy.kcfw.modules.cms.service.LinkService;
@@ -40,6 +40,7 @@ public class CmsUtils {
 	private static ArticleService articleService = SpringContextHolder.getBean(ArticleService.class);
 	private static LinkService linkService = SpringContextHolder.getBean(LinkService.class);
     private static ServletContext context = SpringContextHolder.getBean(ServletContext.class);
+    private static ArticleDataService articleDataService = SpringContextHolder.getBean(ArticleDataService.class);
 
 	private static final String CMS_CACHE = "cmsCache";
 	
@@ -139,7 +140,9 @@ public class CmsUtils {
 	 * @return
 	 */
 	public static Article getArticle(String articleId){
-		return articleService.get(articleId);
+		Article article = articleService.get(articleId);
+		article.setArticleData(articleDataService.get(article.getId()));
+		return article;
 	}
 	
 	/**
