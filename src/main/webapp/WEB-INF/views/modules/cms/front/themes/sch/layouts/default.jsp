@@ -50,14 +50,18 @@
 		</div>
 		<!--footer-->
 		
-		<!--end footer-->
-		<footer>
-			<div class="footer">
-				<div class="footer_box">
-					<div class="copyright">${site.copyright}</div>
-			    </div>
-			</div>
-	 	</footer>
     </div> <!-- /container -->
+    <div class="footer">
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1261153447'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1261153447%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1261153447'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1261153447%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+	<div class="footer_box">
+	<span>
+	<br/>
+	<br/>
+	Copyright ©2016 ky.xmut.edu.cn 厦门理工学院产学融合发展处 版权所有<br/><br/>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地址：厦门市集美区理工路600号 邮编:361024
+	</span>
+    </div>
+</div>
 </body>
 </html>

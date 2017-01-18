@@ -3,7 +3,9 @@
  */
 package com.krazy.kcfw.modules.cms.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,10 +16,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.krazy.kcfw.common.mapper.JsonMapper;
 import com.krazy.kcfw.common.persistence.Page;
 import com.krazy.kcfw.common.utils.StringUtils;
@@ -152,4 +156,17 @@ public class ArticleController extends BaseController {
    		tplList = TplUtils.tplTrim(tplList, Article.DEFAULT_TEMPLATE, "");
    		return tplList;
    	}
+    
+	@ResponseBody
+	@RequestMapping(value = "findArticles")
+	public Object findArticles(String ids,String callback, HttpServletRequest request, HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*"); //允许哪些url可以跨域请求到本域
+		response.setHeader("Access-Control-Allow-Methods","POST"); //允许的请求方法，一般是GET,POST,PUT,DELETE,OPTIONS
+		response.setHeader("Access-Control-Allow-Headers","x-requested-with,content-type"); //允许哪些请求头可以跨域
+		System.out.println(ids);
+		//List<Object[]> list = articleService.findByIds(ids);
+		Map<String, String> map = new HashMap<String, String>();
+	    map.put("aaa", "I'm Dreamlu！");
+	    return new JSONPObject(callback, map); //hellojsonp({"aaa":"I'm Dreamlu！"})
+	}
 }

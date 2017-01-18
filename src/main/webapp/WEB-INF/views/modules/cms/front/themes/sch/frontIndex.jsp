@@ -65,10 +65,10 @@
 <div class="news fl">
 	<div
 		style="float: right; position: relative; top: 100px; padding-right: 5px; border-bottom: 1px solid #CCC; width: 340px; margin-right: 15px; text-align: right;">
-		<a style="color: #9d0c2a" href="${ctx}/list-31f68f68e8cc4e2bb569b2f86917c738.html">&gt;更多</a>
+		<a style="color: #9d0c2a" href="${ctx}/list-4ca4a6c7cd574fd985dfb154daee2bac.html">&gt;更多</a>
 	</div>
 	<div style="height: 95px;">
-		<c:forEach items="${fnc:getArticleList(site.id, '31f68f68e8cc4e2bb569b2f86917c738', 1, 'posid:2')}" var="article">
+		<c:forEach items="${fnc:getArticleList(site.id, '4ca4a6c7cd574fd985dfb154daee2bac', 1, 'posid:2')}" var="article">
 			<h2>
 				<a style="color: #9d0c2a"
 				href="${article.url}"
@@ -93,7 +93,7 @@
 			var pics = '';
 			var links = '';			
 			var texts = '';
-			<c:forEach items="${fnc:getArticleList(site.id, '31f68f68e8cc4e2bb569b2f86917c738', 5, 'posid:1')}" var="article" varStatus="stat">
+			<c:forEach items="${fnc:getArticleList(site.id, '4ca4a6c7cd574fd985dfb154daee2bac', 5, 'posid:1')}" var="article" varStatus="stat">
 				pics+='${article.image}';
 				<c:if test="${!stat.last}">
 				pics+="|";
@@ -109,7 +109,7 @@
 			</c:forEach>
 			
 			document
-					.write('<object ID="focus_flash" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="'+ focus_width +'" height="'+ swf_height +'">');
+					.write('<object ID="focus_flash" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"  width="'+ focus_width +'" height="'+ swf_height +'">');
 			document
 					.write('<param name="allowScriptAccess" value="sameDomain"><param name="movie" value="${ctxStaticTheme}/images/focus1.swf"><param name="quality" value="high"><param name="bgcolor" value="'+pic_bgcolor+'">');
 			document
@@ -123,7 +123,7 @@
 	</div>
 	<!-- 焦点图 E -->
 	<ul class="news_rt1">
-		<c:forEach items="${fnc:getArticleList(site.id, '31f68f68e8cc4e2bb569b2f86917c738', 9, '')}" var="article">
+		<c:forEach items="${fnc:getArticleList(site.id, '4ca4a6c7cd574fd985dfb154daee2bac', 9, '')}" var="article">
 			<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
 			<a href="${article.url}"
 			title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,50)}</a></li>
@@ -132,216 +132,135 @@
 </div>
 <div class="notice">
 	<div class="notice_top">
-		<h3>事务通知</h3>
-		<a href="${ctx}/list-f7eec0ea994246a7be3e8a72f2797b4f.html">&gt;更多</a>
+		<h3>信息公开</h3>
+		<a href="${ctx}/list-6ac1fc5f127d4ab790062b47f5870078.html">&gt;更多</a>
 	</div>
 	<ul class="news_rt notice_ul">
-		<c:forEach items="${fnc:getArticleList(site.id, 'f7eec0ea994246a7be3e8a72f2797b4f', 12, '')}" var="article">
+		<c:forEach items="${fnc:getArticleList(site.id, '6ac1fc5f127d4ab790062b47f5870078', 12, '')}" var="article">
 			<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
 			<a href="${article.url}" style="width:210px"
 			title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,40)}</a></li>
 		</c:forEach>
 	</ul>
 </div>
-<!--end news-->
-<div class="clear"></div>
-<!-- Tab切换 S -->
-<div class="product"
-	style="float: left; width: 360px; margin-top: 10px; margin-right: 5px;">
-	<div style="float: left;">
-		<ul style="background: #e4e4e4; font-size: 14px; height: 32px; line-height: 32px; width: 355px;">
-			<li style="background: #9d0c2a; font-weight: bold; width: 90px;"><a
-				href="${ctx}/list-05e12bc3a60e430cb3d75132471f17f2.html"
-				style="display: block; padding: 0 15px; color: #FFF;">横向事务</a></li>
-		</ul>
-	</div>
-	<div>
-		<ul class="news_rt1 product_ul" style="width: 357px;">
-			<div style="width: 357px; float: left">
-				<c:forEach items="${fnc:getArticleList(site.id, '05e12bc3a60e430cb3d75132471f17f2', 9, '')}" var="article">
-					<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
-					<a href="${article.url}"
-					title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,50)}</a></li>
-				</c:forEach>
-			</div>
-		</ul>
-	</div>
-</div>
-<!-- Tab切换 E -->
-<!-- Tab切换 S -->
-<div class="slideTxtBox product" style="float: left; width: 355px;">
-	<div class="hd">
-		<ul>
-			<li><a href="${ctx}/list-b05a6067661848db8f00c4ed2569cac3.html">成果对接与应用</a></li>
-		</ul>
-	</div>
-	<div class="bd">
-		<ul class="news_rt1 product_ul">
-			<div style="width: 357px; float: left">
-				<c:forEach items="${fnc:getArticleList(site.id, 'b05a6067661848db8f00c4ed2569cac3', 9, '')}" var="article">
-					<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
-					<a href="${article.url}"
-					title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,50)}</a></li>
-				</c:forEach>
-			</div>
-		</ul>
-	</div>
-</div>
-<script type="text/javascript">
-	jQuery(".slideTxtBox").slide({
-		easing : "easeOutElastic"
-	});
-</script>
-<!-- Tab切换 E -->
-<!--vip-->
-<div class="vip">
-	<form id="loginForm" action="${ctxA}/login" method="post">
-		<div class="vip_top">
-			<h3>产学融合信息管理系统</h3>
+<div style=" float: left;width: 710px;">
+	<!--end news-->
+	<div class="clear"></div>
+	<!-- Tab切换 S -->
+	<div class="notice2" style="margin-left:0px;">
+		<div class="notice2_top">
+			<h3>事务通知</h3>
+			<a href="${ctx}/list-a84c9d420d834c62aa9f0cc41a58217d.html">&gt;更多</a>
 		</div>
-		<div id="messageBox">
-			<label id="loginError" >${message}</label>
-		</div>
-		<div class="vip_box">
-			<p>用户名：</p>
-			<input class="in_name required" type="text" name="username" id="username" />
-		</div>
-		<div class="vip_box">
-			<p>密&nbsp;&nbsp;&nbsp;&nbsp;码：</p>
-			<input style="margin-left: 0px;" type="password" name="password" class="required"
-				id="password" />
-		</div>
-		<!-- 
-		<div class="vip_box">
-			<p>验证码：</p>
-			<sys:validateCode name="validateCode" inputCssStyle="margin-bottom:0;"/>
-		</div> -->
-		<input class="vip_btn" type="submit" value="登&nbsp;&nbsp;&nbsp;录" />
-	</form>
-</div>
-<!--end vip-->
-<div class="clear"></div>
-
-<script type="text/javascript">
-	jQuery(".picScroll").slide({
-		mainCell : "ul",
-		autoPlay : true,
-		effect : "left",
-		vis : 5,
-		scroll : 1,
-		autoPage : true,
-		pnLoop : true
-	});
-</script>
-<!-- 图片滚动 E -->
-<div class="clear"></div>
-
-<div class="product"
-	style="float: left; width: 360px; margin-top: 10px; margin-right: 5px;">
-	<div style="float: left;">
-		<ul
-			style="background: #e4e4e4; font-size: 14px; height: 32px; line-height: 32px; width: 355px;">
-			<li style="background: #9d0c2a; font-weight: bold; width: 90px;"><a
-				href="${ctx}/list-e5fa3e4c6b2f4d66a3d70a6f35502820.html"
-				style="display: block; padding: 0 15px; color: #FFF;">科研成果</a></li>
+		<ul class="news_rt1 notice2_ul">
+			<c:forEach items="${fnc:getArticleList(site.id, 'a84c9d420d834c62aa9f0cc41a58217d', 12, '')}" var="article">
+				<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
+				<a href="${article.url}" style="width:300px"
+				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,80)}</a></li>
+			</c:forEach>
 		</ul>
 	</div>
-	<div>
-		<ul class="news_rt1 product_ul" style="width: 357px;">
-			<div style="width: 357px; float: left">
-				<c:forEach items="${fnc:getArticleList(site.id, 'e5fa3e4c6b2f4d66a3d70a6f35502820', 9, '')}" var="article">
-					<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
-					<a href="${article.url}"
-					title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,50)}</a></li>
+	<div class="notice2">
+		<div class="notice2_top">
+			<h3>成果展示</h3>
+			<a href="${ctx}/list-62d7056dc9b045c2b093234f5af44ea0.html">&gt;更多</a>
+		</div>
+		<ul class="news_rt1 notice2_ul">
+			<c:forEach items="${fnc:getArticleList(site.id, '62d7056dc9b045c2b093234f5af44ea0', 12, '')}" var="article">
+				<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
+				<a href="${article.url}" style="width:300px"
+				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,40)}</a></li>
+			</c:forEach>
+		</ul>
+	</div>
+	
+	<!-- 图片滚动 E -->
+	<div class="clear"></div>
+	<div class="notice2" style="margin-left:0px;">
+		<div class="notice2_top">
+			<h3>科技前沿</h3>
+			<a href="${ctx}/list-e7660b429529446b85bb7bed854381c2.html">&gt;更多</a>
+		</div>
+		<ul class="news_rt1 notice2_ul">
+			<c:forEach items="${fnc:getArticleList(site.id, 'e7660b429529446b85bb7bed854381c2', 12, '')}" var="article">
+				<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
+				<a href="${article.url}" style="width:300px"
+				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,80)}</a></li>
+			</c:forEach>
+		</ul>
+	</div>
+	<div class="notice2">
+		<div class="notice2_top">
+			<h3 style="padding-left:13px">服务闽西南</h3>
+			<a href="${ctx}/list-5d9f257f11a242188359cbff97357759.html">&gt;更多</a>
+		</div>
+		<ul class="news_rt1 notice2_ul">
+			<c:forEach items="${fnc:getArticleList(site.id, '5d9f257f11a242188359cbff97357759', 12, '')}" var="article">
+				<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
+				<a href="${article.url}" style="width:300px"
+				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,40)}</a></li>
+			</c:forEach>
+		</ul>
+	</div>
+	
+	<div class="clear"></div>
+	<div class="notice2" style="margin-left:0px;">
+		<div class="notice2_top">
+			<h3>友情连接</h3>
+		</div>
+		<div  style="margin-top:13px; line-height:2;">
+			<select style="margin-left:8px;width:270px;height:25px;" onchange="openWindow()" id="links">
+			 	<option value =""></option>
+				<c:forEach items="${fnc:getLinkList(site.id, 'cb6c8ea2a7c2467d98613b536f17e8eb', 9, '')}" var="link">
+					<option value ="${link.href}" >${link.title}</option>
 				</c:forEach>
-			</div>
-		</ul>
+			</select>
+		</div>
 	</div>
-</div>
-<div class="slideTxtBox product" style="float: left; width: 355px;">
-	<div class="hd">
-		<ul>
-			<li><a href="${ctx}/list-3f884ab530834375b211f4df7e8d2664.html">外驻机构</a></li>
-		</ul>
-	</div>
-	<div class="bd">
-		<ul class="news_rt1 product_ul">
-			<div style="width: 357px; float: left">
-				<c:forEach items="${fnc:getArticleList(site.id, '3f884ab530834375b211f4df7e8d2664', 9, '')}" var="article">
-					<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
-					<a href="${article.url}"
-					title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,50)}</a></li>
-				</c:forEach>
-			</div>
-		</ul>
-	</div>
-</div>
-<script type="text/javascript">
-	jQuery(".slideTxtBox").slide({
-		easing : "easeOutElastic"
-	});
-</script>
-
-<div class="hot" style="height: 420px;">
-	<div style="float: left;">
-		<ul
-			style="background: #e4e4e4; font-size: 14px; height: 32px; line-height: 32px; width: 268px;">
-			<li style="background: #9d0c2a; font-weight: bold; width: 90px;"><a
-				href="${ctx}/list-e5fa3e4c6b2f4d66a3d70a6f35502820.html"
-				style="display: block; padding: 0 15px; color: #FFF;">组织信息</a></li>
-		</ul>
-	</div>
-	<div id="priceid10"
-		style="float: left; margin: 0px auto; width: 268px; height: 430px; margin-left: 2px;line-height:2;">
-		<span style="font-size:15px;color:#9d0c2a">--------厦门理工科研账户信息--------</span><br/>
-		开户名称：厦门理工学院<br /> 开户银行：建行厦门学府支行<br /> 帐号：35101547001059000888<br />
-		<span style="font-size:15px;color:#9d0c2a">--------厦门理工组织机构代码--------</span><br/>
-		42660260-7<br /> 
-		<span style="font-size:15px;color:#9d0c2a">---------事业单位法人证书号---------</span><br/>
-		事证第135020000060号<br />
-		<span style="font-size:15px;color:#9d0c2a">-------------联系方式-----------------</span><br/>
-		副处长岗  严老师：6291078<br /> 科长岗  &nbsp;&nbsp;&nbsp;马老师：6291353<br /> 科员岗  &nbsp;&nbsp;&nbsp;周老师：6291358<br />
-		科员岗  &nbsp;&nbsp;&nbsp;杜老师：6291886<br /> 科员岗  &nbsp;&nbsp;&nbsp;柳老师：6291886<br />
-		科员岗  &nbsp;&nbsp;&nbsp;邱老师：6291356<br />  <br />	
-		
-	</div>
-</div>
-<div class="product"
-	style="float: left; width: 360px; margin-top: 10px; margin-right: 5px;">
-	<div style="float: left;">
-		
-	</div>
+	<div class="notice2">
+		<div class="notice2_top">
+			<h3 style="padding-left:13px">产学融APP</h3>
+		</div>
 	<div>
-		<img height="120" width="160" style="float:left;margin-left:5px;padding-top:15px;"src="${ctxStaticTheme}/images/ios.jpg" />
-		<img height="150" width="150" style="float:right;margin-right:18px;" src="${ctxStaticTheme}/images/ioscode.png" />
+			<img height="50" width="100" style="float:left;margin-left:25px;padding-top:15px;"src="${ctxStaticTheme}/images/ios.png" />
+			<img height="50" width="100"  style="float:left;margin-left:80px;padding-top:15px;" src="${ctxStaticTheme}/images/and.png" />
+		</div>
 	</div>
 </div>
-<div class="product"
-	style="float: left; width: 360px; margin-top: 10px; margin-right: 5px;">
-	<div style="float: left;">
-
-	</div>
-	<div>
-		<img height="120" width="120"  style="float:left;margin-left:5px;padding-top:15px;" src="${ctxStaticTheme}/images/android.png" />
-		<img height="150" width="150" style="float:right;margin-right:18px;" src="${ctxStaticTheme}/images/ioscode.png" />
+<div style=" float: right;width: 270px;">
+	<div class="notice" style="height:560px">
+		<div class="notice_top">
+			<h3>应用</h3>
+		</div>
+		<a class="mess2" href="http://cms.9117fly.com/cms/index.html" target="_blank" style="margin-top:5px;">
+		<img src="${ctxStaticTheme}/images/project.png" />
+		</a>
+		<a class="mess2" href="${ctxA}" target="_blank" style="margin-top:7px;">
+		<img src="${ctxStaticTheme}/images/sch.png" />
+		</a>
+		<div  style="margin-top:90px; line-height:2;">
+			<img src="${ctxStaticTheme}/images/con1.png" />
+			<br/>
+			<div style="margin-left:10px">开户名称：厦门理工学院<br /> 开户银行：建行厦门学府支行<br /> 帐号：35101547001059000888<br /></div>
+		</div>
+		<div  style="margin-top:7px; line-height:2;">
+			<img src="${ctxStaticTheme}/images/con2.png" />
+			<br/>
+			<div style="margin-left:10px">42660260-7<br /> </div>
+		</div>
+		<div  style="margin-top:7px; line-height:2;">
+			<img src="${ctxStaticTheme}/images/con3.png" />
+			<br/>
+			<div style="margin-left:10px">事证第135020000060<br /></div>
+		</div>
+		<div  style="margin-top:7px; line-height:2;">
+			<img src="${ctxStaticTheme}/images/con4.png" />
+			<br/>
+			<div style="margin-left:10px">副处长岗  严老师：6291078<br /> 科长岗  &nbsp;&nbsp;&nbsp;马老师：6291353<br /> 科员岗  &nbsp;&nbsp;&nbsp;周老师：6291358<br />
+		科员岗  &nbsp;&nbsp;&nbsp;杜老师：6291886<br /> 科员岗  &nbsp;&nbsp;&nbsp;柳老师：6291886<br /></div>
+		</div>
 	</div>
 </div>
-<div class="clear"></div>
-<!--link-->
-<div class="link">
-	<img class="link_lt" src="${ctxStaticTheme}/images/link.png" />
-	<p class="link_rt">
-	<c:forEach items="${fnc:getLinkList(site.id, 'cb6c8ea2a7c2467d98613b536f17e8eb', 9, '')}" var="link">
-		<ul>
-			<li
-				style="float: left; display: block; width: 140px; height: 25px; line-height: 25px;"><a
-				href="${link.href}" title="${link.title}" target="_blank">${link.title}</a></li>
-		</ul>
-	</c:forEach>
-	</p>
-</div>
-<!--end link-->
-
 <script type="text/javascript">
 	function to_submit() {
 		var keyword = document.getElementById("q").value;
@@ -352,25 +271,10 @@
 			document.getElementById("searchform").submit();
 		}
 	}
-	function showprice(id) {
-		var i = 1;
-		for (i == 1; i < 5; i++) {
-			if (id == i) {
-				document.getElementById("priceid" + id).style.display = "";
-			} else {
-				document.getElementById("priceid" + i).style.display = "none";
-			}
-		}
-	}
-	function showprice2(id) {
-		var i = 1;
-		for (i == 1; i < 5; i++) {
-			if (id == i) {
-				document.getElementById("price2id" + id).style.display = "";
-			} else {
-				document.getElementById("price2id" + i).style.display = "none";
-			}
-		}
+	function openWindow(){
+		var url=$("#links").val();
+		if(url)
+		window.open(url);
 	}
 </script>
 </body>
