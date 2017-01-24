@@ -16,6 +16,17 @@
 			<value>
 				/static/** = anon
 				/userfiles/** = anon
+				${adminPath}/sys/user/infoCareStatus = anon
+				${adminPath}/sys/user/validateLoginName = anon
+				${adminPath}/sys/user/validateMobile = anon
+				${adminPath}/sys/user/validateMobileExist = anon
+				${adminPath}/sys/user/resetPassword = anon
+				${adminPath}/sys/register = anon
+				${adminPath}/sys/register/registerUser = anon
+				${adminPath}/sys/register/getRegisterCode = anon
+				${adminPath}/sys/register/validateMobileCode = anon
+				${adminPath}/soft/sysVersion/getAndroidVer = anon
+				${adminPath}/soft/sysVersion/getIosVer = anon
 				${adminPath}/cms/article/findArticles = anon
 				${adminPath}/cas = cas
 				${adminPath}/login = authc

@@ -2,6 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.krazy.kcfw.modules.sys.dao.MenuDao">
 	
+     <resultMap id="menuResult" type="Menu">
+		<id property="id" column="id" />
+		<result property="parentIds" column="parentIds" />
+		<result property="name" column="name" />
+		<result property="href" column="href" />
+		<result property="target" column="target" />
+		<result property="icon" column="icon" />
+		<result property="sort" column="sort" />
+		<result property="isShow" column="isShow" />
+		<result property="permission" column="permission" />
+		<!-- 查询父模块-->  
+        <association property="parent" column="parent_id" select="getParent" />   
+          
+        <!-- 查询子模块 -->  
+        <collection property="children" column="id" select="getChildren" />  
+	</resultMap>
+    
 	<sql id="menuColumns">
 		a.id,
 		a.parent_id AS "parent.id",
@@ -26,15 +43,24 @@
 		LEFT JOIN sys_menu p ON p.id = a.parent_id
     </sql>
 	
-	<select id="get" resultType="Menu">
+	<select id="get"  resultMap="menuResult">
 		SELECT
 			<include refid="menuColumns"/>
 		FROM sys_menu a
 		<include refid="menuJoins"/>
 		WHERE a.id = #{id}
 	</select>
+	<select id="findUniqueByProperty"  resultMap="menuResult" statementType="STATEMENT">
+		select * from sys_menu where ${propertyName} = ${value}
+	</select>
 	
-	<select id="findAllList" resultType="Menu">
+	<select id="getChildren" parameterType="String" resultMap="menuResult">  
+        select * from sys_menu where parent_id = #{id} ORDER BY sort 
+    </select>  
+    <select id="getParent" parameterType="String" resultMap="menuResult">  
+        select * from sys_menu where id = #{id}  
+    </select>  
+	<select id="findAllList" resultMap="menuResult">
 		SELECT
 			<include refid="menuColumns"/>
 		FROM sys_menu a
@@ -43,7 +69,7 @@
 		ORDER BY a.sort
 	</select>
 	
-	<select id="findByParentIdsLike" resultType="Menu">
+	<select id="findByParentIdsLike"  resultMap="menuResult">
 		SELECT
 			a.id,
 			a.parent_id AS "parent.id",
@@ -53,7 +79,7 @@
 		ORDER BY a.sort
 	</select>
 	
-	<select id="findByUserId" resultType="Menu">
+	<select id="findByUserId"  resultMap="menuResult">
 		SELECT DISTINCT
 			<include refid="menuColumns"/>
 		FROM sys_menu a
@@ -135,6 +161,13 @@
 	</update>
 	
 	<update id="delete">
+		DELETE FROM sys_menu 
+		WHERE id = #{id} OR parent_ids LIKE 
+					<if test="dbName == 'oracle'">'%,'||#{id}||',%'</if>
+					<if test="dbName == 'mysql'">CONCAT('%,', #{id}, ',%')</if>
+	</update>
+	
+	<update id="deleteByLogic">
 		UPDATE sys_menu SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id} OR parent_ids LIKE 

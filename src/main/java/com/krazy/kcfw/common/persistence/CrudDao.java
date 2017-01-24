@@ -5,6 +5,8 @@ package com.krazy.kcfw.common.persistence;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 /**
  * DAO支持类实现
  * @author krazy
@@ -26,6 +28,18 @@ public interface CrudDao<T> extends BaseDao {
 	 * @return
 	 */
 	public T get(T entity);
+	
+	/**
+	 * 根据实体名称和字段名称和字段值获取唯一记录
+	 * 
+	 * @param <T>
+	 * @param entityClass
+	 * @param propertyName
+	 * @param value
+	 * @return
+	 */
+	public  T findUniqueByProperty(@Param(value="propertyName")String propertyName, @Param(value="value")Object value);
+
 	
 	/**
 	 * 查询数据列表，如果需要分页，请设置分页对象，如：entity.setPage(new Page<T>());
@@ -64,7 +78,7 @@ public interface CrudDao<T> extends BaseDao {
 	public int update(T entity);
 	
 	/**
-	 * 删除数据（一般为逻辑删除，更新del_flag字段为1）
+	 * 删除数据（物理删除，从数据库中彻底删除）
 	 * @param id
 	 * @see public int delete(T entity)
 	 * @return
@@ -73,10 +87,26 @@ public interface CrudDao<T> extends BaseDao {
 	public int delete(String id);
 	
 	/**
-	 * 删除数据（一般为逻辑删除，更新del_flag字段为1）
+	 * 删除数据（逻辑删除，更新del_flag字段为1,在表包含字段del_flag时，可以调用此方法，将数据隐藏）
+	 * @param id
+	 * @see public int delete(T entity)
+	 * @return
+	 */
+	@Deprecated
+	public int deleteByLogic(String id);
+	
+	/**
+	 * 删除数据（物理删除，从数据库中彻底删除）
 	 * @param entity
 	 * @return
 	 */
 	public int delete(T entity);
+	
+	/**
+	 * 删除数据（逻辑删除，更新del_flag字段为1,在表包含字段del_flag时，可以调用此方法，将数据隐藏）
+	 * @param entity
+	 * @return
+	 */
+	public int deleteByLogic(T entity);
 	
 }

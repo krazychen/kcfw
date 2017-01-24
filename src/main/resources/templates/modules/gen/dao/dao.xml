@@ -9,6 +9,9 @@
  */
 package ${packageName}.${moduleName}.dao<#if subModuleName != "">.${subModuleName}</#if>;
 
+<#list table.importGridJavaDaoList as i>
+import ${i};
+</#list>
 import com.krazy.kcfw.common.persistence.CrudDao;
 import com.krazy.kcfw.common.persistence.annotation.MyBatisDao;
 import ${packageName}.${moduleName}.entity<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
@@ -20,6 +23,13 @@ import ${packageName}.${moduleName}.entity<#if subModuleName != "">.${subModuleN
  */
 @MyBatisDao
 public interface ${ClassName}Dao extends CrudDao<${ClassName}> {
+
+	<#list table.columnList as c>
+		<#-- 如果存在自定义java对象 -->
+			<#if c.tableName?? && c.tableName!="">
+	public List<${c.simpleJavaType}> findListBy${c.simpleJavaField}(${c.simpleJavaType} ${c.simpleJavaField});
+			</#if>
+	</#list>
 	
 }]]>
 	</content>

@@ -64,6 +64,7 @@
 			is_null, 
 			is_insert, 
 			is_edit, 
+			is_form,
 			is_list, 
 			is_query, 
 			query_type, 
@@ -75,7 +76,18 @@
 			update_by, 
 			update_date, 
 			remarks, 
-			del_flag
+			del_flag,
+			tableName,
+			fieldLabels,
+			fieldKeys,
+			searchLabel,
+			searchKey,
+			validateType,
+			min_length,
+			max_length,
+			min_value,
+			max_value
+			
 		) VALUES (
 			#{id}, 
 			#{genTable.id}, 
@@ -88,6 +100,7 @@
 			#{isNull}, 
 			#{isInsert}, 
 			#{isEdit}, 
+			#{isForm}, 
 			#{isList}, 
 			#{isQuery}, 
 			#{queryType}, 
@@ -99,7 +112,17 @@
 			#{updateBy.id}, 
 			#{updateDate}, 
 			#{remarks}, 
-			#{delFlag}
+			#{delFlag},
+			#{tableName},
+			#{fieldLabels},
+			#{fieldKeys},
+			#{searchLabel},
+			#{searchKey},
+			#{validateType},
+			#{minLength},
+			#{maxLength},
+			#{minValue},
+			#{maxValue}
 		)
 	</insert>
 	
@@ -122,20 +145,41 @@
 			update_by = #{updateBy.id}, 
 			update_date = #{updateDate}, 
 			remarks = #{remarks},
-			del_flag = #{delFlag}
+			del_flag = #{delFlag},
+			tableName = #{tableName},
+			fieldLabels = #{fieldLabels},
+			fieldKeys = #{fieldKeys},
+			searchLabel = #{searchLabel},
+			searchKey = #{searchKey},
+			validateType = #{validateType},
+			min_length = #{minLength},
+			max_length = #{maxLength},
+			min_value = #{minValue},
+			max_value = #{maxValue}
+			
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
-		UPDATE gen_table_column SET 
-			del_flag = '1'
+		DELETE FROM gen_table_column 
 		WHERE id = #{id}
 	</update>
 	
-	<update id="deleteByGenTableId">
+	<update id="deleteByLogic">
+		UPDATE gen_table_column SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="deleteByGenTable">
+		DELETE FROM gen_table_column 
+		WHERE gen_table_id = #{id}
+	</update>
+	
+	<update id="deleteByGenTableByLogic">
 		UPDATE gen_table_column SET 
 			del_flag = '1'
-		WHERE gen_table_id = #{deleteByGenTableId}
+		WHERE gen_table_id = #{id}
 	</update>
 	
 </mapper>

@@ -92,6 +92,11 @@
 	</update>
 	
 	<update id="delete">
+		DELETE FROM gen_template 
+		WHERE id = #{id}
+	</update>
+	
+	<update id="deleteByLogic">
 		UPDATE gen_template SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}

@@ -17,16 +17,20 @@
 			<#list table.columnList as c>
 				<#if c.showType?? && c.showType == "userselect">
 					<#list c.javaFieldAttrs as a>
-		u${c_index + 1}.${a[1]} AS "${c.simpleJavaField}.${a[0]}",
+		${c.simpleJavaField}.${a[1]} AS "${c.simpleJavaField}.${a[0]}",
 					</#list>
 				<#elseif c.showType?? && c.showType == "officeselect">
 					<#list c.javaFieldAttrs as a>
-		o${c_index + 1}.${a[1]} AS "${c.simpleJavaField}.${a[0]}",
+		${c.simpleJavaField}.${a[1]} AS "${c.simpleJavaField}.${a[0]}",
 					</#list>
 				<#elseif c.showType?? && c.showType == "areaselect">
 					<#list c.javaFieldAttrs as a>
-		a${c_index + 1}.${a[1]} AS "${c.simpleJavaField}.${a[0]}",
+		${c.simpleJavaField}.${a[1]} AS "${c.simpleJavaField}.${a[0]}",
 					</#list>
+				<#elseif c.showType?? && c.showType == "gridselect">
+					<#list c.javaFieldAttrs as a>
+		${c.simpleJavaField}.${c.searchKey} AS "${c.simpleJavaField}.${c.searchKey}",
+				</#list>
 				</#if>
 				<#-- 父表关联字段 -->
 				<#if table.parentExists && table.parentTableFk == c.name>
@@ -48,16 +52,40 @@ ${columnField?substring(0, columnField?last_index_of(","))}
 		<#-- 关联系统表 -->
 		<#list table.columnList as c>
 			<#if c.showType?? && c.showType == "userselect">
-		LEFT JOIN sys_user u${c_index + 1} ON u${c_index + 1}.id = a.${c.name}
+		LEFT JOIN sys_user ${c.simpleJavaField} ON ${c.simpleJavaField}.id = a.${c.name}
 			<#elseif c.showType?? && c.showType == "officeselect">
-		LEFT JOIN sys_office o${c_index + 1} ON o${c_index + 1}.id = a.${c.name}
+		LEFT JOIN sys_office ${c.simpleJavaField} ON ${c.simpleJavaField}.id = a.${c.name}
 			<#elseif c.showType?? && c.showType == "areaselect">
-		LEFT JOIN sys_area a${c_index + 1} ON a${c_index + 1}.id = a.${c.name}
+		LEFT JOIN sys_area ${c.simpleJavaField} ON ${c.simpleJavaField}.id = a.${c.name}
+		<#elseif c.showType?? && c.showType == "gridselect">
+		LEFT JOIN ${c.tableName} ${c.simpleJavaField} ON ${c.simpleJavaField}.id = a.${c.name}
 			</#if>
 		</#list>
 	</sql>
+	
+    <#assign x=0 />
+    <#list table.columnList as c>
+			<#if c.showType?? && c.showType == "umeditor">
+			<#assign x=1 />
+    <resultMap type="${ClassName}" id="${ClassName}Result" autoMapping="true">
+			<#break/>
+			</#if>
+	</#list>
+	<#list table.columnList as c>
+			<#if c.showType?? && c.showType == "umeditor">
+			<#assign x=1 />
+    	<result column="${c.name}" property="${c.simpleJavaField}"   typeHandler="com.krazy.kcfw.common.mapper.ConvertBlobTypeHandler"/>
+			</#if>
+	</#list>
+	<#list table.columnList as c>
+			<#if c.showType?? && c.showType == "umeditor">
+			<#assign x=1 />
+    </resultMap>
+			<#break/>
+			</#if>
+	</#list>
     
-	<select id="get" resultType="${ClassName}">
+	<select id="get" <#if x==0>resultType="${ClassName}"</#if><#if x==1>resultMap="${ClassName}Result"</#if> >
 		SELECT 
 			<include refid="${className}Columns"/>
 		FROM ${table.name} a
@@ -65,7 +93,7 @@ ${columnField?substring(0, columnField?last_index_of(","))}
 		WHERE a.id = ${"#"}{id}
 	</select>
 	
-	<select id="findList" resultType="${ClassName}">
+	<select id="findList" <#if x==0>resultType="${ClassName}"</#if><#if x==1>resultMap="${ClassName}Result"</#if> >
 		SELECT 
 			<include refid="${className}Columns"/>
 		FROM ${table.name} a
@@ -121,7 +149,7 @@ ${columnField?substring(0, columnField?last_index_of(","))}
 		</choose>
 	</select>
 	
-	<select id="findAllList" resultType="${ClassName}">
+	<select id="findAllList" <#if x==0>resultType="${ClassName}"</#if><#if x==1>resultMap="${ClassName}Result"</#if> >
 		SELECT 
 			<include refid="${className}Columns"/>
 		FROM ${table.name} a
@@ -182,13 +210,10 @@ ${updateField?substring(0, updateField?last_index_of(","))}
 		WHERE id = ${"#"}{id}
 	</update>
 	
+	
+	<!--物理删除-->
 	<update id="delete">
-	<#if table.delFlagExists>
-		UPDATE ${table.name} SET 
-			del_flag = ${"#"}{DEL_FLAG_DELETE}
-	<#else>
 		DELETE FROM ${table.name}
-	</#if>
 	<#if table.parentExists>
 		<#list table.columnList as c>
 			<#if table.parentTableFk == c.name>
@@ -207,6 +232,61 @@ ${updateField?substring(0, updateField?last_index_of(","))}
 	</#if>
 	</update>
 	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE ${table.name} SET 
+			del_flag = ${"#"}{DEL_FLAG_DELETE}
+	<#if table.parentExists>
+		<#list table.columnList as c>
+			<#if table.parentTableFk == c.name>
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = ${"#"}{id}
+			</when>
+			<otherwise>
+				WHERE ${table.parentTableFk} = ${"#"}{${c.javaFieldId}}
+			</otherwise>
+		</choose>
+			</#if>
+		</#list>
+	<#else>
+		WHERE id = ${"#"}{id}
+	</#if>
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="${ClassName}" statementType="STATEMENT">
+		select * FROM ${table.name}  where ${"$"}{propertyName} = '${"$"}{value}'
+	</select>
+	
+	<#list table.columnList as c>
+		<#-- 如果存在自定义java对象 -->
+			<#if c.tableName?? && c.tableName!="">
+	<select id="findListBy${c.simpleJavaField}" resultType="${c.simpleJavaType}">
+		SELECT 
+			*
+		FROM ${c.tableName} a
+		<where>
+			a.del_flag = ${"#"}{DEL_FLAG_NORMAL}
+			<if test="${c.searchKey} != null and ${c.searchKey} != ''">
+				AND a.${c.searchKey} LIKE 
+				<if test="dbName == 'oracle'">${"#"}{${c.searchKey}}||'%'</if>
+				<if test="dbName == 'mssql'">${"#"}{${c.searchKey}}+'%'</if>
+				<if test="dbName == 'mysql'">concat(${"#"}{${c.searchKey}},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${"$"}{page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+		</#if>
+	</#list>
 </mapper>]]>
 	</content>
 </template>

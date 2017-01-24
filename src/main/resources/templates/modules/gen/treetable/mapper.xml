@@ -185,13 +185,9 @@ ${updateField?substring(0, updateField?last_index_of(","))}
 		WHERE id = ${"#"}{id}
 	</update>
 	
+	<!--物理删除-->
 	<update id="delete">
-	<#if table.delFlagExists>
-		UPDATE ${table.name} SET 
-			del_flag = ${"#"}{DEL_FLAG_DELETE}
-	<#else>
 		DELETE FROM ${table.name}
-	</#if>
 	<#if table.parentExists>
 		<#list table.columnList as c>
 			<#if table.parentTableFk == c.name>
@@ -206,7 +202,35 @@ ${updateField?substring(0, updateField?last_index_of(","))}
 			</#if>
 		</#list>
 	<#else>
-		WHERE id = ${"#"}{id} OR parent_ids LIKE '%,'||${"#"}{id}||',%'
+		WHERE id = ${"#"}{id} OR parent_ids LIKE 
+		<if test="dbName == 'oracle'">${"#"}{id}||'%'</if>
+		<if test="dbName == 'mssql'">${"#"}{id}+'%'</if>
+		<if test="dbName == 'mysql'">concat(${"#"}{id},'%')</if>
+	</#if>
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE ${table.name} SET 
+			del_flag = ${"#"}{DEL_FLAG_DELETE}
+	<#if table.parentExists>
+		<#list table.columnList as c>
+			<#if table.parentTableFk == c.name>
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = ${"#"}{id}
+			</when>
+			<otherwise>
+				WHERE ${table.parentTableFk} = ${"#"}{${c.javaFieldId}}
+			</otherwise>
+		</choose>
+			</#if>
+		</#list>
+	<#else>
+		WHERE id = ${"#"}{id} OR parent_ids LIKE 
+		<if test="dbName == 'oracle'">${"#"}{id}||'%'</if>
+		<if test="dbName == 'mssql'">${"#"}{id}+'%'</if>
+		<if test="dbName == 'mysql'">concat(${"#"}{id},'%')</if>
 	</#if>
 	</update>
 	

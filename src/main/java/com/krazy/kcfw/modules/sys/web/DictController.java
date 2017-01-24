@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,7 +50,7 @@ public class DictController extends BaseController {
 		}
 	}
 	
-	@RequiresPermissions("sys:dict:view")
+	@RequiresPermissions("sys:dict:list")
 	@RequestMapping(value = {"list", ""})
 	public String list(Dict dict, HttpServletRequest request, HttpServletResponse response, Model model) {
 		List<String> typeList = dictService.findTypeList();
@@ -59,14 +60,14 @@ public class DictController extends BaseController {
 		return "modules/sys/dictList";
 	}
 
-	@RequiresPermissions("sys:dict:view")
+	@RequiresPermissions(value={"sys:dict:view","sys:dict:add","sys:dict:edit"},logical=Logical.OR)
 	@RequestMapping(value = "form")
 	public String form(Dict dict, Model model) {
 		model.addAttribute("dict", dict);
 		return "modules/sys/dictForm";
 	}
 
-	@RequiresPermissions("sys:dict:edit")
+	@RequiresPermissions(value={"sys:dict:add","sys:dict:edit"},logical=Logical.OR)
 	@RequestMapping(value = "save")//@Valid 
 	public String save(Dict dict, Model model, RedirectAttributes redirectAttributes) {
 		if(Global.isDemoMode()){
@@ -81,17 +82,40 @@ public class DictController extends BaseController {
 		return "redirect:" + adminPath + "/sys/dict/?repage&type="+dict.getType();
 	}
 	
-	@RequiresPermissions("sys:dict:edit")
+	@RequiresPermissions("sys:dict:del")
 	@RequestMapping(value = "delete")
-	public String delete(Dict dict, RedirectAttributes redirectAttributes) {
+	public String delete(Dict dict, Model model, RedirectAttributes redirectAttributes) {
 		if(Global.isDemoMode()){
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
 			return "redirect:" + adminPath + "/sys/dict/?repage";
 		}
 		dictService.delete(dict);
+		model.addAttribute("dict", dict);
 		addMessage(redirectAttributes, "删除字典成功");
 		return "redirect:" + adminPath + "/sys/dict/?repage&type="+dict.getType();
 	}
+	
+	
+	/**
+	 * 批量删除角色
+	 */
+	@RequiresPermissions("sys:role:del")
+	@RequestMapping(value = "deleteAll")
+	public String deleteAll(String ids, RedirectAttributes redirectAttributes) {
+		
+		if(Global.isDemoMode()){
+			addMessage(redirectAttributes, "演示模式，不允许操作！");
+			return "redirect:" + adminPath + "/sys/dict/?repage";
+		}
+		String idArray[] =ids.split(",");
+		for(String id : idArray){
+			Dict dict = dictService.get(id);
+			dictService.delete(dict);
+		}
+		addMessage(redirectAttributes, "删除字典成功");
+		return "redirect:" + adminPath + "/sys/dict/?repage";
+	}
+
 	
 	@RequiresPermissions("user")
 	@ResponseBody

@@ -48,6 +48,9 @@
 		<!-- 我的通知 -->
 		<if test="isSelf">
 			JOIN oa_notify_record r ON r.oa_notify_id = a.id AND r.user_id = #{currentUser.id}
+			<if test="readFlag != null and readFlag != ''">
+					AND r.read_flag = #{readFlag}
+				</if>
 		</if>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
 		<if test="title != null and title != ''">
@@ -137,6 +140,11 @@
 	</update>
 	
 	<update id="delete">
+		DELETE FROM oa_notify
+		WHERE id = #{id}
+	</update>
+	
+	<update id="deleteByLogic">
 		UPDATE oa_notify SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}

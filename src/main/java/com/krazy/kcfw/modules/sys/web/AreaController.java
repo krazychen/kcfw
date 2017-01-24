@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,20 +49,22 @@ public class AreaController extends BaseController {
 		}
 	}
 
-	@RequiresPermissions("sys:area:view")
+	@RequiresPermissions("sys:area:list")
 	@RequestMapping(value = {"list", ""})
 	public String list(Area area, Model model) {
 		model.addAttribute("list", areaService.findAll());
 		return "modules/sys/areaList";
 	}
 
-	@RequiresPermissions("sys:area:view")
+	@RequiresPermissions(value={"sys:area:view","sys:area:add","sys:area:edit"},logical=Logical.OR)
 	@RequestMapping(value = "form")
 	public String form(Area area, Model model) {
 		if (area.getParent()==null||area.getParent().getId()==null){
 			area.setParent(UserUtils.getUser().getOffice().getArea());
+		}else{
+			area.setParent(areaService.get(area.getParent().getId()));
 		}
-		area.setParent(areaService.get(area.getParent().getId()));
+		
 //		// 自动获取排序号
 //		if (StringUtils.isBlank(area.getId())){
 //			int size = 0;
@@ -79,7 +82,7 @@ public class AreaController extends BaseController {
 		return "modules/sys/areaForm";
 	}
 	
-	@RequiresPermissions("sys:area:edit")
+	@RequiresPermissions(value={"sys:area:add","sys:area:edit"},logical=Logical.OR)
 	@RequestMapping(value = "save")
 	public String save(Area area, Model model, RedirectAttributes redirectAttributes) {
 		if(Global.isDemoMode()){
@@ -94,7 +97,7 @@ public class AreaController extends BaseController {
 		return "redirect:" + adminPath + "/sys/area/";
 	}
 	
-	@RequiresPermissions("sys:area:edit")
+	@RequiresPermissions("sys:area:del")
 	@RequestMapping(value = "delete")
 	public String delete(Area area, RedirectAttributes redirectAttributes) {
 		if(Global.isDemoMode()){

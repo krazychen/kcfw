@@ -15,4 +15,5 @@ import com.krazy.kcfw.modules.sys.entity.Log;
 @MyBatisDao
 public interface LogDao extends CrudDao<Log> {
 
+	public void empty();
 }

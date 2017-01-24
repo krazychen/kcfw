@@ -6,6 +6,7 @@ package com.krazy.kcfw.modules.sys.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import com.krazy.kcfw.common.persistence.CrudDao;
 import com.krazy.kcfw.common.persistence.annotation.MyBatisDao;
 import com.krazy.kcfw.modules.sys.entity.User;
@@ -78,5 +79,40 @@ public interface UserDao extends CrudDao<User> {
 	 * @return
 	 */
 	public int updateUserInfo(User user);
-
+	
+	/**
+	 * 插入好友
+	 */
+	public int insertFriend(@Param("id")String id, @Param("userId")String userId, @Param("friendId")String friendId);
+	
+	/**
+	 * 查找好友
+	 */
+	public User findFriend(@Param("userId")String userId, @Param("friendId")String friendId);
+	/**
+	 * 删除好友
+	 */
+	public void deleteFriend(@Param("userId")String userId, @Param("friendId")String friendId);
+	
+	/**
+	 * 
+	 * 获取我的好友列表
+	 * 
+	 */
+	public List<User> findFriends(User currentUser);
+	
+	/**
+	 * 
+	 * 查询用户-->用来添加到常用联系人
+	 * 
+	 */
+	public List<User> searchUsers(User user);
+	
+	/**
+	 * 
+	 */
+	
+	public List<User>  findListByOffice(User user);
+	
+	
 }

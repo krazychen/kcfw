@@ -3,13 +3,16 @@
  */
 package com.krazy.kcfw.modules.sys.web;
 
+import java.io.IOException;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.google.common.collect.Maps;
 import com.krazy.kcfw.common.config.Global;
+import com.krazy.kcfw.common.json.AjaxJson;
+import com.krazy.kcfw.common.persistence.Page;
 import com.krazy.kcfw.common.security.shiro.session.SessionDAO;
 import com.krazy.kcfw.common.servlet.ValidateCodeServlet;
 import com.krazy.kcfw.common.utils.CacheUtils;
@@ -27,6 +32,11 @@ import com.krazy.kcfw.common.utils.CookieUtils;
 import com.krazy.kcfw.common.utils.IdGen;
 import com.krazy.kcfw.common.utils.StringUtils;
 import com.krazy.kcfw.common.web.BaseController;
+import com.krazy.kcfw.modules.iim.entity.MailBox;
+import com.krazy.kcfw.modules.iim.entity.MailPage;
+import com.krazy.kcfw.modules.iim.service.MailBoxService;
+import com.krazy.kcfw.modules.oa.entity.OaNotify;
+import com.krazy.kcfw.modules.oa.service.OaNotifyService;
 import com.krazy.kcfw.modules.sys.security.FormAuthenticationFilter;
 import com.krazy.kcfw.modules.sys.security.SystemAuthorizingRealm.Principal;
 import com.krazy.kcfw.modules.sys.utils.UserUtils;
@@ -41,6 +51,13 @@ public class LoginController extends BaseController{
 	
 	@Autowired
 	private SessionDAO sessionDAO;
+	
+	@Autowired
+	private OaNotifyService oaNotifyService;
+	
+	@Autowired
+	private MailBoxService mailBoxService;
+	
 	
 	/**
 	 * 管理登录
@@ -74,6 +91,20 @@ public class LoginController extends BaseController{
 //		view += "jar:file:/D:/GitHub/kcfw/src/main/webapp/WEB-INF/lib/kcfw.jar!";
 //		view += "/"+getClass().getName().replaceAll("\\.", "/").replace(getClass().getSimpleName(), "")+"view/sysLogin";
 //		view += ".jsp";
+		SavedRequest savedRequest = WebUtils.getSavedRequest(request);//获取跳转到login之前的URL
+		// 如果是手机没有登录跳转到到login，则返回JSON字符串
+		 if(savedRequest != null){
+			 String queryStr = savedRequest.getQueryString();
+			if(	queryStr!=null &&( queryStr.contains("__ajax") || queryStr.contains("mobileLogin"))){
+				AjaxJson j = new AjaxJson();
+				j.setSuccess(false);
+				j.setErrorCode("0");
+				j.setMsg("没有登录!");
+				return renderString(response, j);
+			}
+		 }
+		 
+		
 		return "modules/sys/sysLogin";
 	}
 
@@ -120,10 +151,39 @@ public class LoginController extends BaseController{
 		
 		// 如果是手机登录，则返回JSON字符串
 		if (mobile){
-	        return renderString(response, model);
+			AjaxJson j = new AjaxJson();
+			j.setSuccess(false);
+			j.setMsg(message);
+			j.put("username", username);
+			j.put("name","");
+			j.put("mobileLogin", mobile);
+			j.put("JSESSIONID", "");
+	        return renderString(response, j.getJsonStr());
 		}
 		
 		return "modules/sys/sysLogin";
+	}
+
+	/**
+	 * 管理登录
+	 * @throws IOException 
+	 */
+	@RequestMapping(value = "${adminPath}/logout", method = RequestMethod.GET)
+	public String logout(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+		Principal principal = UserUtils.getPrincipal();
+		// 如果已经登录，则跳转到管理首页
+		if(principal != null){
+			UserUtils.getSubject().logout();
+			
+		}
+	   // 如果是手机客户端退出跳转到login，则返回JSON字符串
+			String ajax = request.getParameter("__ajax");
+			if(	ajax!=null){
+				model.addAttribute("success", "1");
+				model.addAttribute("msg", "退出成功");
+				return renderString(response, model);
+			}
+		 return "redirect:" + adminPath+"/login";
 	}
 
 	/**
@@ -180,6 +240,39 @@ public class LoginController extends BaseController{
 ////			request.getSession().setAttribute("aaa", "aa");
 ////		}
 //		System.out.println("==========================b");
+		//
+		OaNotify oaNotify = new OaNotify();
+		oaNotify.setSelf(true);
+		oaNotify.setReadFlag("0");
+		Page<OaNotify> page = oaNotifyService.find(new Page<OaNotify>(request, response), oaNotify); 
+		request.setAttribute("page", page);
+		request.setAttribute("count", page.getList().size());//未读通知条数
+		
+		
+		//
+		MailBox mailBox = new MailBox();
+		mailBox.setReceiver(UserUtils.getUser());
+		mailBox.setReadstatus("0");//筛选未读
+		Page<MailBox> mailPage = mailBoxService.findPage(new MailPage<MailBox>(request, response), mailBox); 
+		request.setAttribute("noReadCount", mailBoxService.getCount(mailBox));
+		request.setAttribute("mailPage", mailPage);
+		// 默认风格
+		String indexStyle = "default";
+		Cookie[] cookies = request.getCookies();
+		for (Cookie cookie : cookies) {
+			if (cookie == null || StringUtils.isEmpty(cookie.getName())) {
+				continue;
+			}
+			if (cookie.getName().equalsIgnoreCase("theme")) {
+				indexStyle = cookie.getValue();
+			}
+		}
+		// 要添加自己的风格，复制下面三行即可
+		if (StringUtils.isNotEmpty(indexStyle)
+				&& indexStyle.equalsIgnoreCase("ace")) {
+			return "modules/sys/sysIndex-ace";
+		}
+		
 		return "modules/sys/sysIndex";
 	}
 	
@@ -222,5 +315,17 @@ public class LoginController extends BaseController{
 			loginFailMap.remove(useruame);
 		}
 		return loginFailNum >= 3;
+	}
+	
+	
+	/**
+	 * 首页
+	 * @throws IOException 
+	 */
+	@RequestMapping(value = "${adminPath}/home")
+	public String home(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+		
+		return "modules/sys/sysHome";
+		
 	}
 }

@@ -45,6 +45,13 @@
 			<allowedExtensions>swf,flv</allowedExtensions>
 			<deniedExtensions></deniedExtensions>
 		</type>
+		<type name="qrcode">
+			<url>%BASE_URL%qrcode/</url>
+			<directory>%BASE_DIR%qrcode</directory>
+			<maxSize>2M</maxSize>
+			<allowedExtensions>bmp,gif,jpeg,jpg,png</allowedExtensions>
+			<deniedExtensions></deniedExtensions>
+		</type>
 	</types>
 	<accessControls>
 		<accessControl>

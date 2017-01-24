@@ -3,6 +3,7 @@
  */
 package com.krazy.kcfw.common.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,5 +89,27 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 	public void delete(T entity) {
 		dao.delete(entity);
 	}
+	
+	
+	/**
+	 * 删除全部数据
+	 * @param entity
+	 */
+	@Transactional(readOnly = false)
+	public void deleteAll(Collection<T> entitys) {
+		for (T entity : entitys) {
+			dao.delete(entity);
+		}
+	}
 
+	
+	/**
+	 * 获取单条数据
+	 * @param id
+	 * @return
+	 */
+	public T findUniqueByProperty(String propertyName, Object value){
+		return dao.findUniqueByProperty(propertyName, value);
+	}
+	
 }

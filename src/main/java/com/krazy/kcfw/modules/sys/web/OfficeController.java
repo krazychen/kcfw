@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,21 +51,25 @@ public class OfficeController extends BaseController {
 		}
 	}
 
-	@RequiresPermissions("sys:office:view")
+	@RequiresPermissions("sys:office:index")
 	@RequestMapping(value = {""})
 	public String index(Office office, Model model) {
 //        model.addAttribute("list", officeService.findAll());
 		return "modules/sys/officeIndex";
 	}
 
-	@RequiresPermissions("sys:office:view")
+	@RequiresPermissions("sys:office:index")
 	@RequestMapping(value = {"list"})
 	public String list(Office office, Model model) {
-        model.addAttribute("list", officeService.findList(office));
+		if(office==null || office.getParentIds() == null){
+			 model.addAttribute("list", officeService.findList(false));
+		}else{
+			 model.addAttribute("list", officeService.findList(office));
+		}
 		return "modules/sys/officeList";
 	}
 	
-	@RequiresPermissions("sys:office:view")
+	@RequiresPermissions(value={"sys:office:view","sys:office:add","sys:office:edit"},logical=Logical.OR)
 	@RequestMapping(value = "form")
 	public String form(Office office, Model model) {
 		User user = UserUtils.getUser();
@@ -92,7 +97,7 @@ public class OfficeController extends BaseController {
 		return "modules/sys/officeForm";
 	}
 	
-	@RequiresPermissions("sys:office:edit")
+	@RequiresPermissions(value={"sys:office:add","sys:office:edit"},logical=Logical.OR)
 	@RequestMapping(value = "save")
 	public String save(Office office, Model model, RedirectAttributes redirectAttributes) {
 		if(Global.isDemoMode()){
@@ -123,7 +128,7 @@ public class OfficeController extends BaseController {
 		return "redirect:" + adminPath + "/sys/office/list?id="+id+"&parentIds="+office.getParentIds();
 	}
 	
-	@RequiresPermissions("sys:office:edit")
+	@RequiresPermissions("sys:office:del")
 	@RequestMapping(value = "delete")
 	public String delete(Office office, RedirectAttributes redirectAttributes) {
 		if(Global.isDemoMode()){

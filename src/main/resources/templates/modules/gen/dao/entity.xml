@@ -84,6 +84,13 @@ public class ${ClassName} extends DataEntity<${ClassName}> {
 	
 			<#-- 其它字段 -->
 			<#else>
+	<#if c.showType == "select" || c.showType == "checkbox" || c.showType == "radiobox">
+	@ExcelField(title="<#if c.comments??>${c.comments}<#else>${c.simpleJavaField}</#if>", dictType="${c.dictType}", align=2, sort=${c_index})
+	<#elseif c.showType == "userselect" || c.showType == "officeselect" || c.showType == "areaselect">
+	@ExcelField(title="<#if c.comments??>${c.comments}<#else>${c.simpleJavaField}</#if>", fieldType=${c.simpleJavaType}.class, value="${c.javaFieldName}", align=2, sort=${c_index})
+	<#else>
+	@ExcelField(title="<#if c.comments??>${c.comments}<#else>${c.simpleJavaField}</#if>", align=2, sort=${c_index})
+	</#if>
 	public ${c.simpleJavaType} get${c.simpleJavaField?cap_first}() {
 		return ${c.simpleJavaField};
 	}

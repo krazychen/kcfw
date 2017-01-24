@@ -99,9 +99,23 @@
 	</update>
 	
 	<update id="delete">
+		DELETE FROM gen_scheme
+		WHERE id = #{id}
+	</update>
+	
+	<update id="deleteByLogic">
 		UPDATE gen_scheme SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="GenScheme" statementType="STATEMENT">
+		SELECT 
+			<include refid="genSchemeColumns"/>
+		FROM gen_scheme a
+		<include refid="genSchemeJoins"/>  where ${propertyName} = '${value}'
+	</select>
+	
 	
 </mapper>

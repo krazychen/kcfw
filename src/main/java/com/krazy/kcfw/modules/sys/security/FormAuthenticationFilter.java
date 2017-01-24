@@ -6,6 +6,7 @@ package com.krazy.kcfw.modules.sys.security;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -14,7 +15,11 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Service;
 
+import com.krazy.kcfw.common.json.AjaxJson;
+import com.krazy.kcfw.common.json.PrintJSON;
 import com.krazy.kcfw.common.utils.StringUtils;
+import com.krazy.kcfw.modules.sys.security.SystemAuthorizingRealm.Principal;
+import com.krazy.kcfw.modules.sys.utils.UserUtils;
 
 /**
  * 表单验证（包含验证码）过滤类
@@ -75,12 +80,20 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 	@Override
 	protected void issueSuccessRedirect(ServletRequest request,
 			ServletResponse response) throws Exception {
-//		Principal p = UserUtils.getPrincipal();
-//		if (p != null && !p.isMobileLogin()){
+		Principal p = UserUtils.getPrincipal();
+		if (p != null && !p.isMobileLogin()){
 			 WebUtils.issueRedirect(request, response, getSuccessUrl(), null, true);
-//		}else{
-//			super.issueSuccessRedirect(request, response);
-//		}
+		}else{
+			//super.issueSuccessRedirect(request, response);//手机登录
+			AjaxJson j = new AjaxJson();
+			j.setSuccess(true);
+			j.setMsg("登录成功!");
+			j.put("username", p.getLoginName());
+			j.put("name", p.getName());
+			j.put("mobileLogin", p.isMobileLogin());
+			j.put("JSESSIONID", p.getSessionid());
+			PrintJSON.write((HttpServletResponse)response, j.getJsonStr());
+		}
 	}
 
 	/**

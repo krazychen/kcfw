@@ -15,4 +15,5 @@ import com.krazy.kcfw.modules.sys.entity.Office;
 @MyBatisDao
 public interface OfficeDao extends TreeDao<Office> {
 	
+	public Office getByCode(String code);
 }

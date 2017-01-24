@@ -222,7 +222,7 @@ public class SystemService extends BaseService implements InitializingBean {
 		user.setOldLoginIp(user.getLoginIp());
 		user.setOldLoginDate(user.getLoginDate());
 		// 更新本次登录信息
-		user.setLoginIp(StringUtils.getRemoteAddr(Servlets.getRequest()));
+		user.setLoginIp(UserUtils.getSession().getHost());
 		user.setLoginDate(new Date());
 		userDao.updateLoginInfo(user);
 	}

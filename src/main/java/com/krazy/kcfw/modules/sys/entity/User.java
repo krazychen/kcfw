@@ -43,9 +43,10 @@ public class User extends DataEntity<User> {
 	private Date loginDate;	// 最后登陆日期
 	private String loginFlag;	// 是否允许登陆
 	private String photo;	// 头像
-
+	private String qrCode;	//二维码
 	private String oldLoginName;// 原登录名
 	private String newPassword;	// 新密码
+	private String sign;//签名
 	
 	private String oldLoginIp;	// 上次登陆IP
 	private Date oldLoginDate;	// 上次登陆日期
@@ -320,5 +321,27 @@ public class User extends DataEntity<User> {
 	@Override
 	public String toString() {
 		return id;
+	}
+
+	public void setQrCode(String qrCode) {
+		this.qrCode = qrCode;
+	}
+
+	public String getQrCode() {
+		return qrCode;
+	}
+
+	/**
+	 * @param sign the sign to set
+	 */
+	public void setSign(String sign) {
+		this.sign = sign;
+	}
+
+	/**
+	 * @return the sign
+	 */
+	public String getSign() {
+		return sign;
 	}
 }

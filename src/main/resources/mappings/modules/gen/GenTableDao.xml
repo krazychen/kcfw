@@ -72,6 +72,7 @@
 			id, 
 			name, 
 			comments, 
+			table_type,
 			class_name, 
 			parent_table, 
 			parent_table_fk, 
@@ -80,11 +81,13 @@
 			update_by, 
 			update_date, 
 			remarks, 
-			del_flag
+			del_flag,
+			issync
 		) VALUES (
 			#{id}, 
 			#{name}, 
-			#{comments}, 
+			#{comments},
+			#{tableType}, 
 			#{className}, 
 			#{parentTable}, 
 			#{parentTableFk}, 
@@ -93,7 +96,8 @@
 			#{updateBy.id}, 
 			#{updateDate}, 
 			#{remarks}, 
-			#{delFlag}
+			#{delFlag},
+			#{isSync}
 		)
 	</insert>
 	
@@ -101,19 +105,35 @@
 		UPDATE gen_table SET <!-- 
 			name = #{name},  -->
 			comments = #{comments}, 
+			table_type = #{tableType},
 			class_name = #{className}, 
 			parent_table = #{parentTable}, 
 			parent_table_fk = #{parentTableFk}, 
 			update_by = #{updateBy.id}, 
 			update_date = #{updateDate}, 
-			remarks = #{remarks}
+			remarks = #{remarks},
+			issync = #{isSync}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
+		DELETE FROM gen_table 
+		WHERE id = #{id}
+	</update>
+	
+	<update id="deleteByLogic">
 		UPDATE gen_table SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+	
+	<update id="buildTable" statementType="STATEMENT">  
+		${sql}
+	</update>
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="GenTable" statementType="STATEMENT">
+		select * FROM gen_table  where ${propertyName} = '${value}'
+	</select>
 	
 </mapper>

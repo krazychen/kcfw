@@ -23,7 +23,14 @@
 					<if test="dbName == 'mssql'">'%'+#{description}+'%'</if>
 					<if test="dbName == 'mysql'">CONCAT('%', #{description}, '%')</if>
 		</if>
-		ORDER BY type, sort, update_date DESC
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY type, sort, update_date DESC
+			</otherwise>
+		</choose>
 	</select>
 	
 	<select id="findAllList" resultType="Dict">
@@ -87,6 +94,11 @@
 	</update>
 	
 	<update id="delete">
+		DELETE FROM sys_dict 
+		WHERE id = #{id}
+	</update>
+	
+	<update id="deleteByLogic">
 		UPDATE sys_dict SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}

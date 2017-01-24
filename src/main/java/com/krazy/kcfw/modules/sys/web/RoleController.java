@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,15 +57,15 @@ public class RoleController extends BaseController {
 		}
 	}
 	
-	@RequiresPermissions("sys:role:view")
+	@RequiresPermissions("sys:role:list")
 	@RequestMapping(value = {"list", ""})
 	public String list(Role role, Model model) {
-		List<Role> list = systemService.findAllRole();
+		List<Role> list = systemService.findRole(role);
 		model.addAttribute("list", list);
 		return "modules/sys/roleList";
 	}
 
-	@RequiresPermissions("sys:role:view")
+	@RequiresPermissions(value={"sys:role:view","sys:role:add","sys:role:edit"},logical=Logical.OR)
 	@RequestMapping(value = "form")
 	public String form(Role role, Model model) {
 		if (role.getOffice()==null){
@@ -76,7 +77,19 @@ public class RoleController extends BaseController {
 		return "modules/sys/roleForm";
 	}
 	
-	@RequiresPermissions("sys:role:edit")
+	@RequiresPermissions("sys:role:auth")
+	@RequestMapping(value = "auth")
+	public String auth(Role role, Model model) {
+		if (role.getOffice()==null){
+			role.setOffice(UserUtils.getUser().getOffice());
+		}
+		model.addAttribute("role", role);
+		model.addAttribute("menuList", systemService.findAllMenu());
+		model.addAttribute("officeList", officeService.findAll());
+		return "modules/sys/roleAuth";
+	}
+	
+	@RequiresPermissions(value={"sys:role:assign","sys:role:auth","sys:role:add","sys:role:edit"},logical=Logical.OR)
 	@RequestMapping(value = "save")
 	public String save(Role role, Model model, RedirectAttributes redirectAttributes) {
 		if(!UserUtils.getUser().isAdmin()&&role.getSysData().equals(Global.YES)){
@@ -88,22 +101,22 @@ public class RoleController extends BaseController {
 			return "redirect:" + adminPath + "/sys/role/?repage";
 		}
 		if (!beanValidator(model, role)){
-			return form(role, model);
+			return list(role, model);
 		}
 		if (!"true".equals(checkName(role.getOldName(), role.getName()))){
 			addMessage(model, "保存角色'" + role.getName() + "'失败, 角色名已存在");
-			return form(role, model);
+			return list(role, model);
 		}
 		if (!"true".equals(checkEnname(role.getOldEnname(), role.getEnname()))){
 			addMessage(model, "保存角色'" + role.getName() + "'失败, 英文名已存在");
-			return form(role, model);
+			return list(role, model);
 		}
 		systemService.saveRole(role);
 		addMessage(redirectAttributes, "保存角色'" + role.getName() + "'成功");
 		return "redirect:" + adminPath + "/sys/role/?repage";
 	}
 	
-	@RequiresPermissions("sys:role:edit")
+	@RequiresPermissions("sys:role:del")
 	@RequestMapping(value = "delete")
 	public String delete(Role role, RedirectAttributes redirectAttributes) {
 		if(!UserUtils.getUser().isAdmin() && role.getSysData().equals(Global.YES)){
@@ -126,12 +139,39 @@ public class RoleController extends BaseController {
 	}
 	
 	/**
+	 * 批量删除角色
+	 */
+	@RequiresPermissions("sys:role:del")
+	@RequestMapping(value = "deleteAll")
+	public String deleteAll(String ids, RedirectAttributes redirectAttributes) {
+		
+		if(Global.isDemoMode()){
+			addMessage(redirectAttributes, "演示模式，不允许操作！");
+			return "redirect:" + adminPath + "/sys/role/?repage";
+		}
+		String idArray[] =ids.split(",");
+		StringBuffer msg = new StringBuffer();
+		for(String id : idArray){
+			Role role = systemService.getRole(id);
+			if(!UserUtils.getUser().isAdmin() && role.getSysData().equals(Global.YES)){
+				msg.append( "越权操作，只有超级管理员才能修改["+role.getName()+"]数据！<br/>");
+			}else{
+				systemService.deleteRole(role);
+				msg.append( "删除角色["+role.getName()+"]成功<br/>");
+				
+			}
+		}
+		addMessage(redirectAttributes, msg.toString());
+		return "redirect:" + adminPath + "/sys/role/?repage";
+	}
+	
+	/**
 	 * 角色分配页面
 	 * @param role
 	 * @param model
 	 * @return
 	 */
-	@RequiresPermissions("sys:role:edit")
+	@RequiresPermissions("sys:role:assign")
 	@RequestMapping(value = "assign")
 	public String assign(Role role, Model model) {
 		List<User> userList = systemService.findUser(new User(new Role(role.getId())));
@@ -145,7 +185,7 @@ public class RoleController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequiresPermissions("sys:role:view")
+	@RequiresPermissions("sys:role:assign")
 	@RequestMapping(value = "usertorole")
 	public String selectUserToRole(Role role, Model model) {
 		List<User> userList = systemService.findUser(new User(new Role(role.getId())));
@@ -162,7 +202,7 @@ public class RoleController extends BaseController {
 	 * @param response
 	 * @return
 	 */
-	@RequiresPermissions("sys:role:view")
+	@RequiresPermissions("sys:role:assign")
 	@ResponseBody
 	@RequestMapping(value = "users")
 	public List<Map<String, Object>> users(String officeId, HttpServletResponse response) {
@@ -187,7 +227,7 @@ public class RoleController extends BaseController {
 	 * @param redirectAttributes
 	 * @return
 	 */
-	@RequiresPermissions("sys:role:edit")
+	@RequiresPermissions("sys:role:assign")
 	@RequestMapping(value = "outrole")
 	public String outrole(String userId, String roleId, RedirectAttributes redirectAttributes) {
 		if(Global.isDemoMode()){
@@ -220,7 +260,7 @@ public class RoleController extends BaseController {
 	 * @param redirectAttributes
 	 * @return
 	 */
-	@RequiresPermissions("sys:role:edit")
+	@RequiresPermissions("sys:role:assign")
 	@RequestMapping(value = "assignrole")
 	public String assignRole(Role role, String[] idsArr, RedirectAttributes redirectAttributes) {
 		if(Global.isDemoMode()){

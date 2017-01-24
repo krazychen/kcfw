@@ -49,6 +49,14 @@
 		WHERE a.id = #{id}
 	</select>
 	
+	<select id="getByCode" resultType="Office">
+		SELECT
+			<include refid="officeColumns"/>
+		FROM sys_office a
+		<include refid="officeJoins"/>
+		
+		WHERE a.code = #{code}
+	</select>
 	<select id="findList" resultType="Office">
 		SELECT
 			<include refid="officeColumns"/>
@@ -165,6 +173,13 @@
 	</update>
 	
 	<update id="delete">
+		DELETE FROM sys_office 
+		WHERE id = #{id} OR parent_ids LIKE 
+					<if test="dbName == 'oracle'">'%,'||#{id}||',%'</if>
+					<if test="dbName == 'mysql'">CONCAT('%,', #{id}, ',%')</if>
+	</update>
+	
+	<update id="deleteByLogic">
 		UPDATE sys_office SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id} OR parent_ids LIKE 

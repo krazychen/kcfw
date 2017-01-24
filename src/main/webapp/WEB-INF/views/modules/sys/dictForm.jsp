@@ -5,9 +5,18 @@
 	<title>字典管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
+		var validateForm;
+		function doSubmit(){//回调函数，在编辑和保存动作时，供openDialog调用提交表单。
+		  if(validateForm.form()){
+			  $("#inputForm").submit();
+			  return true;
+		  }
+	
+		  return false;
+		}
 		$(document).ready(function() {
 			$("#value").focus();
-			$("#inputForm").validate({
+			 validateForm = $("#inputForm").validate({
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
 					form.submit();
@@ -25,54 +34,32 @@
 		});
 	</script>
 </head>
-<body>
-	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/sys/dict/">字典列表</a></li>
-		<li class="active"><a href="${ctx}/sys/dict/form?id=${dict.id}">字典<shiro:hasPermission name="sys:dict:edit">${not empty dict.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sys:dict:edit">查看</shiro:lacksPermission></a></li>
-	</ul><br/>
+<body class="hideScroll">
 	<form:form id="inputForm" modelAttribute="dict" action="${ctx}/sys/dict/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
-		<div class="control-group">
-			<label class="control-label">键值:</label>
-			<div class="controls">
-				<form:input path="value" htmlEscape="false" maxlength="50" class="required"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">标签:</label>
-			<div class="controls">
-				<form:input path="label" htmlEscape="false" maxlength="50" class="required"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">类型:</label>
-			<div class="controls">
-				<form:input path="type" htmlEscape="false" maxlength="50" class="required abc"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">描述:</label>
-			<div class="controls">
-				<form:input path="description" htmlEscape="false" maxlength="50" class="required"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">排序:</label>
-			<div class="controls">
-				<form:input path="sort" htmlEscape="false" maxlength="11" class="required digits"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">备注:</label>
-			<div class="controls">
-				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge"/>
-			</div>
-		</div>
-		<div class="form-actions">
-			<shiro:hasPermission name="sys:dict:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
-		</div>
+		<table class="table table-bordered  table-condensed dataTables-example dataTable no-footer">
+		   <tbody>
+		      <tr>
+		         <td  class="width-15 active">	<label class="pull-right">键值:</label></td>
+		         <td class="width-35" ><form:input path="value" htmlEscape="false" maxlength="50" class="form-control required"/></td>
+		         <td  class="width-15 active">	<label class="pull-right">标签:</label></td>
+		          <td  class="width-35" ><form:input path="label" htmlEscape="false" maxlength="50" class="form-control required"/></td>
+		      </tr>
+		       <tr>
+		         <td  class="width-15 active">	<label class="pull-right">类型:</label></td>
+		         <td class="width-35" ><form:input path="type" htmlEscape="false" maxlength="50" class="form-control required abc"/></td>
+		         <td  class="width-15 active">	<label class="pull-right">描述:</label></td>
+		          <td  class="width-35" ><form:input path="description" htmlEscape="false" maxlength="50" class="form-control required"/></td>
+		      </tr>
+		       <tr>
+		         <td  class="width-15 active">	<label class="pull-right">排序:</label></td>
+		         <td class="width-35" ><form:input path="sort" htmlEscape="false" maxlength="11" class="form-control required digits"/></td>
+		         <td  class="width-15 active">	<label class="pull-right">备注:</label></td>
+		          <td  class="width-35" ><form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="form-control "/></td>
+		      </tr>
+		   </tbody>
+		   </table>   
 	</form:form>
 </body>
 </html>

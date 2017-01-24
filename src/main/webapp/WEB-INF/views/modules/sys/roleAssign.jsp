@@ -6,10 +6,8 @@
 	<meta name="decorator" content="default"/>
 </head>
 <body>
-	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/sys/role/">角色列表</a></li>
-		<li class="active"><a href="${ctx}/sys/role/assign?id=${role.id}"><shiro:hasPermission name="sys:role:edit">角色分配</shiro:hasPermission><shiro:lacksPermission name="sys:role:edit">人员列表</shiro:lacksPermission></a></li>
-	</ul>
+	
+	<div class="wrapper wrapper-content">
 	<div class="container-fluid breadcrumb">
 		<div class="row-fluid span12">
 			<span class="span4">角色名称: <b>${role.name}</b></span>
@@ -28,45 +26,45 @@
 			<input type="hidden" name="id" value="${role.id}"/>
 			<input id="idsArr" type="hidden" name="idsArr" value=""/>
 		</form>
-		<input id="assignButton" class="btn btn-primary" type="submit" value="分配角色"/>
+		<button id="assignButton" type="submit"  class="btn btn-outline btn-primary btn-sm" title="添加人员"><i class="fa fa-plus"></i> 添加人员</button>
 		<script type="text/javascript">
 			$("#assignButton").click(function(){
-				top.$.jBox.open("iframe:${ctx}/sys/role/usertorole?id=${role.id}", "分配角色",810,$(top.document).height()-240,{
-					buttons:{"确定分配":"ok", "清除已选":"clear", "关闭":true}, bottomText:"通过选择部门，然后为列出的人员分配角色。",submit:function(v, h, f){
-						var pre_ids = h.find("iframe")[0].contentWindow.pre_ids;
-						var ids = h.find("iframe")[0].contentWindow.ids;
-						//nodes = selectedTree.getSelectedNodes();
-						if (v=="ok"){
-							// 删除''的元素
-							if(ids[0]==''){
-								ids.shift();
-								pre_ids.shift();
-							}
-							if(pre_ids.sort().toString() == ids.sort().toString()){
-								top.$.jBox.tip("未给角色【${role.name}】分配新成员！", 'info');
-								return false;
-							};
-					    	// 执行保存
-					    	loading('正在提交，请稍等...');
-					    	var idsArr = "";
-					    	for (var i = 0; i<ids.length; i++) {
-					    		idsArr = (idsArr + ids[i]) + (((i + 1)== ids.length) ? '':',');
-					    	}
-					    	$('#idsArr').val(idsArr);
-					    	$('#assignRoleForm').submit();
-					    	return true;
-						} else if (v=="clear"){
-							h.find("iframe")[0].contentWindow.clearAssign();
-							return false;
-		                }
-					}, loaded:function(h){
-						$(".jbox-content", top.document).css("overflow-y","hidden");
+				
+		top.layer.open({
+		    type: 2, 
+		    area: ['800px', '600px'],
+		    title:"选择用户",
+	        maxmin: true, //开启最大化最小化按钮
+		    content: "${ctx}/sys/role/usertorole?id=${role.id}" ,
+		    btn: ['确定', '关闭'],
+		    yes: function(index, layero){
+    	       var pre_ids = layero.find("iframe")[0].contentWindow.pre_ids;
+				var ids = layero.find("iframe")[0].contentWindow.ids;
+				if(ids[0]==''){
+						ids.shift();
+						pre_ids.shift();
 					}
-				});
+					if(pre_ids.sort().toString() == ids.sort().toString()){
+						top.$.jBox.tip("未给角色【${role.name}】分配新成员！", 'info');
+						return false;
+					};
+			    	// 执行保存
+			    	loading('正在提交，请稍等...');
+			    	var idsArr = "";
+			    	for (var i = 0; i<ids.length; i++) {
+			    		idsArr = (idsArr + ids[i]) + (((i + 1)== ids.length) ? '':',');
+			    	}
+			    	$('#idsArr').val(idsArr);
+			    	$('#assignRoleForm').submit();
+				    top.layer.close(index);
+			  },
+			  cancel: function(index){ 
+    	       }
+		}); 
 			});
 		</script>
 	</div>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<table id="contentTable" class="table table-striped table-bordered table-hover table-condensed dataTables-example dataTable">
 		<thead><tr><th>归属公司</th><th>归属部门</th><th>登录名</th><th>姓名</th><th>电话</th><th>手机</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
 		<tbody>
 		<c:forEach items="${userList}" var="user">
@@ -85,5 +83,6 @@
 		</c:forEach>
 		</tbody>
 	</table>
+	</div>
 </body>
 </html>

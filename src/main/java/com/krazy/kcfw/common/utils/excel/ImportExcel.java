@@ -9,12 +9,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -30,7 +33,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.common.collect.Lists;
 import com.krazy.kcfw.common.utils.Reflections;
 import com.krazy.kcfw.common.utils.excel.annotation.ExcelField;
+import com.krazy.kcfw.modules.sys.entity.Area;
+import com.krazy.kcfw.modules.sys.entity.Office;
+import com.krazy.kcfw.modules.sys.entity.User;
 import com.krazy.kcfw.modules.sys.utils.DictUtils;
+import com.krazy.kcfw.modules.sys.utils.UserUtils;
 
 /**
  * 导入Excel文件（支持“XLS”和“XLSX”格式）
@@ -189,10 +196,22 @@ public class ImportExcel {
 		Object val = "";
 		try{
 			Cell cell = row.getCell(column);
-			if (cell != null){
-				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC){
-					val = cell.getNumericCellValue();
-				}else if (cell.getCellType() == Cell.CELL_TYPE_STRING){
+			if (cell != null) {
+				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+					// val = cell.getNumericCellValue();
+					// 当excel 中的数据为数值或日期是需要特殊处理
+					if (HSSFDateUtil.isCellDateFormatted(cell)) {
+						double d = cell.getNumericCellValue();
+						Date date = HSSFDateUtil.getJavaDate(d);
+						SimpleDateFormat dformat = new SimpleDateFormat(
+								"yyyy-MM-dd");
+						val = dformat.format(date);
+					} else {
+						NumberFormat nf = NumberFormat.getInstance();
+						nf.setGroupingUsed(false);// true时的格式：1,234,567,890
+						val = nf.format(cell.getNumericCellValue());// 数值类型的数据为double，所以需要转换一下
+					}
+				} else if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
 					val = cell.getStringCellValue();
 				}else if (cell.getCellType() == Cell.CELL_TYPE_FORMULA){
 					val = cell.getCellFormula();
@@ -317,7 +336,14 @@ public class ImportExcel {
 						}else if (valType == Float.class){
 							val = Float.valueOf(val.toString());
 						}else if (valType == Date.class){
-							val = DateUtil.getJavaDate((Double)val);
+							SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+							val=sdf.parse(val.toString()); 
+						}else if (valType == User.class){
+							val = UserUtils.getByUserName(val.toString());
+						}else if (valType == Office.class){
+							val = UserUtils.getByOfficeName(val.toString());
+						}else if (valType == Area.class){
+							val = UserUtils.getByAreaName(val.toString());
 						}else{
 							if (ef.fieldType() != Class.class){
 								val = ef.fieldType().getMethod("getValue", String.class).invoke(null, val.toString());

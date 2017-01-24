@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,7 +49,7 @@ public class MenuController extends BaseController {
 		}
 	}
 
-	@RequiresPermissions("sys:menu:view")
+	@RequiresPermissions("sys:menu:list")
 	@RequestMapping(value = {"list", ""})
 	public String list(Model model) {
 		List<Menu> list = Lists.newArrayList();
@@ -58,7 +59,7 @@ public class MenuController extends BaseController {
 		return "modules/sys/menuList";
 	}
 
-	@RequiresPermissions("sys:menu:view")
+	@RequiresPermissions(value={"sys:menu:view","sys:menu:add","sys:menu:edit"},logical=Logical.OR)
 	@RequestMapping(value = "form")
 	public String form(Menu menu, Model model) {
 		if (menu.getParent()==null||menu.getParent().getId()==null){
@@ -78,7 +79,7 @@ public class MenuController extends BaseController {
 		return "modules/sys/menuForm";
 	}
 	
-	@RequiresPermissions("sys:menu:edit")
+	@RequiresPermissions(value={"sys:menu:add","sys:menu:edit"},logical=Logical.OR)
 	@RequestMapping(value = "save")
 	public String save(Menu menu, Model model, RedirectAttributes redirectAttributes) {
 		if(!UserUtils.getUser().isAdmin()){
@@ -97,7 +98,7 @@ public class MenuController extends BaseController {
 		return "redirect:" + adminPath + "/sys/menu/";
 	}
 	
-	@RequiresPermissions("sys:menu:edit")
+	@RequiresPermissions("sys:menu:del")
 	@RequestMapping(value = "delete")
 	public String delete(Menu menu, RedirectAttributes redirectAttributes) {
 		if(Global.isDemoMode()){
@@ -113,6 +114,28 @@ public class MenuController extends BaseController {
 		return "redirect:" + adminPath + "/sys/menu/";
 	}
 
+	@RequiresPermissions("sys:menu:del")
+	@RequestMapping(value = "deleteAll")
+	public String deleteAll(String ids, RedirectAttributes redirectAttributes) {
+		if(Global.isDemoMode()){
+			addMessage(redirectAttributes, "演示模式，不允许操作！");
+			return "redirect:" + adminPath + "/sys/menu/";
+		}
+//		if (Menu.isRoot(id)){
+//			addMessage(redirectAttributes, "删除菜单失败, 不允许删除顶级菜单或编号为空");
+//		}else{
+		String idArray[] =ids.split(",");
+		for(String id : idArray){
+			Menu menu = systemService.getMenu(id);
+			if(menu != null){
+				systemService.deleteMenu(systemService.getMenu(id));
+			}
+		}
+			
+		addMessage(redirectAttributes, "删除菜单成功");
+//		}
+		return "redirect:" + adminPath + "/sys/menu/";
+	}
 	@RequiresPermissions("user")
 	@RequestMapping(value = "tree")
 	public String tree() {
@@ -129,7 +152,7 @@ public class MenuController extends BaseController {
 	/**
 	 * 批量修改菜单排序
 	 */
-	@RequiresPermissions("sys:menu:edit")
+	@RequiresPermissions("sys:menu:updateSort")
 	@RequestMapping(value = "updateSort")
 	public String updateSort(String[] ids, Integer[] sorts, RedirectAttributes redirectAttributes) {
 		if(Global.isDemoMode()){

@@ -6,6 +6,7 @@ package com.krazy.kcfw.modules.oa.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,7 +47,7 @@ public class OaNotifyController extends BaseController {
 		return entity;
 	}
 	
-	@RequiresPermissions("oa:oaNotify:view")
+	@RequiresPermissions("oa:oaNotify:list")
 	@RequestMapping(value = {"list", ""})
 	public String list(OaNotify oaNotify, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<OaNotify> page = oaNotifyService.find(new Page<OaNotify>(request, response), oaNotify);
@@ -54,7 +55,10 @@ public class OaNotifyController extends BaseController {
 		return "modules/oa/oaNotifyList";
 	}
 
-	@RequiresPermissions("oa:oaNotify:view")
+	/**
+	 * 查看，增加，编辑报告表单页面
+	 */
+	@RequiresPermissions(value={"oa:oaNotify:view","oa:oaNotify:add","oa:oaNotify:edit"},logical=Logical.OR)
 	@RequestMapping(value = "form")
 	public String form(OaNotify oaNotify, Model model) {
 		if (StringUtils.isNotBlank(oaNotify.getId())){
@@ -64,7 +68,7 @@ public class OaNotifyController extends BaseController {
 		return "modules/oa/oaNotifyForm";
 	}
 
-	@RequiresPermissions("oa:oaNotify:edit")
+	@RequiresPermissions(value={"oa:oaNotify:add","oa:oaNotify:edit"},logical=Logical.OR)
 	@RequestMapping(value = "save")
 	public String save(OaNotify oaNotify, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, oaNotify)){
@@ -83,10 +87,21 @@ public class OaNotifyController extends BaseController {
 		return "redirect:" + adminPath + "/oa/oaNotify/?repage";
 	}
 	
-	@RequiresPermissions("oa:oaNotify:edit")
+	@RequiresPermissions("oa:oaNotify:del")
 	@RequestMapping(value = "delete")
 	public String delete(OaNotify oaNotify, RedirectAttributes redirectAttributes) {
 		oaNotifyService.delete(oaNotify);
+		addMessage(redirectAttributes, "删除通知成功");
+		return "redirect:" + adminPath + "/oa/oaNotify/?repage";
+	}
+	
+	@RequiresPermissions("oa:oaNotify:del")
+	@RequestMapping(value = "deleteAll")
+	public String deleteAll(String ids, RedirectAttributes redirectAttributes) {
+		String idArray[] =ids.split(",");
+		for(String id : idArray){
+			oaNotifyService.delete(oaNotifyService.get(id));
+		}
 		addMessage(redirectAttributes, "删除通知成功");
 		return "redirect:" + adminPath + "/oa/oaNotify/?repage";
 	}
@@ -115,7 +130,7 @@ public class OaNotifyController extends BaseController {
 	}
 	
 	/**
-	 * 查看我的通知
+	 * 查看我的通知,重定向在当前页面打开
 	 */
 	@RequestMapping(value = "view")
 	public String view(OaNotify oaNotify, Model model) {

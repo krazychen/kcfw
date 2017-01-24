@@ -35,6 +35,22 @@
 		ORDER BY a.create_date DESC
 	</select>
 	
+	<select id="get" resultType="Log">
+		SELECT 
+			* 
+		FROM sys_log 
+		WHERE id = #{id}
+	</select>
+	
+	<update id="delete">
+		DELETE FROM sys_log 
+		WHERE id = #{id}
+	</update>
+	
+	<update id="empty">
+		DELETE FROM sys_log 
+	</update>
+	
 	<insert id="insert">
 		INSERT INTO sys_log(
 			id, 

@@ -44,6 +44,11 @@ public class OfficeService extends TreeService<OfficeDao, Office> {
 		return  new ArrayList<Office>();
 	}
 	
+	@Transactional(readOnly = true)
+	public Office getByCode(String code){
+		return dao.getByCode(code);
+	}
+	
 	@Transactional(readOnly = false)
 	public void save(Office office) {
 		super.save(office);

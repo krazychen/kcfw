@@ -12,6 +12,7 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.krazy.kcfw.common.persistence.DataEntity;
+import com.krazy.kcfw.modules.sys.utils.UserUtils;
 
 /**
  * 菜单Entity
@@ -23,6 +24,7 @@ public class Menu extends DataEntity<Menu> {
 	private static final long serialVersionUID = 1L;
 	private Menu parent;	// 父级菜单
 	private String parentIds; // 所有父级编号
+	private List<Menu> children;	// 父级菜单
 	private String name; 	// 名称
 	private String href; 	// 链接
 	private String target; 	// 目标（ mainFrame、_blank、_self、_parent、_top）
@@ -130,6 +132,16 @@ public class Menu extends DataEntity<Menu> {
 	}
 
 	@JsonIgnore
+	public boolean hasPermisson(){
+		List<Menu> menuList = UserUtils.getMenuList();
+		for(Menu menu:menuList){
+			if(menu.getId().equals(this.getId()))
+				return true;
+		}
+		return false;
+	}
+	
+	@JsonIgnore
 	public static void sortList(List<Menu> list, List<Menu> sourcelist, String parentId, boolean cascade){
 		for (int i=0; i<sourcelist.size(); i++){
 			Menu e = sourcelist.get(i);
@@ -167,5 +179,13 @@ public class Menu extends DataEntity<Menu> {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public void setChildren(List<Menu> children) {
+		this.children = children;
+	}
+
+	public List<Menu> getChildren() {
+		return children;
 	}
 }

@@ -3,19 +3,47 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>${fns:getConfig('productName')} 登录</title>
-	<meta name="decorator" content="blank"/>
+	<meta name="description" content="User login page" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<script src="${ctxStatic}/jquery/jquery-2.1.1.min.js" type="text/javascript"></script>
+	<script src="${ctxStatic}/jquery/jquery-migrate-1.1.1.min.js" type="text/javascript"></script>
+	<script src="${ctxStatic}/jquery-validation/1.14.0/jquery.validate.js" type="text/javascript"></script>
+	<script src="${ctxStatic}/jquery-validation/1.14.0/localization/messages_zh.min.js" type="text/javascript"></script>
+	<link href="${ctxStatic}/bootstrap/3.3.4/css_default/bootstrap.min.css" type="text/css" rel="stylesheet" />
+	<script src="${ctxStatic}/bootstrap/3.3.4/js/bootstrap.min.js"  type="text/javascript"></script>
+	<link href="${ctxStatic}/awesome/4.4/css/font-awesome.min.css" rel="stylesheet" />
+	<!-- Krazy -->
+	<link href="${ctxStatic}/common/kcfw.css" type="text/css" rel="stylesheet" />
+	<script src="${ctxStatic}/common/kcfw.js" type="text/javascript"></script>
+	<link rel="shortcut icon" href="images/favicon.png" type="image/png">
+	<!-- text fonts -->
+	<link rel="stylesheet" href="${ctxStatic }/common/login/ace-fonts.css" />
+
+	<!-- ace styles -->
+	<link rel="stylesheet" href="${ctxStatic }/common/login/ace.css" />
+
+	<!-- 引入layer插件 -->
+	<script src="${ctxStatic}/layer-v2.3/layer/layer.js"></script>
+	<script src="${ctxStatic}/layer-v2.3/layer/laydate/laydate.js"></script>
+	
+	<!--[if lte IE 9]>
+		<link rel="stylesheet" href="../assets/css/ace-part2.css" />
+	<![endif]-->
+	<link rel="stylesheet" href="${ctxStatic }/common/login/ace-rtl.css" />
 	<style type="text/css">
-      html,body,table{background-color:#f5f5f5;width:100%;text-align:center;}.form-signin-heading{font-family:Helvetica, Georgia, Arial, sans-serif, 黑体;font-size:36px;margin-bottom:20px;color:#0663a2;}
-      .form-signin{position:relative;text-align:left;width:300px;padding:25px 29px 29px;margin:0 auto 20px;background-color:#fff;border:1px solid #e5e5e5;
-        	-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:0 1px 2px rgba(0,0,0,.05);-moz-box-shadow:0 1px 2px rgba(0,0,0,.05);box-shadow:0 1px 2px rgba(0,0,0,.05);}
-      .form-signin .checkbox{margin-bottom:10px;color:#0663a2;} .form-signin .input-label{font-size:16px;line-height:23px;color:#999;}
-      .form-signin .input-block-level{font-size:16px;height:auto;margin-bottom:15px;padding:7px;*width:283px;*padding-bottom:0;_padding:7px 7px 9px 7px;}
-      .form-signin .btn.btn-large{font-size:16px;} .form-signin #themeSwitch{position:absolute;right:15px;bottom:10px;}
-      .form-signin div.validateCode {padding-bottom:15px;} .mid{vertical-align:middle;}
-      .header{height:80px;padding-top:20px;} .alert{position:relative;width:300px;margin:0 auto;*padding-bottom:0px;}
-      label.error{background:none;width:270px;font-weight:normal;color:inherit;margin:0;}
-    </style>
+	html,body{
+		font-family:"Microsoft YaHei",Arial;
+	}
+	.bound{
+   		background-color: #fff;
+    }
+	</style>
+	<title>${fns:getConfig('productName')} 登录</title>
+	<script>
+		if (window.top !== window.self) {
+			window.top.location = window.location;
+		}
+	</script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#loginForm").validate({
@@ -39,37 +67,129 @@
 		}
 	</script>
 </head>
-<body>
-	<!--[if lte IE 6]><br/><div class='alert alert-block' style="text-align:left;padding-bottom:10px;"><a class="close" data-dismiss="alert">x</a><h4>温馨提示：</h4><p>你使用的浏览器版本过低。为了获得更好的浏览体验，我们强烈建议您 <a href="http://browsehappy.com" target="_blank">升级</a> 到最新版本的IE浏览器，或者使用较新版本的 Chrome、Firefox、Safari 等。</p></div><![endif]-->
-	<div class="header">
-		<div id="messageBox" class="alert alert-error ${empty message ? 'hide' : ''}"><button data-dismiss="alert" class="close">×</button>
-			<label id="loginError" class="error">${message}</label>
-		</div>
-	</div>
-	<h1 class="form-signin-heading">${fns:getConfig('productName')}</h1>
-	<form id="loginForm" class="form-signin" action="${ctx}/login" method="post">
-		<label class="input-label" for="username">登录名</label>
-		<input type="text" id="username" name="username" class="input-block-level required" value="${username}">
-		<label class="input-label" for="password">密码</label>
-		<input type="password" id="password" name="password" class="input-block-level required">
-		<c:if test="${isValidateCodeLogin}"><div class="validateCode">
-			<label class="input-label mid" for="validateCode">验证码</label>
-			<sys:validateCode name="validateCode" inputCssStyle="margin-bottom:0;"/>
-		</div></c:if><%--
-		<label for="mobile" title="手机登录"><input type="checkbox" id="mobileLogin" name="mobileLogin" ${mobileLogin ? 'checked' : ''}/></label> --%>
-		<input class="btn btn-large btn-primary" type="submit" value="登 录"/>&nbsp;&nbsp;
-		<label for="rememberMe" title="下次不需要再登录"><input type="checkbox" id="rememberMe" name="rememberMe" ${rememberMe ? 'checked' : ''}/> 记住我（公共场所慎用）</label>
-		<div id="themeSwitch" class="dropdown">
-			<a class="dropdown-toggle" data-toggle="dropdown" href="#">${fns:getDictLabel(cookie.theme.value,'theme','默认主题')}<b class="caret"></b></a>
-			<ul class="dropdown-menu">
-			  <c:forEach items="${fns:getDictList('theme')}" var="dict"><li><a href="#" onclick="location='${pageContext.request.contextPath}/theme/${dict.value}?url='+location.href">${dict.label}</a></li></c:forEach>
-			</ul>
-			<!--[if lte IE 6]><script type="text/javascript">$('#themeSwitch').hide();</script><![endif]-->
-		</div>
-	</form>
-	<div class="footer">
-		Copyright &copy; 2012-${fns:getConfig('copyrightYear')} <a href="${pageContext.request.contextPath}${fns:getFrontPath()}">${fns:getConfig('productName')}</a> - Powered By <a href="http://kcfw.com" target="_blank">kcfw</a> ${fns:getConfig('version')} 
-	</div>
-	<script src="${ctxStatic}/flash/zoom.min.js" type="text/javascript"></script>
+<body class="login-layout light-login">
+	<div class="main-container">
+		<div class="main-content">
+			<div class="row">
+				<div class="col-sm-10 col-sm-offset-1">
+					<br/>
+					<br/>
+					<br/>
+					<div class="login-container">
+						
+						<div class="center">
+							<h1 class="form-signin-heading"><br/>${fns:getConfig('productName')}<br/></h1>							
+							<sys:message content="${message}"/>
+						</div>
+						
+						<div class="space-6"></div>
+	
+						<div class="position-relative">
+							<div id="login-box" class="login-box visible widget-box no-border bound">
+								<div class="widget-body bound">
+									<div class="widget-main bound">
+										<h4 class="header blue lighter bigger">
+											<i class="ace-icon fa fa-coffee green"></i>
+											用户登录
+										</h4>
+
+										<div class="space-6"></div>						
+										
+										<form id="loginForm" class="form-signin" action="${ctx}/login" method="post">
+											<fieldset>
+												<label class="block clearfix">
+													<span class="block input-icon input-icon-right">
+														<input type="text"  id="username" name="username" class="form-control required"  value="${username}" placeholder="用户名" />
+														<i class="ace-icon fa fa-user"></i>
+													</span>
+												</label>
+
+												<label class="block clearfix">
+													<span class="block input-icon input-icon-right">
+														<input type="password" id="password" name="password" class="form-control required" placeholder="密码" />
+														<i class="ace-icon fa fa-lock"></i>
+													</span>
+												</label>
+												<c:if test="${isValidateCodeLogin}">
+													<div class="input-group m-b text-muted validateCode">
+													<label class="input-label mid" for="validateCode">验证码:</label>
+													<sys:validateCode name="validateCode" inputCssStyle="margin-bottom:5px;"/>
+													</div>
+												</c:if>
+												<div class="space"></div>
+
+												<div class="clearfix">
+													<label class="inline">
+														<input  type="checkbox" id="rememberMe" name="rememberMe" ${rememberMe ? 'checked' : ''} class="ace" />
+														<span class="lbl"> 记住我（公共场所慎用）</span>
+													</label>
+
+													<button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+														<i class="ace-icon fa fa-key"></i>
+														<span class="bigger-110">登录</span>
+													</button>
+												</div>
+
+												<div class="space-4"></div>
+													<div id="themeSwitch" class="dropdown">
+														<a class="dropdown-toggle" data-toggle="dropdown" href="#">${fns:getDictLabel(cookie.theme.value,'theme','默认主题')}<b class="caret"></b></a>
+														<ul class="dropdown-menu">
+														  <c:forEach items="${fns:getDictList('theme')}" var="dict"><li><a href="#" onclick="location='${pageContext.request.contextPath}/theme/${dict.value}?url='+location.href"><font color="black">${dict.label}</font></a></li></c:forEach>
+														</ul>
+														<!--[if lte IE 6]><script type="text/javascript">$('#themeSwitch').hide();</script><![endif]-->
+													</div>
+											</fieldset>
+										</form>
+									</div>
+								</div><!-- /.widget-main -->	
+							</div><!-- /.widget-body -->
+						</div><!-- /.login-box -->
+						<div class="center"><h4 id="id-company-text"><font color="#A90E0E">&copy; Powered By <a href="http://kcfw.com" target="_blank">kcfw</a> ${fns:getConfig('version')} </font></h4></div>
+						<!-- 
+						<div class="footer">
+							Copyright &copy; 2012-${fns:getConfig('copyrightYear')} <a href="${pageContext.request.contextPath}${fns:getFrontPath()}">${fns:getConfig('productName')}</a> - Powered By <a href="http://kcfw.com" target="_blank">kcfw</a> ${fns:getConfig('version')} 
+						</div> -->
+					</div>
+				</div><!-- /.col -->
+			</div><!-- /.row -->
+		</div><!-- /.main-content -->
+	</div><!-- /.main-container -->
+	
+	<!-- basic scripts -->
+
+	<!--[if !IE]> -->
+	<script type="text/javascript">
+		window.jQuery || document.write("<script src='../assets/js/jquery.js'>"+"<"+"/script>");
+	</script>
+	<script type="text/javascript">
+		if('ontouchstart' in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.js'>"+"<"+"/script>");
+	</script>
+	<style>
+	/* Validation */
+
+		label.error {
+		    color: #cc5965;
+		    display: inline-block;
+		    margin-left: 5px;
+		}
+		
+		.form-control.error {
+		    border: 1px dotted #cc5965;
+		}
+	</style>
+	<!-- inline scripts related to this page -->
+	<script type="text/javascript">
+	$(document).ready(function() {
+		 $(document).on('click', '.form-options a[data-target]', function(e) {
+			e.preventDefault();
+			var target = $(this).data('target');
+			$('.widget-box.visible').removeClass('visible');//hide others
+			$(target).addClass('visible');//show target
+		 });
+		});
+		
+		
+		
+	</script>
 </body>
 </html>

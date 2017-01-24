@@ -114,25 +114,37 @@ function alertx(mess, closed){
 
 // 确认对话框
 function confirmx(mess, href, closed){
-	top.$.jBox.confirm(mess,'系统提示',function(v,h,f){
-		if(v=='ok'){
-			if (typeof href == 'function') {
-				href();
-			}else{
-				resetTip(); //loading();
-				location = href;
-			}
+	
+	top.layer.confirm(mess, {icon: 3, title:'系统提示'}, function(index){
+	    //do something
+		if (typeof href == 'function') {
+			href();
+		}else{
+			resetTip(); //loading();
+			location = href;
 		}
-	},{buttonsFocus:1, closed:function(){
-		if (typeof closed == 'function') {
-			closed();
-		}
-	}});
-	top.$('.jbox-body .jbox-icon').css('top','55px');
+	    top.layer.close(index);
+	});
+	
+//	top.$.jBox.confirm(mess,'系统提示',function(v,h,f){
+//		if(v=='ok'){
+//			if (typeof href == 'function') {
+//				href();
+//			}else{
+//				resetTip(); //loading();
+//				location = href;
+//			}
+//		}
+//	},{buttonsFocus:1, closed:function(){
+//		if (typeof closed == 'function') {
+//			closed();
+//		}
+//	}});
+//	top.$('.jbox-body .jbox-icon').css('top','55px');
 	return false;
 }
 
-// 提示输入对话框
+/** 提示输入对话框
 function promptx(title, lable, href, closed){
 	top.$.jBox("<div class='form-search' style='padding:20px;text-align:center;'>" + lable + "：<input type='text' id='txt' name='txt'/></div>", {
 			title: title, submit: function (v, h, f){
@@ -151,6 +163,22 @@ function promptx(title, lable, href, closed){
 			closed();
 		}
 	}});
+	return false;
+}**/
+
+// 提示输入对话框
+function promptx(title,  href){
+
+	 var index = top.layer.prompt({title: title, formType: 2}, function(text){
+		 if (typeof href == 'function') {
+				href();
+			}else{
+				resetTip(); //loading();
+				location = href + encodeURIComponent(text);
+			}
+		 
+		 top.layer.close(index);
+		  });
 	return false;
 }
 
@@ -279,4 +307,93 @@ function abbr(name, maxLength){
      return name;  
  }  
  return nameSub;  
+}
+//打开对话框(添加修改)
+function openDialog(title,url,width,height,target){
+	
+	if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+		width='auto';
+		height='auto';
+	}else{//如果是PC端，根据用户设置的width和height显示。
+	
+	}
+	
+	top.layer.open({
+	    type: 2,  
+	    area: [width, height],
+	    title: title,
+        maxmin: true, //开启最大化最小化按钮
+	    content: url ,
+	    btn: ['确定', '关闭'],
+	    yes: function(index, layero){
+	    	 var body = top.layer.getChildFrame('body', index);
+	         var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+	         var inputForm = body.find('#inputForm');
+	         var top_iframe;
+	         if(target){
+	        	 top_iframe = target;//如果指定了iframe，则在改frame中跳转
+	         }else{
+	        	 top_iframe = top.getActiveTab().attr("name");//获取当前active的tab的iframe 
+	         }
+	         inputForm.attr("target",top_iframe);//表单提交成功后，从服务器返回的url在当前tab中展示
+	         
+	        if(iframeWin.contentWindow.doSubmit() ){
+	        	// top.layer.close(index);//关闭对话框。
+	        	  setTimeout(function(){top.layer.close(index)}, 100);//延时0.1秒，对应360 7.1版本bug
+	         }
+			
+		  },
+		  cancel: function(index){ 
+	       }
+	}); 	
+	
+}
+
+//打开对话框(查看)
+function openDialogView(title,url,width,height){
+	
+	
+	if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+		width='auto';
+		height='auto';
+	}else{//如果是PC端，根据用户设置的width和height显示。
+	
+	}
+	top.layer.open({
+	    type: 2,  
+	    area: [width, height],
+	    title: title,
+        maxmin: true, //开启最大化最小化按钮
+	    content: url ,
+	    btn: ['关闭'],
+	    cancel: function(index){ 
+	       }
+	}); 
+	
+}
+
+function search(){//查询，页码清零
+	$("#pageNo").val(0);
+	$("#searchForm").submit();
+		return false;
+}
+
+function reset(){//重置，页码清零
+	$("#pageNo").val(0);
+	$("#searchForm div.form-group input").val("");
+	$("#searchForm div.form-group select").val("");
+	$("#searchForm").submit();
+		return false;
+	 }
+function sortOrRefresh(){//刷新或者排序，页码不清零
+	
+	$("#searchForm").submit();
+		return false;
+}
+function page(n,s){//翻页
+	$("#pageNo").val(n);
+	$("#pageSize").val(s);
+	$("#searchForm").submit();
+	$("span.page-size").text(s);
+	return false;
 }

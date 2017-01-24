@@ -3,6 +3,8 @@
  */
 package com.krazy.kcfw.modules.sys.utils;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.shiro.SecurityUtils;
@@ -12,6 +14,7 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
 import com.krazy.kcfw.common.service.BaseService;
+import com.krazy.kcfw.common.sms.SMSUtils;
 import com.krazy.kcfw.common.utils.CacheUtils;
 import com.krazy.kcfw.common.utils.SpringContextHolder;
 import com.krazy.kcfw.modules.sys.dao.AreaDao;
@@ -173,6 +176,14 @@ public class UserUtils {
 	}
 	
 	/**
+	 * 获取当前用户授权菜单
+	 * @return
+	 */
+	public static Menu getTopMenu(){
+		Menu topMenu =  getMenuList().get(0);
+		return topMenu;
+	}
+	/**
 	 * 获取当前用户授权的区域
 	 * @return
 	 */
@@ -292,5 +303,82 @@ public class UserUtils {
 //		}
 //		return new HashMap<String, Object>();
 //	}
+	
+	public static String getTime(Date date){
+		StringBuffer time = new StringBuffer();
+        Date date2 = new Date();
+        long temp = date2.getTime() - date.getTime();    
+        long days = temp / 1000 / 3600/24;                //相差小时数
+        if(days>0){
+        	time.append(days+"天");
+        }
+        long temp1 = temp % (1000 * 3600*24);
+        long hours = temp1 / 1000 / 3600;                //相差小时数
+        if(days>0 || hours>0){
+        	time.append(hours+"小时");
+        }
+        long temp2 = temp1 % (1000 * 3600);
+        long mins = temp2 / 1000 / 60;                    //相差分钟数
+        time.append(mins + "分钟");
+        return  time.toString();
+	}
+
+
+	//发送注册码
+	public static String sendRandomCode(String uid, String pwd, String tel, String randomCode) throws IOException {
+		//发送内容
+		String content = "您的验证码是："+randomCode+"，有效期30分钟，请在有效期内使用。"; 
+		
+		return SMSUtils.send(uid, pwd, tel, content);
+
+	}
+	
+	//注册用户重置密码
+	public static String sendPass(String uid, String pwd, String tel, String password) throws IOException {
+		//发送内容
+		String content = "您的新密码是："+password+"，请登录系统，重新设置密码。"; 
+		return SMSUtils.send(uid, pwd, tel, content);
+
+	}
+	
+	/**
+	 * 导出Excel调用,根据姓名转换为ID
+	 */
+	public static User getByUserName(String name){
+		User u = new User();
+		u.setName(name);
+		List<User> list = userDao.findList(u);
+		if(list.size()>0){
+			return list.get(0);
+		}else{
+			return new User();
+		}
+	}
+	/**
+	 * 导出Excel使用，根据名字转换为id
+	 */
+	public static Office getByOfficeName(String name){
+		Office o = new Office();
+		o.setName(name);
+		List<Office> list = officeDao.findList(o);
+		if(list.size()>0){
+			return list.get(0);
+		}else{
+			return new Office();
+		}
+	}
+	/**
+	 * 导出Excel使用，根据名字转换为id
+	 */
+	public static Area getByAreaName(String name){
+		Area a = new Area();
+		a.setName(name);
+		List<Area> list = areaDao.findList(a);
+		if(list.size()>0){
+			return list.get(0);
+		}else{
+			return new Area();
+		}
+	}
 	
 }
