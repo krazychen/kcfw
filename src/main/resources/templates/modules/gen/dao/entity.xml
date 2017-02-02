@@ -14,6 +14,7 @@ import ${i};
 </#list>
 
 import com.krazy.kcfw.common.persistence.DataEntity;
+import com.krazy.kcfw.common.utils.excel.annotation.ExcelField;
 
 /**
  * ${functionName}Entity

@@ -14,9 +14,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-<#list table.importGridJavaList as i>
-import ${i};
-</#list>
+
 import com.krazy.kcfw.common.persistence.Page;
 import com.krazy.kcfw.common.service.CrudService;
 import ${packageName}.${moduleName}.entity<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
@@ -36,10 +34,12 @@ public class ${ClassName}Service extends CrudService<${ClassName}Dao, ${ClassNam
 	}
 	
 	public List<${ClassName}> findList(${ClassName} ${className}) {
+		${className}.getSqlMap().put("dsf", dataScopeFilter(${className}.getCurrentUser(), "o", "u"));
 		return super.findList(${className});
 	}
 	
 	public Page<${ClassName}> findPage(Page<${ClassName}> page, ${ClassName} ${className}) {
+		${className}.getSqlMap().put("dsf", dataScopeFilter(${className}.getCurrentUser(), "o", "u"));
 		return super.findPage(page, ${className});
 	}
 	
@@ -52,18 +52,6 @@ public class ${ClassName}Service extends CrudService<${ClassName}Dao, ${ClassNam
 	public void delete(${ClassName} ${className}) {
 		super.delete(${className});
 	}
-	
-	<#list table.columnList as c>
-		<#-- 如果不是基类属性 -->
-		<#if c.tableName?? && c.tableName!=''>
-	public Page<${c.simpleJavaType}> findPageBy${c.simpleJavaField}(Page<${c.simpleJavaType}> page, ${c.simpleJavaType} ${c.simpleJavaField}) {
-		${c.simpleJavaField}.setPage(page);
-		page.setList(dao.findListBy${c.simpleJavaField}(${c.simpleJavaField}));
-		return page;
-	}
-	</#if>
-	</#list>
-	
 	
 	
 }]]>

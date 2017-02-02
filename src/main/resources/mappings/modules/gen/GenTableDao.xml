@@ -72,7 +72,6 @@
 			id, 
 			name, 
 			comments, 
-			table_type,
 			class_name, 
 			parent_table, 
 			parent_table_fk, 
@@ -81,13 +80,11 @@
 			update_by, 
 			update_date, 
 			remarks, 
-			del_flag,
-			issync
+			del_flag
 		) VALUES (
 			#{id}, 
 			#{name}, 
 			#{comments},
-			#{tableType}, 
 			#{className}, 
 			#{parentTable}, 
 			#{parentTableFk}, 
@@ -96,8 +93,7 @@
 			#{updateBy.id}, 
 			#{updateDate}, 
 			#{remarks}, 
-			#{delFlag},
-			#{isSync}
+			#{delFlag}
 		)
 	</insert>
 	
@@ -105,14 +101,12 @@
 		UPDATE gen_table SET <!-- 
 			name = #{name},  -->
 			comments = #{comments}, 
-			table_type = #{tableType},
 			class_name = #{className}, 
 			parent_table = #{parentTable}, 
 			parent_table_fk = #{parentTableFk}, 
 			update_by = #{updateBy.id}, 
 			update_date = #{updateDate}, 
-			remarks = #{remarks},
-			issync = #{isSync}
+			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
 	

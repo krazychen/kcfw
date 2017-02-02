@@ -49,11 +49,11 @@
 		    area: ['300px', '420px'],
 		    title:"选择${title}",
 		    ajaxData:{selectIds: $("#${id}Id").val()},
-		    content: "${ctx}/tag/treeselect?url="+encodeURIComponent("${url}")+"&module=${module}&checked=${checked}&extId=${extId}&isAll=${isAll}" ,
+		    content: "${ctx}/tag/treeselect?url="+encodeURIComponent("${url}")+"&module=${module}&checked=${checked}&selectIds="+$("#${id}Id").val()+"&extId=${extId}&isAll=${isAll}&roleEnName=${roleEnName}&userURL=${userURL}" ,
 		    btn: ['确定', '关闭']
     	       ,yes: function(index, layero){ //或者使用btn1
 						var tree = layero.find("iframe")[0].contentWindow.tree;//h.find("iframe").contents();
-						var ids = [], names = [], nodes = [];
+						var ids = [], names = [], nodes = [],parents=[];
 						if ("${checked}" == "true"){
 							nodes = tree.getCheckedNodes(true);
 						}else{
@@ -84,6 +84,7 @@
 								return false;
 							}//</c:if>
 							ids.push(nodes[i].id);
+							parents.push(nodes[i].getParentNode());
 							if ("${showParent}" == "true"){
 								names.push(nodes[i].getParentNode().name+"/"+nodes[i].name);
 							}else{
@@ -97,10 +98,10 @@
 						$("#${id}Name").focus();
 						top.layer.close(index);
 						if(typeof ${id}TreeselectCallBack == 'function'){
-							${id}TreeselectCallBack();
+							${id}TreeselectCallBack(index,layero,ids,names,parents);
 						}
-				    	       },
-    	cancel: function(index){ //或者使用btn2
+				    },
+    			cancel: function(index){ //或者使用btn2
     	           //按钮【按钮二】的回调
     	       }
 		}); 

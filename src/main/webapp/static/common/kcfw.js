@@ -309,7 +309,7 @@ function abbr(name, maxLength){
  return nameSub;  
 }
 //打开对话框(添加修改)
-function openDialog(title,url,width,height,target){
+function openDialog(title,url,width,height,target,closed){
 	
 	if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
 		width='auto';
@@ -335,12 +335,16 @@ function openDialog(title,url,width,height,target){
 	         }else{
 	        	 top_iframe = top.getActiveTab().attr("name");//获取当前active的tab的iframe 
 	         }
-	         inputForm.attr("target",top_iframe);//表单提交成功后，从服务器返回的url在当前tab中展示
+	         if(closed!="true"){
+	        	 inputForm.attr("target",top_iframe);//表单提交成功后，从服务器返回的url在当前tab中展示
 	         
-	        if(iframeWin.contentWindow.doSubmit() ){
-	        	// top.layer.close(index);//关闭对话框。
-	        	  setTimeout(function(){top.layer.close(index)}, 100);//延时0.1秒，对应360 7.1版本bug
-	         }
+	         	if(iframeWin.contentWindow.doSubmit() ){
+	         		// top.layer.close(index);//关闭对话框。
+	         		setTimeout(function(){top.layer.close(index)}, 100);//延时0.1秒，对应360 7.1版本bug
+	         	}
+	    	}else{
+	    		iframeWin.contentWindow.doSubmit();
+	    	}
 			
 		  },
 		  cancel: function(index){ 
@@ -372,6 +376,26 @@ function openDialogView(title,url,width,height){
 	
 }
 
+//打开对话框(自定义按钮)
+function openDialogCus(title,url,width,height){
+	
+	
+	if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+		width='auto';
+		height='auto';
+	}else{//如果是PC端，根据用户设置的width和height显示。
+	
+	}
+	top.layer.open({
+	    type: 2,  
+	    area: [width, height],
+	    title: title,
+        maxmin: true, //开启最大化最小化按钮
+	    content: url 
+	}); 
+	
+}
+
 function search(){//查询，页码清零
 	$("#pageNo").val(0);
 	$("#searchForm").submit();
@@ -396,4 +420,62 @@ function page(n,s){//翻页
 	$("#searchForm").submit();
 	$("span.page-size").text(s);
 	return false;
+}
+
+layer.layerAddBtn = function(name,callback,closeBt,target,closed){
+	var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+	var layerBtnOutdiv_ = parent.$("#layui-layer"+index);
+	var layerBtnDiv_ = layerBtnOutdiv_.find(".layui-layer-btn");
+	
+	//如果弹出窗口标题包含查看，则不需要添加按钮
+	var title=layerBtnOutdiv_.find(".layui-layer-title").html();
+	if(title.indexOf("查看")!=-1){
+		return;
+	}
+	var button_;
+	if(closeBt!="true"){
+		button_ = $('<a></a>',{
+			text:name,
+			"class":"layui-layer-btn0"
+		});
+		//button_.click(function() {callback(index,layerBtnOutdiv_)});
+		button_.click(function(){
+			var body = top.layer.getChildFrame('body', index);
+			var iframeWin = layerBtnOutdiv_.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+			var inputForm = body.find('#inputForm');
+			callback(index,layerBtnOutdiv_,body);
+			var top_iframe;
+			if(target){
+				top_iframe = target;//如果指定了iframe，则在改frame中跳转
+			}else{
+				top_iframe = top.getActiveTab().attr("name");//获取当前active的tab的iframe 
+			}
+			if(closed!="true"){
+				inputForm.attr("target",top_iframe);//表单提交成功后，从服务器返回的url在当前tab中展示
+			 
+				if(iframeWin.contentWindow.doSubmit() ){
+			 		// top.layer.close(index);//关闭对话框。
+					setTimeout(function(){top.layer.close(index)}, 100);//延时0.1秒，对应360 7.1版本bug
+			 	}
+			}else{
+				iframeWin.contentWindow.doSubmit();
+			}
+		})
+	}else{
+		button_ = $('<a></a>',{
+			text:"关闭",
+			"class":"layui-layer-btn1"
+		});
+		button_.click(function() {callback(index,layerBtnOutdiv_)});
+	}
+	
+	if(layerBtnDiv_.length==0){
+		var s = "<div class=\"layui-layer-btn\"></div>";
+		layerBtnOutdiv_.append(s);
+		layerBtnDiv_ = layerBtnOutdiv_.find(".layui-layer-btn");
+		var iframe = layerBtnOutdiv_.find("iframe");
+		var oldhigh = $(iframe).height();
+		$(iframe).height(oldhigh-50);//调整iframe窗体的大小，以把按钮条露出
+	}
+	button_.prependTo(layerBtnDiv_);
 }

@@ -63,27 +63,12 @@ ${columnField?substring(0, columnField?last_index_of(","))}
 		</#list>
 	</sql>
 	
+	<sql id="userJoins">
+		JOIN sys_user u ON u.id = a.create_by
+		JOIN sys_office o ON o.id = u.office_id
+    </sql>
+	
     <#assign x=0 />
-    <#list table.columnList as c>
-			<#if c.showType?? && c.showType == "umeditor">
-			<#assign x=1 />
-    <resultMap type="${ClassName}" id="${ClassName}Result" autoMapping="true">
-			<#break/>
-			</#if>
-	</#list>
-	<#list table.columnList as c>
-			<#if c.showType?? && c.showType == "umeditor">
-			<#assign x=1 />
-    	<result column="${c.name}" property="${c.simpleJavaField}"   typeHandler="com.krazy.kcfw.common.mapper.ConvertBlobTypeHandler"/>
-			</#if>
-	</#list>
-	<#list table.columnList as c>
-			<#if c.showType?? && c.showType == "umeditor">
-			<#assign x=1 />
-    </resultMap>
-			<#break/>
-			</#if>
-	</#list>
     
 	<select id="get" <#if x==0>resultType="${ClassName}"</#if><#if x==1>resultMap="${ClassName}Result"</#if> >
 		SELECT 
@@ -98,6 +83,7 @@ ${columnField?substring(0, columnField?last_index_of(","))}
 			<include refid="${className}Columns"/>
 		FROM ${table.name} a
 		<include refid="${className}Joins"/>
+		<include refid="userJoins"/>
 		<where>
 			<#if table.delFlagExists>a.del_flag = ${"#"}{DEL_FLAG_NORMAL}</#if>
 			<#list table.columnList as c>
@@ -131,6 +117,8 @@ ${columnField?substring(0, columnField?last_index_of(","))}
 				</#if>
 			</#list>
 		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${"$"}{page.orderBy}
@@ -260,33 +248,7 @@ ${updateField?substring(0, updateField?last_index_of(","))}
 		select * FROM ${table.name}  where ${"$"}{propertyName} = '${"$"}{value}'
 	</select>
 	
-	<#list table.columnList as c>
-		<#-- 如果存在自定义java对象 -->
-			<#if c.tableName?? && c.tableName!="">
-	<select id="findListBy${c.simpleJavaField}" resultType="${c.simpleJavaType}">
-		SELECT 
-			*
-		FROM ${c.tableName} a
-		<where>
-			a.del_flag = ${"#"}{DEL_FLAG_NORMAL}
-			<if test="${c.searchKey} != null and ${c.searchKey} != ''">
-				AND a.${c.searchKey} LIKE 
-				<if test="dbName == 'oracle'">${"#"}{${c.searchKey}}||'%'</if>
-				<if test="dbName == 'mssql'">${"#"}{${c.searchKey}}+'%'</if>
-				<if test="dbName == 'mysql'">concat(${"#"}{${c.searchKey}},'%')</if>
-			</if>
-		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${"$"}{page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
-		</#if>
-	</#list>
+	
 </mapper>]]>
 	</content>
 </template>

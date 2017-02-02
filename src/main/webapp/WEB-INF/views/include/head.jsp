@@ -22,8 +22,7 @@
 <link href="${ctxStatic}/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
 <script src="${ctxStatic}/dataTables/jquery.dataTables.js"></script>
 <script src="${ctxStatic}/dataTables/dataTables.bootstrap.js"></script>
-<link href="${ctxStatic}/common/kcfw.css" type="text/css" rel="stylesheet" />
-<script src="${ctxStatic}/common/kcfw.js" type="text/javascript"></script>
+
 
 <!-- jquery ui -->
 <script src="${ctxStatic}/jquery-ui/jquery-ui.min.js"></script>
@@ -49,6 +48,7 @@
 <script src="${ctxStatic}/common/mustache.min.js" type="text/javascript"></script>
 <script src="${ctxStatic}/common/content.js" type="text/javascript"></script>
 <link href="${ctxStatic}/common/css/login.css" type="text/css" rel="stylesheet" />
-
+<link href="${ctxStatic}/common/kcfw.css" type="text/css" rel="stylesheet" />
+<script src="${ctxStatic}/common/kcfw.js" type="text/javascript"></script>
 
 <script type="text/javascript">var ctx = '${ctx}', ctxStatic='${ctxStatic}';</script>

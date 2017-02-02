@@ -64,7 +64,6 @@
 			is_null, 
 			is_insert, 
 			is_edit, 
-			is_form,
 			is_list, 
 			is_query, 
 			query_type, 
@@ -76,18 +75,7 @@
 			update_by, 
 			update_date, 
 			remarks, 
-			del_flag,
-			tableName,
-			fieldLabels,
-			fieldKeys,
-			searchLabel,
-			searchKey,
-			validateType,
-			min_length,
-			max_length,
-			min_value,
-			max_value
-			
+			del_flag
 		) VALUES (
 			#{id}, 
 			#{genTable.id}, 
@@ -100,7 +88,6 @@
 			#{isNull}, 
 			#{isInsert}, 
 			#{isEdit}, 
-			#{isForm}, 
 			#{isList}, 
 			#{isQuery}, 
 			#{queryType}, 
@@ -112,17 +99,7 @@
 			#{updateBy.id}, 
 			#{updateDate}, 
 			#{remarks}, 
-			#{delFlag},
-			#{tableName},
-			#{fieldLabels},
-			#{fieldKeys},
-			#{searchLabel},
-			#{searchKey},
-			#{validateType},
-			#{minLength},
-			#{maxLength},
-			#{minValue},
-			#{maxValue}
+			#{delFlag}
 		)
 	</insert>
 	
@@ -145,18 +122,7 @@
 			update_by = #{updateBy.id}, 
 			update_date = #{updateDate}, 
 			remarks = #{remarks},
-			del_flag = #{delFlag},
-			tableName = #{tableName},
-			fieldLabels = #{fieldLabels},
-			fieldKeys = #{fieldKeys},
-			searchLabel = #{searchLabel},
-			searchKey = #{searchKey},
-			validateType = #{validateType},
-			min_length = #{minLength},
-			max_length = #{maxLength},
-			min_value = #{minValue},
-			max_value = #{maxValue}
-			
+			del_flag = #{delFlag}
 		WHERE id = #{id}
 	</update>
 	

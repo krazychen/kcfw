@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krazy.kcfw.modules.xmu.dao.proj.XmuProjectDao">
+    
+	<sql id="xmuProjectColumns">
+		a.xmp_name AS "xmpName",
+		a.xmp_level AS "xmpLevel",
+		a.xmp_maint_date AS "xmpMaintDate",
+		a.xmp_end_date AS "xmpEndDate",
+		a.xmp_status AS "xmpStatus",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		u.name AS "createBy.name",
+		a.xmp_descp AS "xmpDescp",
+		a.id AS "id",
+		a.xmp_stop_date AS "xmpStopDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="xmuProjectJoins">
+	</sql>
+	
+	<sql id="userJoins">
+		JOIN sys_user u ON u.id = a.create_by
+		JOIN sys_office o ON o.id = u.office_id
+    </sql>
+    
+	<select id="get" resultType="XmuProject" >
+		SELECT 
+			<include refid="xmuProjectColumns"/>
+		FROM xmu_project a
+		<include refid="xmuProjectJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="XmuProject" >
+		SELECT 
+			<include refid="xmuProjectColumns"/>
+		FROM xmu_project a
+		<include refid="xmuProjectJoins"/>
+		<include refid="userJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="xmpName != null and xmpName != ''">
+				AND a.xmp_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xmpName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xmpName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xmpName},'%')</if>
+			</if>
+		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="XmuProject" >
+		SELECT 
+			<include refid="xmuProjectColumns"/>
+		FROM xmu_project a
+		<include refid="xmuProjectJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO xmu_project(
+			xmp_name,
+			xmp_level,
+			xmp_maint_date,
+			xmp_end_date,
+			xmp_status,
+			create_date,
+			create_by,
+			xmp_descp,
+			id,
+			xmp_stop_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{xmpName},
+			#{xmpLevel},
+			#{xmpMaintDate},
+			#{xmpEndDate},
+			#{xmpStatus},
+			#{createDate},
+			#{createBy.id},
+			#{xmpDescp},
+			#{id},
+			#{xmpStopDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE xmu_project SET 	
+			xmp_name = #{xmpName},
+			xmp_level = #{xmpLevel},
+			xmp_maint_date = #{xmpMaintDate},
+			xmp_end_date = #{xmpEndDate},
+			xmp_status = #{xmpStatus},
+			xmp_descp = #{xmpDescp},
+			xmp_stop_date = #{xmpStopDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM xmu_project
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE xmu_project SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="XmuProject" statementType="STATEMENT">
+		select * FROM xmu_project  where ${propertyName} = '${value}'
+	</select>
+	
+	
+</mapper>

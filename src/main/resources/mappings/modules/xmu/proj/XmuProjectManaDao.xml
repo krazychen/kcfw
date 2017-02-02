@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krazy.kcfw.modules.xmu.dao.proj.XmuProjectManaDao">
+    
+	<sql id="xmuProjectManaColumns">
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.xpm_proj_id AS "xpmProjId.id",
+		a.xpm_office_id AS "xpmOfficeId",
+		a.xpm_office_name AS "xpmOfficeName",
+		a.xpm_user_id AS "xpmUserId",
+		a.xpm_user_name AS "xpmUserName"
+	</sql>
+	
+	<sql id="xmuProjectManaJoins">
+		LEFT JOIN xmu_project b ON b.id = a.xpm_proj_id
+		LEFT JOIN sys_office xpmOfficeId ON xpmOfficeId.id = a.xpm_office_id
+		LEFT JOIN sys_user xpmUserId ON xpmUserId.id = a.xpm_user_id
+	</sql>
+	
+    
+	<select id="get" resultType="XmuProjectMana" >
+		SELECT 
+			<include refid="xmuProjectManaColumns"/>
+		FROM xmu_project_mana a
+		<include refid="xmuProjectManaJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="XmuProjectMana" >
+		SELECT 
+			<include refid="xmuProjectManaColumns"/>
+		FROM xmu_project_mana a
+		<include refid="xmuProjectManaJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="xpmProjId.id != null and xpmProjId != ''">
+				AND a.xpm_proj_id = #{xpmProjId.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="XmuProjectMana" >
+		SELECT 
+			<include refid="xmuProjectManaColumns"/>
+		FROM xmu_project_mana a
+		<include refid="xmuProjectManaJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO xmu_project_mana(
+			id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			xpm_proj_id,
+			xpm_office_id,
+			xpm_office_name,
+			xpm_user_id,
+			xpm_user_name
+		) VALUES (
+			#{id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{xpmProjId.id},
+			#{xpmOfficeId},
+			#{xpmOfficeName},
+			#{xpmUserId},
+			#{xpmUserName}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE xmu_project_mana SET 	
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			xpm_proj_id = #{xpmProjId.id},
+			xpm_office_id = #{xpmOfficeId},
+			xpm_office_name = #{xpmOfficeName},
+			xpm_user_id = #{xpmUserId},
+			xpm_user_name = #{xpmUserName}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM xmu_project_mana
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE xpm_proj_id = #{xpmProjId.id}
+			</otherwise>
+		</choose>
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE xmu_project_mana SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE xpm_proj_id = #{xpmProjId.id}
+			</otherwise>
+		</choose>
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="XmuProjectMana" statementType="STATEMENT">
+		select * FROM xmu_project_mana  where ${propertyName} = '${value}'
+	</select>
+	
+	
+</mapper>

@@ -12,27 +12,7 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-		<#list table.columnList as c>
-		<#if c.isQuery?? && c.isQuery == "1">
-		<#if c.showType == "dateselect" && c.queryType == "between">
-	        laydate({
-	            elem: '#begin${c.simpleJavaField?cap_first}', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
-	            event: 'focus' //响应事件。如果没有传入event，则按照默认的click
-	        });
-	        laydate({
-	            elem: '#end${c.simpleJavaField?cap_first}', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
-	            event: 'focus' //响应事件。如果没有传入event，则按照默认的click
-	        });
-					
-		
-		<#elseif c.showType == "dateselect">
-			laydate({
-	            elem: '#${c.javaFieldId}', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
-	            event: 'focus' //响应事件。如果没有传入event，则按照默认的click
-	        });
-		</#if>
-		</#if>
-		</#list>
+
 		});
 	</script>
 </head>
@@ -95,10 +75,10 @@
 					value="<fmt:formatDate value="${"$"}{${className}.${c.javaFieldId}}" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
 			<#elseif c.showType == "userselect">
 				<sys:treeselect id="${c.simpleJavaField}" name="${c.javaFieldId}" value="${"$"}{${className}.${c.javaFieldId}}" labelName="${c.javaFieldName}" labelValue="${"$"}{${className}.${c.javaFieldName}}"
-					title="用户" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
+					title="用户" url="/sys/office/treeData?type=3" cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="true"/>
 			<#elseif c.showType == "officeselect">
 				<sys:treeselect id="${c.simpleJavaField}" name="${c.javaFieldId}" value="${"$"}{${className}.${c.javaFieldId}}" labelName="${c.javaFieldName}" labelValue="${"$"}{${className}.${c.javaFieldName}}"
-					title="部门" url="/sys/office/treeData?type=2" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
+					title="部门" url="/sys/office/treeData?type=2" cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="true"/>
 			<#elseif c.showType == "areaselect">
 				<sys:treeselect id="${c.simpleJavaField}" name="${c.javaFieldId}" value="${"$"}{${className}.${c.javaFieldId}}" labelName="${c.javaFieldName}" labelValue="${"$"}{${className}.${c.javaFieldName}}"
 					title="区域" url="/sys/area/treeData" cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="true"/>

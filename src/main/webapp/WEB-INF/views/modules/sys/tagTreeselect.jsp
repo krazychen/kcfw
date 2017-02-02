@@ -37,7 +37,8 @@
 						}
 						selectCheckNode();
 					},onDblClick: function(){//<c:if test="${!checked}">
-						top.$.jBox.getBox().find("button[value='ok']").trigger("click");
+						(parent.$(".layui-layer-btn0")).trigger("click");
+						//top.$.jBox.getBox().find("button[value='ok']").trigger("click");
 						//$("input[type='text']", top.mainFrame.document).focus();//</c:if>
 					}
 				}
@@ -180,7 +181,7 @@
 		// 开始搜索
 		function search() {
 			$("#search").slideToggle(200);
-			$("#txt").toggle();
+			//$("#txt").toggle();
 			$("#key").focus();
 		}
 		
@@ -190,7 +191,7 @@
 	<div style="position:absolute;right:8px;top:5px;cursor:pointer;" onclick="search();">
 		<i class="icon-search"></i><label id="txt">搜索</label>
 	</div>
-	<div id="search" class="form-search hide" style="padding:10px 0 0 13px;">
+	<div id="search" class="form-search" style="padding:10px 0 0 13px;">
 		<label for="key" class="control-label" style="padding:5px 5px 3px 0;">关键字：</label>
 		<input type="text" class="empty" id="key" name="key" maxlength="50" style="width:110px;">
 		<button class="btn" id="btn" onclick="searchNode()">搜索</button>
