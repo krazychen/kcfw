@@ -8,7 +8,7 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
-		a.del_flag AS "delFlag",
+		'0' AS "delFlag",
 		a.xpm_proj_id AS "xpmProjId.id",
 		a.xpm_office_id AS "xpmOfficeId",
 		a.xpm_office_name AS "xpmOfficeName",
@@ -37,7 +37,7 @@
 		FROM xmu_project_mana a
 		<include refid="xmuProjectManaJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			<!--a.del_flag = #{DEL_FLAG_NORMAL}-->
 			<if test="xpmProjId.id != null and xpmProjId != ''">
 				AND a.xpm_proj_id = #{xpmProjId.id}
 			</if>
@@ -58,7 +58,7 @@
 		FROM xmu_project_mana a
 		<include refid="xmuProjectManaJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			<!--a.del_flag = #{DEL_FLAG_NORMAL}-->
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

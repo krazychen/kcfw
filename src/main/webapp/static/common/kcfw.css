@@ -255,3 +255,7 @@ tr.myDragClass td:last-child {
 .formDateMaxWidth{
 	max-width:300px
 }
+
+.searchFormFildWidth{
+	width:85%
+}

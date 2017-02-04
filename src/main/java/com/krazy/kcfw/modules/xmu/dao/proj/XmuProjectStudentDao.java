@@ -8,15 +8,15 @@ import java.util.List;
 
 import com.krazy.kcfw.common.persistence.CrudDao;
 import com.krazy.kcfw.common.persistence.annotation.MyBatisDao;
-import com.krazy.kcfw.modules.xmu.entity.proj.XmuProject;
+import com.krazy.kcfw.modules.xmu.entity.proj.XmuProjectStudent;
 
 /**
- * 项目DAO接口
+ * 项目人员DAO接口
  * @author Krazy
- * @version 2017-01-29
+ * @version 2017-02-03
  */
 @MyBatisDao
-public interface XmuProjectDao extends CrudDao<XmuProject> {
+public interface XmuProjectStudentDao extends CrudDao<XmuProjectStudent> {
 
-	public List<XmuProject> findListForMana(XmuProject entity);
+	public List<XmuProjectStudent> findUserList(XmuProjectStudent entity);
 }

@@ -41,26 +41,37 @@ public class XmuProjectService extends CrudService<XmuProjectDao, XmuProject> {
 	}
 	
 	public List<XmuProject> findList(XmuProject xmuProject) {
+		xmuProject.getSqlMap().put("dsf", dataScopeFilter(xmuProject.getCurrentUser(), "o", "u"));
 		return super.findList(xmuProject);
 	}
 	
 	public Page<XmuProject> findPage(Page<XmuProject> page, XmuProject xmuProject) {
+		xmuProject.getSqlMap().put("dsf", dataScopeFilter(xmuProject.getCurrentUser(), "o", "u"));
 		return super.findPage(page, xmuProject);
 	}
 	
+	public Page<XmuProject> findListForMana(Page<XmuProject> page, XmuProject xmuProject) {
+		xmuProject.setPage(page);
+		page.setList(dao.findListForMana(xmuProject));
+		return page;
+	}
+	
+	
 	@Transactional(readOnly = false)
-	public void save(XmuProject xmuProject) {
+	public void save(XmuProject xmuProject,XmuProject t) {
 		super.save(xmuProject);
-		XmuProjectMana delxmuProjectMana=new XmuProjectMana();
-		delxmuProjectMana.setXpmProjId(xmuProject);
-		xmuProjectManaDao.delete(delxmuProjectMana);
-		for (XmuProjectMana xmuProjectMana : xmuProject.getXmuProjectManaList()){
+		
+		if(t.getXmuProjectManaList().size()!=xmuProject.getXmuProjectManaList().size()){
+			XmuProjectMana delxmuProjectMana=new XmuProjectMana();
+			delxmuProjectMana.setXpmProjId(xmuProject);
+			xmuProjectManaDao.delete(delxmuProjectMana);
+			for (XmuProjectMana xmuProjectMana : xmuProject.getXmuProjectManaList()){
 //			if (xmuProjectMana.getId() == null){
 //				continue;
 //			}
 //			if (XmuProjectMana.DEL_FLAG_NORMAL.equals(xmuProjectMana.getDelFlag())){
 //				if (StringUtils.isBlank(xmuProjectMana.getId())){
-			if (StringUtils.isNoneBlank(xmuProjectMana.getXpmUserId())){
+			if (StringUtils.isNoneBlank(xmuProjectMana.getXpmUserId())&&XmuProjectMana.DEL_FLAG_DELETE.equals(xmuProjectMana.getDelFlag())){
 					xmuProjectMana.setXpmProjId(xmuProject);
 					xmuProjectMana.preInsert();
 					xmuProjectManaDao.insert(xmuProjectMana);
@@ -72,28 +83,31 @@ public class XmuProjectService extends CrudService<XmuProjectDao, XmuProject> {
 //			}else{
 //				xmuProjectManaDao.delete(xmuProjectMana);
 //			}
-		}
-		XmuProjectResp delxmuXmuProjectResp=new XmuProjectResp();
-		delxmuXmuProjectResp.setXprProjId(xmuProject);
-		xmuProjectRespDao.delete(delxmuXmuProjectResp);
-		for (XmuProjectResp xmuProjectResp : xmuProject.getXmuProjectRespList()){
-//			if (xmuProjectResp.getId() == null){
-//				continue;
-//			}
-//			if (XmuProjectResp.DEL_FLAG_NORMAL.equals(xmuProjectResp.getDelFlag())){
-//				if (StringUtils.isBlank(xmuProjectResp.getId())){
-			if (StringUtils.isNoneBlank(xmuProjectResp.getXprUserId())){
-					xmuProjectResp.setXprProjId(xmuProject);
-					xmuProjectResp.preInsert();
-					xmuProjectRespDao.insert(xmuProjectResp);
 			}
-//				}else{
-//					xmuProjectResp.preUpdate();
-//					xmuProjectRespDao.update(xmuProjectResp);
-//				}
-//			}else{
-//				xmuProjectRespDao.delete(xmuProjectResp);
-//			}
+		}
+		if(t.getXmuProjectRespList().size()!=xmuProject.getXmuProjectRespList().size()){
+			XmuProjectResp delxmuXmuProjectResp=new XmuProjectResp();
+			delxmuXmuProjectResp.setXprProjId(xmuProject);
+			xmuProjectRespDao.delete(delxmuXmuProjectResp);
+			for (XmuProjectResp xmuProjectResp : xmuProject.getXmuProjectRespList()){
+	//			if (xmuProjectResp.getId() == null){
+	//				continue;
+	//			}
+	//			if (XmuProjectResp.DEL_FLAG_NORMAL.equals(xmuProjectResp.getDelFlag())){
+	//				if (StringUtils.isBlank(xmuProjectResp.getId())){
+				if (StringUtils.isNoneBlank(xmuProjectResp.getXprUserId())&&XmuProjectResp.DEL_FLAG_DELETE.equals(xmuProjectResp.getDelFlag())){
+						xmuProjectResp.setXprProjId(xmuProject);
+						xmuProjectResp.preInsert();
+						xmuProjectRespDao.insert(xmuProjectResp);
+				}
+	//				}else{
+	//					xmuProjectResp.preUpdate();
+	//					xmuProjectRespDao.update(xmuProjectResp);
+	//				}
+	//			}else{
+	//				xmuProjectRespDao.delete(xmuProjectResp);
+	//			}
+			}
 		}
 	}
 	

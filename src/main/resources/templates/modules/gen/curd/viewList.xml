@@ -133,7 +133,7 @@
 					<#if c.showType == "userselect" || c.showType == "officeselect" || c.showType == "areaselect">
 				<th  class="sort-column ${c.javaFieldName}">${c.comments}</th>
 					<#else>
-				<th  class="sort-column ${c.javaFieldId}">${c.comments}</th>
+				<th  class="sort-column ${c.name}">${c.comments}</th>
 					</#if>
 				</#if>
 				</#list>

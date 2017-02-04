@@ -32,6 +32,7 @@
 			<include refid="xmuProjectColumns"/>
 		FROM xmu_project a
 		<include refid="xmuProjectJoins"/>
+		<include refid="userJoins"/>
 		WHERE a.id = #{id}
 	</select>
 	
@@ -146,5 +147,33 @@
 		select * FROM xmu_project  where ${propertyName} = '${value}'
 	</select>
 	
-	
+	<select id="findListForMana" resultType="XmuProject" >
+		SELECT 
+			<include refid="xmuProjectColumns"/>
+		FROM xmu_project a
+		LEFT JOIN xmu_project_mana m on a.id=m.XPM_PROJ_ID
+		<include refid="xmuProjectJoins"/>
+		<include refid="userJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL} 
+			AND m.XPM_OFFICE_ID = #{xmpDescp}
+			<if test="xmpName != null and xmpName != ''">
+				AND a.xmp_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xmpName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xmpName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xmpName},'%')</if>
+			</if>
+			<if test="xmpLevel != null and xmpLevel != ''">
+				AND a.xmp_level = #{xmpLevel}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
 </mapper>

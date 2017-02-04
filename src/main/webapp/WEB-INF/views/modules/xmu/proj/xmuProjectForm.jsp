@@ -45,7 +45,7 @@
 			    type: 2, 
 			    area: ['300px', '420px'],
 			    title:"选择管理员",
-			    content: "${ctx}/tag/treeselect?url=/sys/office/treeData?type=3&checked=true&selectIds="+cuids.join(",")+"&roleEnName=Manager" ,
+			    content: "${ctx}/tag/treeselect?url=/sys/office/treeData?type=3&checked=true&selectIds="+cuids.join(",")+"&roleEnName=Manager&userURL=treeDataByRoleEnName" ,
 			    btn: ['确定', '关闭']
 	    	       ,yes: function(index, layero){ //或者使用btn1
 							var tree = layero.find("iframe")[0].contentWindow.tree;//h.find("iframe").contents();
@@ -56,7 +56,7 @@
 									parents.push(nodes[i]);
 								}
 							}
-							
+
 							$(list).children().remove();
 							
 							for(var i=0;i<parents.length;i++){
@@ -70,7 +70,7 @@
 								}
 								xmuProjectManaRowIdx = xmuProjectManaRowIdx + 1;
 								var data={"xpmOfficeId":(parents[i].id).replace(/u_/ig,""),"xpmOfficeName":parents[i].name,
-										"xpmUserId":ids.join(",").replace(/u_/ig,""),"xpmUserName":names.join(",")};
+										"xpmUserId":ids.join(",").replace(/u_/ig,""),"xpmUserName":names.join(","),"delFlag":"1"};
 								addRow(list,xmuProjectManaRowIdx,tpl,data);
 							}
 							//$("#${id}Id").val(ids.join(",").replace(/u_/ig,""));
@@ -98,7 +98,7 @@
 			    type: 2, 
 			    area: ['300px', '420px'],
 			    title:"选择负责人",
-			    content: "${ctx}/tag/treeselect?url=/sys/office/treeData?type=3&checked=true&selectIds="+cuids.join(",")+"&roleEnName=RESP" ,
+			    content: "${ctx}/tag/treeselect?url=/sys/office/treeData?type=3&checked=true&selectIds="+cuids.join(",")+"&roleEnName=RESP&userURL=treeDataByRoleEnName" ,
 			    btn: ['确定', '关闭']
 	    	       ,yes: function(index, layero){ //或者使用btn1
 							var tree = layero.find("iframe")[0].contentWindow.tree;//h.find("iframe").contents();
@@ -123,7 +123,7 @@
 								}
 								xmuProjectRespRowIdx = xmuProjectRespRowIdx + 1;
 								var data={"xprOfficeId":(parents[i].id).replace(/u_/ig,""),"xprOfficeName":parents[i].name,
-										"xprUserId":ids.join(",").replace(/u_/ig,""),"xprUserName":names.join(",")};
+										"xprUserId":ids.join(",").replace(/u_/ig,""),"xprUserName":names.join(","),"delFlag":"1"};
 								addRow(list,xmuProjectRespRowIdx,tpl,data);
 							}
 							//$("#${id}Id").val(ids.join(",").replace(/u_/ig,""));
@@ -194,26 +194,25 @@
 					<td class="width-15 active"><label class="pull-right">项目开始时间：</label></td>
 					<td class="width-35">
 						<input id="xmpMaintDate" name="xmpMaintDate" type="text" maxlength="20" class="laydate-icon form-control layer-date formDateMaxWidth"
-							value="<fmt:formatDate value="${xmuProject.xmpMaintDate}" pattern="yyyy-MM-dd HH:mm:ss"/>" />
+							value="<fmt:formatDate value="${xmuProject.xmpMaintDate}" pattern="yyyy-MM-dd"/>" />
 					</td>
 					<td class="width-15 active"><label class="pull-right">项目结束时间：</label></td>
 					<td class="width-35">
 						<input id="xmpEndDate" name="xmpEndDate" type="text" maxlength="20" class="laydate-icon form-control layer-date formDateMaxWidth"
-							value="<fmt:formatDate value="${xmuProject.xmpEndDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
+							value="<fmt:formatDate value="${xmuProject.xmpEndDate}" pattern="yyyy-MM-dd"/>"/>
 					</td>
 				</tr>
 				<tr>
 					<td class="width-15 active"><label class="pull-right"><font color="red">*</font>项目状态：</label></td>
 					<td class="width-35">
 						<form:select path="xmpStatus" class="form-control required">
-							<form:option value="" label=""/>
 							<form:options items="${fns:getDictList('XMU_PROJECT_STATUS')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 						</form:select>
 					</td>
 					<td class="width-15 active"><label class="pull-right">项目停用时间：</label></td>
 					<td class="width-35">
 						<input id="xmpStopDate" name="xmpStopDate" type="text" maxlength="20" class="laydate-icon form-control layer-date formDateMaxWidth"
-							value="<fmt:formatDate value="${xmuProject.xmpStopDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
+							value="<fmt:formatDate value="${xmuProject.xmpStopDate}" pattern="yyyy-MM-dd"/>"/>
 					</td>
 					
 				</tr>
@@ -250,7 +249,7 @@
 				<tr id="xmuProjectManaList{{idx}}">
 					<td class="hide">
 						<input id="xmuProjectManaList{{idx}}_id" name="xmuProjectManaList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-						<input id="xmuProjectManaList{{idx}}_delFlag" name="xmuProjectManaList[{{idx}}].delFlag" type="hidden" value="0"/>
+						<input id="xmuProjectManaList{{idx}}_delFlag" name="xmuProjectManaList[{{idx}}].delFlag" type="hidden" value="{{row.delFlag}}"/>
 					</td>
 					
 					<td>

@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krazy.kcfw.modules.xmu.dao.proj.XmuProjectStudentDao">
+    
+	<sql id="xmuProjectStudentColumns">
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.xps_proj_id AS "xpsProjId",
+		a.xps_office_id AS "xpsOfficeId",
+		a.xps_office_name AS "xpsOfficeName",
+		a.xps_user_id AS "xpsUserId",
+		a.xps_user_name AS "xpsUserName",
+		a.xpu_user_grade AS "xpuUserGrade",
+		a.xpu_user_profession AS "xpuUserProfession",
+		a.xpu_user_stuno AS "xpuUserStuno",
+		a.xpu_user_lincno AS "xpuUserLincno",
+		a.xpu_user_midsch AS "xpuUserMidsch",
+		a.xpu_user_grad_time AS "xpuUserGradTime",
+		a.xpu_user_grad_add AS "xpuUserGradAdd",
+		a.xpu_user_gradute_sch AS "xpuUserGraduteSch",
+		a.xpu_user_gradute_prof AS "xpuUserGraduteProf",
+		a.xpu_user_work AS "xpuUserWork",
+		a.xpu_user_remark AS "xpuUserRemark",
+		a.xpu_user_teacher AS "xpuUserTeacher",
+		a.xpu_user_teacher_jobtitle AS "xpuUserTeacherJobtitle",
+		a.xpu_user_teacher_title AS "xpuUserTeacherTitle",
+		a.xpu_user_reg_time AS "xpuUserRegTime",
+		a.xpu_user_exit_time AS "xpuUserExitTime",
+		a.xpu_user_status AS "xpuUserStatus"
+	</sql>
+	
+	<sql id="xmuProjectUserSelectColumns">
+		u.id AS "id",
+		u.OFFICE_ID AS "xpsOfficeId",
+		O.NAME AS "xpsOfficeName",
+		u.id AS "xpsUserId",
+		u.name AS "xpsUserName",
+		x.xsi_user_grade AS "xpuUserGrade",
+		x.xsi_user_profession AS "xpuUserProfession",
+		x.xsi_user_stuno AS "xpuUserStuno",
+		x.xsi_user_lincno AS "xpuUserLincno",
+		x.xsi_user_midsch AS "xpuUserMidsch"
+	</sql>
+	
+	<sql id="xmuProjectStudentJoins">
+	</sql>
+	
+	<sql id="userJoins">
+		JOIN sys_user u ON u.id = a.create_by
+		JOIN sys_office o ON o.id = u.office_id
+    </sql>
+	
+    
+	<select id="get" resultType="XmuProjectStudent" >
+		SELECT 
+			<include refid="xmuProjectStudentColumns"/>
+		FROM xmu_project_student a
+		<include refid="xmuProjectStudentJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="XmuProjectStudent" >
+		SELECT 
+			<include refid="xmuProjectStudentColumns"/>
+		FROM xmu_project_student a
+		<include refid="xmuProjectStudentJoins"/>
+		<include refid="userJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="xpsOfficeName != null and xpsOfficeName != ''">
+				AND a.xps_office_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xpsOfficeName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xpsOfficeName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xpsOfficeName},'%')</if>
+			</if>
+			<if test="xpsUserName != null and xpsUserName != ''">
+				AND a.xps_user_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xpsUserName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xpsUserName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xpsUserName},'%')</if>
+			</if>
+			<if test="xpuUserGrade != null and xpuUserGrade != ''">
+				AND a.xpu_user_grade LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xpuUserGrade}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xpuUserGrade}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xpuUserGrade},'%')</if>
+			</if>
+			<if test="xpuUserProfession != null and xpuUserProfession != ''">
+				AND a.xpu_user_profession LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xpuUserProfession}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xpuUserProfession}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xpuUserProfession},'%')</if>
+			</if>
+			<if test="xpuUserStuno != null and xpuUserStuno != ''">
+				AND a.xpu_user_stuno LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xpuUserStuno}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xpuUserStuno}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xpuUserStuno},'%')</if>
+			</if>
+		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="XmuProjectStudent" >
+		SELECT 
+			<include refid="xmuProjectStudentColumns"/>
+		FROM xmu_project_student a
+		<include refid="xmuProjectStudentJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO xmu_project_student(
+			id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			xps_proj_id,
+			xps_office_id,
+			xps_office_name,
+			xps_user_id,
+			xps_user_name,
+			xpu_user_grade,
+			xpu_user_profession,
+			xpu_user_stuno,
+			xpu_user_lincno,
+			xpu_user_midsch,
+			xpu_user_grad_time,
+			xpu_user_grad_add,
+			xpu_user_gradute_sch,
+			xpu_user_gradute_prof,
+			xpu_user_work,
+			xpu_user_remark,
+			xpu_user_teacher,
+			xpu_user_teacher_jobtitle,
+			xpu_user_teacher_title,
+			xpu_user_reg_time,
+			xpu_user_exit_time,
+			xpu_user_status
+		) VALUES (
+			#{id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{xpsProjId},
+			#{xpsOfficeId},
+			#{xpsOfficeName},
+			#{xpsUserId},
+			#{xpsUserName},
+			#{xpuUserGrade},
+			#{xpuUserProfession},
+			#{xpuUserStuno},
+			#{xpuUserLincno},
+			#{xpuUserMidsch},
+			#{xpuUserGradTime},
+			#{xpuUserGradAdd},
+			#{xpuUserGraduteSch},
+			#{xpuUserGraduteProf},
+			#{xpuUserWork},
+			#{xpuUserRemark},
+			#{xpuUserTeacher},
+			#{xpuUserTeacherJobtitle},
+			#{xpuUserTeacherTitle},
+			#{xpuUserRegTime},
+			#{xpuUserExitTime},
+			#{xpuUserStatus}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE xmu_project_student SET 	
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			xps_proj_id = #{xpsProjId},
+			xps_office_id = #{xpsOfficeId},
+			xps_office_name = #{xpsOfficeName},
+			xps_user_id = #{xpsUserId},
+			xps_user_name = #{xpsUserName},
+			xpu_user_grade = #{xpuUserGrade},
+			xpu_user_profession = #{xpuUserProfession},
+			xpu_user_stuno = #{xpuUserStuno},
+			xpu_user_lincno = #{xpuUserLincno},
+			xpu_user_midsch = #{xpuUserMidsch},
+			xpu_user_grad_time = #{xpuUserGradTime},
+			xpu_user_grad_add = #{xpuUserGradAdd},
+			xpu_user_gradute_sch = #{xpuUserGraduteSch},
+			xpu_user_gradute_prof = #{xpuUserGraduteProf},
+			xpu_user_work = #{xpuUserWork},
+			xpu_user_remark = #{xpuUserRemark},
+			xpu_user_teacher = #{xpuUserTeacher},
+			xpu_user_teacher_jobtitle = #{xpuUserTeacherJobtitle},
+			xpu_user_teacher_title = #{xpuUserTeacherTitle},
+			xpu_user_reg_time = #{xpuUserRegTime},
+			xpu_user_exit_time = #{xpuUserExitTime},
+			xpu_user_status = #{xpuUserStatus}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM xmu_project_student
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE xmu_project_student SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="XmuProjectStudent" statementType="STATEMENT">
+		select * FROM xmu_project_student  where ${propertyName} = '${value}'
+	</select>
+	
+	<select id="findUserList" resultType="XmuProjectStudent" >
+		SELECT 
+			<include refid="xmuProjectUserSelectColumns"/>
+		FROM SYS_USER U 
+		LEFT JOIN SYS_OFFICE O ON U.OFFICE_ID=O.ID
+		LEFT JOIN XMU_STUDENT_INFO X ON U.NO=X.XSI_USER_STUNO
+		LEFT JOIN SYS_USER_ROLE R ON U.ID=R.USER_ID
+		LEFT JOIN SYS_ROLE SR ON R.ROLE_ID=SR.ID 
+		<where>
+			1=1 AND SR.ENNAME='Student'
+			<if test="xpsOfficeId != null and xpsOfficeId != ''">
+				AND U.OFFICE_ID = #{xpsOfficeId}
+			</if>
+			<if test="xpsOfficeName != null and xpsOfficeName != ''">
+				AND a.xps_office_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xpsOfficeName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xpsOfficeName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xpsOfficeName},'%')</if>
+			</if>
+			<if test="xpsUserName != null and xpsUserName != ''">
+				AND u.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xpsUserName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xpsUserName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xpsUserName},'%')</if>
+			</if>
+			<if test="xpuUserGrade != null and xpuUserGrade != ''">
+				AND x.xsi_user_grade LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xpuUserGrade}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xpuUserGrade}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xpuUserGrade},'%')</if>
+			</if>
+			<if test="xpuUserProfession != null and xpuUserProfession != ''">
+				AND x.xsi_user_profession LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xpuUserProfession}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xpuUserProfession}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xpuUserProfession},'%')</if>
+			</if>
+			<if test="xpuUserStuno != null and xpuUserStuno != ''">
+				AND x.xsi_user_stuno LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xpuUserStuno}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xpuUserStuno}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xpuUserStuno},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY u.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+</mapper>
