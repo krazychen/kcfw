@@ -34,7 +34,6 @@
 	</sql>
 	
 	<sql id="xmuProjectUserSelectColumns">
-		u.id AS "id",
 		u.OFFICE_ID AS "xpsOfficeId",
 		O.NAME AS "xpsOfficeName",
 		u.id AS "xpsUserId",
@@ -71,6 +70,12 @@
 		<include refid="userJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="xpsOfficeId != null and xpsOfficeId != ''">
+				AND a.xps_office_id =  #{xpsOfficeId}
+			</if>
+			<if test="xpsProjId != null and xpsProjId != ''">
+				AND a.xps_proj_id =  #{xpsProjId}
+			</if>
 			<if test="xpsOfficeName != null and xpsOfficeName != ''">
 				AND a.xps_office_name LIKE 
 					<if test="dbName == 'oracle'">'%'||#{xpsOfficeName}||'%'</if>
@@ -252,9 +257,15 @@
 		LEFT JOIN SYS_USER_ROLE R ON U.ID=R.USER_ID
 		LEFT JOIN SYS_ROLE SR ON R.ROLE_ID=SR.ID 
 		<where>
-			1=1 AND SR.ENNAME='Student'
+			1=1 AND SR.ENNAME='Student'  AND not exists (select 1 from xmu_project_student s where s.xps_user_id = u.id)
 			<if test="xpsOfficeId != null and xpsOfficeId != ''">
 				AND U.OFFICE_ID = #{xpsOfficeId}
+			</if>
+			<if test="xpsUserIds != null and xpsUserIds != ''">
+				AND U.ID in 
+				<foreach item="item" index="index" collection="xpsUserIds" open="(" separator="," close=")">  
+			　　　　#{item}  
+			　　</foreach> 
 			</if>
 			<if test="xpsOfficeName != null and xpsOfficeName != ''">
 				AND a.xps_office_name LIKE 
@@ -296,4 +307,5 @@
 			</otherwise>
 		</choose>
 	</select>
+	
 </mapper>

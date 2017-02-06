@@ -81,7 +81,7 @@ public class XmuProjectStudentController extends BaseController {
 	@RequestMapping(value = {"listStu"})
 	public String listStu(XmuProjectStudent xmuProjectStudent, HttpServletRequest request, HttpServletResponse response, Model model) {
 		xmuProjectStudent.setXpsOfficeId(UserUtils.getUser().getOffice().getId());
-		Page<XmuProjectStudent> page = xmuProjectStudentService.findUserList(new Page<XmuProjectStudent>(request, response), xmuProjectStudent); 
+		Page<XmuProjectStudent> page = xmuProjectStudentService.findUserPage(new Page<XmuProjectStudent>(request, response), xmuProjectStudent); 
 		model.addAttribute("page", page);
 		return "modules/xmu/proj/xmuProjectStudentSelect";
 	}
@@ -94,10 +94,49 @@ public class XmuProjectStudentController extends BaseController {
 	@RequestMapping(value = {"listPro"})
 	public String listPro(XmuProject xmuProject, HttpServletRequest request, HttpServletResponse response, Model model) {
 		xmuProject.setXmpDescp(UserUtils.getUser().getOffice().getId());
-		Page<XmuProject> page = xmuProjectService.findListForMana(new Page<XmuProject>(request, response), xmuProject); 
+		Page<XmuProject> page = xmuProjectService.findPageForMana(new Page<XmuProject>(request, response), xmuProject); 
 		model.addAttribute("page", page);
 		return "modules/xmu/proj/xmuProjectStudentList";
 	}
+	
+	/**
+	 * 查看，增加，编辑项目人员表单页面
+	 */
+	@RequiresPermissions(value={"xmu:proj:xmuProjectStudent:view","xmu:proj:xmuProjectStudent:add","xmu:proj:xmuProjectStudent:edit"},logical=Logical.OR)
+	@RequestMapping(value = "formList")
+	public String formList(XmuProject xmuProject, Model model) {
+		if(xmuProject.getXpsUserIds()!=null){
+			//获取用户
+			XmuProjectStudent xmuProjectStudent=new XmuProjectStudent();
+			xmuProjectStudent.setXpsOfficeId(UserUtils.getUser().getOffice().getId());
+			xmuProjectStudent.setXpsUserIds(xmuProject.getXpsUserIds());
+			List<XmuProjectStudent> lists=xmuProjectStudentService.findUserList(xmuProjectStudent);
+			xmuProject.setXmuProjectStudentList(lists);
+		}else{
+			XmuProjectStudent xmuProjectStudent=new XmuProjectStudent();
+			xmuProjectStudent.setXpsOfficeId(UserUtils.getUser().getOffice().getId());
+			xmuProjectStudent.setXpsProjId(xmuProject.getId());
+			List<XmuProjectStudent> lists=xmuProjectStudentService.findList(xmuProjectStudent);
+			xmuProject.setXmuProjectStudentList(lists);
+		}
+		model.addAttribute("xmuProject", xmuProject);
+		return "modules/xmu/proj/xmuProjectStudentForm";
+	}
+	
+	/**
+	 * 保存项目人员
+	 */
+	@RequiresPermissions(value={"xmu:proj:xmuProjectStudent:add","xmu:proj:xmuProjectStudent:edit"},logical=Logical.OR)
+	@RequestMapping(value = "saveList")
+	public String saveList(XmuProject xmuProject, Model model, RedirectAttributes redirectAttributes) throws Exception{
+		if (!beanValidator(model, xmuProject)){
+			return formList(xmuProject, model);
+		}
+		this.xmuProjectStudentService.saveList(xmuProject.getXmuProjectStudentList());
+		addMessage(redirectAttributes, "保存项目人员成功");
+		return "redirect:"+Global.getAdminPath()+"/xmu/proj/xmuProjectStudent/listPro?repage";
+	}
+	
 
 	/**
 	 * 查看，增加，编辑项目人员表单页面

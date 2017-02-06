@@ -23,9 +23,8 @@
 			}
 		    var ids =[] ;
 		    $("#contentTable tbody tr td input.i-checks:checkbox:checked").each(function () {
-                alert(this.id);
+                ids.push(this.id);
             });
-		    alert(ids);
 			//var labels = $("#contentTable tbody tr td input.i-checks:checkbox:checked").parent().parent().parent().find(".codelabel").html();
 			return ids;
 		}
@@ -87,8 +86,7 @@
 	<table id="contentTable" class="table table-striped table-bordered table-hover table-condensed dataTables-example dataTable">
 		<thead>
 			<tr>
-				<th><input type="checkbox" class="i-checks"></th>
-				<th  class="sort-column ">学院</th>
+				<th width="20px"><input type="checkbox" class="i-checks"></th>
 				<th  class="sort-column u.name">姓名</th>
 				<th  class="sort-column x.xsi_user_grade">年级</th>
 				<th  class="sort-column x.xsi_user_profession">专业</th>
@@ -100,13 +98,10 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="xmuProjectStudent">
 			<tr>
-				<td> <input type="checkbox" id="${xmuProjectStudent.id}" class="i-checks"></td>
+				<td> <input type="checkbox" id="${xmuProjectStudent.xpsUserId}" class="i-checks"></td>
 				<td><a  href="#" onclick="openDialogView('查看项目人员', '${ctx}/xmu/proj/xmuProjectStudent/form?id=${xmuProjectStudent.id}','800px', '500px')">
-					${xmuProjectStudent.xpsOfficeName}
-				</a></td>
-				<td>
 					${xmuProjectStudent.xpsUserName}
-				</td>
+				</a></td>
 				<td>
 					${xmuProjectStudent.xpuUserGrade}
 				</td>

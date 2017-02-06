@@ -4,9 +4,11 @@
 package com.krazy.kcfw.modules.xmu.entity.proj;
 
 import org.hibernate.validator.constraints.Length;
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.krazy.kcfw.common.persistence.DataEntity;
 import com.krazy.kcfw.common.utils.excel.annotation.ExcelField;
 
@@ -40,6 +42,7 @@ public class XmuProjectStudent extends DataEntity<XmuProjectStudent> {
 	private Date xpuUserRegTime;		// 入选时间
 	private Date xpuUserExitTime;		// 退出时间
 	private String xpuUserStatus;		// 状态:正常、离开、空
+	private List xpsUserIds;		// 学生IDs
 	
 	public XmuProjectStudent() {
 		super();
@@ -47,6 +50,20 @@ public class XmuProjectStudent extends DataEntity<XmuProjectStudent> {
 
 	public XmuProjectStudent(String id){
 		super(id);
+	}
+	
+	/**
+	 * @return the xpsUserIds
+	 */
+	public List getXpsUserIds() {
+		return xpsUserIds;
+	}
+
+	/**
+	 * @param xpsUserIds the xpsUserIds to set
+	 */
+	public void setXpsUserIds(List xpsUserIds) {
+		this.xpsUserIds = xpsUserIds;
 	}
 
 	@Length(min=1, max=200, message="项目ID长度必须介于 1 和 200 之间")

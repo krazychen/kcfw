@@ -50,12 +50,11 @@ public class XmuProjectService extends CrudService<XmuProjectDao, XmuProject> {
 		return super.findPage(page, xmuProject);
 	}
 	
-	public Page<XmuProject> findListForMana(Page<XmuProject> page, XmuProject xmuProject) {
+	public Page<XmuProject> findPageForMana(Page<XmuProject> page, XmuProject xmuProject) {
 		xmuProject.setPage(page);
 		page.setList(dao.findListForMana(xmuProject));
 		return page;
 	}
-	
 	
 	@Transactional(readOnly = false)
 	public void save(XmuProject xmuProject,XmuProject t) {

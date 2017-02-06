@@ -29,7 +29,25 @@ public class XmuProject extends DataEntity<XmuProject> {
 	private Date xmpStopDate;		// 项目停用时间
 	private List<XmuProjectMana> xmuProjectManaList = Lists.newArrayList();		// 子表列表
 	private List<XmuProjectResp> xmuProjectRespList = Lists.newArrayList();		// 子表列表
+	private List<XmuProjectStudent> xmuProjectStudentList = Lists.newArrayList();		// 子表列表
+	private List xpsUserIds;		// 学生IDs
 	
+	
+	
+	/**
+	 * @return the xpsUserIds
+	 */
+	public List getXpsUserIds() {
+		return xpsUserIds;
+	}
+
+	/**
+	 * @param xpsUserIds the xpsUserIds to set
+	 */
+	public void setXpsUserIds(List xpsUserIds) {
+		this.xpsUserIds = xpsUserIds;
+	}
+
 	public XmuProject() {
 		super();
 	}
@@ -121,5 +139,13 @@ public class XmuProject extends DataEntity<XmuProject> {
 
 	public void setXmuProjectRespList(List<XmuProjectResp> xmuProjectRespList) {
 		this.xmuProjectRespList = xmuProjectRespList;
+	}
+	
+	public List<XmuProjectStudent> getXmuProjectStudentList() {
+		return xmuProjectStudentList;
+	}
+
+	public void setXmuProjectStudentList(List<XmuProjectStudent> xmuProjectStudentList) {
+		this.xmuProjectStudentList = xmuProjectStudentList;
 	}
 }

@@ -8,9 +8,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import com.krazy.kcfw.common.persistence.Page;
 import com.krazy.kcfw.common.service.CrudService;
+import com.krazy.kcfw.common.utils.StringUtils;
 import com.krazy.kcfw.modules.xmu.entity.proj.XmuProjectStudent;
 import com.krazy.kcfw.modules.xmu.dao.proj.XmuProjectStudentDao;
 
@@ -37,6 +37,31 @@ public class XmuProjectStudentService extends CrudService<XmuProjectStudentDao, 
 		return super.findPage(page, xmuProjectStudent);
 	}
 	
+	public List<XmuProjectStudent> findStuMaList(XmuProjectStudent xmuProjectStudent) {
+		return super.findList(xmuProjectStudent);
+	}
+	
+	@Transactional(readOnly = false)
+	public void saveList(List<XmuProjectStudent> xmuProjectStudents) {
+		
+		for (XmuProjectStudent xmuProjectStudent : xmuProjectStudents){
+			if (xmuProjectStudent.getId() == null){
+				continue;
+			}
+			if (XmuProjectStudent.DEL_FLAG_NORMAL.equals(xmuProjectStudent.getDelFlag())){
+				if (StringUtils.isBlank(xmuProjectStudent.getId())){
+					xmuProjectStudent.preInsert();
+					this.dao.insert(xmuProjectStudent);
+				}else{
+					xmuProjectStudent.preUpdate();
+					this.dao.update(xmuProjectStudent);
+				}
+			}else{
+				this.dao.delete(xmuProjectStudent);
+			}
+		}
+	}
+	
 	@Transactional(readOnly = false)
 	public void save(XmuProjectStudent xmuProjectStudent) {
 		super.save(xmuProjectStudent);
@@ -47,9 +72,13 @@ public class XmuProjectStudentService extends CrudService<XmuProjectStudentDao, 
 		super.delete(xmuProjectStudent);
 	}
 	
-	public Page<XmuProjectStudent> findUserList(Page<XmuProjectStudent> page, XmuProjectStudent xmuProjectStudent) {
+	public Page<XmuProjectStudent> findUserPage(Page<XmuProjectStudent> page, XmuProjectStudent xmuProjectStudent) {
 		xmuProjectStudent.setPage(page);
 		page.setList(dao.findUserList(xmuProjectStudent));
 		return page;
+	}
+	
+	public List<XmuProjectStudent> findUserList(XmuProjectStudent xmuProjectStudent) {
+		return dao.findUserList(xmuProjectStudent);
 	}
 }

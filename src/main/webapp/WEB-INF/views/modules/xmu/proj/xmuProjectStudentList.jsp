@@ -29,18 +29,36 @@
 			var id =  $("#contentTable tbody tr td input.i-checks:checkbox:checked").attr("id");
 			top.layer.open({
 			    type: 2,  
-			    area: ['800px', '500px'],
+			    area: ['800px', '550px'],
 			    title:"选择项目人员",
 			    name:'friend',
 			    content: "${ctx}/xmu/proj/xmuProjectStudent/listStu?xpsProjId="+id ,
 			    btn: ['确定', '关闭'],
 			    yes: function(index, layero){
 			    	 var iframeWin = layero.find('iframe')[0].contentWindow; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-			    	 var item = iframeWin.getSelectedItem();
-					 if(item=="-1"){
+			    	 var items = iframeWin.getSelectedItem();
+					 if(items=="-1"){
 						 return false;
 					 }else{
 						 top.layer.close(index);//关闭对话框。
+						 top.layer.open({
+							    type: 2,  
+							    area: ['1050px', '550px'],
+							    title:"项目人员维护",
+							    name:'friend',
+							    content: "${ctx}/xmu/proj/xmuProjectStudent/formList?xpsUserIds="+items+"&id="+id,
+							    btn: ['确定', '关闭'],
+							    yes: function(index, layero){
+							    	 var body = top.layer.getChildFrame('body', index);
+							         var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+						         	if(iframeWin.contentWindow.doSubmit() ){
+						         		// top.layer.close(index);//关闭对话框。
+						         		setTimeout(function(){top.layer.close(index)}, 100);//延时0.1秒，对应360 7.1版本bug
+						         	} 
+								  },
+								  cancel: function(index){ 
+							       }
+							});
 					 }
 					 
 				  },
@@ -103,7 +121,7 @@
 	<div class="col-sm-12">
 		<div class="pull-left">
 			<shiro:hasPermission name="xmu:proj:xmuProjectStudent:add">
-				<button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="addStu()" title="人员维护"><i class="fa fa-plus"></i> 人员维护</button>
+				<button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="addStu()" title="人员添加"><i class="fa fa-plus"></i> 人员添加</button>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="xmu:proj:xmuProjectStudent:edit">
 			    <table:editRow url="${ctx}/xmu/proj/xmuProjectStudent/form" title="项目人员" id="contentTable"></table:editRow><!-- 编辑按钮 -->
@@ -156,10 +174,10 @@
 				</td>
 				<td>
 					<shiro:hasPermission name="xmu:proj:xmuProjectStudent:view">
-						<a href="#" onclick="openDialogView('查看项目人员', '${ctx}/xmu/proj/xmuProjectStudent/form?id=${xmuProjectStudent.id}','800px', '500px')" class="btn btn-info btn-xs" ><i class="fa fa-search-plus"></i> 查看</a>
+						<a href="#" onclick="openDialogView('查看项目人员', '${ctx}/xmu/proj/xmuProjectStudent/formList?id=${xmuProject.id}','1050px', '550px')" class="btn btn-info btn-xs" ><i class="fa fa-search-plus"></i> 查看</a>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="xmu:proj:xmuProjectStudent:edit">
-    					<a href="#" onclick="openDialog('修改项目人员', '${ctx}/xmu/proj/xmuProjectStudent/form?id=${xmuProjectStudent.id}','800px', '500px')" class="btn btn-success btn-xs" ><i class="fa fa-edit"></i>人员维护</a>
+    					<a href="#" onclick="openDialog('修改项目人员', '${ctx}/xmu/proj/xmuProjectStudent/formList?id=${xmuProject.id}','1050px', '550px')" class="btn btn-success btn-xs" ><i class="fa fa-edit"></i>人员维护</a>
     				</shiro:hasPermission>
 				</td>
 			</tr>
