@@ -76,6 +76,10 @@
 	<!-- 工具栏 -->
 	<div class="row">
 	<div class="col-sm-12">
+		<div class="pull-left">
+	       <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="left" onclick="sortOrRefresh()" title="刷新"><i class="glyphicon glyphicon-repeat"></i> 刷新</button>
+		
+		</div>
 		<div class="pull-right">
 			<button  class="btn btn-primary btn-rounded btn-outline btn-sm " onclick="search()" ><i class="fa fa-search"></i> 查询</button>
 			<button  class="btn btn-primary btn-rounded btn-outline btn-sm " onclick="reset()" ><i class="fa fa-refresh"></i> 重置</button>

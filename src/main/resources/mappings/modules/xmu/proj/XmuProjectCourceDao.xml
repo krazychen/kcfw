@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krazy.kcfw.modules.xmu.dao.proj.XmuProjectCourceDao">
+    
+	<sql id="xmuProjectCourceColumns">
+		a.xpc_office_name AS "xpcOfficeName",
+		a.xpc_proj_name AS "xpcProjName",
+		a.xpc_course_type AS "xpcCourseType",
+		a.xci_course_grade AS "xciCourseGrade",
+		a.xci_course_semester AS "xciCourseSemester",
+		a.XPC_COURSE_SEMESTER_NEW AS "xciCourseSemesterNew",
+		a.xpc_course_lang AS "xpcCourseLang",
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.xpc_proj_id AS "xpcProjId",
+		a.xpc_course_unit AS "xpcCourseUnit",
+		a.xpc_course_name AS "xpcCourseName",
+		a.xci_course_hours AS "xciCourseHours",
+		a.xci_course_credit AS "xciCourseCredit",
+		a.xpc_office_id AS "xpcOfficeId",
+		a.xpc_course_info_id AS "xpcCourseInfoId"
+	</sql>
+	
+	<sql id="xmuCourceInfoColumns">
+		a.xci_course_type AS "xpcCourseType",
+		a.xci_course_grade AS "xciCourseGrade",
+		a.xci_course_semester AS "xciCourseSemester",
+		a.xci_course_lang AS "xpcCourseLang",
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.xci_course_unit AS "xpcCourseUnit",
+		a.xci_course_name AS "xpcCourseName",
+		a.xci_course_hours AS "xciCourseHours",
+		a.xci_course_credit AS "xciCourseCredit"
+	</sql>
+	
+	<sql id="xmuProjectCourceJoins">
+		LEFT JOIN sys_office xpcOfficeName ON xpcOfficeName.id = a.xpc_office_name
+	</sql>
+	
+	<sql id="userJoins">
+		JOIN sys_user u ON u.id = a.create_by
+		JOIN sys_office o ON o.id = u.office_id
+    </sql>
+	
+    
+	<select id="get" resultType="XmuProjectCource" >
+		SELECT 
+			<include refid="xmuProjectCourceColumns"/>
+		FROM xmu_project_cource a
+		<include refid="xmuProjectCourceJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="XmuProjectCource" >
+		SELECT 
+			<include refid="xmuProjectCourceColumns"/>
+		FROM xmu_project_cource a
+		<include refid="xmuProjectCourceJoins"/>
+		<include refid="userJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="xpcOfficeName != null and xpcOfficeName != ''">
+				AND a.xpc_office_name = #{xpcOfficeName}
+			</if>
+			<if test="xpcProjName != null and xpcProjName != ''">
+				AND a.xpc_proj_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xpcProjName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xpcProjName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xpcProjName},'%')</if>
+			</if>
+			<if test="xpcProjId != null and xpcProjId != ''">
+				AND a.xpc_proj_id =  #{xpcProjId}
+			</if>
+			<if test="xpcCourseInfoId != null and xpcCourseInfoId != ''">
+				AND a.xpc_course_info_id =  #{xpcCourseInfoId}
+			</if>
+			<if test="xpcCourseName != null and xpcCourseName != ''">
+				AND a.xpc_course_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xpcCourseName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xpcCourseName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xpcCourseName},'%')</if>
+			</if>
+			<if test="xpcCourseType != null and xpcCourseType != ''">
+				AND a.xpc_course_type = #{xpcCourseType}
+			</if>
+			<if test="xciCourseGrade != null and xciCourseGrade != ''">
+				AND a.xci_course_grade = #{xciCourseGrade}
+			</if>
+			<if test="xciCourseSemester != null and xciCourseSemester != ''">
+				AND a.xci_course_semester = #{xciCourseSemester}
+			</if>
+			<if test="xpcCourseLang != null and xpcCourseLang != ''">
+				AND a.xpc_course_lang = #{xpcCourseLang}
+			</if>
+		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="XmuProjectCource" >
+		SELECT 
+			<include refid="xmuProjectCourceColumns"/>
+		FROM xmu_project_cource a
+		<include refid="xmuProjectCourceJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO xmu_project_cource(
+			xpc_office_name,
+			xpc_proj_name,
+			xpc_course_type,
+			xci_course_grade,
+			xci_course_semester,
+			XPC_COURSE_SEMESTER_NEW,
+			xpc_course_lang,
+			id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			xpc_proj_id,
+			xpc_course_unit,
+			xpc_course_name,
+			xci_course_hours,
+			xci_course_credit,
+			xpc_office_id,
+			xpc_course_info_id
+		) VALUES (
+			#{xpcOfficeName},
+			#{xpcProjName},
+			#{xpcCourseType},
+			#{xciCourseGrade},
+			#{xciCourseSemester},
+			#{xciCourseSemesterNew},
+			#{xpcCourseLang},
+			#{id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{xpcProjId},
+			#{xpcCourseUnit},
+			#{xpcCourseName},
+			#{xciCourseHours},
+			#{xciCourseCredit},
+			#{xpcOfficeId},
+			#{xpcCourseInfoId}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE xmu_project_cource SET 	
+			xpc_office_name = #{xpcOfficeName},
+			xpc_proj_name = #{xpcProjName},
+			xpc_course_type = #{xpcCourseType},
+			xci_course_grade = #{xciCourseGrade},
+			xci_course_semester = #{xciCourseSemester},
+			XPC_COURSE_SEMESTER_NEW = #{xciCourseSemesterNew},
+			xpc_course_lang = #{xpcCourseLang},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			xpc_proj_id = #{xpcProjId},
+			xpc_course_unit = #{xpcCourseUnit},
+			xpc_course_name = #{xpcCourseName},
+			xci_course_hours = #{xciCourseHours},
+			xci_course_credit = #{xciCourseCredit},
+			xpc_office_id = #{xpcOfficeId},
+			xpc_course_info_id = #{xpcCourseInfoId}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM xmu_project_cource
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE xmu_project_cource SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="XmuProjectCource" statementType="STATEMENT">
+		select * FROM xmu_project_cource  where ${propertyName} = '${value}'
+	</select>
+	
+	
+	<select id="findCourceInfoList" resultType="XmuProjectCource" >
+		SELECT 
+			<include refid="xmuCourceInfoColumns"/>
+		FROM xmu_course_info a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="xpcCourseName != null and xpcCourseName != ''">
+				AND a.xpc_course_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xpcCourseName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xpcCourseName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xpcCourseName},'%')</if>
+			</if>
+			<if test="xpcCourseType != null and xpcCourseType != ''">
+				AND a.xpc_course_type = #{xpcCourseType}
+			</if>
+			<if test="xciCourseGrade != null and xciCourseGrade != ''">
+				AND a.xci_course_grade LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xciCourseGrade}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xciCourseGrade}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xciCourseGrade},'%')</if>
+			</if>
+			<if test="xpcCourseUnit != null and xpcCourseUnit != ''">
+				AND a.xci_course_unit LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xpcCourseUnit}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xpcCourseUnit}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xpcCourseUnit},'%')</if>
+			</if>
+			<if test="xciCourseSemester != null and xciCourseSemester != ''">
+				AND a.xci_course_semester = #{xciCourseSemester}
+			</if>
+			<if test="xpcCourseLang != null and xpcCourseLang != ''">
+				AND a.xpc_course_lang = #{xpcCourseLang}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getCourceInfo" resultType="XmuProjectCource" >
+		SELECT 
+			<include refid="xmuCourceInfoColumns"/>
+		FROM xmu_course_info a
+		<where>
+			a.id = #{id}
+		</where>
+	</select>
+</mapper>

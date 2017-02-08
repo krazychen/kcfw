@@ -62,8 +62,7 @@
 		<table:sortColumn id="orderBy" name="orderBy" value="${page.orderBy}" callback="sortOrRefresh();"/><!-- 支持排序 -->
 		<div class="form-group">
 			<span>${searchLabel }</span>
-				<form:input path="${searchKey}" htmlEscape="false" maxlength="50" class=" form-control input-sm"/>
-		
+				<form:input style="width:210px" path="${searchKey}" htmlEscape="false" maxlength="50" class=" form-control input-sm"/>
 		 </div>	
 	</form:form>
 	<br/>
@@ -83,7 +82,7 @@
 	<table id="contentTable" class="table table-striped table-bordered table-hover table-condensed dataTables-example dataTable">
 		<thead>
 			<tr>
-				<th><input type="checkbox" class="i-checks"></th>
+				<th style="width:15px" ><input type="checkbox" class="i-checks"></th>
 				<c:forEach items="${labelNames}" var="name"  varStatus="status">
 					<th>${name}</th>
 				</c:forEach>

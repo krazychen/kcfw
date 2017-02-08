@@ -104,9 +104,9 @@
 		<table:sortColumn id="orderBy" name="orderBy" value="${page.orderBy}" callback="sortOrRefresh();"/><!-- 支持排序 -->
 		<div class="form-group">
 			<span>项目名称：</span>
-			<form:input path="xmpName" htmlEscape="false" maxlength="200"  class=" form-control input-sm"/>
+			<form:input style="width:210px" path="xmpName" htmlEscape="false" maxlength="200"  class=" form-control input-sm"/>
 			<span>项目级别：</span>
-			<form:select path="xmpLevel" class="form-control m-b">
+			<form:select style="width:210px" path="xmpLevel" class="form-control m-b">
 				<form:option value="" label=""/>
 				<form:options items="${fns:getDictList('XMU_PROJECT_LEVEL')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 			</form:select>
