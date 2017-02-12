@@ -17,6 +17,9 @@
 				/static/** = anon
 				/userfiles/** = anon
 				${adminPath}/cms/article/findArticles = anon
+				${adminPath}/cms/article/findArticle = anon
+				${adminPath}/cms/article/findContacts = anon
+				${adminPath}/cms/article/getContact = anon
 				${adminPath}/cas = cas
 				${adminPath}/login = authc
 				${adminPath}/logout = logout

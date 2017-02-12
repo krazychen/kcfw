@@ -293,4 +293,8 @@ public class UserUtils {
 //		return new HashMap<String, Object>();
 //	}
 	
+	public static List<User> findAllUsers() {
+		return userDao.findUserList();
+	}
+	
 }

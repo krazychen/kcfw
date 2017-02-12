@@ -5,7 +5,9 @@ package com.krazy.kcfw.modules.cms.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -137,6 +139,28 @@ public class ArticleService extends CrudService<ArticleDao, Article> {
 		for(int i=0;(idss.length-i)>0;i++){
 			e = dao.get(idss[i]);
 			list.add(new Object[]{e.getCategory().getId(),e.getId(),StringUtils.abbr(e.getTitle(),50)});
+		}
+		return list;
+	}
+	
+	/**
+	 * 
+	 */
+	public List<Map> findForFront(Article article) {
+		if(article == null){
+			return new ArrayList<Map>();
+		}
+		List<Map> list = Lists.newArrayList();
+		List<Article> articleList=dao.findList(article);
+		for(int i=0;i<articleList.size();i++){
+			Article e = articleList.get(i);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("cid",e.getCategory().getId() );
+			map.put("id", e.getId());
+			map.put("title", StringUtils.abbr(e.getTitle(),35));
+			ArticleData articleData=articleDataDao.get(e.getId());
+			map.put("content",StringUtils.abbr(articleData.getContent(),60));
+			list.add(map);
 		}
 		return list;
 	}

@@ -364,4 +364,15 @@
 		WHERE id = #{id}
 	</update>
 	
+		
+	<!-- 查询全部用户 -->
+	<select id="findUserList" resultType="User">
+		SELECT a.id AS "id",
+		f_getspell(a.name,1) AS "loginName",
+		a.name AS "name"
+		FROM sys_user a
+		WHERE a.del_flag = '0'
+		order by nlssort(name,'NLS_SORT=SCHINESE_PINYIN_M')
+	</select>
+	
 </mapper>

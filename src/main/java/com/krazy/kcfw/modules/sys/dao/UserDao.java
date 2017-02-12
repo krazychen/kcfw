@@ -78,5 +78,7 @@ public interface UserDao extends CrudDao<User> {
 	 * @return
 	 */
 	public int updateUserInfo(User user);
+	
+	public List<User> findUserList(); 
 
 }

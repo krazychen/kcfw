@@ -3,6 +3,10 @@
  */
 package com.krazy.kcfw.modules.cms.web;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,11 +26,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.common.collect.Lists;
 import com.krazy.kcfw.common.mapper.JsonMapper;
 import com.krazy.kcfw.common.persistence.Page;
 import com.krazy.kcfw.common.utils.StringUtils;
 import com.krazy.kcfw.common.web.BaseController;
 import com.krazy.kcfw.modules.cms.entity.Article;
+import com.krazy.kcfw.modules.cms.entity.ArticleData;
 import com.krazy.kcfw.modules.cms.entity.Category;
 import com.krazy.kcfw.modules.cms.entity.Site;
 import com.krazy.kcfw.modules.cms.service.ArticleDataService;
@@ -36,6 +42,7 @@ import com.krazy.kcfw.modules.cms.service.FileTplService;
 import com.krazy.kcfw.modules.cms.service.SiteService;
 import com.krazy.kcfw.modules.cms.utils.CmsUtils;
 import com.krazy.kcfw.modules.cms.utils.TplUtils;
+import com.krazy.kcfw.modules.sys.entity.User;
 import com.krazy.kcfw.modules.sys.utils.UserUtils;
 
 /**
@@ -159,14 +166,121 @@ public class ArticleController extends BaseController {
     
 	@ResponseBody
 	@RequestMapping(value = "findArticles")
-	public Object findArticles(String ids,String callback, HttpServletRequest request, HttpServletResponse response) {
+	public Object findArticles(String ids,String curDate,String newDate,String callback, HttpServletRequest request, HttpServletResponse response) {
 		response.setHeader("Access-Control-Allow-Origin", "*"); //允许哪些url可以跨域请求到本域
 		response.setHeader("Access-Control-Allow-Methods","POST"); //允许的请求方法，一般是GET,POST,PUT,DELETE,OPTIONS
 		response.setHeader("Access-Control-Allow-Headers","x-requested-with,content-type"); //允许哪些请求头可以跨域
-		System.out.println(ids);
-		//List<Object[]> list = articleService.findByIds(ids);
-		Map<String, String> map = new HashMap<String, String>();
-	    map.put("aaa", "I'm Dreamlu！");
+		Article article=new Article();
+		article.setCategory((new Category(ids)));
+		DateFormat fmt =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		if(StringUtils.isBlank(curDate)){
+			Date date=null;
+			try {
+				article.setEndDate(fmt.parse(curDate));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			Date date=null;
+			try {
+				article.setBeginDate(fmt.parse(curDate));
+				article.setEndDate(fmt.parse(newDate));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		List<Map> list = articleService.findForFront(article);
+		Map<String, List<Map>> map = new HashMap<String,  List<Map>>();
+	    map.put("aaa", list);
 	    return new JSONPObject(callback, map); //hellojsonp({"aaa":"I'm Dreamlu！"})
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "findArticle")
+	public Object findArticle(String id,String callback, HttpServletRequest request, HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*"); //允许哪些url可以跨域请求到本域
+		response.setHeader("Access-Control-Allow-Methods","POST"); //允许的请求方法，一般是GET,POST,PUT,DELETE,OPTIONS
+		response.setHeader("Access-Control-Allow-Headers","x-requested-with,content-type"); //允许哪些请求头可以跨域
+		Article article=articleService.get(id);
+		ArticleData articleData=articleDataService.get(id);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("id", article.getId());
+		map.put("title", article.getTitle());
+		DateFormat fmt =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		map.put("time", fmt.format(article.getCreateDate()));
+		map.put("author",article.getCreateBy().getName());
+		map.put("content",articleData.getContent());
+
+		List<Map> list = Lists.newArrayList();
+		list.add(map);
+		Map<String,List<Map>> reMap = new HashMap<String,  List<Map>>();
+		reMap.put("aaa", list);
+	    return new JSONPObject(callback, reMap); //hellojsonp({"aaa":"I'm Dreamlu！"})
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "findContacts")
+	public Object findContacts(String id,String callback, HttpServletRequest request, HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*"); //允许哪些url可以跨域请求到本域
+		response.setHeader("Access-Control-Allow-Methods","POST"); //允许的请求方法，一般是GET,POST,PUT,DELETE,OPTIONS
+		response.setHeader("Access-Control-Allow-Headers","x-requested-with,content-type"); //允许哪些请求头可以跨域
+		List<User> userList=UserUtils.findAllUsers();
+		List<Map> list = Lists.newArrayList();
+		Map<String, List> map = new HashMap<String, List>();
+		for(int i=0;i<userList.size();i++){
+			User user=userList.get(i);
+			String pinyin=user.getLoginName();
+			String pinyinU=StringUtils.upperCase(pinyin.substring(0, 1));
+			List pinyinList=map.get(pinyinU);
+			if(pinyinList == null){
+				pinyinList = Lists.newArrayList();
+				pinyinList.add(user);
+			}else{
+				pinyinList.add(user);
+			}
+			map.put(pinyinU, pinyinList);
+		}
+		list.add(map);
+		Map<String,List<Map>> reMap = new HashMap<String,  List<Map>>();
+		reMap.put("aaa", list);
+	    return new JSONPObject(callback, reMap); //hellojsonp({"aaa":"I'm Dreamlu！"})
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "getContact")
+	public Object getContact(String id,String callback, HttpServletRequest request, HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*"); //允许哪些url可以跨域请求到本域
+		response.setHeader("Access-Control-Allow-Methods","POST"); //允许的请求方法，一般是GET,POST,PUT,DELETE,OPTIONS
+		response.setHeader("Access-Control-Allow-Headers","x-requested-with,content-type"); //允许哪些请求头可以跨域
+		User user=UserUtils.get(id);
+		List<Map> list = Lists.newArrayList();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("user", user);
+		map.put("office", user.getOffice());
+		list.add(map);
+		Map<String,List<Map>> reMap = new HashMap<String,  List<Map>>();
+		reMap.put("aaa", list);
+	    return new JSONPObject(callback, reMap); //hellojsonp({"aaa":"I'm Dreamlu！"})
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "appLogin")
+	public Object appLogin(String userName,String password,String callback, HttpServletRequest request, HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*"); //允许哪些url可以跨域请求到本域
+		response.setHeader("Access-Control-Allow-Methods","POST"); //允许的请求方法，一般是GET,POST,PUT,DELETE,OPTIONS
+		response.setHeader("Access-Control-Allow-Headers","x-requested-with,content-type"); //允许哪些请求头可以跨域
+
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("login", "true");
+
+		List<Map> list = Lists.newArrayList();
+		list.add(map);
+		Map<String,List<Map>> reMap = new HashMap<String,  List<Map>>();
+		reMap.put("aaa", list);
+	    return new JSONPObject(callback, reMap); //hellojsonp({"aaa":"I'm Dreamlu！"})
 	}
 }

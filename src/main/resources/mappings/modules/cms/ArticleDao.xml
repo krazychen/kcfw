@@ -75,6 +75,12 @@
 			<if test="createBy != null and createBy.id != null and createBy.id != ''">
 				AND a.create_by  = #{createBy.id}
 			</if>
+			<if test="beginDate != null and beginDate != ''">
+				AND a.update_date  &gt;= #{beginDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND a.update_date  &lt;= #{endDate}
+			</if>
 			<!-- ${sqlMap.dsf}-->
 		</where>
 		<choose>
