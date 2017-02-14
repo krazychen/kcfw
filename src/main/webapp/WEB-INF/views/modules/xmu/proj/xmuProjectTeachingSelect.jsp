@@ -2,11 +2,11 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>项目课程管理</title>
+	<title>学年教学管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			 $('#contentTable thead tr th input.i-checks').on('ifChecked', function(event){ //ifCreated 事件应该在插件初始化之前绑定 
+			$('#contentTable thead tr th input.i-checks').on('ifChecked', function(event){ //ifCreated 事件应该在插件初始化之前绑定 
 		    	  $('#contentTable tbody tr td input.i-checks').iCheck('check');
 		    	});
 
@@ -25,7 +25,7 @@
 		    $("#contentTable tbody tr td input.i-checks:checkbox:checked").each(function () {
                 ids.push(this.id);
             });
-		    $("#courseIdList").val(ids);
+		    $("#teachingIdList").val(ids);
 			top.layer.open({
 			    type: 2,  
 			    area: ['800px', '500px'],
@@ -40,8 +40,8 @@
 			    	 if(item == "-1"){
 				    	 return;
 			    	 }
-			    	 $("#xpcProjId").val(item.split('_item_')[0]);
-			    	 $("#xpcProjName").val(item.split('_item_')[1]);
+			    	 $("#xptProjId").val(item.split('_item_')[0]);
+			    	 $("#xptProjName").val(item.split('_item_')[1]);
 			    	 $("#saveForm").submit();
 			    	 top.layer.close(index);//关闭对话框。
 				  },
@@ -62,47 +62,33 @@
 	<!--查询条件-->
 	<div class="row">
 	<div class="col-sm-12">
-	<form:form id="saveForm" modelAttribute="xmuProjectCource" action="${ctx}/xmu/proj/xmuProjectCource/saveCourse" method="post">
-		<input id="courseIdList" name="courseIdList" type="hidden" />
-		<input id="xpcProjId" name="xpcProjId" type="hidden" />
-		<input id="xpcProjName" name="xpcProjName" type="hidden" />
+	<form:form id="saveForm" modelAttribute="xmuProjectTeaching" action="${ctx}/xmu/proj/xmuProjectTeaching/saveTeaching" method="post">
+		<input id="teachingIdList" name="teachingIdList" type="hidden" />
+		<input id="xptProjId" name="xptProjId" type="hidden" />
+		<input id="xptProjName" name="xptProjName" type="hidden" />
 	</form:form>
-	<form:form id="searchForm" modelAttribute="xmuProjectCource" action="${ctx}/xmu/proj/xmuProjectCource/listCourse" method="post" class="form-inline">
+	<form:form id="searchForm" modelAttribute="xmuProjectTeaching" action="${ctx}/xmu/proj/xmuProjectTeaching/" method="post" class="form-inline">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<table:sortColumn id="orderBy" name="orderBy" value="${page.orderBy}" callback="sortOrRefresh();"/><!-- 支持排序 -->
 		<div class="row" style="margin-bottom:7px">
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 				<div class="form-group">
-					<span>开课单位：</span>
-					<form:input style="width:210px" path="xpcCourseUnit" htmlEscape="false" maxlength="200"  class=" form-control input-sm"/>
-				</div>
-			</div>
-			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-				<div class="form-group">
 					<span>课程名称：</span>
-					<form:input style="width:210px" path="xpcCourseName" htmlEscape="false" maxlength="200"  class=" form-control input-sm"/>
+					<form:input style="width:210px" path="xptTeachingName" htmlEscape="false" maxlength="200"  class=" form-control input-sm"/>
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 				<div class="form-group">
-					<span>授课语言：</span>
-					<form:select style="width:210px" path="xpcCourseLang"  class="form-control m-b">
-						<form:option value="" label=""/>
-						<form:options items="${fns:getDictList('XMU_PROJECT_COR_LANG')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-					</form:select>
+					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学院：</span>
+					<form:input style="width:210px" path="xptTeachingOffice" htmlEscape="false" maxlength="200"  class=" form-control input-sm"/>
 				</div>
 			</div>
-		</div>
-		<div class="row" style="margin-bottom:7px">
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-				<div class="form-group">				
-					<span>课程类型：</span>
-					<form:select path="xpcCourseType"  style="width:210px" class="form-control m-b">
-						<form:option value="" label=""/>
-						<form:options items="${fns:getDictList('XMU_PROJECT_COR_TYPE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-					</form:select>
-				</div>
+				<div class="form-group">	
+					<span>学年学期：</span>
+					<form:input style="width:210px" path="xptTeachingGrade" htmlEscape="false" maxlength="200"  class=" form-control input-sm"/>
+		 		</div>
 			</div>
 		 </div>	
 	</form:form>
@@ -114,8 +100,8 @@
 	<div class="row">
 	<div class="col-sm-12">
 		<div class="pull-left">
-			<button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="left" onclick="addRelatedProject()" title="选择课程所属项目"><i class="fa fa-plus"></i>选择所属项目</button>		
-	       <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="left" onclick="sortOrRefresh()" title="刷新"><i class="glyphicon glyphicon-repeat"></i> 刷新</button>		
+			<button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="left" onclick="addRelatedProject()" title="选择课程所属项目"><i class="fa fa-plus"></i>选择所属项目</button>	
+	        <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="left" onclick="sortOrRefresh()" title="刷新"><i class="glyphicon glyphicon-repeat"></i> 刷新</button>
 		</div>
 		<div class="pull-right">
 			<button  class="btn btn-primary btn-rounded btn-outline btn-sm " onclick="search()" ><i class="fa fa-search"></i> 查询</button>
@@ -129,43 +115,51 @@
 		<thead>
 			<tr>
 				<th> <input type="checkbox" class="i-checks"></th>
-				<th  class="sort-column xci_course_name">课程名称</th>
-				<th  class="sort-column xci_course_hours">学时</th>
-				<th  class="sort-column xci_course_credit">学分</th>
-				<th  class="sort-column xci_course_type">课程类型</th>
-				<th  class="sort-column xci_course_grade">开课年级</th>
-				<th  class="sort-column xci_course_semester">开课学期</th>
-				<th  class="sort-column xci_course_lang">授课语言</th>
-				<th  class="sort-column xci_course_unit">开课单位</th>
+				<th  class="sort-column xpt_teaching_name">课程名称</th>
+				<th  class="sort-column xpt_teaching_lang">授课语言</th>
+				<th  class="sort-column xpt_teaching_office">学院</th>
+				<th  class="sort-column xpt_teaching_grade">学年学期</th>
+				<th  class="sort-column xpt_teaching_profeesion">专业</th>
+				<th  class="sort-column xpt_teaching_hours">总学时</th>
+				<th  class="sort-column xpt_teaching_stu">上课人数</th>
+				<th  class="sort-column xpt_teaching_teacher">主讲老师</th>
+				<th  class="sort-column xpt_teaching_jobtitle">职称</th>
+				<th  class="sort-column xpt_teaching_title">头衔</th>
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="xmuProjectCource">
+		<c:forEach items="${page.list}" var="xmuProjectTeaching">
 			<tr>
-				<td> <input type="checkbox" id="${xmuProjectCource.id}" class="i-checks"></td>
+				<td> <input type="checkbox" id="${xmuProjectTeaching.id}" class="i-checks"></td>
 				<td>
-					${xmuProjectCource.xpcCourseName}
+					${xmuProjectTeaching.xptTeachingName}
 				</td>
 				<td>
-					${xmuProjectCource.xciCourseHours}
+					${fns:getDictLabel(xmuProjectTeaching.xptTeachingLang, 'XMU_PROJECT_COR_LANG', '')}
 				</td>
 				<td>
-					${xmuProjectCource.xciCourseCredit}
+					${xmuProjectTeaching.xptTeachingOffice}
 				</td>
 				<td>
-					${fns:getDictLabel(xmuProjectCource.xpcCourseType, 'XMU_PROJECT_COR_TYPE', '')}
+					${xmuProjectTeaching.xptTeachingGrade}
 				</td>
 				<td>
-					${xmuProjectCource.xciCourseGrade}
+					${xmuProjectTeaching.xptTeachingProfeesion}
 				</td>
 				<td>
-					${fns:getDictLabel(xmuProjectCource.xciCourseSemester, 'XMU_PROJECT_COR_SEMESTER', '')}
+					${xmuProjectTeaching.xptTeachingHours}
 				</td>
 				<td>
-					${fns:getDictLabel(xmuProjectCource.xpcCourseLang, 'XMU_PROJECT_COR_LANG', '')}
+					${xmuProjectTeaching.xptTeachingStu}
 				</td>
 				<td>
-					${xmuProjectCource.xpcCourseUnit}
+					${xmuProjectTeaching.xptTeachingTeacher}
+				</td>
+				<td>
+					${fns:getDictLabel(xmuProjectTeaching.xptTeachingJobtitle, 'XMU_PROJECT_STU_TEA_JOBTITLE', '')}
+				</td>
+				<td>
+					${fns:getDictLabel(xmuProjectTeaching.xptTeachingTitle, 'XMU_PROJECT_STU_TEA_TITLE', '')}
 				</td>
 			</tr>
 		</c:forEach>

@@ -13,7 +13,6 @@ import com.krazy.kcfw.common.service.CrudService;
 import com.krazy.kcfw.common.utils.StringUtils;
 import com.krazy.kcfw.modules.sys.utils.UserUtils;
 import com.krazy.kcfw.modules.xmu.entity.proj.XmuProjectCource;
-import com.krazy.kcfw.modules.xmu.entity.proj.XmuProjectStudent;
 import com.krazy.kcfw.modules.xmu.dao.proj.XmuProjectCourceDao;
 
 /**
@@ -63,6 +62,7 @@ public class XmuProjectCourceService extends CrudService<XmuProjectCourceDao, Xm
 		return this.dao.getCourceInfo(id);
 	}
 	
+	@Transactional(readOnly = false)
 	public String saveCourse(XmuProjectCource xmuProjectCource,List courceIdList){
 		StringBuffer sb=new StringBuffer();
 		
@@ -92,13 +92,14 @@ public class XmuProjectCourceService extends CrudService<XmuProjectCourceDao, Xm
 
 	}
 	
+	@Transactional(readOnly = false)
 	public void saveCourseList(List<XmuProjectCource> xmuProjectCourceList){
 		
 		for(XmuProjectCource xmuProjectCource : xmuProjectCourceList){
 			if (xmuProjectCource.getId() == null){
 				continue;
 			}
-			if (XmuProjectStudent.DEL_FLAG_NORMAL.equals(xmuProjectCource.getDelFlag())){
+			if (XmuProjectCource.DEL_FLAG_NORMAL.equals(xmuProjectCource.getDelFlag())){
 				if (StringUtils.isBlank(xmuProjectCource.getId())){
 					xmuProjectCource.preInsert();
 					this.dao.insert(xmuProjectCource);

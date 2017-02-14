@@ -124,7 +124,7 @@
 				<button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="addStu()" title="人员添加"><i class="fa fa-plus"></i> 人员添加</button>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="xmu:proj:xmuProjectStudent:edit">
-			    <table:editRow url="${ctx}/xmu/proj/xmuProjectStudent/form" title="项目人员" id="contentTable"></table:editRow><!-- 编辑按钮 -->
+				<button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="openDialog('修改项目人员', '${ctx}/xmu/proj/xmuProjectStudent/formList?id=${xmuProject.id}','1050px', '550px')" title="人员修改"><i class="fa fa-file-text-o"></i> 修改</button>
 			</shiro:hasPermission>
 	       <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="left" onclick="sortOrRefresh()" title="刷新"><i class="glyphicon glyphicon-repeat"></i> 刷新</button>
 		

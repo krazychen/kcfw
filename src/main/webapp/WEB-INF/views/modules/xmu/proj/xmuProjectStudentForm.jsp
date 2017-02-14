@@ -70,33 +70,31 @@
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>	
 		<div class="ibox-content">
-			<table id="contentTable" class="table table-striped table-bordered" style="overflow-x: auto; width:3300px;">
+			<table id="contentTable" class="table table-striped table-bordered" >
 				<thead>
 					<tr>
 						<th class="hide"></th>
-						<th class="hide">学生学院ID</th>
-						<th width="40px">序号</th>
-						<th width="150px">学院</th>
-						<th class="hide">学生ID</th>
-						<th width="110px">姓名</th>
-						<th width="120px">年级</th>
-						<th width="180px">专业</th>
-						<th width="120px">学号</th>
-						<th width="200px">证件号</th>
-						<th width="150px">毕业中学</th>
-						<th width="100px">毕业时间</th>
-						<th width="120px">毕业去向</th>
-						<th width="180px">读研学校</th>
-						<th width="180px">读研专业</th>
-						<th width="180px">工作单位</th>
-						<th width="180px">待定说明</th>
-						<th width="110px">导师</th>
-						<th width="120px">职称</th>
-						<th width="120px">头衔</th>
-						<th width="100px">入选时间</th>
-						<th width="100px">退出时间</th>
-						<th width="80px">状态</th>
-						<th width="10px">&nbsp;</th>
+						<th nowrap>序号</th>
+						<th>学院</th>
+						<th>姓名</th>
+						<th nowrap>年级</th>
+						<th nowrap>专业</th>
+						<th nowrap>学号</th>
+						<th nowrap>证件号</th>
+						<th>毕业中学</th>
+						<th>毕业时间</th>
+						<th>毕业去向</th>
+						<th>读研学校</th>
+						<th>读研专业</th>
+						<th>工作单位</th>
+						<th>待定说明</th>
+						<th>导师</th>
+						<th>职称</th>
+						<th>头衔</th>
+						<th>入选时间</th>
+						<th>退出时间</th>
+						<th>状态</th>
+						<th>&nbsp;</th>
 					</tr>
 				</thead>
 				<tbody id="xmuProjectStudentList">
@@ -108,62 +106,55 @@
 								<input id="xmuProjectStudentList{{idx}}_id" name="xmuProjectStudentList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
 								<input id="xmuProjectStudentList{{idx}}_delFlag" name="xmuProjectStudentList[{{idx}}].delFlag" type="hidden" value="0"/>
 								<input id="xmuProjectStudentList{{idx}}_xpsProjId" name="xmuProjectStudentList[{{idx}}].xpsProjId" type="hidden" value="${xmuProject.id}"/>
+								<input id="xmuProjectStudentList{{idx}}_xpsOfficeId" name="xmuProjectStudentList[{{idx}}].xpsOfficeId" type="text" value="{{row.xpsOfficeId}}"    class="input-small"/>							
+								<input readonly="true" id="xmuProjectStudentList{{idx}}_xpsUserId" name="xmuProjectStudentList[{{idx}}].xpsUserId" type="text" value="{{row.xpsUserId}}"    class="input-small"/>
 							</td>
-							
-							<td class="hide">
-								<input id="xmuProjectStudentList{{idx}}_xpsOfficeId" name="xmuProjectStudentList[{{idx}}].xpsOfficeId" type="text" value="{{row.xpsOfficeId}}"    class="form-control required"/>
-							</td>
+
 							<td>
 								{{idx}}
 							</td>
-							<td>
-								<input readonly="true" id="xmuProjectStudentList{{idx}}_xpsOfficeName" name="xmuProjectStudentList[{{idx}}].xpsOfficeName" type="text" value="{{row.xpsOfficeName}}"    class="form-control required"/>
+							<td nowrap>
+								<input type="hidden" id="xmuProjectStudentList{{idx}}_xpsOfficeName" name="xmuProjectStudentList[{{idx}}].xpsOfficeName" type="text" value="{{row.xpsOfficeName}}"    class="input-small"/>{{row.xpsOfficeName}}
+							</td>
+							
+							<td nowrap>
+								<input type="hidden" id="xmuProjectStudentList{{idx}}_xpsUserName" name="xmuProjectStudentList[{{idx}}].xpsUserName" type="text" value="{{row.xpsUserName}}"    class="input-small"/>{{row.xpsUserName}}
+							</td nowrap>
+							
+							
+							<td nowrap>
+								<input type="hidden" id="xmuProjectStudentList{{idx}}_xpuUserGrade" name="xmuProjectStudentList[{{idx}}].xpuUserGrade" type="text" value="{{row.xpuUserGrade}}"    class="input-small"/>{{row.xpuUserGrade}}
 							</td>
 							
 							
-							<td class="hide">
-								<input readonly="true" id="xmuProjectStudentList{{idx}}_xpsUserId" name="xmuProjectStudentList[{{idx}}].xpsUserId" type="text" value="{{row.xpsUserId}}"    class="form-control required"/>
+							<td nowrap>
+								<input type="hidden" id="xmuProjectStudentList{{idx}}_xpuUserProfession" name="xmuProjectStudentList[{{idx}}].xpuUserProfession" type="text" value="{{row.xpuUserProfession}}"    class="input-small"/>{{row.xpuUserProfession}}
 							</td>
 							
 							
-							<td>
-								<input readonly="true" id="xmuProjectStudentList{{idx}}_xpsUserName" name="xmuProjectStudentList[{{idx}}].xpsUserName" type="text" value="{{row.xpsUserName}}"    class="form-control required"/>
+							<td nowrap>
+								<input type="hidden" id="xmuProjectStudentList{{idx}}_xpuUserStuno" name="xmuProjectStudentList[{{idx}}].xpuUserStuno" type="text" value="{{row.xpuUserStuno}}"    class="input-small"/>{{row.xpuUserStuno}}
 							</td>
 							
 							
-							<td>
-								<input readonly="true" id="xmuProjectStudentList{{idx}}_xpuUserGrade" name="xmuProjectStudentList[{{idx}}].xpuUserGrade" type="text" value="{{row.xpuUserGrade}}"    class="form-control "/>
-							</td>
-							
-							
-							<td>
-								<input readonly="true" id="xmuProjectStudentList{{idx}}_xpuUserProfession" name="xmuProjectStudentList[{{idx}}].xpuUserProfession" type="text" value="{{row.xpuUserProfession}}"    class="form-control "/>
-							</td>
-							
-							
-							<td>
-								<input readonly="true" id="xmuProjectStudentList{{idx}}_xpuUserStuno" name="xmuProjectStudentList[{{idx}}].xpuUserStuno" type="text" value="{{row.xpuUserStuno}}"    class="form-control "/>
-							</td>
-							
-							
-							<td>
-								<input readonly="true" id="xmuProjectStudentList{{idx}}_xpuUserLincno" name="xmuProjectStudentList[{{idx}}].xpuUserLincno" type="text" value="{{row.xpuUserLincno}}"    class="form-control "/>
+							<td nowrap>
+								<input type="hidden" id="xmuProjectStudentList{{idx}}_xpuUserLincno" name="xmuProjectStudentList[{{idx}}].xpuUserLincno" type="text" value="{{row.xpuUserLincno}}"    class="input-small"/>{{row.xpuUserLincno}}
 							</td>
 							
 							
 							<td>
-								<input id="xmuProjectStudentList{{idx}}_xpuUserMidsch" name="xmuProjectStudentList[{{idx}}].xpuUserMidsch" type="text" value="{{row.xpuUserMidsch}}"    class="form-control "/>
+								<input id="xmuProjectStudentList{{idx}}_xpuUserMidsch" name="xmuProjectStudentList[{{idx}}].xpuUserMidsch" type="text" value="{{row.xpuUserMidsch}}"    class="input-small"/>
 							</td>
 							
 							
-							<td>
-								<input id="xmuProjectStudentList{{idx}}_xpuUserGradTime" name="xmuProjectStudentList[{{idx}}].xpuUserGradTime" type="text" readonly="readonly" maxlength="20" class="laydate-icon form-control layer-date  "
+							<td nowrap>
+								<input id="xmuProjectStudentList{{idx}}_xpuUserGradTime" name="xmuProjectStudentList[{{idx}}].xpuUserGradTime" type="text" readonly="readonly" maxlength="20" class="laydate-icon layer-date  " style="height:25px;width:120px;*width:100px"
 									value="{{row.xpuUserGradTime}}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 							</td>
 							
 							
 							<td>
-								<select id="xmuProjectStudentList{{idx}}_xpuUserGradAdd" name="xmuProjectStudentList[{{idx}}].xpuUserGradAdd" data-value="{{row.xpuUserGradAdd}}" class="form-control m-b  ">
+								<select id="xmuProjectStudentList{{idx}}_xpuUserGradAdd" name="xmuProjectStudentList[{{idx}}].xpuUserGradAdd" data-value="{{row.xpuUserGradAdd}}" class="input-mini" style="height:25px;width:85px;*width:75px">
 									<option value=""></option>
 									<c:forEach items="${fns:getDictList('XMU_PROJECT_STU_GRAD_ADD')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
@@ -173,32 +164,32 @@
 							
 							
 							<td>
-								<input id="xmuProjectStudentList{{idx}}_xpuUserGraduteSch" name="xmuProjectStudentList[{{idx}}].xpuUserGraduteSch" type="text" value="{{row.xpuUserGraduteSch}}"    class="form-control "/>
+								<input id="xmuProjectStudentList{{idx}}_xpuUserGraduteSch" name="xmuProjectStudentList[{{idx}}].xpuUserGraduteSch" type="text" value="{{row.xpuUserGraduteSch}}"    class="input-small"/>
 							</td>
 							
 							
 							<td>
-								<input id="xmuProjectStudentList{{idx}}_xpuUserGraduteProf" name="xmuProjectStudentList[{{idx}}].xpuUserGraduteProf" type="text" value="{{row.xpuUserGraduteProf}}"    class="form-control "/>
+								<input id="xmuProjectStudentList{{idx}}_xpuUserGraduteProf" name="xmuProjectStudentList[{{idx}}].xpuUserGraduteProf" type="text" value="{{row.xpuUserGraduteProf}}"    class="input-small"/>
 							</td>
 							
 							
 							<td>
-								<input id="xmuProjectStudentList{{idx}}_xpuUserWork" name="xmuProjectStudentList[{{idx}}].xpuUserWork" type="text" value="{{row.xpuUserWork}}"    class="form-control "/>
+								<input id="xmuProjectStudentList{{idx}}_xpuUserWork" name="xmuProjectStudentList[{{idx}}].xpuUserWork" type="text" value="{{row.xpuUserWork}}"    class="input-small"/>
 							</td>
 							
 							
 							<td>
-								<input id="xmuProjectStudentList{{idx}}_xpuUserRemark" name="xmuProjectStudentList[{{idx}}].xpuUserRemark" type="text" value="{{row.xpuUserRemark}}"    class="form-control "/>
+								<input id="xmuProjectStudentList{{idx}}_xpuUserRemark" name="xmuProjectStudentList[{{idx}}].xpuUserRemark" type="text" value="{{row.xpuUserRemark}}"    class="input-small "/>
 							</td>
 							
 							
 							<td>
-								<input id="xmuProjectStudentList{{idx}}_xpuUserTeacher" name="xmuProjectStudentList[{{idx}}].xpuUserTeacher" type="text" value="{{row.xpuUserTeacher}}"    class="form-control "/>
+								<input id="xmuProjectStudentList{{idx}}_xpuUserTeacher" name="xmuProjectStudentList[{{idx}}].xpuUserTeacher" type="text" value="{{row.xpuUserTeacher}}"    class="input-small"/>
 							</td>
 							
 							
 							<td>
-								<select id="xmuProjectStudentList{{idx}}_xpuUserTeacherJobtitle" name="xmuProjectStudentList[{{idx}}].xpuUserTeacherJobtitle" data-value="{{row.xpuUserTeacherJobtitle}}" class="form-control m-b  ">
+								<select id="xmuProjectStudentList{{idx}}_xpuUserTeacherJobtitle" name="xmuProjectStudentList[{{idx}}].xpuUserTeacherJobtitle" data-value="{{row.xpuUserTeacherJobtitle}}" class="input-mini" style="height:25px;width:85px;*width:75px">
 									<option value=""></option>
 									<c:forEach items="${fns:getDictList('XMU_PROJECT_STU_TEA_JOBTITLE')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
@@ -208,7 +199,7 @@
 							
 							
 							<td>
-								<select id="xmuProjectStudentList{{idx}}_xpuUserTeacherTitle" name="xmuProjectStudentList[{{idx}}].xpuUserTeacherTitle" data-value="{{row.xpuUserTeacherTitle}}" class="form-control m-b  ">
+								<select id="xmuProjectStudentList{{idx}}_xpuUserTeacherTitle" name="xmuProjectStudentList[{{idx}}].xpuUserTeacherTitle" data-value="{{row.xpuUserTeacherTitle}}" class="input-mini" style="height:25px;width:85px;*width:75px">
 									<option value=""></option>
 									<c:forEach items="${fns:getDictList('XMU_PROJECT_STU_TEA_TITLE')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
@@ -218,19 +209,19 @@
 							
 							
 							<td>
-								<input id="xmuProjectStudentList{{idx}}_xpuUserRegTime" name="xmuProjectStudentList[{{idx}}].xpuUserRegTime" type="text" readonly="readonly" maxlength="20" class="laydate-icon form-control layer-date  "
+								<input id="xmuProjectStudentList{{idx}}_xpuUserRegTime" name="xmuProjectStudentList[{{idx}}].xpuUserRegTime" type="text" readonly="readonly" maxlength="20" class="laydate-icon input-small layer-date  " style="height:25px;width:120px;*width:100px"
 									value="{{row.xpuUserRegTime}}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 							</td>
 							
 							
 							<td>
-								<input id="xmuProjectStudentList{{idx}}_xpuUserExitTime" name="xmuProjectStudentList[{{idx}}].xpuUserExitTime" type="text" readonly="readonly" maxlength="20" class="laydate-icon form-control layer-date  "
+								<input id="xmuProjectStudentList{{idx}}_xpuUserExitTime" name="xmuProjectStudentList[{{idx}}].xpuUserExitTime" type="text" readonly="readonly" maxlength="20" class="laydate-icon input-small layer-date  " style="height:25px;width:120px;*width:100px"
 									value="{{row.xpuUserExitTime}}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 							</td>
 							
 							
 							<td>
-								<select autocomplete="off" id="xmuProjectStudentList{{idx}}_xpuUserStatus" name="xmuProjectStudentList[{{idx}}].xpuUserStatus" data-value="{{row.xpuUserStatus}}" class="form-control m-b  ">
+								<select autocomplete="off" id="xmuProjectStudentList{{idx}}_xpuUserStatus" name="xmuProjectStudentList[{{idx}}].xpuUserStatus" data-value="{{row.xpuUserStatus}}" class="input-mini" style="height:25px;width:85px;*width:75px">
 									<option value=""></option>
 									<c:forEach items="${fns:getDictList('XMU_PROJECT_STU_STATUS')}" var="dict" varStatus="status">
 										<c:if test="${status.index == 0}">

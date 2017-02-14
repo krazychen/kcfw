@@ -81,24 +81,15 @@
                             	<div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h5 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#version" href="#v2.5">v2.5</a><code class="pull-right">2016.10.8更新</code>
+                                                <a data-toggle="collapse" data-parent="#version" href="#v2.5">v2.5</a><code class="pull-right">更新</code>
                                             </h5>
                                     </div>
                                     <div id="v2.5" class="panel-collapse collapse in">
                                         <div class="panel-body">
                                             <ol>
-                                            	<li>升级代码生成器，生成的代码增加表单校验功能。</li>
-                                            	<li>修复代码生成器v2.3版本的bug，修复乱码功能。</li>
-                                            	<li>优化代码生成器体验，增加错误校验等。</li>
-                                                <li>去除dialog的竖向滚动条</li>
-                                                <li>修复升级layer2.3的bug。</li>
-                                            	<li>升级layim1.0到layim2.0。</li>
-                                            	<li>支持自定义签名。</li>
-                                                <li>支持表情，文件，群聊，群聊聊天记录。</li>
-                                                <li>支持自定义聊天群组，添加移除群组人员。</li>
-                                                <li>支持离线消息。</li>
+
                                                 <li>....</li>
-                                                <li>layim1.0是免费插件，layim2.0是商业授权，你仍可选择免费使用layim1.0，如果需要使用layim2.0，你需要购买一个授权，价格不贵，希望大家尊重知识版权，给开源作者一点点鼓励，才能持续给大家提供优秀的开源软件,<a href="http://layim.layui.com/?from=layer" target="_blank">layIM官网</a>。</li>
+                                              
                                             </ol>
                                         </div>
                                     </div>

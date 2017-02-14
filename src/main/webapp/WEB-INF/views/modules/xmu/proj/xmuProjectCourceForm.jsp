@@ -70,52 +70,55 @@
 	<form:form id="inputForm" modelAttribute="xmuProject" action="${ctx}/xmu/proj/xmuProjectCource/saveList" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>	
-		<div class="ibox-content">
-			<table id="contentTable" class="table table-striped table-bordered" style="overflow-x: auto;width:1600px">
-				<thead>
-					<tr>
-						<th class="hide"></th>
-						<th width="40px">序号</th>
-						<th width="150px">学院名称</th>
-						<th width="180px">项目名称</th>
-						<th width="120px">课程类型</th>
-						<th width="100px">开课年级</th>
-						<th width="120px">开课学期</th>
-						<th width="120px">授课语言</th>
-						<th width="120px">拟开课学期</th>
-						<th width="150px">开课单位</th>
-						<th width="150px">课程名称</th>
-						<th width="60px">学时</th>
-						<th width="60px">学分</th>
-					</tr>
-				</thead>
-				<tbody id="xmuProjectCourceList">
-				</tbody>
-			</table>
-			<script type="text/template" id="xmuProjectCourceTpl">//<!--
+		<table class="table table-bordered  table-condensed dataTables-example dataTable no-footer">
+		</table>
+		<div class="tabs-container">
+			<div id="tab-5" class="tab-pane">
+				<table id="contentTable" class="table table-striped table-bordered" >
+					<thead>
+						<tr>
+							<th class="hide"></th>
+							<th nowrap>序号</th>
+							<th nowrap>学院名称</th>
+							<th>项目名称</th>
+							<th>课程类型</th>
+							<th>开课年级</th>
+							<th>开课学期</th>
+							<th>授课语言</th>
+							<th>拟开课学期</th>
+							<th nowrap>开课单位</th>
+							<th nowrap>课程名称</th>
+							<th nowrap>学时</th>
+							<th nowrap>学分</th>
+						</tr>
+					</thead>
+					<tbody id="xmuProjectCourceList">
+					</tbody>
+				</table>
+				<script type="text/template" id="xmuProjectCourceTpl">//<!--
 						<tr id="xmuProjectCourceList{{idx}}">
-							<td class="hide">
+							<td class="hide" nowrap>
 								<input id="xmuProjectCourceList{{idx}}_id" name="xmuProjectCourceList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
 								<input id="xmuProjectCourceList{{idx}}_delFlag" name="xmuProjectCourceList[{{idx}}].delFlag" type="hidden" value="0"/>
 								<input id="xmuProjectCourceList{{idx}}_xpcCourseInfoId" name="xmuProjectCourceList[{{idx}}].xpcCourseInfoId" type="hidden" value="{{row.xpcCourseInfoId}}"/>
 							</td>
-							<td>
+							<td nowrap>
 								{{idx}}
 							</td>
-							<td  class="max-width-250">
-								<input type="hidden" id="xmuProjectCourceList{{idx}}_xpcOfficeId" name="xmuProjectCourceList[{{idx}}].xpcOfficeId" type="text" value="{{row.xpcOfficeId}}"    class="form-control required"/>
-								<input readonly="true" id="xmuProjectCourceList{{idx}}_xpcOfficeName" name="xmuProjectCourceList[{{idx}}].xpcOfficeName" type="text" value="{{row.xpcOfficeName}}"    class="form-control required"/>
+							<td nowrap>
+								<input type="hidden" id="xmuProjectCourceList{{idx}}_xpcOfficeId" name="xmuProjectCourceList[{{idx}}].xpcOfficeId" type="text" value="{{row.xpcOfficeId}}"    class="input-small"/>
+								<input type="hidden" id="xmuProjectCourceList{{idx}}_xpcOfficeName" name="xmuProjectCourceList[{{idx}}].xpcOfficeName" type="text" value="{{row.xpcOfficeName}}"    class="input-small"/>{{row.xpcOfficeName}}
+							</td>
+							
+							
+							<td nowrap>
+								<input type="hidden" id="xmuProjectCourceList{{idx}}_xpcProjId" name="xmuProjectCourceList[{{idx}}].xpcProjId" type="text" value="{{row.xpcProjId}}"    class="input-small"/>
+								<input type="hidden" id="xmuProjectCourceList{{idx}}_xpcProjName" name="xmuProjectCourceList[{{idx}}].xpcProjName" type="text" value="{{row.xpcProjName}}"    class="input-small"/>{{row.xpcProjName}}
 							</td>
 							
 							
 							<td>
-								<input type="hidden" id="xmuProjectCourceList{{idx}}_xpcProjId" name="xmuProjectCourceList[{{idx}}].xpcProjId" type="text" value="{{row.xpcProjId}}"    class="form-control "/>
-								<input readonly="true" id="xmuProjectCourceList{{idx}}_xpcProjName" name="xmuProjectCourceList[{{idx}}].xpcProjName" type="text" value="{{row.xpcProjName}}"    class="form-control "/>
-							</td>
-							
-							
-							<td>
-								<select id="xmuProjectCourceList{{idx}}_xpcCourseType" name="xmuProjectCourceList[{{idx}}].xpcCourseType" data-value="{{row.xpcCourseType}}" class="form-control m-b  ">
+								<select id="xmuProjectCourceList{{idx}}_xpcCourseType" name="xmuProjectCourceList[{{idx}}].xpcCourseType" data-value="{{row.xpcCourseType}}" class="input-mini" style="height:25px;width:85px;*width:75px">
 									<option value=""></option>
 									<c:forEach items="${fns:getDictList('XMU_PROJECT_COR_TYPE')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
@@ -125,12 +128,12 @@
 							
 							
 							<td>
-								<input id="xmuProjectCourceList{{idx}}_xciCourseGrade" name="xmuProjectCourceList[{{idx}}].xciCourseGrade" type="text" value="{{row.xciCourseGrade}}"    class="form-control "/>
+								<input id="xmuProjectCourceList{{idx}}_xciCourseGrade" name="xmuProjectCourceList[{{idx}}].xciCourseGrade" type="text" value="{{row.xciCourseGrade}}"  class="input-small"/>
 							</td>
 							
 							
 							<td>
-								<select id="xmuProjectCourceList{{idx}}_xciCourseSemester" name="xmuProjectCourceList[{{idx}}].xciCourseSemester" data-value="{{row.xciCourseSemester}}" class="form-control m-b  ">
+								<select id="xmuProjectCourceList{{idx}}_xciCourseSemester" name="xmuProjectCourceList[{{idx}}].xciCourseSemester" data-value="{{row.xciCourseSemester}}" class="input-mini" style="height:25px;width:85px;*width:75px">
 									<option value=""></option>
 									<c:forEach items="${fns:getDictList('XMU_PROJECT_COR_SEMESTER')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
@@ -140,7 +143,7 @@
 							
 							
 							<td>
-								<select id="xmuProjectCourceList{{idx}}_xpcCourseLang" name="xmuProjectCourceList[{{idx}}].xpcCourseLang" data-value="{{row.xpcCourseLang}}" class="form-control m-b  ">
+								<select id="xmuProjectCourceList{{idx}}_xpcCourseLang" name="xmuProjectCourceList[{{idx}}].xpcCourseLang" data-value="{{row.xpcCourseLang}}" class="input-mini" style="height:25px;width:85px;*width:75px"> 
 									<option value=""></option>
 									<c:forEach items="${fns:getDictList('XMU_PROJECT_COR_LANG')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
@@ -149,7 +152,7 @@
 							</td>
 							
 							<td>
-								<select id="xmuProjectCourceList{{idx}}_xciCourseSemesterNew" name="xmuProjectCourceList[{{idx}}].xciCourseSemesterNew" data-value="{{row.xciCourseSemesterNew}}" class="form-control m-b  ">
+								<select id="xmuProjectCourceList{{idx}}_xciCourseSemesterNew" name="xmuProjectCourceList[{{idx}}].xciCourseSemesterNew" data-value="{{row.xciCourseSemesterNew}}" class="input-mini" style="height:25px;width:85px;*width:75px">
 									<option value=""></option>
 									<c:forEach items="${fns:getDictList('XMU_PROJECT_COR_SEMESTER')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
@@ -157,23 +160,23 @@
 								</select>
 							</td>
 
-							<td>
-								<input readonly="true" id="xmuProjectCourceList{{idx}}_xpcCourseUnit" name="xmuProjectCourceList[{{idx}}].xpcCourseUnit" type="text" value="{{row.xpcCourseUnit}}"    class="form-control "/>
+							<td nowrap>
+								<input type="hidden" id="xmuProjectCourceList{{idx}}_xpcCourseUnit" name="xmuProjectCourceList[{{idx}}].xpcCourseUnit" type="text" value="{{row.xpcCourseUnit}}"    class="input-small"/>{{row.xpcCourseUnit}}
 							</td>
 							
 							
-							<td>
-								<input readonly="true" id="xmuProjectCourceList{{idx}}_xpcCourseName" name="xmuProjectCourceList[{{idx}}].xpcCourseName" type="text" value="{{row.xpcCourseName}}"    class="form-control "/>
+							<td nowrap>
+								<input type="hidden" id="xmuProjectCourceList{{idx}}_xpcCourseName" name="xmuProjectCourceList[{{idx}}].xpcCourseName" type="text" value="{{row.xpcCourseName}}"    class="input-small"/>{{row.xpcCourseName}}
 							</td>
 							
 							
-							<td>
-								<input readonly="true" id="xmuProjectCourceList{{idx}}_xciCourseHours" name="xmuProjectCourceList[{{idx}}].xciCourseHours" type="text" value="{{row.xciCourseHours}}"    class="form-control "/>
+							<td nowrap>
+								<input type="hidden" id="xmuProjectCourceList{{idx}}_xciCourseHours" name="xmuProjectCourceList[{{idx}}].xciCourseHours" type="text" value="{{row.xciCourseHours}}"    class="input-small"/>{{row.xciCourseHours}}
 							</td>
 							
 							
-							<td>
-								<input readonly="true" id="xmuProjectCourceList{{idx}}_xciCourseCredit" name="xmuProjectCourceList[{{idx}}].xciCourseCredit" type="text" value="{{row.xciCourseCredit}}"    class="form-control "/>
+							<td nowrap>
+								<input type="hidden" id="xmuProjectCourceList{{idx}}_xciCourseCredit" name="xmuProjectCourceList[{{idx}}].xciCourseCredit" type="text" value="{{row.xciCourseCredit}}"    class="input-small"/>{{row.xciCourseCredit}}
 							</td>
 							
 						</tr>//-->
@@ -188,6 +191,7 @@
 							}
 						});
 			</script>
+			</div>
 		</div>
 	</form:form>
 </body>

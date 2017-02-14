@@ -31,10 +31,41 @@ public class XmuProject extends DataEntity<XmuProject> {
 	private List<XmuProjectResp> xmuProjectRespList = Lists.newArrayList();		// 子表列表
 	private List<XmuProjectStudent> xmuProjectStudentList = Lists.newArrayList();		// 子表列表
 	private List<XmuProjectCource> xmuProjectCourceList = Lists.newArrayList();		// 子表列表
+	private List<XmuProjectTeaching> xmuProjectTeachingList = Lists.newArrayList();		// 子表列表
 	private List xpsUserIds;		// 学生IDs
 	private List xciCourseIds;	//课程IDS
+	private List xptTeachingIds;	//课程IDS
+
 	
-	
+	/**
+	 * @return the xptTeachingIds
+	 */
+	public List getXptTeachingIds() {
+		return xptTeachingIds;
+	}
+
+	/**
+	 * @param xptTeachingIds the xptTeachingIds to set
+	 */
+	public void setXptTeachingIds(List xptTeachingIds) {
+		this.xptTeachingIds = xptTeachingIds;
+	}
+
+	/**
+	 * @return the xmuProjectTeachingList
+	 */
+	public List<XmuProjectTeaching> getXmuProjectTeachingList() {
+		return xmuProjectTeachingList;
+	}
+
+	/**
+	 * @param xmuProjectTeachingList the xmuProjectTeachingList to set
+	 */
+	public void setXmuProjectTeachingList(
+			List<XmuProjectTeaching> xmuProjectTeachingList) {
+		this.xmuProjectTeachingList = xmuProjectTeachingList;
+	}
+
 	/**
 	 * @return the xmuProjectCourceList
 	 */
