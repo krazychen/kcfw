@@ -145,10 +145,10 @@
 	<div class="col-sm-12">
 		<div class="pull-left">
 			<shiro:hasPermission name="xmu:proj:xmuProjectCource:add">
-				<button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="addCourse()" title="课程添加"><i class="fa fa-plus"></i>新增</button><!-- 增加按钮 -->
+				<button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="addCourse()" title="课程添加"><i class="fa fa-plus"></i> 添加</button><!-- 增加按钮 -->
 			</shiro:hasPermission>
 			<shiro:hasPermission name="xmu:proj:xmuProjectCource:edit">
-			    <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="editCourse()" title="课程编辑"><i class="fa fa-file-text-o"></i>修改</button><!-- 编辑按钮 -->
+			    <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="editCourse()" title="课程编辑"><i class="fa fa-file-text-o"></i> 修改</button><!-- 编辑按钮 -->
 			</shiro:hasPermission>
 			<shiro:hasPermission name="xmu:proj:xmuProjectCource:del">
 				<table:delRow url="${ctx}/xmu/proj/xmuProjectCource/deleteAll" id="contentTable"></table:delRow><!-- 删除按钮 -->

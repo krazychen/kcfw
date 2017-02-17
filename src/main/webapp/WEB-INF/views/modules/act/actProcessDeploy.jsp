@@ -24,7 +24,11 @@
 		});
 	</script>
 </head>
-<body>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content">
+	<div class="ibox">
+	<div class="ibox-content">
+	
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/act/process/">流程管理</a></li>
 		<li class="active"><a href="${ctx}/act/process/deploy/">部署流程</a></li>
@@ -54,5 +58,8 @@
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form>
+		</div>
+</div>
+</div>
 </body>
 </html>
