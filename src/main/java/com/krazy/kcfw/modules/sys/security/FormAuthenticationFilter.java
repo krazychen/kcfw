@@ -3,6 +3,9 @@
  */
 package com.krazy.kcfw.modules.sys.security;
 
+import java.security.Principal;
+import java.util.Map;
+
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +15,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.web.util.WebUtils;
+import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.springframework.stereotype.Service;
 
 import com.krazy.kcfw.common.utils.StringUtils;
@@ -38,6 +42,7 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 		if (password==null){
 			password = "";
 		}
+		
 		boolean rememberMe = isRememberMe(request);
 		String host = StringUtils.getRemoteAddr((HttpServletRequest)request);
 		String captcha = getCaptcha(request);

@@ -68,7 +68,7 @@
 			   			</c:when>
 			   			<c:otherwise><c:set var="url" value="${ctx}/list-${tpl.id}${urlSuffix}"/></c:otherwise>
 			   		</c:choose>
-					<h3><em></em><a href="${url}" target="${tpl.target}" >${tpl.name}</a></h3><ul><li></li></ul>
+					<h3><em></em><a href="${url}" target="${tpl.target}" >${fns:abbr(tpl.name,22)}</a></h3><ul><li></li></ul>
 				</c:forEach>
 			</div>
 			<script type="text/javascript">
@@ -93,7 +93,7 @@
 								<li><div class="li_page_time"><fmt:formatDate value="${article.updateDate}" pattern="yyyy.MM.dd"/></div>
 									<div class="pre_img1"><img src="${ctxStaticTheme}/images/jiantou.jpg"/></div>
 									<div class="mypagelink">
-									<a href="${ctx}/view-${article.category.id}-${article.id}${urlSuffix}">${fns:abbr(article.title,100)}</a>
+									<a href="${ctx}/view-${article.category.id}-${article.id}${urlSuffix}">${fns:abbr(article.title,90)}</a>
 									</div>
 								</li>
 							</c:forEach>

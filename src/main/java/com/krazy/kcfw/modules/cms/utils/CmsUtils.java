@@ -23,9 +23,12 @@ import com.krazy.kcfw.modules.cms.service.ArticleService;
 import com.krazy.kcfw.modules.cms.service.CategoryService;
 import com.krazy.kcfw.modules.cms.service.LinkService;
 import com.krazy.kcfw.modules.cms.service.SiteService;
+import com.krazy.kcfw.modules.sch.entity.req.SchCompReq;
+import com.krazy.kcfw.modules.sch.service.req.SchCompReqService;
 
 import javax.servlet.ServletContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
 /**
@@ -41,6 +44,7 @@ public class CmsUtils {
 	private static LinkService linkService = SpringContextHolder.getBean(LinkService.class);
     private static ServletContext context = SpringContextHolder.getBean(ServletContext.class);
     private static ArticleDataService articleDataService = SpringContextHolder.getBean(ArticleDataService.class);
+
 
 	private static final String CMS_CACHE = "cmsCache";
 	
@@ -313,4 +317,26 @@ public class CmsUtils {
         	addViewConfigAttribute(model, ca.getViewConfig());
         }
     }
+    
+    
+    //获取企业需求
+	private static SchCompReqService schCompReqService=SpringContextHolder.getBean(SchCompReqService.class);
+	
+	public static List<Article> getCompReqList(int number, String param){
+		Page<Article> page = new Page<Article>(1, number, -1);
+		
+		List<Article> articles=Lists.newArrayList();
+		SchCompReq qq=new SchCompReq();
+		qq.setScrStatus("2");
+		Page<SchCompReq> reqPage = schCompReqService.findPage(new Page<SchCompReq>(1, number, -1), qq); 
+		for(int i=0;i<reqPage.getList().size();i++){
+			SchCompReq scr=reqPage.getList().get(i);
+			Article ar=new Article();
+			ar.setTitle(scr.getScrName());
+			ar.setUpdateDate(scr.getUpdateDate());
+			articles.add(ar);
+		}
+		
+		return articles;
+	}
 }

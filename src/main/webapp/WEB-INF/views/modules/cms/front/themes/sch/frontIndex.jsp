@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/WEB-INF/views/modules/cms/front/include/taglib.jsp"%>
-<!DOCTYPE html>
 <html>
 <head>
 <title>产学融合发展处</title>
@@ -93,7 +92,7 @@
 			var pics = '';
 			var links = '';			
 			var texts = '';
-			<c:forEach items="${fnc:getArticleList(site.id, '4ca4a6c7cd574fd985dfb154daee2bac', 5, 'posid:1')}" var="article" varStatus="stat">
+			<c:forEach items="${fnc:getArticleList(site.id, '4ca4a6c7cd574fd985dfb154daee2bac', 6, 'posid:1')}" var="article" varStatus="stat">
 				pics+='${article.image}';
 				<c:if test="${!stat.last}">
 				pics+="|";
@@ -153,7 +152,7 @@
 			<a href="${ctx}/list-a84c9d420d834c62aa9f0cc41a58217d.html">&gt;更多</a>
 		</div>
 		<ul class="news_rt1 notice2_ul">
-			<c:forEach items="${fnc:getArticleList(site.id, 'a84c9d420d834c62aa9f0cc41a58217d', 12, '')}" var="article">
+			<c:forEach items="${fnc:getArticleList(site.id, 'a84c9d420d834c62aa9f0cc41a58217d', 6, '')}" var="article">
 				<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
 				<a href="${article.url}" style="width:300px"
 				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,80)}</a></li>
@@ -166,7 +165,7 @@
 			<a href="${ctx}/list-62d7056dc9b045c2b093234f5af44ea0.html">&gt;更多</a>
 		</div>
 		<ul class="news_rt1 notice2_ul">
-			<c:forEach items="${fnc:getArticleList(site.id, '62d7056dc9b045c2b093234f5af44ea0', 12, '')}" var="article">
+			<c:forEach items="${fnc:getArticleList(site.id, '62d7056dc9b045c2b093234f5af44ea0', 6, '')}" var="article">
 				<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
 				<a href="${article.url}" style="width:300px"
 				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,40)}</a></li>
@@ -178,15 +177,22 @@
 	<div class="clear"></div>
 	<div class="notice2" style="margin-left:0px;">
 		<div class="notice2_top">
-			<h3>科技前沿</h3>
-			<a href="${ctx}/list-e7660b429529446b85bb7bed854381c2.html">&gt;更多</a>
+			<h3>企业需求</h3>
+			<!-- <a href="${ctx}/list-e7660b429529446b85bb7bed854381c2.html">&gt;更多</a> -->
+			 <a href="#">&gt;更多</a>
 		</div>
 		<ul class="news_rt1 notice2_ul">
-			<c:forEach items="${fnc:getArticleList(site.id, 'e7660b429529446b85bb7bed854381c2', 12, '')}" var="article">
+		<!-- 
+			<c:forEach items="${fnc:getArticleList(site.id, 'e7660b429529446b85bb7bed854381c2', 6, '')}" var="article">
 				<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
 				<a href="${article.url}" style="width:300px"
 				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,80)}</a></li>
-			</c:forEach>
+			</c:forEach> -->
+			<c:forEach items="${fnc:getCompReqList( 6, '')}" var="article">
+				<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
+				<a href="#" style="width:300px"
+				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,80)}</a></li>
+			</c:forEach> 
 		</ul>
 	</div>
 	<div class="notice2">
@@ -195,7 +201,7 @@
 			<a href="${ctx}/list-5d9f257f11a242188359cbff97357759.html">&gt;更多</a>
 		</div>
 		<ul class="news_rt1 notice2_ul">
-			<c:forEach items="${fnc:getArticleList(site.id, '5d9f257f11a242188359cbff97357759', 12, '')}" var="article">
+			<c:forEach items="${fnc:getArticleList(site.id, '5d9f257f11a242188359cbff97357759', 6, '')}" var="article">
 				<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
 				<a href="${article.url}" style="width:300px"
 				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,40)}</a></li>
@@ -211,7 +217,7 @@
 		<div  style="margin-top:13px; line-height:2;">
 			<select style="margin-left:8px;width:270px;height:25px;" onchange="openWindow()" id="links">
 			 	<option value ="">请选择链接</option>
-				<c:forEach items="${fnc:getLinkList(site.id, 'cb6c8ea2a7c2467d98613b536f17e8eb', 9, '')}" var="link">
+				<c:forEach items="${fnc:getLinkList(site.id, 'cb6c8ea2a7c2467d98613b536f17e8eb', 20, '')}" var="link">
 					<option value ="${link.href}" >${link.title}</option>
 				</c:forEach>
 			</select>

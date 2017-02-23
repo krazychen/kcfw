@@ -83,6 +83,14 @@
     <example>${fnc:getArticleList(siteId, categoryId, number, param)}</example>  
   </function>
   
+   <function>
+    <description>获取企业列表</description>
+    <name>getCompReqList</name>
+    <function-class>com.krazy.kcfw.modules.cms.utils.CmsUtils</function-class>
+    <function-signature>java.util.List getCompReqList( int, java.lang.String)</function-signature>
+    <example>${fnc:getCompReqList( number, param)}</example>  
+  </function>
+  
   <function>
     <description>获取链接</description>
     <name>getLink</name>

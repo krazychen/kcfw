@@ -3,11 +3,14 @@
  */
 package com.krazy.kcfw.modules.sys.web;
 
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.web.util.WebUtils;
@@ -148,6 +151,7 @@ public class LoginController extends BaseController{
 				CookieUtils.setCookie(response, "LOGINED", "true");
 			}else if (StringUtils.equals(logined, "true")){
 				UserUtils.getSubject().logout();
+				SecurityUtils.getSubject().logout();  
 				return "redirect:" + adminPath + "/login";
 			}
 		}
@@ -182,6 +186,58 @@ public class LoginController extends BaseController{
 //		System.out.println("==========================b");
 		return "modules/sys/sysIndex";
 	}
+	
+	/**
+	 * 管理登录
+	 * @throws IOException 
+	 */
+	@RequestMapping(value = "${adminPath}/logout", method = RequestMethod.GET)
+	public String logout(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+		Principal principal = UserUtils.getPrincipal();
+		// 如果已经登录，则跳转到管理首页
+		if(principal != null){
+			UserUtils.getSubject().logout();
+		}
+
+	   // 如果是手机客户端退出跳转到login，则返回JSON字符串
+			String ajax = request.getParameter("__ajax");
+			if(	ajax!=null){
+				model.addAttribute("success", "1");
+				model.addAttribute("msg", "退出成功");
+				return renderString(response, model);
+			}
+		 return "redirect:" + adminPath+"/login";
+	}
+	
+	/**
+	 * 管理登录
+	 * @throws IOException 
+	 */
+	@RequestMapping(value = "${adminPath}/logoutCas", method = RequestMethod.GET)
+	public void logoutCas(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+		Principal principal = UserUtils.getPrincipal();
+		// 如果已经登录，则跳转到管理首页
+		if(principal != null){
+			UserUtils.getSubject().logout();
+			SecurityUtils.getSubject().logout();  
+		}
+		request.getSession().invalidate();
+	    // ids的退出地址，ids6.wisedu.com为ids的域名  authserver为ids的上下文，logout为固定值
+		String casLogoutURL = "http://authserver.xmut.edu.cn/authserver/logout";
+	    // service后面带的参数为应用的访问地址，需要使用URLEncoder进行编码
+	    String redirectURL=casLogoutURL+"?service="+URLEncoder.encode("http://cxr.xmut.edu.cn/a/cas");
+		response.sendRedirect(redirectURL);
+
+//	   // 如果是手机客户端退出跳转到login，则返回JSON字符串
+//			String ajax = request.getParameter("__ajax");
+//			if(	ajax!=null){
+//				model.addAttribute("success", "1");
+//				model.addAttribute("msg", "退出成功");
+//				return renderString(response, model);
+//			}
+//		 return "redirect:" + adminPath+"/login";
+	}
+
 	
 	/**
 	 * 获取主题方案

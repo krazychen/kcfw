@@ -68,7 +68,13 @@
 						}//</c:if>
 						ids.push(nodes[i].id);
 						if ("${showParent}" == "true"){
-							names.push(nodes[i].getParentNode().name+"/"+nodes[i].name);//<c:if test="${!checked}">
+							var str="";
+							if(nodes[i].getParentNode().getParentNode())
+								str+=nodes[i].getParentNode().getParentNode().name+"/";
+							if(nodes[i].getParentNode())
+								str+=nodes[i].getParentNode().name+"/";
+							str+=nodes[i].name;
+							names.push(str);//<c:if test="${!checked}">
 						}else{
 							names.push(nodes[i].name);
 						}

@@ -41,7 +41,7 @@
 	    	</c:forEach>
        </ul>
     </div>
-    </div>
+
 	<div class="container">
 		<div class="content">
 			<div class="main">
@@ -51,7 +51,8 @@
 		<!--footer-->
 		
     </div> <!-- /container -->
-    <div class="footer">
+    </div>
+    <div id="footer" class="footer">
     <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1261153447'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1261153447%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
     <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1261153447'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1261153447%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
 	<div class="footer_box">

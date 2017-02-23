@@ -51,8 +51,13 @@
 	function init(){
 	  $("#zoom img").css("width","600px");
 	  $("#zoom img").css("height","400px");
+	
 	}
 	init();
+	$( document ).ready(function() {
+		  $("#footer").hide();
+		  
+	});
 </script>
 </body>
 </html>
