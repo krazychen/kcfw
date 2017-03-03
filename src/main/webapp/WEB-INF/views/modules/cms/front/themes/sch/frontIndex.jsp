@@ -42,7 +42,7 @@
        </div>
 		<ul>
 			<c:forEach items="${fnc:getArticleList(site.id, '31f68f68e8cc4e2bb569b2f86917c738', 1, 'posid:2')}" var="article">
-				<li><a href="${article.url}"
+				<li><a href="${ctx}${article.url}"
 				title="${fns:abbr(article.title,28)}" target="_blank">${fns:abbr(article.title,200)}</a></li>
 			</c:forEach>
 			
@@ -70,11 +70,11 @@
 		<c:forEach items="${fnc:getArticleList(site.id, '4ca4a6c7cd574fd985dfb154daee2bac', 1, 'posid:2')}" var="article">
 			<h2>
 				<a style="color: #9d0c2a"
-				href="${article.url}"
+				href="${ctx}${article.url}"
 				title="${fns:abbr(article.title,28)}" target="_blank">${fns:abbr(article.title,60)}</a>
 			</h2>
 			<p class="news_p">
-				<a style="color: #666;" href="${article.url}"
+				<a style="color: #666;" href="${ctx}${article.url}"
 				title="${fns:abbr(article.title,28)}" target="_blank">${fns:abbr(article.description,150)}<span
 				style="color: red;">[详细]</span></a>
 			</p>
@@ -124,7 +124,7 @@
 	<ul class="news_rt1">
 		<c:forEach items="${fnc:getArticleList(site.id, '4ca4a6c7cd574fd985dfb154daee2bac', 9, '')}" var="article">
 			<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
-			<a href="${article.url}"
+			<a href="${ctx}${article.url}"
 			title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,50)}</a></li>
 		</c:forEach>
 	</ul>
@@ -137,7 +137,7 @@
 	<ul class="news_rt notice_ul">
 		<c:forEach items="${fnc:getArticleList(site.id, '6ac1fc5f127d4ab790062b47f5870078', 12, '')}" var="article">
 			<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
-			<a href="${article.url}" style="width:210px"
+			<a href="${ctx}${article.url}" style="width:210px"
 			title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,40)}</a></li>
 		</c:forEach>
 	</ul>
@@ -154,7 +154,7 @@
 		<ul class="news_rt1 notice2_ul">
 			<c:forEach items="${fnc:getArticleList(site.id, 'a84c9d420d834c62aa9f0cc41a58217d', 6, '')}" var="article">
 				<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
-				<a href="${article.url}" style="width:300px"
+				<a href="${ctx}${article.url}" style="width:300px"
 				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,80)}</a></li>
 			</c:forEach>
 		</ul>
@@ -167,7 +167,7 @@
 		<ul class="news_rt1 notice2_ul">
 			<c:forEach items="${fnc:getArticleList(site.id, '62d7056dc9b045c2b093234f5af44ea0', 6, '')}" var="article">
 				<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
-				<a href="${article.url}" style="width:300px"
+				<a href="${ctx}${article.url}" style="width:300px"
 				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,40)}</a></li>
 			</c:forEach>
 		</ul>
@@ -203,7 +203,7 @@
 		<ul class="news_rt1 notice2_ul">
 			<c:forEach items="${fnc:getArticleList(site.id, '5d9f257f11a242188359cbff97357759', 6, '')}" var="article">
 				<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
-				<a href="${article.url}" style="width:300px"
+				<a href="${ctx}${article.url}" style="width:300px"
 				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,40)}</a></li>
 			</c:forEach>
 		</ul>

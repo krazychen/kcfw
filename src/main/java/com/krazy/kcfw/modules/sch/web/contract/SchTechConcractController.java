@@ -128,6 +128,28 @@ public class SchTechConcractController extends BaseController {
 		return "modules/sch/contract/"+view;
 	}
 
+	@RequiresPermissions("sch:contract:schTechConcract:view")
+	@RequestMapping(value = {"listSuper"})
+	public String listSuper(SchTechConcract schTechConcract, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<SchTechConcract> page = schTechConcractService.findPage(new Page<SchTechConcract>(request, response), schTechConcract); 
+		model.addAttribute("page", page);
+		return "modules/sch/contract/schTechConcractListSuper";
+	}
+
+	@RequiresPermissions("sch:contract:schTechConcract:view")
+	@RequestMapping(value = "formSuper")
+	public String formSuper(SchTechConcract schTechConcract, Model model) {
+		
+		String view="schTechConcractFormSuper";
+
+		model.addAttribute("schTechConcract", schTechConcract);
+		String resType=schTechConcract.getStcResearchType();
+		List<Dict> dicts=DictUtils.getDictList("CONTRACT_RESEARCH_TYPE_SUB"+resType);
+		model.addAttribute("dicts", dicts);
+		model.addAttribute("resTypeSub",DictUtils.getDictLabel(schTechConcract.getStcResearchTypeSub(), "CONTRACT_RESEARCH_TYPE_SUB"+resType, ""));
+		return "modules/sch/contract/"+view;
+	}
+	
 	@RequiresPermissions("sch:contract:schTechConcract:edit")
 	@RequestMapping(value = "save")
 	public String save(SchTechConcract schTechConcract, Model model, RedirectAttributes redirectAttributes) {

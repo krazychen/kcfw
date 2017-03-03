@@ -65,6 +65,24 @@ public class SchCompReqController extends BaseController {
 	}
 	
 	@RequiresPermissions("sch:req:schCompReq:view")
+	@RequestMapping(value = {"listSuper"})
+	public String listSuper(SchCompReq schCompReq, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<SchCompReq> page = schCompReqService.findPage(new Page<SchCompReq>(request, response), schCompReq); 
+		model.addAttribute("page", page);
+		return "modules/sch/req/schCompReqListSuper";
+	}
+
+	@RequiresPermissions("sch:req:schCompReq:view")
+	@RequestMapping(value = "formSuper")
+	public String formSuper(SchCompReq schCompReq, Model model) {
+		
+		String view="schCompReqFormSuper";
+		
+		model.addAttribute("schCompReq", schCompReq);
+		return "modules/sch/req/"+view;
+	}
+	
+	@RequiresPermissions("sch:req:schCompReq:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(SchCompReq schCompReq, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<SchCompReq> page = schCompReqService.findPage(new Page<SchCompReq>(request, response), schCompReq); 

@@ -70,10 +70,10 @@
 						${fns:getDictLabel(schComConcract.sccResearchType, 'CONTRACT_RESEARCH_TYPE', '')}
 					</td>
 					<td class="tit">
-						<span class="help-inline"><font color="red">*</font> </span>研究方向子目：
+						<span class="help-inline"><font color="red">*</font> </span>组织形式：
 					</td>
 					<td>
-						${resTypeSub}
+						${fns:getDictLabel(schComConcract.sccResearchTypeSub, 'CONTRACT_ORGANIZATION_FORM', '')}
 					</td>
 				</tr>
 				<tr>

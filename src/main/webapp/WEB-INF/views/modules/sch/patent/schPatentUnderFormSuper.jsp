@@ -252,7 +252,7 @@
 					</td>
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>联络人：</td><td>
 						<sys:treeselect id="spuApplyUserId" name="spuApplyUserId" value="${schPatentUnder.spuApplyUserId!=null ? schPatentUnder.spuApplyUserId : fns:getUser().getId()}" labelName="spuApplyUserName" labelValue="${schPatentUnder.spuApplyUserName!=null ? schPatentUnder.spuApplyUserName : fns:getUser().getName()}"
-					title="用户" roleEnName="Student" allowInput="true" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required"  allowClear="true" notAllowSelectParent="true"/>
+					title="用户" roleEnName="Student" allowInput="true" isAll="true" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required"  allowClear="true" notAllowSelectParent="true"/>
 					</td>
 					<td class="tit">
 						<span class="help-inline"><font color="red">*</font> </span>所属院系：
@@ -273,7 +273,7 @@
 				<c:if test="${schPatentUnder.isTeacher ne 'true'}" >
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>指导老师：</td><td>
 						<sys:treeselect id="spuAdvisTeacherId" name="spuAdvisTeacherId" value="${schPatentUnder.spuAdvisTeacherId}" labelName="spuAdvisTeacherName" labelValue="${schPatentUnder.spuAdvisTeacherName}"
-					title="用户" roleEnName="teacher" allowInput="${schPatentUnder.isTeacher=='true' ? 'false':'true'}" disabled="${schPatentUnder.isTeacher=='true' ? 'disabled' :''}" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required" allowClear="true" notAllowSelectParent="true"/>
+					title="用户" roleEnName="teacher" allowInput="${schPatentUnder.isTeacher=='true' ? 'false':'true'}" disabled="${schPatentUnder.isTeacher=='true' ? 'disabled' :''}" isAll="true" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required" allowClear="true" notAllowSelectParent="true"/>
 					</td>
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>老师所属院系：</td>
 					<td>
@@ -331,6 +331,7 @@
 									<th><span class="help-inline"><font color="red">*</font> </span>发明人姓名</th>
 									<th><span class="help-inline"><font color="red">*</font> </span>发明人单位</th>
 									<th><span class="help-inline"><font color="red">*</font> </span>贡献度(%)</th>
+									<th><span class="help-inline"><font color="red">*</font> </span>排名</th>
 									<th>备注</th>
 									<shiro:hasPermission name="sch:patent:schPatentUnder:edit"><th width="10">操作</th></shiro:hasPermission>
 								</tr>
@@ -357,11 +358,11 @@
 							</td>
 							<td id="schPatentUnderInventorList{{idx}}_spiUserIdTd">
 								<sys:treeselect id="schPatentUnderInventorList{{idx}}_spiUserId" name="schPatentUnderInventorList[{{idx}}].spiUserId" value="{{row.spiUserId}}" labelName="schPatentUnderInventorList{{idx}}.spiUserName" labelValue="{{row.spiUserName}}"
-									title="用户" allowInput="true" roleEnName="Student" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required" allowClear="true" notAllowSelectParent="true"/>
+									title="用户" allowInput="true" roleEnName="Student" isAll="true" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required" allowClear="true" notAllowSelectParent="true"/>
 							</td>
 							<td id="schPatentUnderInventorList{{idx}}_spiTeacherIdTd" style="display:none">	
 								<sys:treeselect id="schPatentUnderInventorList{{idx}}_spiTeacherId" name="schPatentUnderInventorList[{{idx}}].spiTeacherId" value="{{row.spiTeacherId}}" labelName="schPatentUnderInventorList{{idx}}.spiTeacherName" labelValue="{{row.spiTeacherName}}"
-									title="用户" allowInput="true" roleEnName="teacher" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required" allowClear="true" notAllowSelectParent="true"/>
+									title="用户" allowInput="true" roleEnName="teacher" isAll="true" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required" allowClear="true" notAllowSelectParent="true"/>
 							</td>
 							<td id="schPatentUnderInventorList{{idx}}_spiUserNameExTd" style="display:none">
 								<input id="schPatentUnderInventorList{{idx}}_spiUserNameEx" name="schPatentUnderInventorList{{idx}}_spiUserNameEx" type="text" value="{{row.spiUserNameEx}}" maxlength="11" class="input-small editFormFieldWidth required"/>
@@ -387,6 +388,13 @@
 							</td>
 							<td>
 								<input id="schPatentUnderInventorList{{idx}}_spiContributionPer" name="schPatentUnderInventorList[{{idx}}].spiContributionPer" type="text" value="{{row.spiContributionPer}}" maxlength="11" class="input-small editFormFieldWidth required"/>
+							</td>
+							<td>
+								<select path="schPatentUnderInventorList{{idx}}_spiNo" class="input-small editFormSelectWidth required">
+									<c:forEach items="${fns:getDictList('PATENT_NO')}" var="dict">
+										<option value="${dict.value}">${dict.label}</option>
+									</c:forEach>
+								</select>		
 							</td>
 							<td>
 								<input id="schPatentUnderInventorList{{idx}}_spiRemark" name="schPatentUnderInventorList[{{idx}}].spiRemark" type="text" value="{{row.spiRemark}}" maxlength="2000" class="input-small editFormFieldWidth"/>

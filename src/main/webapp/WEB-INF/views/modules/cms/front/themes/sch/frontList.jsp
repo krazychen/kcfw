@@ -110,7 +110,7 @@
 							<c:forEach items="${page.list}" var="link">
 							<li><div class="li_page_time"><fmt:formatDate value="${article.updateDate}" pattern="yyyy.MM.dd"/></div>
 							<div class="mypagelink">
-							<a href="${link.href}"  target="_blank" ><c:out value="${link.title}" /></a>
+							<a href="${ctx}${link.href}"  target="_blank" ><c:out value="${link.title}" /></a>
 							</div>
 							</c:forEach>
 						</ul>

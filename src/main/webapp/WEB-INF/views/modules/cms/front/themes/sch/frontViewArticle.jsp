@@ -38,7 +38,19 @@
         </div>
     </div>
     <div id="zoom" style="width:940px;margin:0px auto;min-height:300px;color: #666;font-family: '微软雅黑';font-size: 14px;line-height: 28px;padding: 0 30px; padding-top:36px;text-indent: 28px;">${article.articleData.content}</div>
+
+ 	 <c:if test="${article.attachment ne '' and article.attachment ne null}">
+ 		<div style="height:auto; line-height:24px;width:920px;margin:0 auto; font-size:15px;">	 	
+ 			<label class="control-label"><strong> 附件:</strong>   </label>
+ 			<div class="controls">
+		 		<input hidden="true" id="attachment" name="attachment" value="${article.attachment }" htmlEscape="false" maxlength="1000" class="input-large"/>
+				<sys:ckfinder input="attachment" type="files" readonly="true" uploadPath="/cms_article_attachment" selectMultiple="true"/>
+			</div>
+		</div>
+	</c:if>
+	
  	<div class="clear" style="background:#FFF; width:1000px; margin:0 auto;"></div>
+
 	<div class="btn_z" style="height: 28px; margin: 10px;">
     	<a class="newbtn_z" href="javascript:window.close()">关闭窗口</a>
  <!--    <a class="newbtn_z" href="javascript:window.print()">打印本页</a> -->

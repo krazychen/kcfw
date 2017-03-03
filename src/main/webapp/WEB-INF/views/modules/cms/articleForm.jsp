@@ -120,6 +120,13 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">附件:</label>
+			<div class="controls">
+				<form:hidden id="attachment" path="attachment" htmlEscape="false" maxlength="1000" class="input-large"/>
+				<sys:ckfinder input="attachment" type="files" uploadPath="/cms_article_attachment" selectMultiple="true"/>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">相关文章:</label>
 			<div class="controls">
 				<form:hidden id="articleDataRelation" path="articleData.relation" htmlEscape="false" maxlength="200" class="input-xlarge"/>

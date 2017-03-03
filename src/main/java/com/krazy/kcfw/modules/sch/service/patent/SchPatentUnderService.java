@@ -24,6 +24,7 @@ import com.krazy.kcfw.modules.sch.dao.patent.SchPatentUnderInventorDao;
 import com.krazy.kcfw.modules.sys.dao.UserDao;
 import com.krazy.kcfw.modules.sys.entity.Role;
 import com.krazy.kcfw.modules.sys.entity.User;
+import com.krazy.kcfw.modules.sys.utils.DictUtils;
 import com.krazy.kcfw.modules.sys.utils.UserUtils;
 
 /**
@@ -98,32 +99,40 @@ public class SchPatentUnderService extends CrudService<SchPatentUnderDao, SchPat
 			Map<String, Object> vars = Maps.newHashMap();
 			//获取当前用户的角色
 			String pass="0";
-			List<Role> roles=UserUtils.getUser().getRoleList();
-			for(int i=0;i<roles.size();i++){
-				Role role=roles.get(i);
-				if(StringUtils.isNoneBlank(role.getEnname())&&"UndergraduateStudents".equals(role.getEnname())){
-					pass="0";
-					SchPatentUnder underTemp=this.dao.get(schPatentUnder.getId());
-					vars.put("teacher", underTemp.getSpuAdvisTeacherLoginName());
-					break;
-				}
-				if(StringUtils.isNoneBlank(role.getEnname())&&("PostgraduateStudent".equals(role.getEnname())||"teacher".equals(role.getEnname()))){
-					pass="1";
-					
-					HashMap<String,String> pars=new HashMap<String,String>();
-					pars.put("roleEnName", "DepartmentSecretary");
-					User patentUser=userDao.get(schPatentUnder.getCreateBy().getId());
-					pars.put("officeId", patentUser.getOffice().getId());
-					List<User> users=userDao.findUsersByRoleEnName(pars);
-					StringBuffer sec=new StringBuffer();;
-					for(int j=0;j<users.size();j++){
-						sec.append(users.get(j).getLoginName());
-						if(j<users.size()-1){
-							sec.append(",");
-						}
+			//获取用户所在部门
+			String officeName=UserUtils.getUser().getOffice().getName();
+			String label=DictUtils.getDictLabel(officeName, "SCH_ADMIN_DEPARTMENT", "");
+			if(StringUtils.isNoneBlank(label)){
+				pass="2";
+				vars.put("agency", schPatentUnder.getSpuProxyId());
+			}else{
+				List<Role> roles=UserUtils.getUser().getRoleList();
+				for(int i=0;i<roles.size();i++){
+					Role role=roles.get(i);
+					if(StringUtils.isNoneBlank(role.getEnname())&&"UndergraduateStudents".equals(role.getEnname())){
+						pass="0";
+						SchPatentUnder underTemp=this.dao.get(schPatentUnder.getId());
+						vars.put("teacher", underTemp.getSpuAdvisTeacherLoginName());
+						break;
 					}
-					vars.put("sec", sec.toString());
-					break;
+					if(StringUtils.isNoneBlank(role.getEnname())&&("PostgraduateStudent".equals(role.getEnname())||"teacher".equals(role.getEnname()))){
+						pass="1";
+						
+						HashMap<String,String> pars=new HashMap<String,String>();
+						pars.put("roleEnName", "DepartmentSecretary");
+						User patentUser=userDao.get(schPatentUnder.getCreateBy().getId());
+						pars.put("officeId", patentUser.getOffice().getId());
+						List<User> users=userDao.findUsersByRoleEnName(pars);
+						StringBuffer sec=new StringBuffer();;
+						for(int j=0;j<users.size();j++){
+							sec.append(users.get(j).getLoginName());
+							if(j<users.size()-1){
+								sec.append(",");
+							}
+						}
+						vars.put("sec", sec.toString());
+						break;
+					}
 				}
 			}
 			// 启动流程

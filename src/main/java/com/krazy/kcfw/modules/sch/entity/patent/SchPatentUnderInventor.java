@@ -31,7 +31,23 @@ public class SchPatentUnderInventor extends DataEntity<SchPatentUnderInventor> {
 	private String spiOfficeNameEx;		//发明人校外单位
 	private String spiContributionPer;		// 贡献度(%)
 	private String spiRemark;		// 备注
+	private String spiNo;		// 排名
 	
+	
+	/**
+	 * @return the spiNo
+	 */
+	public String getSpiNo() {
+		return spiNo;
+	}
+
+	/**
+	 * @param spiNo the spiNo to set
+	 */
+	public void setSpiNo(String spiNo) {
+		this.spiNo = spiNo;
+	}
+
 	public SchPatentUnderInventor() {
 		super();
 	}

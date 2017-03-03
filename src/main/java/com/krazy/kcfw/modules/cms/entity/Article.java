@@ -44,6 +44,7 @@ public class Article extends DataEntity<Article> {
 	
 	private Date beginDate;	// 开始时间
 	private Date endDate;	// 结束时间
+	private String attachment; //附件
 	
 	private User user;
     
@@ -234,6 +235,22 @@ public class Article extends DataEntity<Article> {
    	public String getImageSrc() {
         return CmsUtils.formatImageSrcToWeb(this.image);
    	}
+
+	/**
+	 * @return the attachment
+	 */
+	public String getAttachment() {
+		return attachment;
+	}
+
+	/**
+	 * @param attachment the attachment to set
+	 */
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
+	}
+   	
+   	
 	
 }
 

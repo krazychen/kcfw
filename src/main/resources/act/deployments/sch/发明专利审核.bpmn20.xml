@@ -29,9 +29,6 @@
     <sequenceFlow id="sid-A4F8BB43-A93D-4FD9-A6DA-87134F4526C5" name="本科生初审" sourceRef="sid-87EBB40E-B538-4B30-994C-B7B03FA0038D" targetRef="first_audit">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${pass==0}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="sid-767EDA04-1AA2-4AAC-BADC-BCF8A98DFE43" name="专利初审" sourceRef="sid-87EBB40E-B538-4B30-994C-B7B03FA0038D" targetRef="lead_audit">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${pass==1}]]></conditionExpression>
-    </sequenceFlow>
     <sequenceFlow id="sid-1184F1A8-99C2-4A3A-B1C7-7511880739C2" name="驳回" sourceRef="sid-C22B5073-33D9-4CCD-BDAC-3A83EF15CEDC" targetRef="modify_audit">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${pass==0}]]></conditionExpression>
     </sequenceFlow>
@@ -49,6 +46,12 @@
     </sequenceFlow>
     <sequenceFlow id="sid-C1B34845-E1B2-4465-9585-CECAD8B78FE2" name="同意" sourceRef="sid-C22B5073-33D9-4CCD-BDAC-3A83EF15CEDC" targetRef="lead_audit">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${pass==1}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-767EDA04-1AA2-4AAC-BADC-BCF8A98DFE43" name="专利初审" sourceRef="sid-87EBB40E-B538-4B30-994C-B7B03FA0038D" targetRef="lead_audit">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${pass==1}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-F8A362C3-2E6C-4A0A-8F66-AE2781644AB5" name="行政部门审核" sourceRef="sid-87EBB40E-B538-4B30-994C-B7B03FA0038D" targetRef="agency_audit">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${pass==2}]]></conditionExpression>
     </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_PATENT_APPROVE">
@@ -137,6 +140,15 @@
       <bpmndi:BPMNEdge bpmnElement="sid-9C85C5BF-3370-4C73-89C3-65EBCB2DD82C" id="BPMNEdge_sid-9C85C5BF-3370-4C73-89C3-65EBCB2DD82C">
         <omgdi:waypoint x="230.19900497512438" y="305.0"></omgdi:waypoint>
         <omgdi:waypoint x="230.4" y="345.4"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-F8A362C3-2E6C-4A0A-8F66-AE2781644AB5" id="BPMNEdge_sid-F8A362C3-2E6C-4A0A-8F66-AE2781644AB5">
+        <omgdi:waypoint x="128.0" y="367.0"></omgdi:waypoint>
+        <omgdi:waypoint x="128.0" y="531.0"></omgdi:waypoint>
+        <omgdi:waypoint x="560.0" y="531.0"></omgdi:waypoint>
+        <omgdi:waypoint x="560.0" y="500.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="128.0" y="367.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-36330F22-C07A-4D26-A14C-22BA44AA3E68" id="BPMNEdge_sid-36330F22-C07A-4D26-A14C-22BA44AA3E68">
         <omgdi:waypoint x="440.1826484018265" y="225.0"></omgdi:waypoint>

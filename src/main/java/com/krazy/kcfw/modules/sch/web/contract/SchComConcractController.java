@@ -60,6 +60,28 @@ public class SchComConcractController extends BaseController {
 		model.addAttribute("page", page);
 		return "modules/sch/contract/schComConcractList";
 	}
+	
+	@RequiresPermissions("sch:contract:schComConcract:view")
+	@RequestMapping(value = {"listSuper"})
+	public String listSuper(SchComConcract schComConcract, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<SchComConcract> page = schComConcractService.findPage(new Page<SchComConcract>(request, response), schComConcract); 
+		model.addAttribute("page", page);
+		return "modules/sch/contract/schComConcractListSuper";
+	}
+	
+	@RequiresPermissions("sch:contract:schComConcract:view")
+	@RequestMapping(value = "formSuper")
+	public String formSuper(SchComConcract schComConcract, Model model) {
+
+		String view="schComConcractFormSuper";
+		
+		model.addAttribute("schComConcract", schComConcract);
+		String resType=schComConcract.getSccResearchType();
+		List<Dict> dicts=DictUtils.getDictList("CONTRACT_RESEARCH_TYPE_SUB"+resType);
+		model.addAttribute("dicts", dicts);
+		model.addAttribute("resTypeSub",DictUtils.getDictLabel(schComConcract.getSccResearchTypeSub(), "CONTRACT_RESEARCH_TYPE_SUB"+resType, ""));
+		return "modules/sch/contract/"+view;
+	}
 
 	@RequiresPermissions("sch:contract:schComConcract:view")
 	@RequestMapping(value = "form")

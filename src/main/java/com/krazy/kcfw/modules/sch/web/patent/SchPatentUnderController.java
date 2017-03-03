@@ -77,11 +77,37 @@ public class SchPatentUnderController extends BaseController {
 	}
 	
 	@RequiresPermissions("sch:patent:schPatentUnder:view")
+	@RequestMapping(value = {"listSuper"})
+	public String listSuper(SchPatentUnder schPatentUnder, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<SchPatentUnder> page = schPatentUnderService.findPage(new Page<SchPatentUnder>(request, response), schPatentUnder); 
+		model.addAttribute("page", page);
+		return "modules/sch/patent/schPatentUnderListSuper";
+	}
+	
+	@RequiresPermissions("sch:patent:schPatentUnder:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(SchPatentUnder schPatentUnder, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<SchPatentUnder> page = schPatentUnderService.findPage(new Page<SchPatentUnder>(request, response), schPatentUnder); 
 		model.addAttribute("page", page);
 		return "modules/sch/patent/schPatentUnderList";
+	}
+	
+	@RequiresPermissions("sch:patent:schPatentUnder:view")
+	@RequestMapping(value = "formSuper")
+	public String formSuper(SchPatentUnder schPatentUnder, Model model) {
+		
+		String view="schPatentUnderFormSuper";
+		
+		List<SchPatentAgency> schPatentAgencyList=schPatentAgencyService.findList(new SchPatentAgency());
+		
+		Map<String,String> schPatentAgencys=new HashMap<String,String>();
+		for(SchPatentAgency spa:schPatentAgencyList){
+			schPatentAgencys.put(spa.getSpaCode(), spa.getSpaName());
+		}
+		
+		model.addAttribute("schPatentAgencyLiss", schPatentAgencys);
+		model.addAttribute("schPatentUnder", schPatentUnder);
+		return "modules/sch/patent/"+view;
 	}
 
 	@RequiresPermissions("sch:patent:schPatentUnder:view")

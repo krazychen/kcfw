@@ -114,18 +114,18 @@
 						<span class="help-inline"><font color="red">*</font> </span>研究方向：
 					</td>
 					<td>
-						<form:select path="stcResearchType" onchange="getResTypeSub()" class="input-large editFormSelectWidth required">
+						<form:select path="stcResearchType" class="input-large editFormSelectWidth required">
 							<form:option value="" label=""/>
 							<form:options items="${fns:getDictList('CONTRACT_RESEARCH_TYPE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 						</form:select>
 					</td>
 					<td class="tit">
-						<span class="help-inline"><font color="red">*</font> </span>研究方向子目：
+						<span class="help-inline"><font color="red">*</font> </span>组织形式：
 					</td>
 					<td>
 						<form:select path="stcResearchTypeSub" class="input-large editFormSelectWidth required">
 							<form:option value="" label=""/>
-							<form:options items="${dicts}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+							<form:options items="${fns:getDictList('CONTRACT_ORGANIZATION_FORM')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 						</form:select>
 					</td>
 				</tr>
