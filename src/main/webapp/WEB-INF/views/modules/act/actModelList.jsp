@@ -129,18 +129,18 @@
 	</div>
 	
 	<!-- 表格 -->
-	<table id="contentTable" class="table table-striped table-bordered table-hover table-condensed dataTables-example dataTable">
+	<table id="contentTable" style="word-break:break-all; word-wrap:break-all;" class="table table-striped table-bordered table-hover table-condensed dataTables-example dataTable">
 		<thead>
 			<tr>
 				<th> <input type="checkbox" class="i-checks"></th>
-				<th>流程分类</th>
+				<th nowrap>流程分类</th>
 				<th>模型ID</th>
 				<th>模型标识</th>
 				<th>模型名称</th>
-				<th>版本号</th>
+				<th nowrap>版本号</th>
 				<th>创建时间</th>
 				<th>最后更新时间</th>
-				<th>操作</th>
+				<th nowrap>操作</th>
 			</tr>
 		</thead>
 		<tbody>

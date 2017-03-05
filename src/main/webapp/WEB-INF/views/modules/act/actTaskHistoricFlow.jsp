@@ -1,7 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<table class="table table-striped table-bordered table-condensed">
-	<tr><th>环节类型</th><th>执行环节</th><th>执行人</th><th>执行人部门</th><th>执行人电话</th><th>开始时间</th><th>结束时间</th><th>提交意见</th><th>任务历时</th></tr>
+<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<thead>
+	<tr><th nowrap>环节类型</th><th nowrap>执行环节</th><th nowrap>执行人</th><th nowrap>执行人部门</th>
+	<th nowrap>执行人电话</th><th nowrap>开始时间</th><th nowrap>结束时间</th><th nowrap>提交意见</th><th nowrap>任务历时</th></tr>
+	</thead>
+	<tbody>
 	<c:forEach items="${histoicFlowList}" var="act">
 		<tr>
 			<td>已完成</td>
@@ -28,4 +32,5 @@
 			<td></td>
 		</tr>
 	</c:forEach>
+	</tbody>
 </table>
