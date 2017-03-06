@@ -143,9 +143,10 @@
 	                        </button><!-- 删除按钮 -->
 				</shiro:hasPermission>
 			</c:if>
+			<!--
 			<shiro:hasPermission name="xmu:res:xmuAcademicEvent:import">
-				<table:importExcel url="${ctx}/xmu/res/xmuAcademicEvent/import"></table:importExcel><!-- 导入按钮 -->
-			</shiro:hasPermission>
+				<table:importExcel url="${ctx}/xmu/res/xmuAcademicEvent/import"></table:importExcel><!-- 导入按钮 
+			</shiro:hasPermission>-->
 			<shiro:hasPermission name="xmu:res:xmuAcademicEvent:export">
 	       		<table:exportExcel url="${ctx}/xmu/res/xmuAcademicEvent/export"></table:exportExcel><!-- 导出按钮 -->
 	       	</shiro:hasPermission>

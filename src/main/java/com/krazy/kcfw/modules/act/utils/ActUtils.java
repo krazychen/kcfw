@@ -46,6 +46,7 @@ public class ActUtils {
 	public static final String[] PD_COMP_REQ = new String[]{"COMP_REQ", "sch_comp_req"};
 	public static final String[] PD_TECH_RES = new String[]{"TECH_RESOURCE_APPLY", "sch_tech_resource_apply"};
 	public static final String[] PD_XMU_ACADEMIC_EVENT = new String[]{"XMU_ACADEMIC_EVENT", "XMU_ACADEMIC_EVENT"};
+	public static final String[] PD_XMU_PAGE_PUB = new String[]{"XMU_PAGE_PUB", "XMU_PAGE_PUB"};
 	
 //	/**
 //	 * 流程定义Map（自动初始化）

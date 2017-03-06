@@ -79,7 +79,7 @@
 				<tr>
 					<td class="width-15 active"><label class="pull-right">学号：</label></td>
 					<td class="width-35">
-						<c:if test="${fn:contains(role, 'Student')}" >
+						<c:if test="${!fn:contains(role, 'Manager')}" >
 							<form:input readonly="true" path="xaeUserStuno" htmlEscape="false" maxlength="64" class="form-control "/>
 						</c:if>
 						<c:if test="${fn:contains(role, 'Manager')}" >
