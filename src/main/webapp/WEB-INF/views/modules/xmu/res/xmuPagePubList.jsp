@@ -176,10 +176,10 @@
 		<thead>
 			<tr>
 				<th> <input type="checkbox" class="i-checks"></th>
-				<th  class="sort-column xae_user_stuno">学号</th>
-				<th  class="sort-column xae_user_name">姓名</th>
+				<th  class="sort-column xpp_user_stuno">学号</th>
+				<th  class="sort-column xpp_user_name">姓名</th>
 				<th  class="sort-column ">学院</th>
-				<th  class="sort-column xae_user_profession">专业</th>	
+				<th  class="sort-column xpp_user_profession">专业</th>	
 				<th  class="sort-column xpp_page_name">论文题目</th>				
 				<th  class="sort-column xpp_page_publication">发表刊物</th>
 				<th  class="sort-column xpp_page_time">发表时间</th>
@@ -195,7 +195,7 @@
 		<c:forEach items="${page.list}" var="xmuPagePub">
 			<tr>
 				<td> <input type="checkbox" id="${xmuPagePub.id}" status="${xmuPagePub.xppStatus}" class="i-checks"></td>
-				<td><a  href="#" onclick="openDialogView('查看论文发表', '${ctx}/xmu/res/xmuPagePub/form?id=${xmuPagePub.id}','800px', '500px')">
+				<td><a  href="#" onclick="openDialogView('查看论文发表', '${ctx}/xmu/res/xmuPagePub/form?id=${xmuPagePub.id}&urlType=view','800px', '500px')">
 					${xmuPagePub.xppUserStuno}
 				</a></td>
 				<td>
@@ -233,7 +233,7 @@
 				</td>			
 				<td>
 					<shiro:hasPermission name="xmu:res:xmuPagePub:view">
-						<a href="#" onclick="openDialogView('查看论文发表', '${ctx}/xmu/res/xmuPagePub/form?id=${xmuPagePub.id}','800px', '500px')" class="btn btn-info btn-xs" ><i class="fa fa-search-plus"></i> 查看</a>
+						<a href="#" onclick="openDialogView('查看论文发表', '${ctx}/xmu/res/xmuPagePub/form?id=${xmuPagePub.id}&urlType=view','800px', '500px')" class="btn btn-info btn-xs" ><i class="fa fa-search-plus"></i> 查看</a>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="xmu:res:xmuPagePub:edit">
     					<a href="#" onclick="openDialog('修改论文发表', '${ctx}/xmu/res/xmuPagePub/form?id=${xmuPagePub.id}','800px', '500px')" class="btn btn-success btn-xs" ><i class="fa fa-edit"></i> 修改</a>

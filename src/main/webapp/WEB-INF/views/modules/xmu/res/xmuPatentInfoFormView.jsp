@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>论文发表管理</title>
+	<title>专利信息管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		var validateForm;
@@ -32,9 +32,14 @@
 			});
 			
 			laydate({
-	            elem: '#xppPageTime', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+	            elem: '#xpiPatentYears', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
 	            event: 'focus', //响应事件。如果没有传入event，则按照默认的click
-	            format: 'YYYY' //日期格式
+	           	format: 'YYYY' //日期格式
+	        });
+			laydate({
+	            elem: '#xpiPatentPtime', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+	            event: 'focus', //响应事件。如果没有传入event，则按照默认的click
+	            format: 'YYYY-MM-DD' //日期格式
 	        });
 		});
 		
@@ -71,7 +76,7 @@
 	</script>
 </head>
 <body class="hideScroll">
-	<form:form id="inputForm" modelAttribute="xmuPagePub" action="${ctx}/xmu/res/xmuPagePub/save" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="xmuPatentInfo" action="${ctx}/xmu/res/xmuPatentInfo/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<form:hidden path="act.taskId"/>
 		<form:hidden path="act.taskName"/>
@@ -82,89 +87,75 @@
 		<sys:message content="${message}"/>	
 		<table class="table table-bordered  table-condensed dataTables-example dataTable no-footer">
 		   <tbody>
-		 		 <tr>
+		    	<tr>
 					<td class="width-15 active"><label class="pull-right">学号：</label></td>
 					<td class="width-35">
-						<c:if test="${!fn:contains(role, 'Manager')}" >
-							<form:input readonly="true" path="xppUserStuno" htmlEscape="false" maxlength="64" class="form-control "/>
-						</c:if>
-						<c:if test="${fn:contains(role, 'Manager')}" >
-							<div class="input-group">
-								<input id="xppUserStuno"  name="xppUserStuno" readonly="readonly" type="text" value="${xmuPagePub.xppUserStuno}" class="form-control "/>
-					       		 <span class="input-group-btn">
-						       		 <button type="button" onclick="addStu();" id="xppUserStunoButton" class="btn btn-primary"><i class="fa fa-search"></i>
-						             </button> 
-					       		 </span>
-						       		
-						    </div>
-						</c:if>
+						<form:input readonly="true" path="xpiUserStuno" htmlEscape="false" maxlength="64" class="form-control "/>
 					</td>
 					<td class="width-15 active"><label class="pull-right">姓名：</label></td>
 					<td class="width-35">
-						<form:hidden path="xppUserId" htmlEscape="false" maxlength="2000" class="form-control"/>
-						<form:input readonly="true" path="xppUserName" htmlEscape="false" maxlength="2000" class="form-control required"/>
+						<form:hidden path="xpiUserId" htmlEscape="false" maxlength="2000" class="form-control"/>
+						<form:input readonly="true" path="xpiUserName" htmlEscape="false" maxlength="2000" class="form-control required"/>
 					</td>
 				</tr>
 				
 				<tr>
 					<td class="width-15 active"><label class="pull-right">学院：</label></td>
 					<td class="width-35">
-						<form:hidden path="xppOfficeId" htmlEscape="false" maxlength="2000" class="form-control"/>
-						<form:input readonly="true" path="xppOfficeName" htmlEscape="false" maxlength="2000" class="form-control required"/>
+						<form:hidden path="xpiOfficeId" htmlEscape="false" maxlength="2000" class="form-control"/>
+						<form:input readonly="true" path="xpiOfficeName" htmlEscape="false" maxlength="2000" class="form-control required"/>
 					</td>
 					<td class="width-15 active"><label class="pull-right">专业：</label></td>
 					<td class="width-35">
-						<form:select disabled="true" path="xppUserProfession" class="form-control ">
+						<form:select disabled="true" path="xpiUserProfession" class="form-control ">
 							<form:option value="" label=""/>
 							<form:options items="${fns:getDictList('XMU_PROJECT_COR_PROFESSION')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 						</form:select>
 					</td>					
 				</tr>
+
 				<tr>
-					<td class="width-15 active"><label class="pull-right"><font color="red">*</font>论文题目：</label></td>
+					<td class="width-15 active"><label class="pull-right">年份：</label></td>
 					<td class="width-35">
-						<form:input path="xppPageName" htmlEscape="false" maxlength="200" class="form-control required"/>
+						<input id="xpiPatentYears" name="xpiPatentYears" type="text" maxlength="20" class="laydate-icon form-control layer-date formDateMaxWidth "
+							value="<fmt:formatDate value="${xmuPatentInfo.xpiPatentYears}" pattern="yyyy"/>"/>
 					</td>
-					<td class="width-15 active"><label class="pull-right"><font color="red">*</font>发表刊物：</label></td>
+					<td class="width-15 active"><label class="pull-right"><font color="red">*</font>专利名称：</label></td>
 					<td class="width-35">
-						<form:input path="xppPagePublication" htmlEscape="false" maxlength="200" class="form-control required"/>
+						<form:input readonly="true" path="xpiPatentName" htmlEscape="false" maxlength="200" class="form-control required"/>
 					</td>
 				</tr>
-				<tr>
-					<td class="width-15 active"><label class="pull-right">发表时间：</label></td>
-					<td class="width-35">
-						<input id="xppPageTime" name="xppPageTime" type="text" maxlength="20" class="laydate-icon form-control layer-date formDateMaxWidth "
-							value="<fmt:formatDate value="${xmuPagePub.xppPageTime}" pattern="yyyy"/>"/>
-					</td>
-					<td class="width-15 active"><label class="pull-right">第几作者：</label></td>
-					<td class="width-35">
-						<form:input path="xppPageAuthorNo" htmlEscape="false" maxlength="64" class="form-control "/>
-					</td>
-				</tr>
+			
 				<tr>
 					
-					<td class="width-15 active"><label class="pull-right">刊物类别：</label></td>
+					<td class="width-15 active"><label class="pull-right"><font color="red">*</font>申请公开号：</label></td>
 					<td class="width-35">
-						<form:input path="xppPageType" htmlEscape="false" maxlength="64" class="form-control "/>
+						<form:input readonly="true" path="xpiPatentPno" htmlEscape="false" maxlength="64" class="form-control required"/>
 					</td>
-					<td class="width-15 active"><label class="pull-right">发表文章影响因子：</label></td>
+					<td class="width-15 active"><label class="pull-right">申请公开日：</label></td>
 					<td class="width-35">
-						<form:input path="xppPageFactor" htmlEscape="false" maxlength="64" class="form-control "/>
+						<input readonly="true" id="xpiPatentPtime" name="xpiPatentPtime" type="text" maxlength="20" class="laydate-icon form-control layer-date formDateMaxWidth "
+							value="<fmt:formatDate value="${xmuPatentInfo.xpiPatentPtime}" pattern="yyyy-MM-dd"/>"/>
 					</td>
 				</tr>
-				<tr>					
-					<td class="width-15 active"><label class="pull-right">附件：</label></td>
-					<td class="width-35">
-						<form:hidden id="xppPageAttachment" path="xppPageAttachment" htmlEscape="false" maxlength="1000" class="input-large"/>
-						<sys:ckfinder input="xppPageAttachment" type="files" uploadPath="/xpp_page_attachment" selectMultiple="true"/>
-					</td>
+				<tr>
 					<td class="width-15 active"><label class="pull-right">备注：</label></td>
-					<td class="width-35">
-						<form:textarea path="xppPageRemark" htmlEscape="false" rows="4" maxlength="2000" class="form-control "/>
+					<td colspan="5">
+						<form:textarea readonly="true" path="xpiPatentRemark" htmlEscape="false" rows="4" maxlength="2000" class="form-control "/>
 					</td>
-		  		</tr>
+				</tr>
 		 	</tbody>
 		</table>
+		
+		<c:if test="${not empty xmuPagePub.act.procInsId}">
+			</br>
+			<act:histoicFlow procInsId="${xmuPagePub.act.procInsId}" />
+		</c:if>
+		
+		<c:if test="${empty xmuPagePub.act.procInsId}">
+			</br>
+			<act:histoicFlow procInsId="${xmuPagePub.procInsId}" />
+		</c:if>
 	</form:form>
 </body>
 </html>

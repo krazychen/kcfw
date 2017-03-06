@@ -183,7 +183,7 @@
 		<c:forEach items="${page.list}" var="xmuAcademicEvent">
 			<tr>
 				<td> <input type="checkbox" id="${xmuAcademicEvent.id}" status="${xmuAcademicEvent.xaeStatus}" class="i-checks"></td>
-				<td><a  href="#" onclick="openDialogView('查看学术活动', '${ctx}/xmu/res/xmuAcademicEvent/form?id=${xmuAcademicEvent.id}','800px', '500px')">
+				<td><a  href="#" onclick="openDialogView('查看学术活动', '${ctx}/xmu/res/xmuAcademicEvent/form?id=${xmuAcademicEvent.id}&urlType=view','800px', '500px')">
 					${xmuAcademicEvent.xaeUserStuno}
 				</a></td>
 				<td>
