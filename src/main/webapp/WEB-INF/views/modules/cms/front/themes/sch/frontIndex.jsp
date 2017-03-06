@@ -234,7 +234,7 @@
 	</div>
 </div>
 <div style=" float: right;width: 270px;">
-	<div class="notice" style="height:560px">
+	<div class="notice" style="height:580px">
 		<div class="notice_top">
 			<h3>应用</h3>
 		</div>

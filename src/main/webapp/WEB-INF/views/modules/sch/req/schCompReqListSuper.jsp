@@ -32,7 +32,7 @@
 		<li class="active"><a href="${ctx}/sch/req/schCompReq/">企业需求列表</a></li>
 		<!--<shiro:hasPermission name="sch:req:schCompReq:edit"><li><a href="${ctx}/sch/req/schCompReq/form">企业需求添加</a></li></shiro:hasPermission>
 	--></ul>
-	<form:form id="searchForm" modelAttribute="schCompReq" action="${ctx}/sch/req/schCompReq/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="schCompReq" action="${ctx}/sch/req/schCompReq/listSuper" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<input id="upfile" name="upfile" type="file" style="display:none"/>  

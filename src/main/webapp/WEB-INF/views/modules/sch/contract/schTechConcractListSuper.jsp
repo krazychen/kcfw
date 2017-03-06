@@ -21,7 +21,7 @@
 		<li class="active"><a href="${ctx}/sch/contract/schTechConcract/">合同列表</a></li>
 		<!--<shiro:hasPermission name="sch:contract:schTechConcract:edit"><li><a href="${ctx}/sch/contract/schTechConcract/form">合同添加</a></li></shiro:hasPermission>
 	--></ul>
-	<form:form id="searchForm" modelAttribute="schTechConcract" action="${ctx}/sch/contract/schTechConcract/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="schTechConcract" action="${ctx}/sch/contract/schTechConcract/listSuper" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">

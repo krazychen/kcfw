@@ -22,7 +22,7 @@
 		<!--<shiro:hasPermission name="sch:contract:schComConcract:edit"><li><a href="${ctx}/sch/contract/schComConcract/form">合同添加</a></li></shiro:hasPermission>
 	-->
 	</ul>
-	<form:form id="searchForm" modelAttribute="schComConcract" action="${ctx}/sch/contract/schComConcract/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="schComConcract" action="${ctx}/sch/contract/schComConcract/listSuper" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">

@@ -103,7 +103,7 @@ public class SchComConcract extends ActEntity<SchComConcract> {
 		this.sccFinalComment = sccFinalComment;
 	}
 
-	@Length(min=1, max=64, message="合同名称长度必须介于 1 和 64 之间")
+	@Length(min=1, max=64, message="合同名称长度必须介于 1 和 200 之间")
 	public String getSccName() {
 		return sccName;
 	}
@@ -120,7 +120,7 @@ public class SchComConcract extends ActEntity<SchComConcract> {
 		this.sccNo = sccNo;
 	}
 	
-	@Length(min=1, max=1, message="合同类别长度必须介于 1 和 1 之间")
+	@Length(min=1, max=1, message="合同类别长度必须介于 1 和 64之间")
 	public String getSccType() {
 		return sccType;
 	}
@@ -129,7 +129,7 @@ public class SchComConcract extends ActEntity<SchComConcract> {
 		this.sccType = sccType;
 	}
 	
-	@Length(min=1, max=1, message="研究方向长度必须介于 1 和 1 之间")
+	@Length(min=1, max=1, message="研究方向长度必须介于 1 和 64 之间")
 	public String getSccResearchType() {
 		return sccResearchType;
 	}
@@ -138,7 +138,7 @@ public class SchComConcract extends ActEntity<SchComConcract> {
 		this.sccResearchType = sccResearchType;
 	}
 	
-	@Length(min=1, max=1, message="研究方向子目长度必须介于 1 和 1 之间")
+	@Length(min=1, max=1, message="研究方向子目长度必须介于 1 和 64 之间")
 	public String getSccResearchTypeSub() {
 		return sccResearchTypeSub;
 	}
@@ -147,7 +147,7 @@ public class SchComConcract extends ActEntity<SchComConcract> {
 		this.sccResearchTypeSub = sccResearchTypeSub;
 	}
 	
-	@Length(min=1, max=1, message="所属行业长度必须介于 1 和 1 之间")
+	@Length(min=1, max=1, message="所属行业长度必须介于 1 和 64之间")
 	public String getSccIndustry() {
 		return sccIndustry;
 	}
@@ -226,7 +226,7 @@ public class SchComConcract extends ActEntity<SchComConcract> {
 		this.sccCompanyType = sccCompanyType;
 	}
 	
-	@Length(min=1, max=1, message="合同状态长度必须介于 1 和 1 之间")
+	@Length(min=1, max=1, message="合同状态长度必须介于 1 和 64之间")
 	public String getSccStatus() {
 		return sccStatus;
 	}

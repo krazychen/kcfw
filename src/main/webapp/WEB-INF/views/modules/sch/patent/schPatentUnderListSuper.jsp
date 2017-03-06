@@ -21,7 +21,7 @@
 		<li class="active"><a href="${ctx}/sch/patent/schPatentUnder/">发明专利列表</a></li>
 		<!--<shiro:hasPermission name="sch:patent:schPatentUnder:edit"><li><a href="${ctx}/sch/patent/schPatentUnder/form">发明专利添加</a></li></shiro:hasPermission>-->
 	</ul>
-	<form:form id="searchForm" modelAttribute="schPatentUnder" action="${ctx}/sch/patent/schPatentUnder/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="schPatentUnder" action="${ctx}/sch/patent/schPatentUnder/listSuper" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
