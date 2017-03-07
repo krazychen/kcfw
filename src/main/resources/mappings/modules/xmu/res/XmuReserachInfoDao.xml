@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krazy.kcfw.modules.xmu.dao.res.XmuReserachInfoDao">
+    
+	<sql id="xmuReserachInfoColumns">
+		a.xpi_office_name AS "xpiOfficeName",
+		a.xpi_user_profession AS "xpiUserProfession",
+		a.xpi_user_name AS "xpiUserName",
+		a.xpi_research_name AS "xpiResearchName",
+		a.xpi_research_years AS "xpiResearchYears",
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.xpi_proj_id AS "xpiProjId",
+		a.xpi_proj_name AS "xpiProjName",
+		a.xpi_office_id AS "xpiOfficeId",
+		a.xpi_user_id AS "xpiUserId",
+		a.xpi_user_grade AS "xpiUserGrade",
+		a.xpi_user_stuno AS "xpiUserStuno",
+		a.proc_ins_id AS "procInsId",
+		a.xpi_status AS "xpiStatus",
+		a.xpi_college_comment AS "xpiCollegeComment",
+		a.xpi_manage_comment AS "xpiManageComment",
+		a.xpi_college_standby AS "xpiCollegeStandby",
+		a.xpi_manage_standby AS "xpiManageStandby",
+		a.xpi_research_type AS "xpiResearchType",
+		a.xpi_research_level AS "xpiResearchLevel",
+		a.xpi_research_teacher AS "xpiResearchTeacher"
+	</sql>
+	
+	<sql id="xmuReserachInfoJoins">
+		LEFT JOIN sys_office xpiOfficeName ON xpiOfficeName.id = a.xpi_office_name
+	</sql>
+	
+	<sql id="userJoins">
+		JOIN sys_user u ON u.id = a.create_by
+		JOIN sys_office o ON o.id = u.office_id
+    </sql>
+	
+    
+	<select id="get" resultType="XmuReserachInfo" >
+		SELECT 
+			<include refid="xmuReserachInfoColumns"/>
+		FROM xmu_reserach_info a
+		<include refid="xmuReserachInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="XmuReserachInfo" >
+		SELECT 
+			<include refid="xmuReserachInfoColumns"/>
+		FROM xmu_reserach_info a
+		<include refid="xmuReserachInfoJoins"/>
+		<include refid="userJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="xpiOfficeName != null and xpiOfficeName != ''">
+				AND a.xpi_office_name = #{xpiOfficeName}
+			</if>
+			<if test="xpiUserProfession != null and xpiUserProfession != ''">
+				AND a.xpi_user_profession = #{xpiUserProfession}
+			</if>
+			<if test="xpiUserName != null and xpiUserName != ''">
+				AND a.xpi_user_name = #{xpiUserName}
+			</if>
+			<if test="xpiResearchName != null and xpiResearchName != ''">
+				AND a.xpi_research_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xpiResearchName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xpiResearchName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xpiResearchName},'%')</if>
+			</if>
+			<if test="xpiResearchYears != null and xpiResearchYears != ''">
+				AND a.xpi_research_years = #{xpiResearchYears}
+			</if>
+		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf} ${sqlMap.actUser}
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="XmuReserachInfo" >
+		SELECT 
+			<include refid="xmuReserachInfoColumns"/>
+		FROM xmu_reserach_info a
+		<include refid="xmuReserachInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO xmu_reserach_info(
+			xpi_office_name,
+			xpi_user_profession,
+			xpi_user_name,
+			xpi_research_name,
+			xpi_research_years,
+			id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			xpi_proj_id,
+			xpi_proj_name,
+			xpi_office_id,
+			xpi_user_id,
+			xpi_user_grade,
+			xpi_user_stuno,
+			proc_ins_id,
+			xpi_status,
+			xpi_college_comment,
+			xpi_manage_comment,
+			xpi_college_standby,
+			xpi_manage_standby,
+			xpi_research_type,
+			xpi_research_level,
+			xpi_research_teacher
+		) VALUES (
+			#{xpiOfficeName},
+			#{xpiUserProfession},
+			#{xpiUserName},
+			#{xpiResearchName},
+			#{xpiResearchYears},
+			#{id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{xpiProjId},
+			#{xpiProjName},
+			#{xpiOfficeId},
+			#{xpiUserId},
+			#{xpiUserGrade},
+			#{xpiUserStuno},
+			#{procInsId},
+			#{xpiStatus},
+			#{xpiCollegeComment},
+			#{xpiManageComment},
+			#{xpiCollegeStandby},
+			#{xpiManageStandby},
+			#{xpiResearchType},
+			#{xpiResearchLevel},
+			#{xpiResearchTeacher}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE xmu_reserach_info SET 	
+			xpi_office_name = #{xpiOfficeName},
+			xpi_user_profession = #{xpiUserProfession},
+			xpi_user_name = #{xpiUserName},
+			xpi_research_name = #{xpiResearchName},
+			xpi_research_years = #{xpiResearchYears},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			xpi_proj_id = #{xpiProjId},
+			xpi_proj_name = #{xpiProjName},
+			xpi_office_id = #{xpiOfficeId},
+			xpi_user_id = #{xpiUserId},
+			xpi_user_grade = #{xpiUserGrade},
+			xpi_user_stuno = #{xpiUserStuno},
+			xpi_status = #{xpiStatus},
+			xpi_research_type = #{xpiResearchType},
+			xpi_research_level = #{xpiResearchLevel},
+			xpi_research_teacher = #{xpiResearchTeacher}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM xmu_reserach_info
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE xmu_reserach_info SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="XmuReserachInfo" statementType="STATEMENT">
+		select * FROM xmu_reserach_info  where ${propertyName} = '${value}'
+	</select>
+	
+	<update id="updateStatus">
+		UPDATE xmu_reserach_info SET 
+			xpi_status = #{xpiStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateCollegeStandby">
+		UPDATE xmu_reserach_info SET 
+			xpi_COLLEGE_STANDBY = #{xpiCollegeStandby},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateManageStandby">
+		UPDATE xmu_reserach_info SET 
+			XPi_MANAGE_STANDBY = #{xpiManageStandby},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateCollegeComment">
+		UPDATE xmu_reserach_info SET 
+			xpi_college_comment = #{xpiCollegeComment},
+			xpi_status = #{xpiStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateManageComment">
+		UPDATE xmu_reserach_info SET 
+			xpi_manage_comment = #{xpiManageComment},
+			xpi_status = #{xpiStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>	
+</mapper>

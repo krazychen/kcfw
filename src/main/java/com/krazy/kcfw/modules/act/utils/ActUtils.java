@@ -49,6 +49,7 @@ public class ActUtils {
 	public static final String[] PD_XMU_PAGE_PUB = new String[]{"XMU_PAGE_PUB", "XMU_PAGE_PUB"};
 	public static final String[] PD_XMU_PATENT_INFO = new String[]{"XMU_PATENT_INFO", "XMU_PATENT_INFO"};
 	public static final String[] PD_XMU_WINNING_INFO = new String[]{"XMU_WINNING_INFO", "XMU_WINNING_INFO"};
+	public static final String[] PD_XMU_RESERACH_INFO = new String[]{"XMU_RESERACH_INFO", "XMU_RESERACH_INFO"};
 	
 //	/**
 //	 * 流程定义Map（自动初始化）
