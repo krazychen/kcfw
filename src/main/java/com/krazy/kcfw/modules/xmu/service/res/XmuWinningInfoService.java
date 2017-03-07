@@ -28,19 +28,19 @@ import com.krazy.kcfw.modules.sys.entity.User;
 import com.krazy.kcfw.modules.sys.utils.UserUtils;
 import com.krazy.kcfw.modules.xmu.entity.proj.XmuProjectStudent;
 import com.krazy.kcfw.modules.xmu.entity.res.XmuPagePub;
-import com.krazy.kcfw.modules.xmu.entity.res.XmuPatentInfo;
+import com.krazy.kcfw.modules.xmu.entity.res.XmuWinningInfo;
 import com.krazy.kcfw.modules.xmu.dao.proj.XmuProjectStudentDao;
-import com.krazy.kcfw.modules.xmu.dao.res.XmuPatentInfoDao;
+import com.krazy.kcfw.modules.xmu.dao.res.XmuWinningInfoDao;
 
 /**
- * 专利信息Service
+ * 获奖信息Service
  * @author Krazy
- * @version 2017-03-06
+ * @version 2017-03-07
  */
 @Service
 @Transactional(readOnly = true)
-public class XmuPatentInfoService extends CrudService<XmuPatentInfoDao, XmuPatentInfo> {
-
+public class XmuWinningInfoService extends CrudService<XmuWinningInfoDao, XmuWinningInfo> {
+	
 	@Autowired
 	private UserDao userDao;
 	
@@ -53,27 +53,27 @@ public class XmuPatentInfoService extends CrudService<XmuPatentInfoDao, XmuPaten
 	@Autowired
 	private TaskService taskService;
 	
-	public XmuPatentInfo get(String id) {
+	public XmuWinningInfo get(String id) {
 		return super.get(id);
 	}
 	
-	public List<XmuPatentInfo> findList(XmuPatentInfo xmuPatentInfo) {
-		xmuPatentInfo.getSqlMap().put("dsf", dataScopeFilter(xmuPatentInfo.getCurrentUser(), "o", "u"));
-		return super.findList(xmuPatentInfo);
+	public List<XmuWinningInfo> findList(XmuWinningInfo xmuWinningInfo) {
+		xmuWinningInfo.getSqlMap().put("dsf", dataScopeFilter(xmuWinningInfo.getCurrentUser(), "o", "u"));
+		return super.findList(xmuWinningInfo);
 	}
 	
-	public Page<XmuPatentInfo> findPage(Page<XmuPatentInfo> page, XmuPatentInfo xmuPatentInfo) {
-		xmuPatentInfo.getSqlMap().put("dsf", dataScopeFilter(xmuPatentInfo.getCurrentUser(), "o", "u"));
-		xmuPatentInfo.getSqlMap().put("actUser", "or (instr(a.xpi_college_standby,'"+xmuPatentInfo.getCurrentUser().getId()+"')>0 )");
-		return super.findPage(page, xmuPatentInfo);
+	public Page<XmuWinningInfo> findPage(Page<XmuWinningInfo> page, XmuWinningInfo xmuWinningInfo) {
+		xmuWinningInfo.getSqlMap().put("dsf", dataScopeFilter(xmuWinningInfo.getCurrentUser(), "o", "u"));
+		xmuWinningInfo.getSqlMap().put("actUser", "or (instr(a.xwi_college_standby,'"+xmuWinningInfo.getCurrentUser().getId()+"')>0 )");
+		return super.findPage(page, xmuWinningInfo);
 	}
 	
 	@Transactional(readOnly = false)
-	public void save(XmuPatentInfo xmuPatentInfo) {
-		if(!xmuPatentInfo.getIsNewRecord()){//编辑表单保存
-			XmuPatentInfo t = this.get(xmuPatentInfo.getId());//从数据库取出记录的值
+	public void save(XmuWinningInfo xmuWinningInfo) {
+		if(!xmuWinningInfo.getIsNewRecord()){//编辑表单保存
+			XmuWinningInfo t = this.get(xmuWinningInfo.getId());//从数据库取出记录的值
 			try {
-				MyBeanUtils.copyBeanNotNull2Bean(xmuPatentInfo, t);
+				MyBeanUtils.copyBeanNotNull2Bean(xmuWinningInfo, t);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -86,22 +86,22 @@ public class XmuPatentInfoService extends CrudService<XmuPatentInfoDao, XmuPaten
 			List<XmuProjectStudent> list=xmuProjectStudentDao.findUserList(xmuProjectStudent);
 			if(list!=null&&list.size()>0){
 				XmuProjectStudent re=list.get(0);
-				xmuPatentInfo.setXpiUserGrade(re.getXpuUserGrade());
-				xmuPatentInfo.setXpiUserProfession(re.getXpuUserProfession());
+				xmuWinningInfo.setXwiUserGrade(re.getXpuUserGrade());
+				xmuWinningInfo.setXwiUserProfession(re.getXpuUserProfession());
 			}
-			xmuPatentInfo.setXpiStatus("1");
-			super.save(xmuPatentInfo);//保存
+			xmuWinningInfo.setXwiStatus("1");
+			super.save(xmuWinningInfo);//保存
 		}
 		
-		if(StringUtils.isBlank(xmuPatentInfo.getAct().getFlag())) {
+		if(StringUtils.isBlank(xmuWinningInfo.getAct().getFlag())) {
 			return;
 		}
 		
 		//第一次申请
-		if(StringUtils.isBlank(xmuPatentInfo.getAct().getTaskId())){			
+		if(StringUtils.isBlank(xmuWinningInfo.getAct().getTaskId())){			
 			Map<String, Object> vars = Maps.newHashMap();
 			//判断角色
-			User user=userDao.get(xmuPatentInfo.getCreateBy().getId());
+			User user=userDao.get(xmuWinningInfo.getCreateBy().getId());
 			List<Role> roles=UserUtils.getUser().getRoleList();
 			StringBuffer ids=new StringBuffer();
 			for(int i=0;i<roles.size();i++){
@@ -148,29 +148,29 @@ public class XmuPatentInfoService extends CrudService<XmuPatentInfoDao, XmuPaten
 			
 			// 启动流程
 			//vars.put("pass", pass);
-			actTaskService.startProcess(ActUtils.PD_XMU_PATENT_INFO[0], ActUtils.PD_XMU_PATENT_INFO[1], xmuPatentInfo.getId(), xmuPatentInfo.getXpiPatentName(),vars);
+			actTaskService.startProcess(ActUtils.PD_XMU_WINNING_INFO[0], ActUtils.PD_XMU_WINNING_INFO[1], xmuWinningInfo.getId(), xmuWinningInfo.getXwiWinningName(),vars);
 		
 			//更新状态为提交申请
-			xmuPatentInfo.setXpiStatus("2");
-			dao.updateStatus(xmuPatentInfo);
+			xmuWinningInfo.setXwiStatus("2");
+			dao.updateStatus(xmuWinningInfo);
 			
-			xmuPatentInfo.setXpiCollegeStandby( ids.toString());
-			dao.updateCollegeStandby(xmuPatentInfo);
+			xmuWinningInfo.setXwiCollegeStandby( ids.toString());
+			dao.updateCollegeStandby(xmuWinningInfo);
 		}else {
 			// 重新编辑申请	
-			xmuPatentInfo.getAct().setComment(("yes".equals(xmuPatentInfo.getAct().getFlag())?"[重新申请] ":"[取消申请] "));
+			xmuWinningInfo.getAct().setComment(("yes".equals(xmuWinningInfo.getAct().getFlag())?"[重新申请] ":"[取消申请] "));
 			
 			// 完成流程任务
 			Map<String, Object> vars = Maps.newHashMap();
-			String pass="yes".equals(xmuPatentInfo.getAct().getFlag())? "1" : "0";
-			if("no".equals(xmuPatentInfo.getAct().getFlag())){
+			String pass="yes".equals(xmuWinningInfo.getAct().getFlag())? "1" : "0";
+			if("no".equals(xmuWinningInfo.getAct().getFlag())){
 				pass="0";
 				//取消提交后更新状态为新增
-				xmuPatentInfo.setXpiStatus("1");
-				dao.updateStatus(xmuPatentInfo);
+				xmuWinningInfo.setXwiStatus("1");
+				dao.updateStatus(xmuWinningInfo);
 			}else{
 				//判断角色
-				User user=userDao.get(xmuPatentInfo.getCreateBy().getId());
+				User user=userDao.get(xmuWinningInfo.getCreateBy().getId());
 				List<Role> roles=UserUtils.getUser().getRoleList();
 				StringBuffer ids=new StringBuffer();
 				for(int i=0;i<roles.size();i++){
@@ -213,40 +213,40 @@ public class XmuPatentInfoService extends CrudService<XmuPatentInfoDao, XmuPaten
 					}
 				}
 				//更新状态为提交申请
-				xmuPatentInfo.setXpiStatus("2");
-				dao.updateStatus(xmuPatentInfo);
+				xmuWinningInfo.setXwiStatus("2");
+				dao.updateStatus(xmuWinningInfo);
 				
-				xmuPatentInfo.setXpiCollegeStandby( ids.toString());
-				dao.updateCollegeStandby(xmuPatentInfo);
+				xmuWinningInfo.setXwiCollegeStandby( ids.toString());
+				dao.updateCollegeStandby(xmuWinningInfo);
 			}
 			vars.put("pass", pass);
-			if(StringUtils.isBlank(xmuPatentInfo.getAct().getAssignee())){
-				actTaskService.claim(xmuPatentInfo.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
+			if(StringUtils.isBlank(xmuWinningInfo.getAct().getAssignee())){
+				actTaskService.claim(xmuWinningInfo.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
 			}
-			actTaskService.complete(xmuPatentInfo.getAct().getTaskId(), xmuPatentInfo.getAct().getProcInsId(), xmuPatentInfo.getAct().getComment(),xmuPatentInfo.getXpiPatentName(), vars);
+			actTaskService.complete(xmuWinningInfo.getAct().getTaskId(), xmuWinningInfo.getAct().getProcInsId(), xmuWinningInfo.getAct().getComment(),xmuWinningInfo.getXwiWinningName(), vars);
 		}
 	}
 	
 	@Transactional(readOnly = false)
-	public void delete(XmuPatentInfo xmuPatentInfo) {
-		super.delete(xmuPatentInfo);
+	public void delete(XmuWinningInfo xmuWinningInfo) {
+		super.delete(xmuWinningInfo);
 	}
-
+	
 	@Transactional(readOnly = false)
-	public void saveAduit(XmuPatentInfo xmuPatentInfo) {
+	public void saveAduit(XmuWinningInfo xmuWinningInfo) {
 		
 		Map<String, Object> vars = Maps.newHashMap();
 		
 		// 设置意见
-		xmuPatentInfo.getAct().setComment(("yes".equals(xmuPatentInfo.getAct().getFlag())?"[同意] ":"[驳回] ")+xmuPatentInfo.getAct().getComment());
+		xmuWinningInfo.getAct().setComment(("yes".equals(xmuWinningInfo.getAct().getFlag())?"[同意] ":"[驳回] ")+xmuWinningInfo.getAct().getComment());
 		
-		xmuPatentInfo.preUpdate();
+		xmuWinningInfo.preUpdate();
 		
 		// 对不同环节的业务逻辑进行操作
-		String taskDefKey = xmuPatentInfo.getAct().getTaskDefKey();
+		String taskDefKey = xmuWinningInfo.getAct().getTaskDefKey();
 		
 		String pass="";
-		String flag=xmuPatentInfo.getAct().getFlag();
+		String flag=xmuWinningInfo.getAct().getFlag();
 		if("yes".equals(flag)){
 			pass="1";
 		}
@@ -254,9 +254,9 @@ public class XmuPatentInfoService extends CrudService<XmuPatentInfoDao, XmuPaten
 		// 审核环节
 		if ("mana_audit".equals(taskDefKey)){
 			
-			xmuPatentInfo.setXpiCollegeComment(xmuPatentInfo.getAct().getComment());
-			xmuPatentInfo.setXpiStatus("3");
-			dao.updateCollegeComment(xmuPatentInfo);
+			xmuWinningInfo.setXwiCollegeComment(xmuWinningInfo.getAct().getComment());
+			xmuWinningInfo.setXwiStatus("3");
+			dao.updateCollegeComment(xmuWinningInfo);
 			
 			HashMap<String,String> pars=new HashMap<String,String>();
 			pars.put("roleEnName", "dept");
@@ -272,13 +272,13 @@ public class XmuPatentInfoService extends CrudService<XmuPatentInfoDao, XmuPaten
 				}
 			}
 			vars.put("sys", resp.toString());
-			xmuPatentInfo.setXpiManageStandby( ids.toString());
-			dao.updateManageStandby(xmuPatentInfo);
+			xmuWinningInfo.setXwiManageStandby( ids.toString());
+			dao.updateManageStandby(xmuWinningInfo);
 			
 		}else if ("sys_audit".equals(taskDefKey)){
-			xmuPatentInfo.setXpiManageComment(xmuPatentInfo.getAct().getComment());
-			xmuPatentInfo.setXpiStatus("5");
-			dao.updateManageComment(xmuPatentInfo);
+			xmuWinningInfo.setXwiManageComment(xmuWinningInfo.getAct().getComment());
+			xmuWinningInfo.setXwiStatus("5");
+			dao.updateManageComment(xmuWinningInfo);
 		}
 		// 未知环节，直接返回
 		else{
@@ -286,87 +286,81 @@ public class XmuPatentInfoService extends CrudService<XmuPatentInfoDao, XmuPaten
 		}
 		
 		//如果是不通过，更新状态为不通过
-		if("reject".equals(xmuPatentInfo.getAct().getFlag())){
+		if("reject".equals(xmuWinningInfo.getAct().getFlag())){
 			if ("mana_audit".equals(taskDefKey)){
-				xmuPatentInfo.setXpiStatus("4");
-				dao.updateStatus(xmuPatentInfo);
+				xmuWinningInfo.setXwiStatus("4");
+				dao.updateStatus(xmuWinningInfo);
 			}else if ("sys_audit".equals(taskDefKey)){
-				xmuPatentInfo.setXpiStatus("6");
-				dao.updateStatus(xmuPatentInfo);
+				xmuWinningInfo.setXwiStatus("6");
+				dao.updateStatus(xmuWinningInfo);
 			}
 			pass="2";
 		}
 		
 		//如果是驳回，更新状态为驳回
-		if("no".equals(xmuPatentInfo.getAct().getFlag())){
+		if("no".equals(xmuWinningInfo.getAct().getFlag())){
 			if ("mana_audit".equals(taskDefKey)){
-				xmuPatentInfo.setXpiStatus("1");
-				dao.updateStatus(xmuPatentInfo);
+				xmuWinningInfo.setXwiStatus("1");
+				dao.updateStatus(xmuWinningInfo);
 			}else if ("sys_audit".equals(taskDefKey)){
-				xmuPatentInfo.setXpiStatus("2");
-				dao.updateStatus(xmuPatentInfo);
+				xmuWinningInfo.setXwiStatus("2");
+				dao.updateStatus(xmuWinningInfo);
 			}
 			pass="0";
 		}
 		
 		// 提交流程任务		
 		vars.put("pass",pass);
-		if(StringUtils.isBlank(xmuPatentInfo.getAct().getAssignee())){
-			actTaskService.claim(xmuPatentInfo.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
+		if(StringUtils.isBlank(xmuWinningInfo.getAct().getAssignee())){
+			actTaskService.claim(xmuWinningInfo.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
 		}
-		actTaskService.complete(xmuPatentInfo.getAct().getTaskId(), xmuPatentInfo.getAct().getProcInsId(), xmuPatentInfo.getAct().getComment(), vars);
-
-	}
-
-	@Transactional(readOnly = false)
-	public void backToEnd(XmuPatentInfo xmuPatentInfo) {
-		//更新状态为提交申请
-		xmuPatentInfo.setXpiStatus("1");
-		dao.updateStatus(xmuPatentInfo);
+		actTaskService.complete(xmuWinningInfo.getAct().getTaskId(), xmuWinningInfo.getAct().getProcInsId(), xmuWinningInfo.getAct().getComment(), vars);
 		
-		xmuPatentInfo.setXpiCollegeStandby( "");
-		dao.updateCollegeStandby(xmuPatentInfo);
-		xmuPatentInfo.setXpiManageStandby( "");
-		dao.updateManageStandby(xmuPatentInfo);
+	}
+	
+	@Transactional(readOnly = false)
+	public void backToEnd(XmuWinningInfo xmuWinningInfo) {
+		//更新状态为提交申请
+		xmuWinningInfo.setXwiStatus("1");
+		dao.updateStatus(xmuWinningInfo);
+		
+		xmuWinningInfo.setXwiCollegeStandby( "");
+		dao.updateCollegeStandby(xmuWinningInfo);
+		xmuWinningInfo.setXwiManageStandby( "");
+		dao.updateManageStandby(xmuWinningInfo);
 		
 		Map<String, Object> vars = Maps.newHashMap();
 		vars.put("pass", "3");
 	
-		Task xaeTask = taskService.createTaskQuery().processInstanceId(xmuPatentInfo.getProcInsId()).singleResult();
+		Task xaeTask = taskService.createTaskQuery().processInstanceId(xmuWinningInfo.getProcInsId()).singleResult();
 		Act e = new Act();
 		e.setTask(xaeTask);
 		e.setVars(xaeTask.getProcessVariables());
 		e.setProcDef(ProcessDefCache.get(xaeTask.getProcessDefinitionId()));
-		xmuPatentInfo.setAct(e);
-		actTaskService.complete(xmuPatentInfo.getAct().getTaskId(), xmuPatentInfo.getAct().getProcInsId(), "",xmuPatentInfo.getXpiPatentName(), vars);	
-
-		
+		xmuWinningInfo.setAct(e);
+		actTaskService.complete(xmuWinningInfo.getAct().getTaskId(), xmuWinningInfo.getAct().getProcInsId(), "",xmuWinningInfo.getXwiWinningName(), vars);	
 	}
-
+	
 	@Transactional(readOnly = false)
-	public void back(XmuPatentInfo xmuPatentInfo) {
+	public void back(XmuWinningInfo xmuWinningInfo) {
 		//更新状态为提交申请
-		if(xmuPatentInfo.getXpiStatus().equals("3")){
-			xmuPatentInfo.setXpiStatus("2");
-			dao.updateStatus(xmuPatentInfo);
+		if(xmuWinningInfo.getXwiStatus().equals("3")){
+			xmuWinningInfo.setXwiStatus("2");
+			dao.updateStatus(xmuWinningInfo);
 		}
 		
-		xmuPatentInfo.setXpiManageStandby( "");
-		dao.updateManageStandby(xmuPatentInfo);
-//				actTaskService.taskBack(xmuAcademicEvent.getProcInsId(), null);
+		xmuWinningInfo.setXwiManageStandby( "");
+		dao.updateManageStandby(xmuWinningInfo);
+//		actTaskService.taskBack(xmuAcademicEvent.getProcInsId(), null);
 		Map<String, Object> vars = Maps.newHashMap();
 		vars.put("pass", "4");
 	
-		Task xaeTask = taskService.createTaskQuery().processInstanceId(xmuPatentInfo.getProcInsId()).singleResult();
+		Task xaeTask = taskService.createTaskQuery().processInstanceId(xmuWinningInfo.getProcInsId()).singleResult();
 		Act e = new Act();
 		e.setTask(xaeTask);
 		e.setVars(xaeTask.getProcessVariables());
 		e.setProcDef(ProcessDefCache.get(xaeTask.getProcessDefinitionId()));
-		xmuPatentInfo.setAct(e);
-		actTaskService.complete(xmuPatentInfo.getAct().getTaskId(), xmuPatentInfo.getAct().getProcInsId(), "",xmuPatentInfo.getXpiPatentName(), vars);
-
-		
+		xmuWinningInfo.setAct(e);
+		actTaskService.complete(xmuWinningInfo.getAct().getTaskId(), xmuWinningInfo.getAct().getProcInsId(), "",xmuWinningInfo.getXwiWinningName(), vars);
 	}
-	
-	
 }

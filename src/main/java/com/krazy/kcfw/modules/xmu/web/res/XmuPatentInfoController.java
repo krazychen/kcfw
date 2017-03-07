@@ -211,7 +211,7 @@ public class XmuPatentInfoController extends BaseController {
 
 		xmuPatentInfoService.saveAduit(xmuPatentInfo);//审核
 		addMessage(redirectAttributes, "审核论文发表成功");
-		return "redirect:"+Global.getAdminPath()+"/xmu/res/xmuPagePub/?repage";
+		return "redirect:"+Global.getAdminPath()+"/xmu/res/xmuPatentInfo/?repage";
 	}
 	
 	/**
@@ -229,7 +229,7 @@ public class XmuPatentInfoController extends BaseController {
 			xmuPatentInfoService.back(xmuPatentInfo);//保存
 		}
 		addMessage(redirectAttributes, "撤回论文发表成功");
-		return "redirect:"+Global.getAdminPath()+"/xmu/res/xmuPagePub/?repage";
+		return "redirect:"+Global.getAdminPath()+"/xmu/res/xmuPatentInfo/?repage";
 	}
 	
 	/**

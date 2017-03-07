@@ -232,6 +232,7 @@ public class XmuPagePubService extends CrudService<XmuPagePubDao, XmuPagePub> {
 		super.delete(xmuPagePub);
 	}
 
+	@Transactional(readOnly = false)
 	public void saveAduit(XmuPagePub xmuPagePub) {
 		
 		Map<String, Object> vars = Maps.newHashMap();
@@ -317,6 +318,7 @@ public class XmuPagePubService extends CrudService<XmuPagePubDao, XmuPagePub> {
 		
 	}
 
+	@Transactional(readOnly = false)
 	public void backToEnd(XmuPagePub xmuPagePub) {
 		//更新状态为提交申请
 		xmuPagePub.setXppStatus("1");
@@ -339,6 +341,7 @@ public class XmuPagePubService extends CrudService<XmuPagePubDao, XmuPagePub> {
 		actTaskService.complete(xmuPagePub.getAct().getTaskId(), xmuPagePub.getAct().getProcInsId(), "",xmuPagePub.getXppPageName(), vars);	
 	}
 
+	@Transactional(readOnly = false)
 	public void back(XmuPagePub xmuPagePub) {
 		//更新状态为提交申请
 		if(xmuPagePub.getXppStatus().equals("3")){

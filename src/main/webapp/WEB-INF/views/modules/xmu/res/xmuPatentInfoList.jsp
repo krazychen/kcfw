@@ -181,7 +181,7 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="xmuPatentInfo">
 			<tr>
-				<td> <input type="checkbox" id="${xmuPatentInfo.id}" class="i-checks"></td>
+				<td> <input type="checkbox" id="${xmuPatentInfo.id}" status="${xmuPatentInfo.xpiStatus}" class="i-checks"></td>
 				<td><a  href="#" onclick="openDialogView('查看专利信息', '${ctx}/xmu/res/xmuPatentInfo/form?id=${xmuPatentInfo.id}&urlType=view','800px', '500px')">
 					${xmuPatentInfo.xpiUserStuno}
 				</a></td>
