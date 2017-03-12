@@ -37,6 +37,8 @@ import com.krazy.kcfw.modules.cms.service.CommentService;
 import com.krazy.kcfw.modules.cms.service.LinkService;
 import com.krazy.kcfw.modules.cms.service.SiteService;
 import com.krazy.kcfw.modules.cms.utils.CmsUtils;
+import com.krazy.kcfw.modules.sys.entity.User;
+import com.krazy.kcfw.modules.sys.utils.UserUtils;
 
 /**
  * 网站Controller
@@ -258,6 +260,8 @@ public class FrontController extends BaseController{
 			model.addAttribute("category", categoryService.get(article.getCategory().getId()));
 			model.addAttribute("categoryList", categoryList);
 			article.setArticleData(articleDataService.get(article.getId()));
+			User user=UserUtils.get(article.getCreateBy().getId());
+			article.setUser(user);
 			model.addAttribute("article", article);
 			
             CmsUtils.addViewConfigAttribute(model, article.getCategory());
@@ -268,6 +272,34 @@ public class FrontController extends BaseController{
             return "modules/cms/front/themes/"+site.getTheme()+"/"+getTpl(article);
 		}
 		return "error/404";
+	}
+	
+	/**
+	 * 显示内容
+	 */
+	@RequestMapping(value = "viewReq-{reqId}")
+	public String view(@PathVariable String reqId,  Model model) {
+		Article article = CmsUtils.getCompReq(reqId);
+		
+		if (article==null){
+			Site site = CmsUtils.getSite(Site.defaultSiteId());
+			model.addAttribute("site", site);
+			return "error/404";
+		}
+		Site site = CmsUtils.getSite(Site.defaultSiteId());
+		model.addAttribute("site", site);
+
+		// 将数据传递到视图
+		Category category=new Category();
+		category.setName("企业需求");
+		article.setCategory(category);
+		model.addAttribute("category",category);		
+		model.addAttribute("article", article);
+		
+        CmsUtils.addViewConfigAttribute(model, article.getCategory());
+        CmsUtils.addViewConfigAttribute(model, article.getViewConfig());
+        return "modules/cms/front/themes/"+site.getTheme()+"/"+getTpl(article);
+
 	}
 	
 	/**

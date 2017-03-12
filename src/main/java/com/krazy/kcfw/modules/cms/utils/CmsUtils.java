@@ -3,8 +3,11 @@
  */
 package com.krazy.kcfw.modules.cms.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
@@ -327,16 +330,54 @@ public class CmsUtils {
 		
 		List<Article> articles=Lists.newArrayList();
 		SchCompReq qq=new SchCompReq();
-		qq.setScrStatus("2");
-		Page<SchCompReq> reqPage = schCompReqService.findPage(new Page<SchCompReq>(1, number, -1), qq); 
-		for(int i=0;i<reqPage.getList().size();i++){
-			SchCompReq scr=reqPage.getList().get(i);
-			Article ar=new Article();
-			ar.setTitle(scr.getScrName());
-			ar.setUpdateDate(scr.getUpdateDate());
-			articles.add(ar);
+		//qq.setScrStatus("2");
+		List<SchCompReq> reqPage = schCompReqService.findPageList(qq);
+		if(reqPage.size()>0){
+			if(reqPage.size()<=number){
+				number=reqPage.size();
+			}
+			for(int i=0;i<number;i++){
+				SchCompReq scr=reqPage.get(i);
+				Article ar=new Article();
+				ar.setId(scr.getId());
+				ar.setTitle(scr.getScrName());
+				ar.setUpdateDate(scr.getUpdateDate());
+				articles.add(ar);
+			}
 		}
 		
 		return articles;
+	}
+	
+	public static Article getCompReq(String id){
+
+		SchCompReq req = schCompReqService.get(id);
+		Article ar=new Article();
+		ar.setId(req.getId());
+		ar.setTitle(req.getScrName());
+		ar.setUpdateDate(req.getUpdateDate());
+
+		return ar;
+	}
+	
+	public static Boolean compareCurDate(String date){
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+		try
+		{
+			Date d1 = df.parse(df.format(new Date()));
+			Date d2 = sdf.parse(date);
+			long diff = d1.getTime() - d2.getTime();
+			long days = diff / (1000 * 60 * 60 * 24);
+			if(days<=7){
+				return true;
+			}else{
+				return false;
+			}
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
 	}
 }

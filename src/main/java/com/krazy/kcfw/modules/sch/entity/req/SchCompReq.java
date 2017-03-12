@@ -80,7 +80,7 @@ public class SchCompReq extends ActEntity<SchCompReq> {
 		this.scrManaComment = scrManaComment;
 	}
 
-	@Length(min=1, max=100, message="难题名称长度必须介于 1 和 100 之间")
+	@Length(min=1, max=200, message="难题名称长度必须介于 1 和 200 之间")
 	public String getScrName() {
 		return scrName;
 	}

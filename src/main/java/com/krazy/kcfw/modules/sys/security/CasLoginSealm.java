@@ -79,7 +79,10 @@ public class CasLoginSealm extends org.apache.shiro.cas.CasRealm {
 				}
 			}
 		}
-		User user = getSystemService().getUserByLoginName(principal.getLoginName());
+		//User user = getSystemService().getUserByLoginName(principal.getLoginName());
+		Object username =principals.getPrimaryPrincipal();
+		log.debug("username +++++++++++++++++++++++++:"+username.toString());
+		User user = UserUtils.getByLoginName(username.toString());
 		if (user != null) {
 			SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 			List<Menu> list = UserUtils.getMenuList();
@@ -90,6 +93,7 @@ public class CasLoginSealm extends org.apache.shiro.cas.CasRealm {
 						info.addStringPermission(permission);
 					}
 				}
+				log.debug("menu +++++++++++++++++++++++++:"+menu.getName());
 			}
 			// 添加用户权限
 			info.addStringPermission("user");

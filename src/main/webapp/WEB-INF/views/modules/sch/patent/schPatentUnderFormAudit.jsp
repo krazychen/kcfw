@@ -70,6 +70,7 @@
 					<td>
 						${schPatentUnder.spuApplyPhone}
 					</td>
+				<c:if test="${schPatentUnder.spuAdvisTeacherName ne null || schPatentUnder.spuAdvisTeacherName ne ""}" >
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>指导老师：</td>
 					<td>
 						${schPatentUnder.spuAdvisTeacherName}					
@@ -88,12 +89,26 @@
 						<span id="spuProxyInfo"><c:if test="${not empty schPatentUnder.spuProxyId }">&nbsp;&nbsp;&nbsp;&nbsp;代理机构联系人:${schPatentUnder.spuProxyContact }&nbsp;&nbsp;&nbsp;&nbsp;代理机构联系方式：${schPatentUnder.spuProxyPhone }</c:if></span>
 					</td>
 				</tr>
+				</c:if>
+				
+				<c:if test="${schPatentUnder.spuAdvisTeacherName eq null || schPatentUnder.spuAdvisTeacherName eq ""}" >
+					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利代理机构：</td>
+					<td>
+						${schPatentUnder.spuProxyName}	
+					</td>
+					<td colspan="2">
+						<span id="spuProxyInfo"><c:if test="${not empty schPatentUnder.spuProxyId }">&nbsp;&nbsp;&nbsp;&nbsp;代理机构联系人:${schPatentUnder.spuProxyContact }&nbsp;&nbsp;&nbsp;&nbsp;代理机构联系方式：${schPatentUnder.spuProxyPhone }</c:if></span>
+					</td>
+				</tr>
+				</c:if>
+				
 				<tr>
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利摘要：</td>
 					<td colspan="5">
 						${schPatentUnder.spuRemark}	
 					</td>
 				</tr>
+	
 				<tr>
 					<td colspan="6"><h5 id="inventInfo" name="inventInfo">发明人信息</h5></td>
 				</tr>

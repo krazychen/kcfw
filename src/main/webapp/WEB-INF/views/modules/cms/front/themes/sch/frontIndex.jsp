@@ -136,9 +136,17 @@
 	</div>
 	<ul class="news_rt notice_ul">
 		<c:forEach items="${fnc:getArticleList(site.id, '6ac1fc5f127d4ab790062b47f5870078', 12, '')}" var="article">
-			<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
-			<a href="${ctx}${article.url}" style="width:210px"
-			title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,40)}</a></li>
+			<li>
+				<a href="${ctx}${article.url}" style="width:180px"
+				title="${fns:abbr(article.title,50)}" target="_blank">${fns:abbr(article.title,40)}</a>
+				<c:if test="${fnc:compareCurDate(article.updateDate) }">
+					<div class="li_time">
+					<img height="10" width="20" style="padding-top:7px;" src="${ctxStaticTheme}/images/new.jpg" />&nbsp;<fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
+				</c:if>
+				<c:if test="${!fnc:compareCurDate(article.updateDate) }">
+					<div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
+				</c:if>
+			</li>
 		</c:forEach>
 	</ul>
 </div>
@@ -153,9 +161,17 @@
 		</div>
 		<ul class="news_rt1 notice2_ul">
 			<c:forEach items="${fnc:getArticleList(site.id, 'a84c9d420d834c62aa9f0cc41a58217d', 6, '')}" var="article">
-				<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
-				<a href="${ctx}${article.url}" style="width:300px"
-				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,80)}</a></li>
+				<li>
+				<a href="${ctx}${article.url}" style="width:270px"
+				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,65)}</a>
+				<c:if test="${fnc:compareCurDate(article.updateDate) }">
+					<div class="li_time">
+					<img height="10" width="20" style="padding-top:7px;" src="${ctxStaticTheme}/images/new.jpg" />&nbsp;<fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
+				</c:if>
+				<c:if test="${!fnc:compareCurDate(article.updateDate) }">
+					<div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
+				</c:if>
+				</li>
 			</c:forEach>
 		</ul>
 	</div>
@@ -190,7 +206,7 @@
 			</c:forEach> -->
 			<c:forEach items="${fnc:getCompReqList( 6, '')}" var="article">
 				<li><div class="li_time"><fmt:formatDate value="${article.updateDate}" pattern="MM-dd"/></div>
-				<a href="#" style="width:300px"
+				<a href="${ctx}/viewReq-${article.id}" style="width:300px"
 				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,80)}</a></li>
 			</c:forEach> 
 		</ul>
@@ -228,7 +244,7 @@
 			<h3 style="padding-left:13px">产学融APP</h3>
 		</div>
 	<div>
-			<img height="50" width="100" style="float:left;margin-left:25px;padding-top:15px;"src="${ctxStaticTheme}/images/ios.png" />
+			<img height="50" width="100" style="float:left;margin-left:25px;padding-top:15px;" src="${ctxStaticTheme}/images/ios.png" />
 			<img height="50" width="100"  style="float:left;margin-left:80px;padding-top:15px;" src="${ctxStaticTheme}/images/and.png" />
 		</div>
 	</div>

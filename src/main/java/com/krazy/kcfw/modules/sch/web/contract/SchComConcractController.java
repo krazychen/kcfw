@@ -64,7 +64,7 @@ public class SchComConcractController extends BaseController {
 	@RequiresPermissions("sch:contract:schComConcract:view")
 	@RequestMapping(value = {"listSuper"})
 	public String listSuper(SchComConcract schComConcract, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<SchComConcract> page = schComConcractService.findPage(new Page<SchComConcract>(request, response), schComConcract); 
+		Page<SchComConcract> page = schComConcractService.findAllPage(new Page<SchComConcract>(request, response), schComConcract); 
 		model.addAttribute("page", page);
 		return "modules/sch/contract/schComConcractListSuper";
 	}

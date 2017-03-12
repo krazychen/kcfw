@@ -204,7 +204,6 @@ public class SchPatentUnder extends ActEntity<SchPatentUnder> {
 		this.spuApplyPhone = spuApplyPhone;
 	}
 	
-	@Length(min=1, max=64, message="指导老师Id长度必须介于 1 和 64 之间")
 	public String getSpuAdvisTeacherId() {
 		return spuAdvisTeacherId;
 	}
@@ -213,7 +212,6 @@ public class SchPatentUnder extends ActEntity<SchPatentUnder> {
 		this.spuAdvisTeacherId = spuAdvisTeacherId;
 	}
 	
-	@Length(min=1, max=64, message="指导老师长度必须介于 1 和 64 之间")
 	public String getSpuAdvisTeacherName() {
 		return spuAdvisTeacherName;
 	}
@@ -222,7 +220,6 @@ public class SchPatentUnder extends ActEntity<SchPatentUnder> {
 		this.spuAdvisTeacherName = spuAdvisTeacherName;
 	}
 	
-	@Length(min=1, max=64, message="指导老师Id所属院系长度必须介于 1 和 64 之间")
 	public String getSpuAdvisTeacherOfficeId() {
 		return spuAdvisTeacherOfficeId;
 	}
@@ -231,7 +228,6 @@ public class SchPatentUnder extends ActEntity<SchPatentUnder> {
 		this.spuAdvisTeacherOfficeId = spuAdvisTeacherOfficeId;
 	}
 	
-	@Length(min=1, max=64, message="指导老师所属院系长度必须介于 1 和 64 之间")
 	public String getSpuAdvisTeacherOfficeName() {
 		return spuAdvisTeacherOfficeName;
 	}
@@ -275,7 +271,7 @@ public class SchPatentUnder extends ActEntity<SchPatentUnder> {
 		this.spuRemark = spuRemark;
 	}
 	
-	@Length(min=1, max=1, message="状态长度必须介于 1 和 2000 之间")
+	@Length(min=1, max=2000, message="状态长度必须介于 1 和 2000 之间")
 	public String getSpuStatus() {
 		return spuStatus;
 	}

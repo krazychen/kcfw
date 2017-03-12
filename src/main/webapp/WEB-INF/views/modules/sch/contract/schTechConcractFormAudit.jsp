@@ -63,13 +63,13 @@
 				</tr>
 				<tr>
 					<td class="tit">
-						<span class="help-inline"><font color="red">*</font> </span>研究方向：
+						<span class="help-inline"><font color="red">*</font> </span>学科分类：
 					</td>
 					<td>
 						${fns:getDictLabel(schTechConcract.stcResearchType, 'CONTRACT_RESEARCH_TYPE', '')}
 					</td>
 					<td class="tit">
-						<span class="help-inline"><font color="red">*</font> </span>组织形式：
+						<span class="help-inline"><font color="red">*</font> </span>合作形式：
 					</td>
 					<td>
 						${fns:getDictLabel(schComConcract.sccResearchTypeSub, 'CONTRACT_ORGANIZATION_FORM', '')}

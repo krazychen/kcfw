@@ -50,6 +50,10 @@ public class SchTechConcractService extends CrudService<SchTechConcractDao, SchT
 		return super.findList(schTechConcract);
 	}
 	
+	public Page<SchTechConcract> findAllPage(Page<SchTechConcract> page, SchTechConcract schTechConcract) {
+		return super.findPage(page, schTechConcract);
+	}
+	
 	public Page<SchTechConcract> findPage(Page<SchTechConcract> page, SchTechConcract schTechConcract) {
 		schTechConcract.getSqlMap().put("dsf", dataScopeFilter(schTechConcract.getCurrentUser(), "o", "u"));
 		return super.findPage(page, schTechConcract);

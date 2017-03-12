@@ -29,7 +29,7 @@
 				<form:input path="spuName" htmlEscape="false" maxlength="200" class="input-medium"/>
 			</li>
 			<li><label>专利类型：</label>
-				<form:select path="spuTypeName" class="input-medium">
+				<form:select path="spuTypeCode" class="input-medium">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('PATENT_TYPE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
@@ -49,12 +49,12 @@
 			</li>
 			<li><label>创建时间从：</label>
 				<input name="createDateFrom" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="<fmt:formatDate value="${schPatentUnder.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+					value="<fmt:formatDate value="${schPatentUnder.createDateFrom}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</li>
 			<li><label>创建时间到：</label>
 				<input name="createDateTo" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="<fmt:formatDate value="${schPatentUnder.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+					value="<fmt:formatDate value="${schPatentUnder.createDateTo}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>

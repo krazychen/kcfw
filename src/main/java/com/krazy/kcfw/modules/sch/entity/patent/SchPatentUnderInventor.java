@@ -132,7 +132,7 @@ public class SchPatentUnderInventor extends DataEntity<SchPatentUnderInventor> {
 		this.spiUserId = spiUserId;
 	}
 	
-	@Length(min=1, max=45, message="发明人姓名长度必须介于 1 和 45 之间")
+	@Length(min=1, max=200, message="发明人姓名长度必须介于 1 和 200 之间")
 	public String getSpiUserName() {
 		return spiUserName;
 	}

@@ -111,7 +111,7 @@
 						</form:select>
 					</td>
 					<td class="tit">
-						<span class="help-inline"><font color="red">*</font> </span>研究方向：
+						<span class="help-inline"><font color="red">*</font> </span>学科分类：
 					</td>
 					<td>
 						<form:select path="stcResearchType" onchange="getResTypeSub()" class="input-large editFormSelectWidth required">
@@ -120,7 +120,7 @@
 						</form:select>
 					</td>
 					<td class="tit">
-						<span class="help-inline"><font color="red">*</font> </span>组织形式：
+						<span class="help-inline"><font color="red">*</font> </span>合作形式：
 					</td>
 					<td>
 						<form:select path="stcResearchTypeSub" class="input-large editFormSelectWidth required">

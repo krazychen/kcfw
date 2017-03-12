@@ -46,13 +46,21 @@ public class SchCompReqService extends CrudService<SchCompReqDao, SchCompReq> {
 		return super.get(id);
 	}
 	
+	public List<SchCompReq> findPageList(SchCompReq schCompReq) {
+		return super.findList(schCompReq);
+	}
+	
 	public List<SchCompReq> findList(SchCompReq schCompReq) {
-		schCompReq.getSqlMap().put("dsf", dataScopeFilter(schCompReq.getCurrentUser(), "o", "u"));
+		if(schCompReq.getCurrentUser()!=null){
+			schCompReq.getSqlMap().put("dsf", dataScopeFilter(schCompReq.getCurrentUser(), "o", "u"));
+		}
 		return super.findList(schCompReq);
 	}
 	
 	public Page<SchCompReq> findPage(Page<SchCompReq> page, SchCompReq schCompReq) {
-		schCompReq.getSqlMap().put("dsf", dataScopeFilter(schCompReq.getCurrentUser(), "o", "u"));
+		if(schCompReq.getCurrentUser()!=null){
+			schCompReq.getSqlMap().put("dsf", dataScopeFilter(schCompReq.getCurrentUser(), "o", "u"));
+		}
 		return super.findPage(page, schCompReq);
 	}
 	

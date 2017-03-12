@@ -34,7 +34,7 @@
 	<div id="titleid" style="color: #d9442e;font-size: 24px;font-weight: bold;line-height: 1.2; padding: 12px 0 12px;text-align: center;">${article.title}                                                                                                                                                                                                                                                        </div>
     
 	<div style="height:24px; line-height:24px;width:920px;margin:0 auto;">
-		<div style="font-size:12px; color:#666;text-align: center; ">&nbsp;&nbsp;发布时间：<fmt:formatDate value="${article.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>&nbsp;&nbsp;作者：${article.user.name} &nbsp;&nbsp; 文章来源：${article.articleData.copyfrom} &nbsp;&nbsp;  <!--点击率：105   &nbsp;&nbsp;--> 
+		<div style="font-size:12px; color:#666;text-align: center; ">&nbsp;&nbsp;发布时间：<fmt:formatDate value="${article.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>&nbsp;&nbsp;发布者部门：${article.user.office.name} &nbsp;&nbsp; 文章来源：${article.articleData.copyfrom} &nbsp;&nbsp;  <!--点击率：105   &nbsp;&nbsp;--> 
         </div>
     </div>
     <div id="zoom" style="width:940px;margin:0px auto;min-height:300px;color: #666;font-family: '微软雅黑';font-size: 14px;line-height: 28px;padding: 0 30px; padding-top:36px;text-indent: 28px;">${article.articleData.content}</div>

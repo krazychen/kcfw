@@ -47,7 +47,7 @@ public class SchPatentAgency extends DataEntity<SchPatentAgency> {
 		this.spaCode = spaCode;
 	}
 	
-	@Length(min=1, max=100, message="机构名称长度必须介于 1 和 100 之间")
+	@Length(min=1, max=200, message="机构名称长度必须介于 1 和200 之间")
 	public String getSpaName() {
 		return spaName;
 	}
@@ -74,7 +74,7 @@ public class SchPatentAgency extends DataEntity<SchPatentAgency> {
 		this.spaPhone = spaPhone;
 	}
 	
-	@Length(min=1, max=45, message="联系地址长度必须介于 1 和 45 之间")
+	@Length(min=1, max=1000, message="联系地址长度必须介于 1 和1000 之间")
 	public String getSpaAddress() {
 		return spaAddress;
 	}

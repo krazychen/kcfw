@@ -107,4 +107,12 @@
     <example>${fnc:getLinkList(siteId, categoryId, number, param)}</example>  
   </function>
   
+   <function>
+    <description>比较日期</description>
+    <name>compareCurDate</name>
+    <function-class>com.krazy.kcfw.modules.cms.utils.CmsUtils</function-class>
+    <function-signature>java.lang.Boolean compareCurDate(java.lang.String)</function-signature>
+    <example>${fnc:compareCurDate(date)}</example>  
+  </function>
+  
 </taglib>

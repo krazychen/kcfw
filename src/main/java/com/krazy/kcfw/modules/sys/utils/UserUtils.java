@@ -10,7 +10,10 @@ import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.Lists;
 import com.krazy.kcfw.common.service.BaseService;
 import com.krazy.kcfw.common.utils.CacheUtils;
 import com.krazy.kcfw.common.utils.SpringContextHolder;
@@ -24,6 +27,7 @@ import com.krazy.kcfw.modules.sys.entity.Menu;
 import com.krazy.kcfw.modules.sys.entity.Office;
 import com.krazy.kcfw.modules.sys.entity.Role;
 import com.krazy.kcfw.modules.sys.entity.User;
+import com.krazy.kcfw.modules.sys.security.CasLoginSealm;
 import com.krazy.kcfw.modules.sys.security.SystemAuthorizingRealm.Principal;
 
 /**
@@ -50,22 +54,24 @@ public class UserUtils {
 	public static final String CACHE_OFFICE_LIST = "officeList";
 	public static final String CACHE_OFFICE_ALL_LIST = "officeAllList";
 	
+	private static Logger log = LoggerFactory.getLogger(UserUtils.class);
+	
 	/**
 	 * 根据ID获取用户
 	 * @param id
 	 * @return 取不到返回null
 	 */
 	public static User get(String id){
-		User user = (User)CacheUtils.get(USER_CACHE, USER_CACHE_ID_ + id);
-		if (user ==  null){
-			user = userDao.get(id);
+//		User user = (User)CacheUtils.get(USER_CACHE, USER_CACHE_ID_ + id);
+//		if (user ==  null){
+		User	user = userDao.get(id);
 			if (user == null){
 				return null;
 			}
 			user.setRoleList(roleDao.findList(new Role(user)));
 			CacheUtils.put(USER_CACHE, USER_CACHE_ID_ + user.getId(), user);
 			CacheUtils.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getLoginName(), user);
-		}
+//		}
 		return user;
 	}
 	
@@ -75,16 +81,16 @@ public class UserUtils {
 	 * @return 取不到返回null
 	 */
 	public static User getByLoginName(String loginName){
-		User user = (User)CacheUtils.get(USER_CACHE, USER_CACHE_LOGIN_NAME_ + loginName);
-		if (user == null){
-			user = userDao.getByLoginName(new User(null, loginName));
+//		User user = (User)CacheUtils.get(USER_CACHE, USER_CACHE_LOGIN_NAME_ + loginName);
+//		if (user == null){
+		User	user = userDao.getByLoginName(new User(null, loginName));
 			if (user == null){
 				return null;
 			}
 			user.setRoleList(roleDao.findList(new Role(user)));
 			CacheUtils.put(USER_CACHE, USER_CACHE_ID_ + user.getId(), user);
 			CacheUtils.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getLoginName(), user);
-		}
+//		}
 		return user;
 	}
 	
@@ -136,8 +142,9 @@ public class UserUtils {
 	 */
 	public static List<Role> getRoleList(){
 		@SuppressWarnings("unchecked")
-		List<Role> roleList = (List<Role>)getCache(CACHE_ROLE_LIST);
-		if (roleList == null){
+//		List<Role> roleList = (List<Role>)getCache(CACHE_ROLE_LIST);
+//		if (roleList == null){
+		List<Role> roleList = Lists.newArrayList();
 			User user = getUser();
 			if (user.isAdmin()){
 				roleList = roleDao.findAllList(new Role());
@@ -146,8 +153,8 @@ public class UserUtils {
 				role.getSqlMap().put("dsf", BaseService.dataScopeFilter(user.getCurrentUser(), "o", "u"));
 				roleList = roleDao.findList(role);
 			}
-			putCache(CACHE_ROLE_LIST, roleList);
-		}
+//			putCache(CACHE_ROLE_LIST, roleList);
+//		}
 		return roleList;
 	}
 	
@@ -156,10 +163,12 @@ public class UserUtils {
 	 * @return
 	 */
 	public static List<Menu> getMenuList(){
-		@SuppressWarnings("unchecked")
-		List<Menu> menuList = (List<Menu>)getCache(CACHE_MENU_LIST);
-		if (menuList == null){
+//		@SuppressWarnings("unchecked")
+//		List<Menu> menuList = (List<Menu>)getCache(CACHE_MENU_LIST);
+//		if (menuList == null){
+		List<Menu> menuList=Lists.newArrayList();
 			User user = getUser();
+			log.debug("menu userName+++++++++++++++++++++:"+user.getLoginName());
 			if (user.isAdmin()){
 				menuList = menuDao.findAllList(new Menu());
 			}else{
@@ -167,8 +176,8 @@ public class UserUtils {
 				m.setUserId(user.getId());
 				menuList = menuDao.findByUserId(m);
 			}
-			putCache(CACHE_MENU_LIST, menuList);
-		}
+//			putCache(CACHE_MENU_LIST, menuList);
+//		}
 		return menuList;
 	}
 	

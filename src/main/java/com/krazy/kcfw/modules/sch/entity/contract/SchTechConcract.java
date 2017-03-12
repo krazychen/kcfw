@@ -103,7 +103,7 @@ public class SchTechConcract extends ActEntity<SchTechConcract> {
 		this.sccFinalComment = sccFinalComment;
 	}
 
-	@Length(min=1, max=64, message="合同名称长度必须介于 1 和 200 之间")
+	@Length(min=1, max=200, message="合同名称长度必须介于 1 和 200 之间")
 	public String getStcName() {
 		return sccName;
 	}
@@ -120,7 +120,7 @@ public class SchTechConcract extends ActEntity<SchTechConcract> {
 		this.sccNo = sccNo;
 	}
 	
-	@Length(min=1, max=1, message="合同类别长度必须介于 1 和 64 之间")
+	@Length(min=1, max=64, message="合同类别长度必须介于 1 和 64 之间")
 	public String getStcType() {
 		return sccType;
 	}
@@ -129,7 +129,7 @@ public class SchTechConcract extends ActEntity<SchTechConcract> {
 		this.sccType = sccType;
 	}
 	
-	@Length(min=1, max=1, message="研究方向长度必须介于 1 和 64 之间")
+	@Length(min=1, max=64, message="研究方向长度必须介于 1 和 64 之间")
 	public String getStcResearchType() {
 		return sccResearchType;
 	}
@@ -138,7 +138,7 @@ public class SchTechConcract extends ActEntity<SchTechConcract> {
 		this.sccResearchType = sccResearchType;
 	}
 	
-	@Length(min=1, max=1, message="研究方向子目长度必须介于 1 和 64 之间")
+	@Length(min=1, max=64, message="研究方向子目长度必须介于 1 和 64 之间")
 	public String getStcResearchTypeSub() {
 		return sccResearchTypeSub;
 	}
@@ -147,7 +147,7 @@ public class SchTechConcract extends ActEntity<SchTechConcract> {
 		this.sccResearchTypeSub = sccResearchTypeSub;
 	}
 	
-	@Length(min=1, max=1, message="所属行业长度必须介于 1 和 64 之间")
+	@Length(min=1, max=64, message="所属行业长度必须介于 1 和 64 之间")
 	public String getStcIndustry() {
 		return sccIndustry;
 	}
@@ -190,7 +190,7 @@ public class SchTechConcract extends ActEntity<SchTechConcract> {
 		this.sccResponseOfficeId = sccResponseOfficeId;
 	}
 	
-	@Length(min=1, max=64, message="合作企业名称长度必须介于 1 和 64 之间")
+	@Length(min=1, max=200, message="合作企业名称长度必须介于 1 和 200 之间")
 	public String getStcCompanyName() {
 		return sccCompanyName;
 	}
@@ -226,7 +226,7 @@ public class SchTechConcract extends ActEntity<SchTechConcract> {
 		this.sccCompanyType = sccCompanyType;
 	}
 	
-	@Length(min=1, max=1, message="合同状态长度必须介于 1 和 64 之间")
+	@Length(min=1, max=64, message="合同状态长度必须介于 1 和 64 之间")
 	public String getStcStatus() {
 		return sccStatus;
 	}
