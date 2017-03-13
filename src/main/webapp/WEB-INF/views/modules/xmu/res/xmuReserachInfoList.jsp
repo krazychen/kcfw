@@ -141,11 +141,11 @@
 				</shiro:hasPermission>
 			</c:if>
 			<shiro:hasPermission name="xmu:res:xmuReserachInfo:audit">
-			    <table:auditRow url="${ctx}/xmu/res/xmuReserachInfo/form" targetAction="${ctx}/xmu/res/xmuReserachInfo/saveAudit" title="学术活动" id="contentTable"></table:auditRow><!-- 审核按钮 -->
+			    <table:auditRow url="${ctx}/xmu/res/xmuReserachInfo/form" targetAction="${ctx}/xmu/res/xmuReserachInfo/saveAudit" title="科研信息" id="contentTable"></table:auditRow><!-- 审核按钮 -->
 			</shiro:hasPermission>
 			<c:if test="${!fn:contains(role, 'dept')}" >
 				<shiro:hasPermission name="xmu:res:xmuReserachInfo:back">
-				    <table:backRow url="${ctx}/xmu/res/xmuReserachInfo/form" targetAction="${ctx}/xmu/res/xmuReserachInfo/back" title="学术活动" id="contentTable"></table:backRow><!-- 撤回按钮 -->
+				    <table:backRow url="${ctx}/xmu/res/xmuReserachInfo/form" targetAction="${ctx}/xmu/res/xmuReserachInfo/back" title="科研信息" id="contentTable"></table:backRow><!-- 撤回按钮 -->
 				</shiro:hasPermission>
 			</c:if>
 			<c:if test="${!fn:contains(role, 'dept')}" >

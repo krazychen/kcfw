@@ -85,8 +85,8 @@
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 				<div class="form-group">
 					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学院：</span>
-					<sys:treeselect id="xwiOfficeName" name="xwiOfficeName" value="${xmuPagePub.xwiOfficeName}" labelName="xwiOfficeId" labelValue="${xmuWinningInfo.xwiOfficeId}"
-							title="部门" url="/sys/office/treeData?type=2" cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="true"/>
+					<sys:treeselect id="xwiOfficeName" name="xwiOfficeName" value="${xmuWinningInfo.xwiOfficeName}" labelName="xwiOfficeId" labelValue="${xmuWinningInfo.xwiOfficeId}"
+							title="部门" url="/sys/office/treeData?type=2" isAll="true"  cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="true"/>
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -141,11 +141,11 @@
 				</shiro:hasPermission>
 			</c:if>
 			<shiro:hasPermission name="xmu:res:xmuWinningInfo:audit">
-			    <table:auditRow url="${ctx}/xmu/res/xmuWinningInfo/form" targetAction="${ctx}/xmu/res/xmuWinningInfo/saveAudit" title="学术活动" id="contentTable"></table:auditRow><!-- 审核按钮 -->
+			    <table:auditRow url="${ctx}/xmu/res/xmuWinningInfo/form" targetAction="${ctx}/xmu/res/xmuWinningInfo/saveAudit" title="获奖信息" id="contentTable"></table:auditRow><!-- 审核按钮 -->
 			</shiro:hasPermission>
 			<c:if test="${!fn:contains(role, 'dept')}" >
 				<shiro:hasPermission name="xmu:res:xmuWinningInfo:back">
-				    <table:backRow url="${ctx}/xmu/res/xmuWinningInfo/form" targetAction="${ctx}/xmu/res/xmuWinningInfo/back" title="学术活动" id="contentTable"></table:backRow><!-- 撤回按钮 -->
+				    <table:backRow url="${ctx}/xmu/res/xmuWinningInfo/form" targetAction="${ctx}/xmu/res/xmuWinningInfo/back" title="获奖信息" id="contentTable"></table:backRow><!-- 撤回按钮 -->
 				</shiro:hasPermission>
 			</c:if>
 			<c:if test="${!fn:contains(role, 'dept')}" >
