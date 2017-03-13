@@ -70,7 +70,7 @@
 					<td>
 						${schPatentUnder.spuApplyPhone}
 					</td>
-				<c:if test="${schPatentUnder.spuAdvisTeacherName ne null || schPatentUnder.spuAdvisTeacherName ne ""}" >
+				<c:if test="${schPatentUnder.spuAdvisTeacherName ne null || schPatentUnder.spuAdvisTeacherName ne ''}" >
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>指导老师：</td>
 					<td>
 						${schPatentUnder.spuAdvisTeacherName}					
@@ -91,7 +91,7 @@
 				</tr>
 				</c:if>
 				
-				<c:if test="${schPatentUnder.spuAdvisTeacherName eq null || schPatentUnder.spuAdvisTeacherName eq ""}" >
+				<c:if test="${schPatentUnder.spuAdvisTeacherName eq null || schPatentUnder.spuAdvisTeacherName eq ''}" >
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>专利代理机构：</td>
 					<td>
 						${schPatentUnder.spuProxyName}	
