@@ -97,7 +97,57 @@
 			</if>
 		</where>
 		<!-- 数据范围过滤 -->
-		${sqlMap.dsf} ${sqlMap.proxy}
+		${sqlMap.dsf}
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findProxyList" resultType="SchPatentUnder">
+		SELECT distinct
+			<include refid="schPatentUnderColumns"/>
+		FROM sch_patent_under a
+		<include refid="schPatentUnderJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="spuName != null and spuName != ''">
+				AND a.spu_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{spuName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{spuName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{spuName},'%')</if>
+			</if>
+			<if test="spuTypeCode != null and spuTypeCode != ''">
+				AND a.spu_type_code = #{spuTypeCode}
+			</if>
+			<if test="spuApplySchoolName != null and spuApplySchoolName != ''">
+				AND a.spu_apply_school_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{spuApplySchoolName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{spuApplySchoolName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{spuApplySchoolName},'%')</if>
+			</if>
+			<if test="spuAdvisTeacherId != null and spuAdvisTeacherId != ''">
+				AND a.spu_advis_teacher_id = #{spuAdvisTeacherId}
+			</if>
+			<if test="spuStatus != null and spuStatus != ''">
+				AND a.spu_status = #{spuStatus}
+			</if>
+			<if test="createBy != null and createBy != ''">
+				AND a.create_by = #{createBy.id}
+			</if>
+			<if test="createDateFrom != null and createDateFrom != ''">
+				<![CDATA[ AND a.create_date >= #{createDateFrom} ]]>
+			</if>
+			<if test="createDateTo != null and createDateTo != ''">
+				<![CDATA[ AND a.create_date <= #{createDateTo} ]]>
+			</if>
+		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.proxy}
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}

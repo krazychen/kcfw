@@ -58,10 +58,16 @@ public class SchPatentUnderService extends CrudService<SchPatentUnderDao, SchPat
 	
 	public Page<SchPatentUnder> findPage(Page<SchPatentUnder> page, SchPatentUnder schPatentUnder) {
 		schPatentUnder.getSqlMap().put("dsf", dataScopeFilter(schPatentUnder.getCurrentUser(), "o", "u"));
-		if(StringUtils.isNoneBlank(UserUtils.getUser().getLoginName())){
-			schPatentUnder.getSqlMap().put("proxy", " or a.spu_proxy_id='"+UserUtils.getUser().getLoginName()+"'");
-		}
 		return super.findPage(page, schPatentUnder);
+	}
+	
+	public Page<SchPatentUnder> findProxyPage(Page<SchPatentUnder> page, SchPatentUnder schPatentUnder) {
+		if(StringUtils.isNoneBlank(UserUtils.getUser().getLoginName())){
+			schPatentUnder.getSqlMap().put("proxy", " and a.spu_proxy_id='"+UserUtils.getUser().getLoginName()+"'");
+		}
+		schPatentUnder.setPage(page);
+		page.setList(dao.findProxyList(schPatentUnder));
+		return page;
 	}
 	
 	@Transactional(readOnly = false)

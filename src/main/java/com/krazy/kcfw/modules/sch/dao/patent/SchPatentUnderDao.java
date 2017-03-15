@@ -3,6 +3,8 @@
  */
 package com.krazy.kcfw.modules.sch.dao.patent;
 
+import java.util.List;
+
 import com.krazy.kcfw.common.persistence.CrudDao;
 import com.krazy.kcfw.common.persistence.annotation.MyBatisDao;
 import com.krazy.kcfw.modules.oa.entity.TestAudit;
@@ -15,6 +17,8 @@ import com.krazy.kcfw.modules.sch.entity.patent.SchPatentUnder;
  */
 @MyBatisDao
 public interface SchPatentUnderDao extends CrudDao<SchPatentUnder> {
+	
+	public List<SchPatentUnder> findProxyList(SchPatentUnder schPatentUnder);
 	
 	public int updateStatus(SchPatentUnder schPatentUnder);
 	

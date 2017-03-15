@@ -87,8 +87,19 @@ public class SchPatentUnderController extends BaseController {
 	@RequiresPermissions("sch:patent:schPatentUnder:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(SchPatentUnder schPatentUnder, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<SchPatentUnder> page = schPatentUnderService.findPage(new Page<SchPatentUnder>(request, response), schPatentUnder); 
-		model.addAttribute("page", page);
+		User user=UserUtils.getUser();
+		Office office=user.getOffice();
+		String officeName="";
+		if(office!=null&&office.getName()!=null){
+			officeName=office.getName();
+		}
+		if(officeName.indexOf("专利机构")!=-1){
+			Page<SchPatentUnder> page = schPatentUnderService.findProxyPage(new Page<SchPatentUnder>(request, response), schPatentUnder); 
+			model.addAttribute("page", page);
+		}else{
+			Page<SchPatentUnder> page = schPatentUnderService.findPage(new Page<SchPatentUnder>(request, response), schPatentUnder); 
+			model.addAttribute("page", page);
+		}
 		return "modules/sch/patent/schPatentUnderList";
 	}
 	
