@@ -67,7 +67,7 @@ public class XmuProjectStudent extends DataEntity<XmuProjectStudent> {
 	}
 
 	@Length(min=1, max=200, message="项目ID长度必须介于 1 和 200 之间")
-	@ExcelField(title="项目ID", align=2, sort=6)
+	//@ExcelField(title="项目ID", align=2, sort=6)
 	public String getXpsProjId() {
 		return xpsProjId;
 	}
@@ -77,7 +77,7 @@ public class XmuProjectStudent extends DataEntity<XmuProjectStudent> {
 	}
 	
 	@Length(min=1, max=64, message="学生学院ID长度必须介于 1 和 64 之间")
-	@ExcelField(title="学生学院ID", align=2, sort=7)
+	//@ExcelField(title="学生学院ID", align=2, sort=7)
 	public String getXpsOfficeId() {
 		return xpsOfficeId;
 	}
@@ -97,7 +97,7 @@ public class XmuProjectStudent extends DataEntity<XmuProjectStudent> {
 	}
 	
 	@Length(min=1, max=2000, message="学生ID长度必须介于 1 和 2000 之间")
-	@ExcelField(title="学生ID", align=2, sort=9)
+	//@ExcelField(title="学生ID", align=2, sort=9)
 	public String getXpsUserId() {
 		return xpsUserId;
 	}
@@ -277,7 +277,7 @@ public class XmuProjectStudent extends DataEntity<XmuProjectStudent> {
 	}
 	
 	@Length(min=0, max=64, message="状态:正常、离开、空长度必须介于 0 和 64 之间")
-	@ExcelField(title="状态:正常、离开、空", dictType="XMU_PROJECT_STU_STATUS", align=2, sort=27)
+	@ExcelField(title="状态", dictType="XMU_PROJECT_STU_STATUS", align=2, sort=27)
 	public String getXpuUserStatus() {
 		return xpuUserStatus;
 	}

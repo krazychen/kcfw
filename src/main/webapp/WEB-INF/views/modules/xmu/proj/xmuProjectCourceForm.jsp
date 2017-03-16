@@ -34,7 +34,7 @@
 		
 		function addRow(list, idx, tpl, row){
 			$(list).append(Mustache.render(tpl, {
-				idx: idx, delBtn: true, row: row
+				idx: idx, delBtn: true, row: row,index:idx+1
 			}));
 			$(list+idx).find("select").each(function(){
 				if($(this).attr("data-value"))
@@ -103,7 +103,7 @@
 								<input id="xmuProjectCourceList{{idx}}_xpcCourseInfoId" name="xmuProjectCourceList[{{idx}}].xpcCourseInfoId" type="hidden" value="{{row.xpcCourseInfoId}}"/>
 							</td>
 							<td nowrap>
-								{{idx}}
+								{{index}}
 							</td>
 							<td nowrap>
 								<input type="hidden" id="xmuProjectCourceList{{idx}}_xpcOfficeId" name="xmuProjectCourceList[{{idx}}].xpcOfficeId" type="text" value="{{row.xpcOfficeId}}"    class="input-small"/>

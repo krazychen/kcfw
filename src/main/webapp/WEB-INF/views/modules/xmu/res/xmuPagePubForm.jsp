@@ -134,7 +134,7 @@
 					<td class="width-15 active"><label class="pull-right">发表时间：</label></td>
 					<td class="width-35">
 						<input id="xppPageTime" name="xppPageTime" type="text" maxlength="20" class="laydate-icon form-control layer-date formDateMaxWidth "
-							value="<fmt:formatDate value="${xmuPagePub.xppPageTime}" pattern="yyyy"/>"/>
+							value="${xmuPagePub.xppPageTime}"/>
 					</td>
 					<td class="width-15 active"><label class="pull-right">第几作者：</label></td>
 					<td class="width-35">

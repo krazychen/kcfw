@@ -85,7 +85,7 @@
 				<div class="form-group">
 					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学院：</span>
 					<sys:treeselect id="xppOfficeName" name="xppOfficeName" value="${xmuPagePub.xppOfficeName}" labelName="xppOfficeId" labelValue="${xmuPagePub.xppOfficeId}"
-							title="部门" url="/sys/office/treeData?type=2" isAll="true" cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="true"/>
+							title="部门" url="/sys/office/treeData?type=2" isAll="true" cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="false"/>
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -178,7 +178,7 @@
 				<th> <input type="checkbox" class="i-checks"></th>
 				<th  class="sort-column xpp_user_stuno">学号</th>
 				<th  class="sort-column xpp_user_name">姓名</th>
-				<th  class="sort-column ">学院</th>
+				<th  class="sort-column XPP_OFFICE_NAME">学院</th>
 				<th  class="sort-column xpp_user_profession">专业</th>	
 				<th  class="sort-column xpp_page_name">论文题目</th>				
 				<th  class="sort-column xpp_page_publication">发表刊物</th>
@@ -214,7 +214,7 @@
 					${xmuPagePub.xppPagePublication}
 				</td>
 				<td>
-					<fmt:formatDate value="${xmuPagePub.xppPageTime}" pattern="yyyy"/>
+					${xmuPagePub.xppPageTime}
 				</td>
 				<td>
 					${xmuPagePub.xppPageAuthorNo}

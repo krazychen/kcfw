@@ -54,18 +54,18 @@
 	<div class="row">
 	<div class="col-sm-12">
 		<div class="pull-left">
-			<shiro:hasPermission name="sys:user:add">
-				<table:addRow url="${ctx}/sys/user/form" title="用户" width="800px" height="625px" target="officeContent"></table:addRow><!-- 增加按钮 -->
+			<!-- <shiro:hasPermission name="sys:user:add">
+				<table:addRow url="${ctx}/sys/user/form" title="用户" width="800px" height="625px" target="officeContent"></table:addRow>增加按钮 
 			</shiro:hasPermission>
 			<shiro:hasPermission name="sys:user:edit">
-			    <table:editRow url="${ctx}/sys/user/form" id="contentTable"  title="用户" width="800px" height="680px" target="officeContent"></table:editRow><!-- 编辑按钮 -->
+			    <table:editRow url="${ctx}/sys/user/form" id="contentTable"  title="用户" width="800px" height="680px" target="officeContent"></table:editRow> 编辑按钮
 			</shiro:hasPermission>
 			<shiro:hasPermission name="sys:user:del">
-				<table:delRow url="${ctx}/sys/user/deleteAll" id="contentTable"></table:delRow><!-- 删除按钮 -->
+				<table:delRow url="${ctx}/sys/user/deleteAll" id="contentTable"></table:delRow>删除按钮 
 			</shiro:hasPermission>
 			<shiro:hasPermission name="sys:user:import">
-				<table:importExcel url="${ctx}/sys/user/import"></table:importExcel><!-- 导入按钮 -->
-			</shiro:hasPermission>
+				<table:importExcel url="${ctx}/sys/user/import"></table:importExcel> 导入按钮
+			</shiro:hasPermission>-->
 			<shiro:hasPermission name="sys:user:export">
 	       		<table:exportExcel url="${ctx}/sys/user/export"></table:exportExcel><!-- 导出按钮 -->
 	       </shiro:hasPermission>

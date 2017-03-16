@@ -209,7 +209,13 @@ public class XmuWinningInfoController extends BaseController {
 		}
 
 		xmuWinningInfoService.saveAduit(xmuWinningInfo);//审核
-		addMessage(redirectAttributes, "审核获奖信息成功");
+		if("yes".equals(xmuWinningInfo.getAct().getFlag())){
+			addMessage(redirectAttributes, "获奖信息审核通过");
+		}else if("reject".equals(xmuWinningInfo.getAct().getFlag())){
+			addMessage(redirectAttributes, "获奖信息审核不通过");
+		}else if("no".equals(xmuWinningInfo.getAct().getFlag())){
+			addMessage(redirectAttributes, "获奖信息退回");
+		}
 		return "redirect:"+Global.getAdminPath()+"/xmu/res/xmuWinningInfo/?repage";
 	}
 	

@@ -86,7 +86,7 @@
 				<div class="form-group">
 					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学院：</span>
 					<sys:treeselect id="xpiOfficeName" name="xpiOfficeName" value="${xmuReserachInfo.xpiOfficeName}" labelName="xpiOfficeId" labelValue="${xmuReserachInfo.xpiOfficeId}"
-							title="部门" url="/sys/office/treeData?type=2" cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="true"/>
+							title="部门" url="/sys/office/treeData?type=2" cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="false"/>
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -178,7 +178,7 @@
 				<th> <input type="checkbox" class="i-checks"></th>
 				<th  class="sort-column xpi_user_stuno">学号</th>
 				<th  class="sort-column xpi_user_name">姓名</th>
-				<th  class="sort-column ">学院</th>
+				<th  class="sort-column XPI_OFFICE_NAME">学院</th>
 				<th  class="sort-column xpi_user_profession">专业</th>	
 				<th  class="sort-column xpi_research_years">年份</th>
 				<th  class="sort-column xpi_research_name">科研项目名称</th>
@@ -192,7 +192,7 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="xmuReserachInfo">
 			<tr>
-				<td> <input type="checkbox" id="${xmuReserachInfo.id}" status="${xmuPatentInfo.xpiStatus}" class="i-checks"></td>
+				<td> <input type="checkbox" id="${xmuReserachInfo.id}" status="${xmuReserachInfo.xpiStatus}" class="i-checks"></td>
 				<td><a  href="#" onclick="openDialogView('查看科研信息', '${ctx}/xmu/res/xmuReserachInfo/form?id=${xmuReserachInfo.id}','800px', '500px')">
 					${xmuReserachInfo.xpiUserStuno}
 				</a></td>
@@ -206,7 +206,7 @@
 					${fns:getDictLabel(xmuReserachInfo.xpiUserGrade, 'XMU_PROJECT_COR_GRADE', '')}
 				</td>
 				<td>
-					<fmt:formatDate value="${xmuReserachInfo.xpiResearchYears}" pattern="yyyy"/>
+					${xmuReserachInfo.xpiResearchYears}
 				</td>
 				<td>
 					${xmuReserachInfo.xpiResearchName}
@@ -221,7 +221,7 @@
 					${xmuReserachInfo.xpiResearchTeacher}
 				</td>
 				<td>
-					${xmuReserachInfo.xpiStatus}
+					${fns:getDictLabel(xmuReserachInfo.xpiStatus, 'XMU_EVENT_STATUS', '')}
 				</td>				
 				<td>
 					<shiro:hasPermission name="xmu:res:xmuReserachInfo:view">

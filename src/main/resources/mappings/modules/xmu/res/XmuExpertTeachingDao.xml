@@ -53,7 +53,10 @@
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="xetProjName != null and xetProjName != ''">
-				AND a.xet_proj_name = #{xetProjName}
+				AND a.xet_proj_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xetProjName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xetProjName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xetProjName},'%')</if>
 			</if>
 			<if test="xetExpretOffice != null and xetExpretOffice != ''">
 				AND a.xet_expret_office = #{xetExpretOffice}

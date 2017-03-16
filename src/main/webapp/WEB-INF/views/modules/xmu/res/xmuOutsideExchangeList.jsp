@@ -87,7 +87,7 @@
 				<div class="form-group">
 					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学院：</span>
 					<sys:treeselect id="xoeOfficeName" name="xoeOfficeName" value="${xmuOutsideExchange.xoeOfficeName}" labelName="xoeOfficeId" labelValue="${xmuOutsideExchange.xoeOfficeId}"
-							title="部门" url="/sys/office/treeData?type=2" isAll="true" cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="true"/>
+							title="部门" url="/sys/office/treeData?type=2" isAll="true" cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="false"/>
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -179,7 +179,7 @@
 				<th> <input type="checkbox" class="i-checks"></th>
 				<th  class="sort-column xoe_user_stuno">学号</th>
 				<th  class="sort-column xoe_user_name">姓名</th>
-				<th  class="sort-column ">学院</th>
+				<th  class="sort-column XOE_OFFICE_NAME">学院</th>
 				<th  class="sort-column xoe_user_profession">专业</th>	
 				<th  class="sort-column xoe_exchange_years">交流年份</th>
 				<th  class="sort-column xoe_exchange_area">派往国家或地区</th>
@@ -208,7 +208,7 @@
 					${fns:getDictLabel(xmuOutsideExchange.xoeUserGrade, 'XMU_PROJECT_COR_GRADE', '')}
 				</td>
 				<td>
-					<fmt:formatDate value="${xmuOutsideExchange.xoeExchangeYears}" pattern="yyyy"/>
+					${xmuOutsideExchange.xoeExchangeYears}
 				</td>
 				<td>
 					${xmuOutsideExchange.xoeExchangeArea}
@@ -217,7 +217,7 @@
 					${xmuOutsideExchange.xoeExchangeSchool}
 				</td>
 				<td>
-					<fmt:formatDate value="${xmuOutsideExchange.xoeExchangeTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					<fmt:formatDate value="${xmuOutsideExchange.xoeExchangeTime}" pattern="yyyy-MM-dd"/>
 				</td>
 				<td>
 					${fns:getDictLabel(xmuOutsideExchange.xoeExchangeType, 'XMU_EXCHANGE_TYPE', '')}

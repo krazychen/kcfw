@@ -89,8 +89,8 @@
 		         if("${targetAction}"!=""){
 		        	 inputForm.attr("action","${targetAction}");
 		         }
-		         var flag=inputForm.find('#reject');
-		         flag.val('yes');
+		         var flag=inputForm.find('#flag');
+		         flag.val('reject');
 		         var top_iframe;
 		         if("${target}"!=""){
 		        	 top_iframe = target;//如果指定了iframe，则在改frame中跳转
@@ -116,8 +116,8 @@
 		         if("${targetAction}"!=""){
 		        	 inputForm.attr("action","${targetAction}");
 		         }
-		         var flag=inputForm.find('#no');
-		         flag.val('yes');
+		         var flag=inputForm.find('#flag');
+		         flag.val('no');
 		         var top_iframe;
 		         if("${target}"!=""){
 		        	 top_iframe = target;//如果指定了iframe，则在改frame中跳转

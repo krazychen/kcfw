@@ -125,7 +125,7 @@
 					<td class="width-15 active"><label class="pull-right">年份：</label></td>
 					<td class="width-35">
 						<input id="xpiResearchYears" name="xpiResearchYears" type="text" maxlength="20" class="laydate-icon form-control layer-date formDateMaxWidth "
-							value="<fmt:formatDate value="${xmuReserachInfo.xpiResearchYears}" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
+							value="${xmuReserachInfo.xpiResearchYears}"/>
 					</td>
 					<td class="width-15 active"><label class="pull-right">科研项目名称：</label></td>
 					<td class="width-35">

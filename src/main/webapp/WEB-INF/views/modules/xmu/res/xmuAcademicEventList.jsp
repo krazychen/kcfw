@@ -81,8 +81,8 @@
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 				<div class="form-group">
 					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学院：</span>
-					<sys:treeselect id="xaeOfficeName" name="xaeOfficeName" value="${xmuAcademicEvent.xaeOfficeName}" labelName="xaeOfficeId" labelValue="${xmuAcademicEvent.xaeOfficeId}"
-						title="部门" url="/sys/office/treeData?type=2" isAll="true"  cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="true"/>
+					<sys:treeselect id="xaeOfficeId" name="xaeOfficeId" value="${xmuAcademicEvent.xaeOfficeId}" labelName="xaeOfficeName" labelValue="${xmuAcademicEvent.xaeOfficeName}"
+						title="部门" url="/sys/office/treeData?type=2" isAll="true"  cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="false"/>
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -167,7 +167,7 @@
 				<th> <input type="checkbox" class="i-checks"></th>
 				<th  class="sort-column xae_user_stuno">学号</th>
 				<th  class="sort-column xae_user_name">姓名</th>
-				<th  class="sort-column ">学院</th>
+				<th  class="sort-column XAE_OFFICE_NAME">学院</th>
 				<th  class="sort-column xae_user_profession">专业</th>	
 				<th  class="sort-column xae_event_years">参加年份</th>			
 				<th  class="sort-column xae_event_name">学术活动名称</th>				

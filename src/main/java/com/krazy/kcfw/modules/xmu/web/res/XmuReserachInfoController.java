@@ -209,7 +209,13 @@ public class XmuReserachInfoController extends BaseController {
 		}
 
 		xmuReserachInfoService.saveAduit(xmuReserachInfo);//审核
-		addMessage(redirectAttributes, "审核科研信息成功");
+		if("yes".equals(xmuReserachInfo.getAct().getFlag())){
+			addMessage(redirectAttributes, "科研信息审核通过");
+		}else if("reject".equals(xmuReserachInfo.getAct().getFlag())){
+			addMessage(redirectAttributes, "科研信息审核不通过");
+		}else if("no".equals(xmuReserachInfo.getAct().getFlag())){
+			addMessage(redirectAttributes, "科研信息退回");
+		}
 		return "redirect:"+Global.getAdminPath()+"/xmu/res/xmuReserachInfo/?repage";
 	}
 	

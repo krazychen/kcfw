@@ -55,7 +55,7 @@
 				<div class="form-group">
 					<span>学院：</span>
 					<sys:treeselect id="xelExpretOfficeId" name="xelExpretOfficeId" value="${xmuExpertLecture.xelExpretOfficeId}" labelName="xelExpretOffice" labelValue="${xmuExpertLecture.xelExpretOffice}"
-						title="部门" url="/sys/office/treeData?type=2" isAll="true"  cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="true"/>
+						title="部门" url="/sys/office/treeData?type=2" isAll="true"  cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="false"/>
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">

@@ -77,6 +77,12 @@
 					<if test="dbName == 'mssql'">'%'+#{xptProjName}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{xptProjName},'%')</if>
 			</if>
+			<if test="xptProjId != null and xptProjId != ''">
+				AND a.xpt_proj_id = #{xptProjId}
+			</if>
+			<if test="xptTeachingInfoId != null and xptTeachingInfoId != ''">
+				AND a.xpt_teaching_info_id = #{xptTeachingInfoId}
+			</if>
 			<if test="xptProjLevel != null and xptProjLevel != ''">
 				AND a.xpt_proj_level = #{xptProjLevel}
 			</if>
@@ -233,22 +239,22 @@
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="xptTeachingName != null and xptTeachingName != ''">
-				AND a.xpt_teaching_name LIKE 
+				AND a.XTI_TEACHING_NAME LIKE 
 					<if test="dbName == 'oracle'">'%'||#{xptTeachingName}||'%'</if>
 					<if test="dbName == 'mssql'">'%'+#{xptTeachingName}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{xptTeachingName},'%')</if>
 			</if>
 			<if test="xptTeachingLang != null and xptTeachingLang != ''">
-				AND a.xpt_teaching_lang = #{xptTeachingLang}
+				AND a.XTI_TEACHING_LANG = #{xptTeachingLang}
 			</if>
 			<if test="xptTeachingOffice != null and xptTeachingOffice != ''">
-				AND a.xpt_teaching_office LIKE 
+				AND a.XTI_TEACHING_OFFICE LIKE 
 					<if test="dbName == 'oracle'">'%'||#{xptTeachingOffice}||'%'</if>
 					<if test="dbName == 'mssql'">'%'+#{xptTeachingOffice}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{xptTeachingOffice},'%')</if>
 			</if>
 			<if test="xptTeachingGrade != null and xptTeachingGrade != ''">
-				AND a.xpt_teaching_grade LIKE 
+				AND a.XTI_TEACHING_GRADE LIKE 
 					<if test="dbName == 'oracle'">'%'||#{xptTeachingGrade}||'%'</if>
 					<if test="dbName == 'mssql'">'%'+#{xptTeachingGrade}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{xptTeachingGrade},'%')</if>

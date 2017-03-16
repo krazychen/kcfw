@@ -23,7 +23,7 @@ public class XmuOutsideExchange extends ActEntity<XmuOutsideExchange> {
 	private String xoeOfficeName;		// 学生学院名称
 	private String xoeUserProfession;		// 学生专业
 	private String xoeUserName;		// 学生名称
-	private Date xoeExchangeYears;		// 交流年份
+	private String xoeExchangeYears;		// 交流年份
 	private String xoeExchangeSchool;		// 交流学校
 	private String xoeProjId;		// 项目ID
 	private String xoeProjName;		// 项目名称
@@ -95,13 +95,13 @@ public class XmuOutsideExchange extends ActEntity<XmuOutsideExchange> {
 		this.xoeUserName = xoeUserName;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	
 	@ExcelField(title="交流年份", align=2, sort=3)
-	public Date getXoeExchangeYears() {
+	public String getXoeExchangeYears() {
 		return xoeExchangeYears;
 	}
 
-	public void setXoeExchangeYears(Date xoeExchangeYears) {
+	public void setXoeExchangeYears(String xoeExchangeYears) {
 		this.xoeExchangeYears = xoeExchangeYears;
 	}
 	
@@ -116,7 +116,7 @@ public class XmuOutsideExchange extends ActEntity<XmuOutsideExchange> {
 	}
 	
 	@Length(min=0, max=200, message="项目ID长度必须介于 0 和 200 之间")
-	@ExcelField(title="项目ID", align=2, sort=11)
+	//@ExcelField(title="项目ID", align=2, sort=11)
 	public String getXoeProjId() {
 		return xoeProjId;
 	}
@@ -136,7 +136,7 @@ public class XmuOutsideExchange extends ActEntity<XmuOutsideExchange> {
 	}
 	
 	@Length(min=1, max=64, message="学生学院ID长度必须介于 1 和 64 之间")
-	@ExcelField(title="学生学院ID", align=2, sort=13)
+	//@ExcelField(title="学生学院ID", align=2, sort=13)
 	public String getXoeOfficeId() {
 		return xoeOfficeId;
 	}
@@ -146,7 +146,7 @@ public class XmuOutsideExchange extends ActEntity<XmuOutsideExchange> {
 	}
 	
 	@Length(min=1, max=2000, message="学生ID长度必须介于 1 和 2000 之间")
-	@ExcelField(title="学生ID", align=2, sort=14)
+	//@ExcelField(title="学生ID", align=2, sort=14)
 	public String getXoeUserId() {
 		return xoeUserId;
 	}
@@ -176,7 +176,7 @@ public class XmuOutsideExchange extends ActEntity<XmuOutsideExchange> {
 	}
 	
 	@Length(min=0, max=64, message="流程实例ID长度必须介于 0 和 64 之间")
-	@ExcelField(title="流程实例ID", align=2, sort=17)
+	//@ExcelField(title="流程实例ID", align=2, sort=17)
 	public String getProcInsId() {
 		return procInsId;
 	}
@@ -186,7 +186,7 @@ public class XmuOutsideExchange extends ActEntity<XmuOutsideExchange> {
 	}
 	
 	@Length(min=0, max=64, message="活动状态长度必须介于 0 和 64 之间")
-	@ExcelField(title="活动状态", align=2, sort=18)
+	//@ExcelField(title="活动状态", align=2, sort=18)
 	public String getXoeStatus() {
 		return xoeStatus;
 	}
@@ -196,7 +196,7 @@ public class XmuOutsideExchange extends ActEntity<XmuOutsideExchange> {
 	}
 	
 	@Length(min=0, max=1000, message="院系管理员审核意见长度必须介于 0 和 1000 之间")
-	@ExcelField(title="院系管理员审核意见", align=2, sort=19)
+	//@ExcelField(title="院系管理员审核意见", align=2, sort=19)
 	public String getXoeCollegeComment() {
 		return xoeCollegeComment;
 	}
@@ -206,7 +206,7 @@ public class XmuOutsideExchange extends ActEntity<XmuOutsideExchange> {
 	}
 	
 	@Length(min=0, max=1000, message="系统管理员审核意见长度必须介于 0 和 1000 之间")
-	@ExcelField(title="系统管理员审核意见", align=2, sort=20)
+	//@ExcelField(title="系统管理员审核意见", align=2, sort=20)
 	public String getXoeManageComment() {
 		return xoeManageComment;
 	}
@@ -216,7 +216,7 @@ public class XmuOutsideExchange extends ActEntity<XmuOutsideExchange> {
 	}
 	
 	@Length(min=0, max=1000, message="待审院系管理员长度必须介于 0 和 1000 之间")
-	@ExcelField(title="待审院系管理员", align=2, sort=21)
+	//@ExcelField(title="待审院系管理员", align=2, sort=21)
 	public String getXoeCollegeStandby() {
 		return xoeCollegeStandby;
 	}
@@ -226,7 +226,7 @@ public class XmuOutsideExchange extends ActEntity<XmuOutsideExchange> {
 	}
 	
 	@Length(min=0, max=1000, message="待审系统管理员长度必须介于 0 和 1000 之间")
-	@ExcelField(title="待审系统管理员", align=2, sort=22)
+	//@ExcelField(title="待审系统管理员", align=2, sort=22)
 	public String getXoeManageStandby() {
 		return xoeManageStandby;
 	}
@@ -245,7 +245,7 @@ public class XmuOutsideExchange extends ActEntity<XmuOutsideExchange> {
 		this.xoeExchangeArea = xoeExchangeArea;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@ExcelField(title="交流时间", align=2, sort=24)
 	public Date getXoeExchangeTime() {
 		return xoeExchangeTime;

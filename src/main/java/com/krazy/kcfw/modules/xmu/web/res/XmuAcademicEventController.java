@@ -237,7 +237,13 @@ public class XmuAcademicEventController extends BaseController {
 		}
 
 		xmuAcademicEventService.saveAduit(xmuAcademicEvent);//审核
-		addMessage(redirectAttributes, "审核学术活动成功");
+		if("yes".equals(xmuAcademicEvent.getAct().getFlag())){
+			addMessage(redirectAttributes, "学术活动审核通过");
+		}else if("reject".equals(xmuAcademicEvent.getAct().getFlag())){
+			addMessage(redirectAttributes, "学术活动审核不通过");
+		}else if("no".equals(xmuAcademicEvent.getAct().getFlag())){
+			addMessage(redirectAttributes, "学术活动退回");
+		}	
 		return "redirect:"+Global.getAdminPath()+"/xmu/res/xmuAcademicEvent/?repage";
 	}
 	

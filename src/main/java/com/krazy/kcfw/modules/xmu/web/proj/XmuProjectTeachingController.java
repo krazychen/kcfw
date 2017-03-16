@@ -136,6 +136,7 @@ public class XmuProjectTeachingController extends BaseController {
     		new ExportExcel("学年教学", XmuProjectTeaching.class).setDataList(page.getList()).write(response, fileName).dispose();
     		return null;
 		} catch (Exception e) {
+			e.printStackTrace();
 			addMessage(redirectAttributes, "导出学年教学记录失败！失败信息："+e.getMessage());
 		}
 		return "redirect:"+Global.getAdminPath()+"/xmu/proj/xmuProjectTeaching/?repage";

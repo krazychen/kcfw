@@ -39,7 +39,7 @@
 		<xstream.version>1.4.7</xstream.version>
 		<guava.version>17.0</guava.version>
 		<dozer.version>5.5.1</dozer.version>
-		<poi.version>3.9</poi.version>
+		<poi.version>3.15</poi.version>
 		<freemarker.version>2.3.20</freemarker.version>
 		
 		<!-- jdbc driver setting -->
@@ -63,7 +63,7 @@
 		<repository>
 			<id>kcfw-repos</id>
 			<name>kcfw Repository</name>
-			<url>http://maven.kcfw.com/nexus/content/groups/public</url>
+			<url>http://maven.aliyun.com/nexus/content/groups/public</url>
 		</repository>
 		
 	</repositories>
@@ -74,7 +74,7 @@
 		<pluginRepository>
 			<id>kcfw-repos</id>
 			<name>kcfw Repository</name>
-			<url>http://maven.kcfw.com/nexus/content/groups/public</url>
+			<url>http://maven.aliyun.com/nexus/content/groups/public</url>
 		</pluginRepository>
 		
 	</pluginRepositories> 

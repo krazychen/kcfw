@@ -113,7 +113,7 @@
 					<td class="width-15 active"><label class="pull-right">交流年份：</label></td>
 					<td class="width-35">
 						<input readonly="true" id="xoeExchangeYears" name="xoeExchangeYears" type="text" maxlength="20" class="laydate-icon form-control layer-date formDateMaxWidth "
-							value="<fmt:formatDate value="${xmuOutsideExchange.xoeExchangeYears}" pattern="yyyy"/>"/>
+							value="${xmuOutsideExchange.xoeExchangeYears}"/>
 					</td>
 					<td class="width-15 active"><label class="pull-right">派往国家或地区：</label></td>
 					<td class="width-35">
@@ -128,7 +128,7 @@
 					<td class="width-15 active"><label class="pull-right">交流时间：</label></td>
 					<td class="width-35">
 						<input readonly="true" id="xoeExchangeTime" name="xoeExchangeTime" type="text" maxlength="20" class="laydate-icon form-control layer-date formDateMaxWidth "
-							value="<fmt:formatDate value="${xmuOutsideExchange.xoeExchangeTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
+							value="<fmt:formatDate value="${xmuOutsideExchange.xoeExchangeTime}" pattern="yyyy-MM-dd"/>"/>
 					</td>
 				</tr>
 				<tr>

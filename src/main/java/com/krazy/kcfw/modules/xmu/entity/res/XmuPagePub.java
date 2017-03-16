@@ -24,7 +24,7 @@ public class XmuPagePub extends ActEntity<XmuPagePub> {
 	private String xppUserProfession;		// 学生专业
 	private String xppUserName;		// 学生名称
 	private String xppPageName;		// 论文题目
-	private Date xppPageTime;		// 发表时间
+	private String xppPageTime;		// 发表时间
 	private String xppProjId;		// 项目ID
 	private String xppProjName;		// 项目名称
 	private String xppOfficeId;		// 学生学院ID
@@ -107,18 +107,17 @@ public class XmuPagePub extends ActEntity<XmuPagePub> {
 		this.xppPageName = xppPageName;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@ExcelField(title="发表时间", align=2, sort=4)
-	public Date getXppPageTime() {
+	public String getXppPageTime() {
 		return xppPageTime;
 	}
 
-	public void setXppPageTime(Date xppPageTime) {
+	public void setXppPageTime(String xppPageTime) {
 		this.xppPageTime = xppPageTime;
 	}
 	
 	@Length(min=0, max=200, message="项目ID长度必须介于 0 和 200 之间")
-	@ExcelField(title="项目ID", align=2, sort=11)
+	//@ExcelField(title="项目ID", align=2, sort=11)
 	public String getXppProjId() {
 		return xppProjId;
 	}
@@ -138,7 +137,7 @@ public class XmuPagePub extends ActEntity<XmuPagePub> {
 	}
 	
 	@Length(min=1, max=64, message="学生学院ID长度必须介于 1 和 64 之间")
-	@ExcelField(title="学生学院ID", align=2, sort=13)
+	//@ExcelField(title="学生学院ID", align=2, sort=13)
 	public String getXppOfficeId() {
 		return xppOfficeId;
 	}
@@ -148,7 +147,7 @@ public class XmuPagePub extends ActEntity<XmuPagePub> {
 	}
 	
 	@Length(min=1, max=2000, message="学生ID长度必须介于 1 和 2000 之间")
-	@ExcelField(title="学生ID", align=2, sort=14)
+	//@ExcelField(title="学生ID", align=2, sort=14)
 	public String getXppUserId() {
 		return xppUserId;
 	}
@@ -178,7 +177,7 @@ public class XmuPagePub extends ActEntity<XmuPagePub> {
 	}
 	
 	@Length(min=0, max=64, message="流程实例ID长度必须介于 0 和 64 之间")
-	@ExcelField(title="流程实例ID", align=2, sort=17)
+	//@ExcelField(title="流程实例ID", align=2, sort=17)
 	public String getProcInsId() {
 		return procInsId;
 	}
@@ -188,7 +187,7 @@ public class XmuPagePub extends ActEntity<XmuPagePub> {
 	}
 	
 	@Length(min=0, max=64, message="审核状态长度必须介于 0 和 64 之间")
-	@ExcelField(title="审核状态", dictType="XMU_EVENT_STATUS", align=2, sort=18)
+	//@ExcelField(title="审核状态", dictType="XMU_EVENT_STATUS", align=2, sort=18)
 	public String getXppStatus() {
 		return xppStatus;
 	}
@@ -198,7 +197,7 @@ public class XmuPagePub extends ActEntity<XmuPagePub> {
 	}
 	
 	@Length(min=0, max=1000, message="院系管理员审核意见长度必须介于 0 和 1000 之间")
-	@ExcelField(title="院系管理员审核意见", align=2, sort=19)
+	//@ExcelField(title="院系管理员审核意见", align=2, sort=19)
 	public String getXppCollegeComment() {
 		return xppCollegeComment;
 	}
@@ -208,7 +207,7 @@ public class XmuPagePub extends ActEntity<XmuPagePub> {
 	}
 	
 	@Length(min=0, max=1000, message="系统管理员审核意见长度必须介于 0 和 1000 之间")
-	@ExcelField(title="系统管理员审核意见", align=2, sort=20)
+	//@ExcelField(title="系统管理员审核意见", align=2, sort=20)
 	public String getXppManageComment() {
 		return xppManageComment;
 	}
@@ -218,7 +217,7 @@ public class XmuPagePub extends ActEntity<XmuPagePub> {
 	}
 	
 	@Length(min=0, max=1000, message="待审院系管理员长度必须介于 0 和 1000 之间")
-	@ExcelField(title="待审院系管理员", align=2, sort=21)
+	//@ExcelField(title="待审院系管理员", align=2, sort=21)
 	public String getXppCollegeStandby() {
 		return xppCollegeStandby;
 	}
@@ -228,7 +227,7 @@ public class XmuPagePub extends ActEntity<XmuPagePub> {
 	}
 	
 	@Length(min=0, max=1000, message="待审系统管理员长度必须介于 0 和 1000 之间")
-	@ExcelField(title="待审系统管理员", align=2, sort=22)
+	//@ExcelField(title="待审系统管理员", align=2, sort=22)
 	public String getXppManageStandby() {
 		return xppManageStandby;
 	}
@@ -278,7 +277,7 @@ public class XmuPagePub extends ActEntity<XmuPagePub> {
 	}
 	
 	@Length(min=0, max=1000, message="附件长度必须介于 0 和 1000 之间")
-	@ExcelField(title="附件", align=2, sort=27)
+	//@ExcelField(title="附件", align=2, sort=27)
 	public String getXppPageAttachment() {
 		return xppPageAttachment;
 	}

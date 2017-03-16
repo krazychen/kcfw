@@ -105,7 +105,7 @@ public class XmuPatentInfo extends ActEntity<XmuPatentInfo> {
 	}
 	
 	@Length(min=0, max=200, message="项目ID长度必须介于 0 和 200 之间")
-	@ExcelField(title="项目ID", align=2, sort=10)
+	//@ExcelField(title="项目ID", align=2, sort=10)
 	public String getXpiProjId() {
 		return xpiProjId;
 	}
@@ -125,7 +125,7 @@ public class XmuPatentInfo extends ActEntity<XmuPatentInfo> {
 	}
 	
 	@Length(min=1, max=64, message="学生学院ID长度必须介于 1 和 64 之间")
-	@ExcelField(title="学生学院ID", align=2, sort=12)
+	//@ExcelField(title="学生学院ID", align=2, sort=12)
 	public String getXpiOfficeId() {
 		return xpiOfficeId;
 	}
@@ -135,7 +135,7 @@ public class XmuPatentInfo extends ActEntity<XmuPatentInfo> {
 	}
 	
 	@Length(min=1, max=2000, message="学生ID长度必须介于 1 和 2000 之间")
-	@ExcelField(title="学生ID", align=2, sort=13)
+	//@ExcelField(title="学生ID", align=2, sort=13)
 	public String getXpiUserId() {
 		return xpiUserId;
 	}
@@ -165,7 +165,7 @@ public class XmuPatentInfo extends ActEntity<XmuPatentInfo> {
 	}
 	
 	@Length(min=0, max=64, message="流程实例ID长度必须介于 0 和 64 之间")
-	@ExcelField(title="流程实例ID", align=2, sort=16)
+	//@ExcelField(title="流程实例ID", align=2, sort=16)
 	public String getProcInsId() {
 		return procInsId;
 	}
@@ -185,7 +185,7 @@ public class XmuPatentInfo extends ActEntity<XmuPatentInfo> {
 	}
 	
 	@Length(min=0, max=1000, message="院系管理员审核意见长度必须介于 0 和 1000 之间")
-	@ExcelField(title="院系管理员审核意见", align=2, sort=18)
+	//@ExcelField(title="院系管理员审核意见", align=2, sort=18)
 	public String getXpiCollegeComment() {
 		return xpiCollegeComment;
 	}
@@ -195,7 +195,7 @@ public class XmuPatentInfo extends ActEntity<XmuPatentInfo> {
 	}
 	
 	@Length(min=0, max=1000, message="系统管理员审核意见长度必须介于 0 和 1000 之间")
-	@ExcelField(title="系统管理员审核意见", align=2, sort=19)
+	//@ExcelField(title="系统管理员审核意见", align=2, sort=19)
 	public String getXpiManageComment() {
 		return xpiManageComment;
 	}
@@ -205,7 +205,7 @@ public class XmuPatentInfo extends ActEntity<XmuPatentInfo> {
 	}
 	
 	@Length(min=0, max=1000, message="待审院系管理员长度必须介于 0 和 1000 之间")
-	@ExcelField(title="待审院系管理员", align=2, sort=20)
+	//@ExcelField(title="待审院系管理员", align=2, sort=20)
 	public String getXpiCollegeStandby() {
 		return xpiCollegeStandby;
 	}
@@ -215,7 +215,7 @@ public class XmuPatentInfo extends ActEntity<XmuPatentInfo> {
 	}
 	
 	@Length(min=0, max=1000, message="待审系统管理员长度必须介于 0 和 1000 之间")
-	@ExcelField(title="待审系统管理员", align=2, sort=21)
+	//@ExcelField(title="待审系统管理员", align=2, sort=21)
 	public String getXpiManageStandby() {
 		return xpiManageStandby;
 	}
@@ -244,7 +244,7 @@ public class XmuPatentInfo extends ActEntity<XmuPatentInfo> {
 		this.xpiPatentPno = xpiPatentPno;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@ExcelField(title="申请公开日", align=2, sort=24)
 	public Date getXpiPatentPtime() {
 		return xpiPatentPtime;

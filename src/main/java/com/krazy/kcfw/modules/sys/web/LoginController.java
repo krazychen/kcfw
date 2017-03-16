@@ -196,6 +196,8 @@ public class LoginController extends BaseController{
 	public String index(HttpServletRequest request, HttpServletResponse response) {
 		Principal principal = UserUtils.getPrincipal();
 
+		String indexPage=Global.getConfig("adminPathPage");
+		
 		// 登录成功后，验证码计算器清零
 		isValidateCodeLogin(principal.getLoginName(), false, true);
 		
@@ -220,7 +222,7 @@ public class LoginController extends BaseController{
 				return renderString(response, principal);
 			}
 			if (request.getParameter("index") != null){
-				return "modules/sys/sysIndex";
+				return "modules/sys/"+indexPage;
 			}
 			return "redirect:" + adminPath + "/login";
 		}
@@ -275,7 +277,7 @@ public class LoginController extends BaseController{
 			return "modules/sys/sysIndex-ace";
 		}
 		
-		return "modules/sys/sysIndex";
+		return "modules/sys/"+indexPage;
 	}
 	
 	/**

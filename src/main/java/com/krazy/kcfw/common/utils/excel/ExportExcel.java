@@ -195,7 +195,7 @@ public class ExportExcel {
 			titleRow.setHeightInPoints(30);
 			Cell titleCell = titleRow.createCell(0);
 			titleCell.setCellStyle(styles.get("title"));
-			titleCell.setCellValue(title);
+			titleCell.setCellValue(title== null ? "" : title );
 			sheet.addMergedRegion(new CellRangeAddress(titleRow.getRowNum(),
 					titleRow.getRowNum(), titleRow.getRowNum(), headerList.size()-1));
 		}
@@ -210,15 +210,15 @@ public class ExportExcel {
 			cell.setCellStyle(styles.get("header"));
 			String[] ss = StringUtils.split(headerList.get(i), "**", 2);
 			if (ss.length==2){
-				cell.setCellValue(ss[0]);
+				cell.setCellValue(ss[0]== null ? "" : ss[0] );
 				Comment comment = this.sheet.createDrawingPatriarch().createCellComment(
 						new XSSFClientAnchor(0, 0, 0, 0, (short) 3, 3, (short) 5, 6));
 				comment.setString(new XSSFRichTextString(ss[1]));
 				cell.setCellComment(comment);
 			}else{
-				cell.setCellValue(headerList.get(i));
+				cell.setCellValue(headerList.get(i)== null ? "" : headerList.get(i) );
 			}
-			sheet.autoSizeColumn(i);
+//			sheet.autoSizeColumn(i);
 		}
 		for (int i = 0; i < headerList.size(); i++) {  
 			int colWidth = sheet.getColumnWidth(i)*2;

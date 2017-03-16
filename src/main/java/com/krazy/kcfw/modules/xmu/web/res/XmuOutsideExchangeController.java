@@ -210,7 +210,13 @@ public class XmuOutsideExchangeController extends BaseController {
 		}
 
 		xmuOutsideExchangeService.saveAduit(xmuOutsideExchange);//审核
-		addMessage(redirectAttributes, "审核校外交流成功");
+		if("yes".equals(xmuOutsideExchange.getAct().getFlag())){
+			addMessage(redirectAttributes, "校外交流审核通过");
+		}else if("reject".equals(xmuOutsideExchange.getAct().getFlag())){
+			addMessage(redirectAttributes, "校外交流审核不通过");
+		}else if("no".equals(xmuOutsideExchange.getAct().getFlag())){
+			addMessage(redirectAttributes, "校外交流退回");
+		}	
 		return "redirect:"+Global.getAdminPath()+"/xmu/res/xmuOutsideExchange/?repage";
 	}
 	

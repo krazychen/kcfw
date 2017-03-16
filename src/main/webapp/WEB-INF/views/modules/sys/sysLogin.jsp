@@ -129,15 +129,16 @@
 														<span class="bigger-110">登录</span>
 													</button>
 												</div>
-
+												<!-- 暂时注释掉主题 2017/03/13 Krazy
 												<div class="space-4"></div>
 													<div id="themeSwitch" class="dropdown">
 														<a class="dropdown-toggle" data-toggle="dropdown" href="#">${fns:getDictLabel(cookie.theme.value,'theme','默认主题')}<b class="caret"></b></a>
 														<ul class="dropdown-menu">
 														  <c:forEach items="${fns:getDictList('theme')}" var="dict"><li><a href="#" onclick="location='${pageContext.request.contextPath}/theme/${dict.value}?url='+location.href"><font color="black">${dict.label}</font></a></li></c:forEach>
 														</ul>
-														<!--[if lte IE 6]><script type="text/javascript">$('#themeSwitch').hide();</script><![endif]-->
+														<!--[if lte IE 6]><script type="text/javascript">$('#themeSwitch').hide();</script><![endif]
 													</div>
+													-->
 											</fieldset>
 										</form>
 									</div>

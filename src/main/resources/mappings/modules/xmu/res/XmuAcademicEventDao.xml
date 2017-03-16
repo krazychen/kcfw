@@ -59,8 +59,8 @@
 		<include refid="userJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="xaeOfficeName != null and xaeOfficeName != ''">
-				AND a.xae_office_name = #{xaeOfficeName}
+			<if test="xaeOfficeId != null and xaeOfficeId != ''">
+				AND a.xae_office_id = #{xaeOfficeId}
 			</if>
 			<if test="xaeUserProfession != null and xaeUserProfession != ''">
 				AND a.xae_user_profession = #{xaeUserProfession}

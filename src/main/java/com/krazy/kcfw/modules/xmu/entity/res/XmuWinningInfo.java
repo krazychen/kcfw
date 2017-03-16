@@ -24,7 +24,7 @@ public class XmuWinningInfo extends ActEntity<XmuWinningInfo> {
 	private String xwiUserProfession;		// 学生专业
 	private String xwiUserName;		// 学生名称
 	private String xwiWinningName;		// 竞赛名称
-	private Date xwiWinningYears;		// 年份
+	private String xwiWinningYears;		// 年份
 	private String xwiProjId;		// 项目ID
 	private String xwiProjName;		// 项目名称
 	private String xwiOfficeId;		// 学生学院ID
@@ -104,18 +104,17 @@ public class XmuWinningInfo extends ActEntity<XmuWinningInfo> {
 		this.xwiWinningName = xwiWinningName;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@ExcelField(title="年份", align=2, sort=4)
-	public Date getXwiWinningYears() {
+	public String getXwiWinningYears() {
 		return xwiWinningYears;
 	}
 
-	public void setXwiWinningYears(Date xwiWinningYears) {
+	public void setXwiWinningYears(String xwiWinningYears) {
 		this.xwiWinningYears = xwiWinningYears;
 	}
 	
 	@Length(min=0, max=200, message="项目ID长度必须介于 0 和 200 之间")
-	@ExcelField(title="项目ID", align=2, sort=11)
+	//@ExcelField(title="项目ID", align=2, sort=11)
 	public String getXwiProjId() {
 		return xwiProjId;
 	}
@@ -135,7 +134,7 @@ public class XmuWinningInfo extends ActEntity<XmuWinningInfo> {
 	}
 	
 	@Length(min=1, max=64, message="学生学院ID长度必须介于 1 和 64 之间")
-	@ExcelField(title="学生学院ID", align=2, sort=13)
+	//@ExcelField(title="学生学院ID", align=2, sort=13)
 	public String getXwiOfficeId() {
 		return xwiOfficeId;
 	}
@@ -145,7 +144,7 @@ public class XmuWinningInfo extends ActEntity<XmuWinningInfo> {
 	}
 	
 	@Length(min=1, max=2000, message="学生ID长度必须介于 1 和 2000 之间")
-	@ExcelField(title="学生ID", align=2, sort=14)
+	//@ExcelField(title="学生ID", align=2, sort=14)
 	public String getXwiUserId() {
 		return xwiUserId;
 	}
@@ -175,7 +174,7 @@ public class XmuWinningInfo extends ActEntity<XmuWinningInfo> {
 	}
 	
 	@Length(min=0, max=64, message="流程实例ID长度必须介于 0 和 64 之间")
-	@ExcelField(title="流程实例ID", align=2, sort=17)
+	//@ExcelField(title="流程实例ID", align=2, sort=17)
 	public String getProcInsId() {
 		return procInsId;
 	}
@@ -185,7 +184,7 @@ public class XmuWinningInfo extends ActEntity<XmuWinningInfo> {
 	}
 	
 	@Length(min=0, max=64, message="活动状态长度必须介于 0 和 64 之间")
-	@ExcelField(title="活动状态", align=2, sort=18)
+	//@ExcelField(title="活动状态", align=2, sort=18)
 	public String getXwiStatus() {
 		return xwiStatus;
 	}
@@ -195,7 +194,7 @@ public class XmuWinningInfo extends ActEntity<XmuWinningInfo> {
 	}
 	
 	@Length(min=0, max=1000, message="院系管理员审核意见长度必须介于 0 和 1000 之间")
-	@ExcelField(title="院系管理员审核意见", align=2, sort=19)
+	//@ExcelField(title="院系管理员审核意见", align=2, sort=19)
 	public String getXwiCollegeComment() {
 		return xwiCollegeComment;
 	}
@@ -205,7 +204,7 @@ public class XmuWinningInfo extends ActEntity<XmuWinningInfo> {
 	}
 	
 	@Length(min=0, max=1000, message="系统管理员审核意见长度必须介于 0 和 1000 之间")
-	@ExcelField(title="系统管理员审核意见", align=2, sort=20)
+	//@ExcelField(title="系统管理员审核意见", align=2, sort=20)
 	public String getXwiManageComment() {
 		return xwiManageComment;
 	}
@@ -215,7 +214,7 @@ public class XmuWinningInfo extends ActEntity<XmuWinningInfo> {
 	}
 	
 	@Length(min=0, max=1000, message="待审院系管理员长度必须介于 0 和 1000 之间")
-	@ExcelField(title="待审院系管理员", align=2, sort=21)
+	//@ExcelField(title="待审院系管理员", align=2, sort=21)
 	public String getXwiCollegeStandby() {
 		return xwiCollegeStandby;
 	}
@@ -225,7 +224,7 @@ public class XmuWinningInfo extends ActEntity<XmuWinningInfo> {
 	}
 	
 	@Length(min=0, max=1000, message="待审系统管理员长度必须介于 0 和 1000 之间")
-	@ExcelField(title="待审系统管理员", align=2, sort=22)
+	//@ExcelField(title="待审系统管理员", align=2, sort=22)
 	public String getXwiManageStandby() {
 		return xwiManageStandby;
 	}

@@ -132,45 +132,45 @@ function SmoothlyMenu() {
 }
 
 
-//主题设置    
-$(function () {
-    
-	
-	var  webroot=document.location.href;
-    webroot=webroot.substring(webroot.indexOf('//')+2,webroot.length);
-    webroot=webroot.substring(webroot.indexOf('/')+1,webroot.length);
-    webroot=webroot.substring(0,webroot.indexOf('/'));
-    rootpath="/"+webroot;
-    
-    
-    $.get(rootpath+"/static/common/skin-config.jsp", function (data) {
-        $('body').append(data);
-    });
-    
-    if (localStorageSupport) {
-
-        var collapse = localStorage.getItem("collapse_menu");
-        var fixednavbar = localStorage.getItem("fixednavbar");
-        var boxedlayout = localStorage.getItem("boxedlayout");
-
-        var body = $('body');
-
-        if (collapse == 'on') {
-            if (!body.hasClass('body-small')) {
-                body.addClass('mini-navbar');
-            }
-        }
-
-        if (fixednavbar == 'on') {
-            $(".navbar-static-top").removeClass('navbar-static-top').addClass('navbar-fixed-top');
-            body.addClass('fixed-nav');
-        }
-
-        if (boxedlayout == 'on') {
-            body.addClass('boxed-layout');
-        }
-    }
-});
+////主题设置   2017-03-12 暂时注释 Krazy 
+//$(function () {
+//    
+//	
+//	var  webroot=document.location.href;
+//    webroot=webroot.substring(webroot.indexOf('//')+2,webroot.length);
+//    webroot=webroot.substring(webroot.indexOf('/')+1,webroot.length);
+//    webroot=webroot.substring(0,webroot.indexOf('/'));
+//    rootpath="/"+webroot;
+//    
+//    
+//    $.get(rootpath+"/static/common/skin-config.jsp", function (data) {
+//        $('body').append(data);
+//    });
+//    
+//    if (localStorageSupport) {
+//
+//        var collapse = localStorage.getItem("collapse_menu");
+//        var fixednavbar = localStorage.getItem("fixednavbar");
+//        var boxedlayout = localStorage.getItem("boxedlayout");
+//
+//        var body = $('body');
+//
+//        if (collapse == 'on') {
+//            if (!body.hasClass('body-small')) {
+//                body.addClass('mini-navbar');
+//            }
+//        }
+//
+//        if (fixednavbar == 'on') {
+//            $(".navbar-static-top").removeClass('navbar-static-top').addClass('navbar-fixed-top');
+//            body.addClass('fixed-nav');
+//        }
+//
+//        if (boxedlayout == 'on') {
+//            body.addClass('boxed-layout');
+//        }
+//    }
+//});
 
 //判断浏览器是否支持html5本地存储
 function localStorageSupport() {

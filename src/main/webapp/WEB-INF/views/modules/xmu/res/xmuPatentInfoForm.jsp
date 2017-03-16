@@ -130,7 +130,7 @@
 					<td class="width-15 active"><label class="pull-right">年份：</label></td>
 					<td class="width-35">
 						<input id="xpiPatentYears" name="xpiPatentYears" type="text" maxlength="20" class="laydate-icon form-control layer-date formDateMaxWidth "
-							value="<fmt:formatDate value="${xmuPatentInfo.xpiPatentYears}" pattern="yyyy"/>"/>
+							value="${xmuPatentInfo.xpiPatentYears}"/>
 					</td>
 					<td class="width-15 active"><label class="pull-right"><font color="red">*</font>专利名称：</label></td>
 					<td class="width-35">

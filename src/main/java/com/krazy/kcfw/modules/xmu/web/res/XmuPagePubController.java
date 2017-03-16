@@ -208,7 +208,13 @@ public class XmuPagePubController extends BaseController {
 		}
 
 		xmuPagePubService.saveAduit(xmuPagePub);//审核
-		addMessage(redirectAttributes, "审核论文发表成功");
+		if("yes".equals(xmuPagePub.getAct().getFlag())){
+			addMessage(redirectAttributes, "论文发表审核通过");
+		}else if("reject".equals(xmuPagePub.getAct().getFlag())){
+			addMessage(redirectAttributes, "论文发表审核不通过");
+		}else if("no".equals(xmuPagePub.getAct().getFlag())){
+			addMessage(redirectAttributes, "论文发表退回");
+		}	
 		return "redirect:"+Global.getAdminPath()+"/xmu/res/xmuPagePub/?repage";
 	}
 	

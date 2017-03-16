@@ -89,11 +89,11 @@
 				<th> <input type="checkbox" class="i-checks"></th>
 				<th  class="sort-column xmp_name">项目名称</th>
 				<th  class="sort-column xmp_level">项目级别</th>
-				<th  class="sort-column xmp_maintDate">项目开始时间</th>
-				<th  class="sort-column xmp_endDate">项目结束时间</th>
+				<th  class="sort-column XMP_MAINT_DATE">项目开始时间</th>
+				<th  class="sort-column XMP_END_DATE">项目结束时间</th>
 				<th  class="sort-column xmp_status">项目状态</th>
-				<th  class="sort-column create_date">创建时间</th>
-				<th  class="sort-column create_by">创建者</th>
+				<th  class="sort-column a.CREATE_DATE">创建时间</th>
+				<th  class="sort-column a.create_by">创建者</th>
 				<th>操作</th>
 			</tr>
 		</thead>

@@ -86,7 +86,7 @@
 				<div class="form-group">
 					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学院：</span>
 					<sys:treeselect id="xwiOfficeName" name="xwiOfficeName" value="${xmuWinningInfo.xwiOfficeName}" labelName="xwiOfficeId" labelValue="${xmuWinningInfo.xwiOfficeId}"
-							title="部门" url="/sys/office/treeData?type=2" isAll="true"  cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="true"/>
+							title="部门" url="/sys/office/treeData?type=2" isAll="true"  cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="false"/>
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -116,7 +116,7 @@
 				<div class="form-group">
 					<span>获奖年份：</span>
 					<input style="width:210px" id="xwiWinningYears" name="xwiWinningYears" type="text" maxlength="20" class="laydate-icon form-control layer-date input-sm"
-						value="<fmt:formatDate value="${xmuWinningInfo.xwiWinningYears}" pattern="yyyy"/>"/>
+						value="${xmuWinningInfo.xwiWinningYears}"/>
 		 		</div>
 			</div>
 		 </div>	
@@ -178,7 +178,7 @@
 				<th> <input type="checkbox" class="i-checks"></th>
 				<th  class="sort-column xwi_user_stuno">学号</th>
 				<th  class="sort-column xwi_user_name">姓名</th>
-				<th  class="sort-column ">学院</th>
+				<th  class="sort-column XWI_OFFICE_NAME">学院</th>
 				<th  class="sort-column xwi_user_profession">专业</th>	
 				<th  class="sort-column xwi_winning_years">年份</th>			
 				<th  class="sort-column xwi_winning_name">竞赛名称</th>
@@ -205,7 +205,7 @@
 					${fns:getDictLabel(xmuWinningInfo.xwiUserGrade, 'XMU_PROJECT_COR_GRADE', '')}
 				</td>
 				<td>
-					<fmt:formatDate value="${xmuWinningInfo.xwiWinningYears}" pattern="yyyy"/>
+					${xmuWinningInfo.xwiWinningYears}
 				</td>		
 				<td>
 					${xmuWinningInfo.xwiWinningName}
@@ -217,7 +217,7 @@
 					${xmuWinningInfo.xwiWinningContent}
 				</td>
 				<td>
-					${xmuWinningInfo.xwiStatus}
+					${fns:getDictLabel(xmuWinningInfo.xwiStatus, 'XMU_EVENT_STATUS', '')}
 				</td>				
 
 				<td>

@@ -107,6 +107,7 @@
 							</td>
 							
 							<td nowrap>
+								<input type="hidden" id="xmuProjectTeachingList{{idx}}_xptProjId" name="xmuProjectTeachingList[{{idx}}].xptProjId" type="text" value="{{row.xptProjId}}"    class="input-small " style="width:100px;"/>
 								<input type="hidden" id="xmuProjectTeachingList{{idx}}_xptProjName" name="xmuProjectTeachingList[{{idx}}].xptProjName" type="text" value="{{row.xptProjName}}"    class="input-small " style="width:100px;"/>{{row.xptProjName}}
 							</td>
 

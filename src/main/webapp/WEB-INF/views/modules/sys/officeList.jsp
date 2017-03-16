@@ -38,9 +38,10 @@
 	<div class="row">
 	<div class="col-sm-12">
 		<div class="pull-left">
+			<!-- 
 			<shiro:hasPermission name="sys:office:add">
-				<table:addRow url="${ctx}/sys/office/form?parent.id=${office.id}" title="机构" width="800px" height="620px" target="officeContent"></table:addRow><!-- 增加按钮 -->
-			</shiro:hasPermission>
+				<table:addRow url="${ctx}/sys/office/form?parent.id=${office.id}" title="机构" width="800px" height="620px" target="officeContent"></table:addRow>增加按钮
+			</shiro:hasPermission> -->
 	        <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="left" onclick="refresh()" title="刷新"><i class="glyphicon glyphicon-repeat"></i> 刷新</button>
 			</div>
 	</div>

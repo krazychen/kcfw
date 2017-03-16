@@ -112,7 +112,7 @@
 					<td class="width-15 active"><label class="pull-right">年份：</label></td>
 					<td class="width-35">
 						<input readonly="true" id="xwiWinningYears" name="xwiWinningYears" type="text" maxlength="20" class="laydate-icon form-control layer-date formDateMaxWidth "
-							value="<fmt:formatDate value="${xmuWinningInfo.xwiWinningYears}" pattern="yyyy"/>"/>
+							value="${xmuWinningInfo.xwiWinningYears}"/>
 					</td>
 					<td class="width-15 active"><label class="pull-right"><font color="red">*</font>竞赛名称：</label></td>
 					<td class="width-35">
@@ -129,8 +129,7 @@
 					</td>
 					<td class="width-15 active"><label class="pull-right">收获奖项：</label></td>
 					<td class="width-35">
-						<input readonly="true" id="xwiWinningContent" name="xwiWinningContent" type="text" maxlength="20" class="laydate-icon form-control layer-date formDateMaxWidth "
-							value="<fmt:formatDate value="${xmuWinningInfo.xwiWinningContent}" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
+						<input readonly="true" id="xwiWinningContent" name="xwiWinningContent" type="text" maxlength="20" class="form-control"/>
 					</td>
 				</tr>
 		 	</tbody>

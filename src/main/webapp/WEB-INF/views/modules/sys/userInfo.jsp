@@ -132,6 +132,7 @@
 					<div class="ibox float-e-margins">
 						<div class="ibox-title">
 							<h5>个人资料</h5>
+							<!-- 20170313 暂时注释 Krazy
 							<div class="ibox-tools">
 								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 									编辑<i class="fa fa-wrench"></i>
@@ -142,7 +143,7 @@
 									<li><a id="userInfoBtn" data-toggle="modal" data-target="#register">编辑资料</a>
 									</li>
 								</ul>
-							</div>
+							</div> -->
 						</div>
 						<div class="ibox-content">
 							<div class="row">
@@ -192,6 +193,7 @@
 						</div>
 					</div>
 				</div>
+				<!-- 20170313 暂时注释 Krazy
 				<div class="col-sm-5">
 					<div class="ibox float-e-margins">
 						<div class="ibox-title">
@@ -242,7 +244,7 @@
 						</div>
 					</div>
 
-				</div>
+				</div> -->
 
 			</div>
 		</div>

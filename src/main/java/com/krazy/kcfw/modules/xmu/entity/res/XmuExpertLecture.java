@@ -89,7 +89,7 @@ public class XmuExpertLecture extends DataEntity<XmuExpertLecture> {
 	}
 	
 	@Length(min=0, max=64, message="项目ID长度必须介于 0 和 64 之间")
-	@ExcelField(title="项目ID", align=2, sort=11)
+	//@ExcelField(title="项目ID", align=2, sort=11)
 	public String getXelProjId() {
 		return xelProjId;
 	}
@@ -149,7 +149,7 @@ public class XmuExpertLecture extends DataEntity<XmuExpertLecture> {
 	}
 	
 	@Length(min=0, max=64, message="学院ID长度必须介于 0 和 64 之间")
-	@ExcelField(title="学院ID", align=2, sort=17)
+	//@ExcelField(title="学院ID", align=2, sort=17)
 	public String getXelExpretOfficeId() {
 		return xelExpretOfficeId;
 	}
@@ -159,7 +159,7 @@ public class XmuExpertLecture extends DataEntity<XmuExpertLecture> {
 	}
 	
 	@Length(min=0, max=64, message="地区ID长度必须介于 0 和 64 之间")
-	@ExcelField(title="地区ID", align=2, sort=18)
+	//@ExcelField(title="地区ID", align=2, sort=18)
 	public String getXelExpertAreaId() {
 		return xelExpertAreaId;
 	}

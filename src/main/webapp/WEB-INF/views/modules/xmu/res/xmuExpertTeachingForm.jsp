@@ -48,7 +48,7 @@
 					<td class="width-15 active"><label class="pull-right">学院：</label></td>
 					<td class="width-35">
 						<sys:treeselect id="xetExpretOfficeId" name="xetExpretOfficeId" value="${xmuExpertTeaching.xetExpretOfficeId}" labelName="xetExpretOffice" labelValue="${xmuExpertTeaching.xetExpretOffice}"
-							title="部门" url="/sys/office/treeData?type=2" cssClass="form-control " allowClear="true" notAllowSelectParent="true"/>
+							title="部门" url="/sys/office/treeData?type=2" cssClass="form-control " allowClear="true" notAllowSelectParent="false"/>
 					</td>
 				</tr>
 				<tr>

@@ -67,7 +67,7 @@
 		<input id="xptProjId" name="xptProjId" type="hidden" />
 		<input id="xptProjName" name="xptProjName" type="hidden" />
 	</form:form>
-	<form:form id="searchForm" modelAttribute="xmuProjectTeaching" action="${ctx}/xmu/proj/xmuProjectTeaching/" method="post" class="form-inline">
+	<form:form id="searchForm" modelAttribute="xmuProjectTeaching" action="${ctx}/xmu/proj/xmuProjectTeaching/listTeaching" method="post" class="form-inline">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<table:sortColumn id="orderBy" name="orderBy" value="${page.orderBy}" callback="sortOrRefresh();"/><!-- 支持排序 -->

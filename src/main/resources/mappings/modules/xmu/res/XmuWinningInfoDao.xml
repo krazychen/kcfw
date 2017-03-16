@@ -207,7 +207,7 @@
 	
 	<update id="updateStatus">
 		UPDATE xmu_winning_info SET 
-			xpp_status = #{xppStatus},
+			xwi_status = #{xwiStatus},
 			update_by = #{updateBy.id}, 
 			update_date = #{updateDate}
 		WHERE id = #{id}
@@ -241,7 +241,7 @@
 	<update id="updateManageComment">
 		UPDATE xmu_winning_info SET 
 			xwi_manage_comment = #{xwiManageComment},
-			xwi_status = #{xppStatus},
+			xwi_status = #{xwiStatus},
 			update_by = #{updateBy.id}, 
 			update_date = #{updateDate}
 		WHERE id = #{id}

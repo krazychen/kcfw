@@ -82,7 +82,7 @@
 				<div class="form-group">
 					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学院：</span>
 					<sys:treeselect id="xpiOfficeName" name="xpiOfficeName" value="${xmuPatentInfo.xpiOfficeName}" labelName="xpiOfficeId" labelValue="${xmuPatentInfo.xpiOfficeId}"
-							title="部门" url="/sys/office/treeData?type=2" isAll="true" cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="true"/>
+							title="部门" url="/sys/office/treeData?type=2" isAll="true" cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="false"/>
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -167,7 +167,7 @@
 				<th> <input type="checkbox" class="i-checks"></th>
 				<th  class="sort-column xpi_user_stuno">学号</th>
 				<th  class="sort-column xpi_user_name">姓名</th>
-				<th  class="sort-column ">学院</th>
+				<th  class="sort-column XPI_OFFICE_NAME">学院</th>
 				<th  class="sort-column xpi_user_profession">专业</th>	
 				<th  class="sort-column xpi_patent_years">年份</th>
 				<th  class="sort-column xpi_patent_name">专利名称</th>
@@ -195,7 +195,7 @@
 					${fns:getDictLabel(xmuPatentInfo.xpiUserGrade, 'XMU_PROJECT_COR_GRADE', '')}
 				</td>
 				<td>
-					<fmt:formatDate value="${xmuPatentInfo.xpiPatentYears}" pattern="yyyy"/>
+					${xmuPatentInfo.xpiPatentYears}
 				</td>
 				<td>
 					${xmuPatentInfo.xpiPatentName}
