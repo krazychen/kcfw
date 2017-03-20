@@ -93,7 +93,7 @@
 								<li><div class="li_page_time"><fmt:formatDate value="${article.updateDate}" pattern="yyyy.MM.dd"/></div>
 									<div class="pre_img1"><img src="${ctxStaticTheme}/images/jiantou.jpg"/></div>
 									<div class="mypagelink">
-									<a href="${ctx}/view-${article.category.id}-${article.id}${urlSuffix}">${fns:abbr(article.title,90)}</a>
+									<a href="${ctx}/view-${article.category.id}-${article.id}${urlSuffix}">${fns:abbr(article.title,85)}</a>
 									</div>
 								</li>
 							</c:forEach>

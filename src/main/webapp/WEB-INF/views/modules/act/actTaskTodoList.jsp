@@ -109,7 +109,7 @@
 						 
 					</td>
 					<td>
-						<a target="_blank" href="${pageContext.request.contextPath}/act/diagram-viewer?processDefinitionId=${task.processDefinitionId}&processInstanceId=${task.processInstanceId}">${task.name}</a>
+						<!-- 暂时隐藏环节跳转 <a target="_blank" href="${pageContext.request.contextPath}/act/diagram-viewer?processDefinitionId=${task.processDefinitionId}&processInstanceId=${task.processInstanceId}">-->${task.name}<!-- </a>-->
 					</td><%--
 					<td>${task.description}</td> --%>
 					<td>${procDef.name}</td>

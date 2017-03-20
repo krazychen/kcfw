@@ -203,7 +203,7 @@ public class SchComConcractService extends CrudService<SchComConcractDao, SchCom
 			HashMap<String,String> pars=new HashMap<String,String>();
 			pars.put("roleEnName", "ContractMana");
 			User user=userDao.get(schComConcract.getCreateBy().getId());
-			pars.put("officeId", user.getOffice().getId());
+//			pars.put("officeId", user.getOffice().getId());
 			List<User> users=userDao.findUsersByRoleEnName(pars);
 			StringBuffer mana=new StringBuffer();;
 			for(int j=0;j<users.size();j++){

@@ -47,7 +47,8 @@ public class SchPatentUnderService extends CrudService<SchPatentUnderDao, SchPat
 	
 	public SchPatentUnder get(String id) {
 		SchPatentUnder schPatentUnder = super.get(id);
-		schPatentUnder.setSchPatentUnderInventorList(schPatentUnderInventorDao.findList(new SchPatentUnderInventor(schPatentUnder)));
+		if(schPatentUnder!=null)
+			schPatentUnder.setSchPatentUnderInventorList(schPatentUnderInventorDao.findList(new SchPatentUnderInventor(schPatentUnder)));
 		return schPatentUnder;
 	}
 	

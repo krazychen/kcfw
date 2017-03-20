@@ -191,10 +191,10 @@
 				</tr>
 				<tr>
 					<td class="tit">
-						合同附件：
+						<span class="help-inline"><font color="red">*</font></span>合同附件：
 					</td>
 					<td colspan="5">
-						<form:hidden id="stcFiles" path="stcFiles" htmlEscape="false" maxlength="1000" class="input-large"/>
+						<form:input  style="height:0.5px;width:0px;padding:0px;margin:0px;" id="stcFiles" path="stcFiles" htmlEscape="false" maxlength="1000" class="input-large required"/>
 						<sys:ckfinder input="stcFiles" type="files" uploadPath="/tech_concract_file" selectMultiple="true"/>
 					</td>
 				</tr>
