@@ -16,7 +16,7 @@
 		o7.name AS "spiUserOfficeName",
 		a.spi_teacher_office_id AS "spiTeacherOfficeId",
 		o8.name AS "spiTeacherOfficeName",
-		a.spi_office_name_ex AS "spaOfficeNameEx",
+		a.spi_office_name_ex AS "spiOfficeNameEx",
 		a.spi_contribution_per AS "spiContributionPer",
 		a.spi_no AS "spiNo",
 		a.spi_remark AS "spiRemark",
@@ -60,7 +60,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.create_date ASC
+				ORDER BY a.create_date ASC,a.id desc
 			</otherwise>
 		</choose>
 	</select>
@@ -78,7 +78,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.create_date ASC
+				ORDER BY a.create_date ASC,a.id desc
 			</otherwise>
 		</choose>
 	</select>

@@ -253,12 +253,12 @@
 	<div class="notice" style="height:580px">
 		<div class="notice_top">
 			<h3>应用</h3>
-		</div>
-		<a class="mess2" href="http://cms.9117fly.com/cms/index.html" target="_blank" style="margin-top:5px;">
-		<img src="${ctxStaticTheme}/images/project.png" />
-		</a>
+		</div>		
 		<a class="mess2" href="${ctxA}" target="_blank" style="margin-top:7px;">
 		<img src="${ctxStaticTheme}/images/sch.png" />
+		</a>
+		<a class="mess2" href="http://cms.9117fly.com/cms/index.html" target="_blank" style="margin-top:5px;">
+		<img src="${ctxStaticTheme}/images/project.png" />
 		</a>
 		<div  style="margin-top:90px; line-height:2;">
 			<img src="${ctxStaticTheme}/images/con1.png" />

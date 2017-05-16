@@ -151,6 +151,21 @@ public class SystemService extends BaseService implements InitializingBean {
 		return list;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<User> findUserExOfficeIdAndRoleEnName(String officeId,String roleEnName) {
+		List<User> list = (List<User>)CacheUtils.get(UserUtils.USER_CACHE+"-"+roleEnName, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + officeId);
+		if (list == null){
+			
+			HashMap<String,String> pars=new HashMap<String,String>();
+			pars.put("roleEnName",roleEnName );
+			pars.put("officeId", officeId);
+			
+			list = userDao.findUsersExcludeRoleEnName(pars);
+			CacheUtils.put(UserUtils.USER_CACHE+"-"+roleEnName, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + officeId, list);
+		}
+		return list;
+	}
+	
 	@Transactional(readOnly = false)
 	public void saveUser(User user) {
 		if (StringUtils.isBlank(user.getId())){

@@ -45,6 +45,12 @@ public interface UserDao extends CrudDao<User> {
 	public List<User> findUsersByRoleEnName(HashMap<String,String> parms);
 	
 	/**
+	 * findUsersByRoleEnName
+	 * @return
+	 */
+	public List<User> findUsersExcludeRoleEnName(HashMap<String,String> parms);
+	
+	/**
 	 * 更新用户密码
 	 * @param user
 	 * @return

@@ -273,7 +273,7 @@
 				<c:if test="${schPatentUnder.isTeacher ne 'true'}" >
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>指导老师：</td><td>
 						<sys:treeselect id="spuAdvisTeacherId" name="spuAdvisTeacherId" value="${schPatentUnder.spuAdvisTeacherId}" labelName="spuAdvisTeacherName" labelValue="${schPatentUnder.spuAdvisTeacherName}"
-					title="用户" roleEnName="teacher" allowInput="${schPatentUnder.isTeacher=='true' ? 'false':'true'}" disabled="${schPatentUnder.isTeacher=='true' ? 'disabled' :''}" isAll="true" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required" allowClear="true" notAllowSelectParent="true"/>
+					title="用户" roleEnName="Student" allowInput="${schPatentUnder.isTeacher=='true' ? 'false':'true'}" disabled="${schPatentUnder.isTeacher=='true' ? 'disabled' :''}" isAll="true" userURL="treeDataExcludeRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required" allowClear="true" notAllowSelectParent="true"/>
 					</td>
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>老师所属院系：</td>
 					<td>

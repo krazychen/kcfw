@@ -135,10 +135,10 @@ public class SchCompReqController extends BaseController {
 		}
 		
 		//判断如果是超级管理员账户，则进入任意修改模式
-		User user=UserUtils.getUser();
-		if(user.getRoleNames().indexOf("系统管理员")!=-1){
-			view="schCompReqFormSuper";
-		}
+//		User user=UserUtils.getUser();
+//		if(user.getRoleNames().indexOf("系统管理员")!=-1){
+//			view="schCompReqFormSuper";
+//		}
 		
 		model.addAttribute("schCompReq", schCompReq);
 		return "modules/sch/req/"+view;

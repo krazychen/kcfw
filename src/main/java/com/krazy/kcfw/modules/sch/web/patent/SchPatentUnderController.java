@@ -172,10 +172,10 @@ public class SchPatentUnderController extends BaseController {
 			schPatentAgencys.put(spa.getSpaCode(), spa.getSpaName());
 		}
 		//判断如果是超级管理员账户，则进入任意修改模式
-		User user=UserUtils.getUser();
-		if(user.getRoleNames().indexOf("系统管理员")!=-1){
-			view="schPatentUnderFormSuper";
-		}
+//		User user=UserUtils.getUser();
+//		if(user.getRoleNames().indexOf("系统管理员")!=-1){
+//			view="schPatentUnderFormSuper";
+//		}
 				
 		model.addAttribute("schPatentAgencyLiss", schPatentAgencys);
 		model.addAttribute("schPatentUnder", schPatentUnder);

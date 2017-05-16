@@ -247,6 +247,21 @@
 		</if>
 	</select>
 	
+	<select id="findUsersExcludeRoleEnName" resultType="User">
+		SELECT
+			<include refid="userColumns"/>
+		FROM sys_user a
+		<include refid="userJoins"/>
+		<include refid="roleEnJoins"/>
+		WHERE 1=1
+		<if test="roleEnName != null and roleEnName != ''">
+			and sr.enname  not like   '%'||#{roleEnName}||'%'
+		</if>
+		<if test="officeId != null and officeId != ''">
+			and a.office_id = #{officeId}
+		</if>
+	</select>
+	
 	<!-- 插入用户 -->
 	<insert id="insert">
 		INSERT INTO sys_user(

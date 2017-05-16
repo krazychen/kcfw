@@ -228,7 +228,7 @@ public class SchComConcractService extends CrudService<SchComConcractDao, SchCom
 				//获取副处长
 				pars.put("roleEnName", "DeputyDirector");
 				User userdd=userDao.get(schComConcract.getCreateBy().getId());
-				pars.put("officeId", userdd.getOffice().getId());
+//				pars.put("officeId", userdd.getOffice().getId());
 				pars.put("isLike", "false");
 				List<User> users=userDao.findUsersByRoleEnName(pars);
 				StringBuffer ddirector=new StringBuffer();;
@@ -244,7 +244,7 @@ public class SchComConcractService extends CrudService<SchComConcractDao, SchCom
 				//获取处长
 				pars.put("roleEnName", "Director");
 				User userD=userDao.get(schComConcract.getCreateBy().getId());
-				pars.put("officeId", userD.getOffice().getId());
+//				pars.put("officeId", userD.getOffice().getId());
 				pars.put("isLike", "false");
 				List<User> users=userDao.findUsersByRoleEnName(pars);
 				StringBuffer director=new StringBuffer();;

@@ -115,10 +115,10 @@ public class SchTechConcractController extends BaseController {
 		}
 		
 		//判断如果是超级管理员账户，则进入任意修改模式
-		User user=UserUtils.getUser();
-		if(user.getRoleNames().indexOf("系统管理员")!=-1){
-			view="schTechConcractFormSuper";
-		}
+//		User user=UserUtils.getUser();
+//		if(user.getRoleNames().indexOf("系统管理员")!=-1){
+//			view="schTechConcractFormSuper";
+//		}
 
 		model.addAttribute("schTechConcract", schTechConcract);
 		String resType=schTechConcract.getStcResearchType();

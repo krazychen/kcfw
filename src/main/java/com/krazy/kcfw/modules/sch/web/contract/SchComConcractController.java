@@ -136,10 +136,10 @@ public class SchComConcractController extends BaseController {
 		}
 		
 		//判断如果是超级管理员账户，则进入任意修改模式
-		User user=UserUtils.getUser();
-		if(user.getRoleNames().indexOf("系统管理员")!=-1){
-			view="schComConcractFormSuper";
-		}
+//		User user=UserUtils.getUser();
+//		if(user.getRoleNames().indexOf("系统管理员")!=-1){
+//			view="schComConcractFormSuper";
+//		}
 		
 		model.addAttribute("schComConcract", schComConcract);
 		String resType=schComConcract.getSccResearchType();

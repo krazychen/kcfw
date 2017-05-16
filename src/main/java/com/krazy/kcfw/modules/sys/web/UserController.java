@@ -393,6 +393,23 @@ public class UserController extends BaseController {
 		return mapList;
 	}
     
+	@RequiresPermissions("user")
+	@ResponseBody
+	@RequestMapping(value = "treeDataExcludeRoleEnName")
+	public List<Map<String, Object>> treeDataExcludeRoleEnName(@RequestParam(required=false) String officeId,@RequestParam(required=false) String roleEnName, HttpServletResponse response) {
+		List<Map<String, Object>> mapList = Lists.newArrayList();
+		List<User> list = systemService.findUserExOfficeIdAndRoleEnName(officeId, roleEnName);
+		for (int i=0; i<list.size(); i++){
+			User e = list.get(i);
+			Map<String, Object> map = Maps.newHashMap();
+			map.put("id", "u_"+e.getId());
+			map.put("pId", officeId);
+			map.put("name", StringUtils.replace(e.getName(), " ", ""));
+			mapList.add(map);
+		}
+		return mapList;
+	}
+	
 //	@InitBinder
 //	public void initBinder(WebDataBinder b) {
 //		b.registerCustomEditor(List.class, "roleList", new PropertyEditorSupport(){

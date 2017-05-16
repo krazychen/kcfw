@@ -39,7 +39,14 @@
 			</li>
 			<li><label>指导老师：</label>
 				<sys:treeselect id="spuAdvisTeacherId" name="spuAdvisTeacherId" value="${schPatentUnder.spuAdvisTeacherId}" labelName="spuAdvisTeacherName" labelValue="${schPatentUnder.spuAdvisTeacherName}"
-					title="用户" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
+					title="用户" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="true" notAllowSelectParent="true" />
+			</li>
+			<li><label>联络人：</label>
+				<form:input path="spuApplyUserName" value="${schPatentUnder.spuApplyUserName}" htmlEscape="false" maxlength="100" class="input-medium"/>
+				<!-- 
+				<sys:treeselect id="spuApplyUserId" name="spuApplyUserId" value="${schPatentUnder.spuApplyUserId}" labelName="spuApplyUserName" labelValue="${schPatentUnder.spuApplyUserName}"
+					title="用户" roleEnName="Student" allowInput="true" isAll="true" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-small"  allowClear="true" notAllowSelectParent="true"/>
+				 -->
 			</li>
 			<li><label>申请状态：</label>
 				<form:select path="spuStatus" class="input-medium">

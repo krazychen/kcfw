@@ -80,8 +80,17 @@
 					<if test="dbName == 'mssql'">'%'+#{spuApplySchoolName}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{spuApplySchoolName},'%')</if>
 			</if>
+			<if test="spuApplyUserName != null and spuApplyUserName != ''">
+				AND u6.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{spuApplyUserName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{spuApplyUserName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{spuApplyUserName},'%')</if>
+			</if>
 			<if test="spuAdvisTeacherId != null and spuAdvisTeacherId != ''">
 				AND a.spu_advis_teacher_id = #{spuAdvisTeacherId}
+			</if>
+			<if test="spuApplyUserId != null and spuApplyUserId != ''">
+				AND a.spu_apply_user_id = #{spuApplyUserId}
 			</if>
 			<if test="spuStatus != null and spuStatus != ''">
 				AND a.spu_status = #{spuStatus}
@@ -103,7 +112,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.update_date DESC
+				ORDER BY a.update_date DESC,a.id desc
 			</otherwise>
 		</choose>
 	</select>
@@ -153,7 +162,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.update_date DESC
+				ORDER BY a.update_date DESC,a.id desc
 			</otherwise>
 		</choose>
 	</select>
@@ -171,7 +180,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.update_date DESC
+				ORDER BY a.update_date DESC,a.id desc
 			</otherwise>
 		</choose>
 	</select>

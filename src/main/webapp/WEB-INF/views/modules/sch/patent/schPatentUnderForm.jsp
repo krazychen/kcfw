@@ -273,7 +273,7 @@
 				<c:if test="${schPatentUnder.isTeacher ne 'true'}" >
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>指导老师：</td><td>
 						<sys:treeselect id="spuAdvisTeacherId" name="spuAdvisTeacherId" value="${schPatentUnder.spuAdvisTeacherId}" labelName="spuAdvisTeacherName" labelValue="${schPatentUnder.spuAdvisTeacherName}"
-					title="用户" roleEnName="teacher" allowInput="${schPatentUnder.isTeacher=='true' ? 'false':'true'}" disabled="${schPatentUnder.isTeacher=='true' ? 'disabled' :''}" isAll="true" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required" allowClear="true" notAllowSelectParent="true"/>
+					title="用户" roleEnName="Student" allowInput="${schPatentUnder.isTeacher=='true' ? 'false':'true'}" disabled="${schPatentUnder.isTeacher=='true' ? 'disabled' :''}" isAll="true" userURL="treeDataExcludeRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required" allowClear="true" notAllowSelectParent="true"/>
 					</td>
 					<td class="tit"><span class="help-inline"><font color="red">*</font> </span>老师所属院系：</td>
 					<td>
@@ -365,7 +365,7 @@
 									title="用户" allowInput="true" roleEnName="teacher" isAll="true" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required" allowClear="true" notAllowSelectParent="true"/>
 							</td>
 							<td id="schPatentUnderInventorList{{idx}}_spiUserNameExTd" style="display:none">
-								<input id="schPatentUnderInventorList{{idx}}_spiUserNameEx" name="schPatentUnderInventorList{{idx}}_spiUserNameEx" type="text" value="{{row.spiUserNameEx}}" maxlength="11" class="input-small editFormFieldWidth required"/>
+								<input id="schPatentUnderInventorList{{idx}}_spiUserNameEX" name="schPatentUnderInventorList[{{idx}}].spiUserNameEX" type="text" value="{{row.spiUserNameEX}}" maxlength="11" class="input-small editFormFieldWidth required"/>
 							</td>
 							<td id="schPatentUnderInventorList{{idx}}_spiUserOfficeIdTd">
 								<!--
@@ -384,7 +384,7 @@
 								<input type="text" id="schPatentUnderInventorList{{idx}}_spiTeacherOfficeName" name="schPatentUnderInventorList[{{idx}}].spiTeacherOfficeName" value="{{row.spiTeacherOfficeName}}" readonly="true" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required" />
 							</td>
 							<td id="schPatentUnderInventorList{{idx}}_spiOfficeNameExTd" style="display:none">
-								<input id="schPatentUnderInventorList{{idx}}_spiOfficeNameEx" name="schPatentUnderInventorList{{idx}}_spiOfficeNameEx" type="text" value="{{row.spiOfficeNameEx}}" maxlength="11" class="input-small editFormFieldWidth required"/>
+								<input id="schPatentUnderInventorList{{idx}}_spiOfficeNameEx" name="schPatentUnderInventorList[{{idx}}].spiOfficeNameEx" type="text" value="{{row.spiOfficeNameEx}}" maxlength="11" class="input-small editFormFieldWidth required"/>
 							</td>
 							<td>
 								<input id="schPatentUnderInventorList{{idx}}_spiContributionPer" name="schPatentUnderInventorList[{{idx}}].spiContributionPer" type="text" value="{{row.spiContributionPer}}" maxlength="11" class="input-small editFormFieldWidth required"/>
