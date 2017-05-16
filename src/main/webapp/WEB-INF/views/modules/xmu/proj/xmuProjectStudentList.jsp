@@ -41,7 +41,8 @@
 						 return false;
 					 }else{
 						 top.layer.close(index);//关闭对话框。
-						 top.layer.open({
+						 openDialog('项目人员维护', '${ctx}/xmu/proj/xmuProjectStudent/formList?xpsUserIds='+items+'&id='+id,'1050px', '550px');
+						 /*top.layer.open({
 							    type: 2,  
 							    area: ['1050px', '550px'],
 							    title:"项目人员维护",
@@ -58,7 +59,7 @@
 								  },
 								  cancel: function(index){ 
 							       }
-							});
+							});*/
 					 }
 					 
 				  },
@@ -144,9 +145,9 @@
 				<th  class="sort-column xmp_name">项目名称</th>
 				<th  class="sort-column xmp_level">项目级别</th>
 				<th  class="sort-column xmp_descp">项目简介</th>
-				<th  class="sort-column create_date">项目成立时间</th>
-				<th  class="sort-column xmp_maintDate">维护开放时间</th>
-				<th  class="sort-column xmp_endDate">维护关闭时间</th>
+				<th  class="sort-column a.CREATE_DATE">项目成立时间</th>
+				<th  class="sort-column XMP_MAINT_DATE">维护开放时间</th>
+				<th  class="sort-column XMP_END_DATE">维护关闭时间</th>
 				<th>操作</th>
 			</tr>
 		</thead>

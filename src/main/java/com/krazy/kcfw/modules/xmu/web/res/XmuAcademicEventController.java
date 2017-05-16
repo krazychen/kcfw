@@ -173,6 +173,8 @@ public class XmuAcademicEventController extends BaseController {
 						XmuProjectStudent re=list.get(0);
 						xmuAcademicEvent.setXaeUserGrade(re.getXpuUserGrade());
 						xmuAcademicEvent.setXaeUserProfession(re.getXpuUserProfession());
+					}else{
+						model.addAttribute("error", "非项目成员，无法添加，请与项目负责人确认");
 					}
 				}
 			}

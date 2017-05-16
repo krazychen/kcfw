@@ -8,7 +8,8 @@
 		$(document).ready(function() {
 			laydate({
 	            elem: '#xppPageTime', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
-	            event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+	            event: 'focus', //响应事件。如果没有传入event，则按照默认的click
+	            format: 'YYYY' //日期格式
 	        });
 		});
 		
@@ -84,7 +85,7 @@
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 				<div class="form-group">
 					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学院：</span>
-					<sys:treeselect id="xppOfficeName" name="xppOfficeName" value="${xmuPagePub.xppOfficeName}" labelName="xppOfficeId" labelValue="${xmuPagePub.xppOfficeId}"
+					<sys:treeselect id="xppOfficeId" name="xppOfficeId" value="${xmuPagePub.xppOfficeId}" labelName="xppOfficeName" labelValue="${xmuPagePub.xppOfficeName}"
 							title="部门" url="/sys/office/treeData?type=2" isAll="true" cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="false"/>
 				</div>
 			</div>
@@ -115,7 +116,7 @@
 				<div class="form-group">
 					<span>发表时间：</span>
 					<input style="width:210px" id="xppPageTime" name="xppPageTime" type="text" maxlength="20" class="laydate-icon form-control layer-date input-sm"
-						value="<fmt:formatDate value="${xmuPagePub.xppPageTime}" pattern="yyyy"/>"/>
+						value="${xmuPagePub.xppPageTime}"/>
 				 </div>
 			</div>
 		 </div>	
@@ -140,13 +141,19 @@
 				</shiro:hasPermission>
 			</c:if>
 			<shiro:hasPermission name="xmu:res:xmuPagePub:audit">
-			    <table:auditRow url="${ctx}/xmu/res/xmuPagePub/form" targetAction="${ctx}/xmu/res/xmuPagePub/saveAudit" title="学术活动" id="contentTable"></table:auditRow><!-- 审核按钮 -->
+			    <table:auditRow url="${ctx}/xmu/res/xmuPagePub/form" targetAction="${ctx}/xmu/res/xmuPagePub/saveAudit" title="论文发表" id="contentTable"></table:auditRow><!-- 审核按钮 -->
 			</shiro:hasPermission>
-			<c:if test="${!fn:contains(role, 'dept')}" >
+			<c:if test="${fn:contains(role, 'Student')}" >
 				<shiro:hasPermission name="xmu:res:xmuPagePub:back">
-				    <table:backRow url="${ctx}/xmu/res/xmuPagePub/form" targetAction="${ctx}/xmu/res/xmuPagePub/back" title="学术活动" id="contentTable"></table:backRow><!-- 撤回按钮 -->
+				    <table:backRow url="${ctx}/xmu/res/xmuPagePub/form" status="2" targetAction="${ctx}/xmu/res/xmuPagePub/back" title="论文发表" id="contentTable"></table:backRow><!-- 撤回按钮 -->
 				</shiro:hasPermission>
 			</c:if>
+			<c:if test="${fn:contains(role, 'Manager')}" >
+				<shiro:hasPermission name="xmu:res:xmuPagePub:back">
+				    <table:backRow url="${ctx}/xmu/res/xmuPagePub/form" status="3" targetAction="${ctx}/xmu/res/xmuPagePub/back" title="论文发表" id="contentTable"></table:backRow><!-- 撤回按钮 -->
+				</shiro:hasPermission>
+			</c:if>
+			
 			<c:if test="${!fn:contains(role, 'dept')}" >
 				<shiro:hasPermission name="xmu:res:xmuPagePub:del">
 					<button class="btn btn-white btn-sm" onclick="deleteAllList()" data-toggle="tooltip" data-placement="top"><i class="fa fa-trash-o"> ${label==null?'删除':label}</i>

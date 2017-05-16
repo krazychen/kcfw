@@ -86,7 +86,7 @@
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 				<div class="form-group">
 					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学院：</span>
-					<sys:treeselect id="xoeOfficeName" name="xoeOfficeName" value="${xmuOutsideExchange.xoeOfficeName}" labelName="xoeOfficeId" labelValue="${xmuOutsideExchange.xoeOfficeId}"
+					<sys:treeselect id="xoeOfficeId" name="xoeOfficeId" value="${xmuOutsideExchange.xoeOfficeId}" labelName="xoeOfficeName" labelValue="${xmuOutsideExchange.xoeOfficeName}"
 							title="部门" url="/sys/office/treeData?type=2" isAll="true" cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="false"/>
 				</div>
 			</div>
@@ -111,7 +111,7 @@
 				<div class="form-group">
 					<span>交流年份：</span>
 					<input id="xoeExchangeYears" style="width:210px" name="xoeExchangeYears" type="text" maxlength="20" class="laydate-icon form-control layer-date input-sm"
-					value="<fmt:formatDate value="${xmuOutsideExchange.xoeExchangeYears}" pattern="yyyy"/>"/>
+					value="${xmuOutsideExchange.xoeExchangeYears}"/>
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -144,9 +144,14 @@
 			<shiro:hasPermission name="xmu:res:xmuOutsideExchange:audit">
 			    <table:auditRow url="${ctx}/xmu/res/xmuOutsideExchange/form" targetAction="${ctx}/xmu/res/xmuOutsideExchange/saveAudit" title="校外交流" id="contentTable"></table:auditRow><!-- 审核按钮 -->
 			</shiro:hasPermission>
-			<c:if test="${!fn:contains(role, 'dept')}" >
+			<c:if test="${fn:contains(role, 'Student')}" >
 				<shiro:hasPermission name="xmu:res:xmuOutsideExchange:back">
-				    <table:backRow url="${ctx}/xmu/res/xmuOutsideExchange/form" targetAction="${ctx}/xmu/res/xmuOutsideExchange/back" title="校外交流" id="contentTable"></table:backRow><!-- 撤回按钮 -->
+				    <table:backRow url="${ctx}/xmu/res/xmuOutsideExchange/form" status="2" targetAction="${ctx}/xmu/res/xmuOutsideExchange/back" title="校外交流" id="contentTable"></table:backRow><!-- 撤回按钮 -->
+				</shiro:hasPermission>
+			</c:if>
+			<c:if test="${fn:contains(role, 'Manager')}" >
+				<shiro:hasPermission name="xmu:res:xmuOutsideExchange:back">
+				    <table:backRow url="${ctx}/xmu/res/xmuOutsideExchange/form" status="3" targetAction="${ctx}/xmu/res/xmuOutsideExchange/back" title="校外交流" id="contentTable"></table:backRow><!-- 撤回按钮 -->
 				</shiro:hasPermission>
 			</c:if>
 			<c:if test="${!fn:contains(role, 'dept')}" >
@@ -227,7 +232,7 @@
 				</td>
 
 				<td>
-					${xmuOutsideExchange.xoeStatus}
+					${fns:getDictLabel(xmuOutsideExchange.xoeStatus, 'XMU_EVENT_STATUS', '')}
 				</td>				
 				<td>
 					<shiro:hasPermission name="xmu:res:xmuOutsideExchange:view">

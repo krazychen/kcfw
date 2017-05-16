@@ -132,9 +132,14 @@
 			<shiro:hasPermission name="xmu:res:xmuAcademicEvent:audit">
 			    <table:auditRow url="${ctx}/xmu/res/xmuAcademicEvent/form" targetAction="${ctx}/xmu/res/xmuAcademicEvent/saveAudit" title="学术活动" id="contentTable"></table:auditRow><!-- 审核按钮 -->
 			</shiro:hasPermission>
-			<c:if test="${!fn:contains(role, 'dept')}" >
+			<c:if test="${fn:contains(role, 'Student')}" >
 				<shiro:hasPermission name="xmu:res:xmuAcademicEvent:back">
-				    <table:backRow url="${ctx}/xmu/res/xmuAcademicEvent/form" targetAction="${ctx}/xmu/res/xmuAcademicEvent/back" title="学术活动" id="contentTable"></table:backRow><!-- 撤回按钮 -->
+				    <table:backRow url="${ctx}/xmu/res/xmuAcademicEvent/form" status="2" targetAction="${ctx}/xmu/res/xmuAcademicEvent/back" title="学术活动" id="contentTable"></table:backRow><!-- 撤回按钮 -->
+				</shiro:hasPermission>
+			</c:if>
+			<c:if test="${fn:contains(role, 'Manager')}" >
+				<shiro:hasPermission name="xmu:res:xmuAcademicEvent:back">
+				    <table:backRow url="${ctx}/xmu/res/xmuAcademicEvent/form" status="3" targetAction="${ctx}/xmu/res/xmuAcademicEvent/back" title="学术活动" id="contentTable"></table:backRow><!-- 撤回按钮 -->
 				</shiro:hasPermission>
 			</c:if>
 			<c:if test="${!fn:contains(role, 'dept')}" >

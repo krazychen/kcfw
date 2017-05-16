@@ -64,7 +64,10 @@
 				AND a.xpi_user_profession = #{xpiUserProfession}
 			</if>
 			<if test="xpiUserName != null and xpiUserName != ''">
-				AND a.xpi_user_name = #{xpiUserName}
+				AND a.xpi_user_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xpiUserName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xpiUserName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xpiUserName},'%')</if>
 			</if>
 			<if test="xpiResearchName != null and xpiResearchName != ''">
 				AND a.xpi_research_name LIKE 

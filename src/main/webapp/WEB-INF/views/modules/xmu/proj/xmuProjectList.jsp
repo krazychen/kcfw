@@ -108,16 +108,16 @@
 					${fns:getDictLabel(xmuProject.xmpLevel, 'XMU_PROJECT_LEVEL', '')}
 				</td>
 				<td>
-					<fmt:formatDate value="${xmuProject.xmpMaintDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					<fmt:formatDate value="${xmuProject.xmpMaintDate}" pattern="yyyy-MM-dd"/>
 				</td>
 				<td>
-					<fmt:formatDate value="${xmuProject.xmpEndDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					<fmt:formatDate value="${xmuProject.xmpEndDate}" pattern="yyyy-MM-dd"/>
 				</td>
 				<td>
 					${fns:getDictLabel(xmuProject.xmpStatus, 'XMU_PROJECT_STATUS', '')}
 				</td>
 				<td>
-					<fmt:formatDate value="${xmuProject.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					<fmt:formatDate value="${xmuProject.createDate}" pattern="yyyy-MM-dd"/>
 				</td>
 				<td>
 					${xmuProject.createBy.name}

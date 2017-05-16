@@ -364,7 +364,7 @@
 									title="用户" allowInput="true" roleEnName="teacher" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required" allowClear="true" notAllowSelectParent="true"/>
 							</td>
 							<td id="schPatentUnderInventorList{{idx}}_spiUserNameExTd" style="display:none">
-								<input id="schPatentUnderInventorList{{idx}}_spiUserNameEx" name="schPatentUnderInventorList{{idx}}_spiUserNameEx" type="text" value="{{row.spiUserNameEx}}" maxlength="11" class="input-small editFormFieldWidth required"/>
+								<input id="schPatentUnderInventorList{{idx}}_spiUserNameEX" name="schPatentUnderInventorList{{idx}}_spiUserNameEX" type="text" value="{{row.spiUserNameEX}}" maxlength="11" class="input-small editFormFieldWidth required"/>
 							</td>
 							<td id="schPatentUnderInventorList{{idx}}_spiUserOfficeIdTd">
 								<!--

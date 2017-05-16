@@ -3,6 +3,7 @@
  */
 package com.krazy.kcfw.modules.xmu.web.proj;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,7 @@ import com.krazy.kcfw.common.web.BaseController;
 import com.krazy.kcfw.common.utils.StringUtils;
 import com.krazy.kcfw.common.utils.excel.ExportExcel;
 import com.krazy.kcfw.common.utils.excel.ImportExcel;
+import com.krazy.kcfw.modules.sys.entity.Role;
 import com.krazy.kcfw.modules.sys.utils.UserUtils;
 import com.krazy.kcfw.modules.xmu.entity.proj.XmuProject;
 import com.krazy.kcfw.modules.xmu.entity.proj.XmuProjectStudent;
@@ -93,7 +95,19 @@ public class XmuProjectStudentController extends BaseController {
 	@RequiresPermissions("xmu:proj:xmuProjectStudent:list")
 	@RequestMapping(value = {"listPro"})
 	public String listPro(XmuProject xmuProject, HttpServletRequest request, HttpServletResponse response, Model model) {
-		xmuProject.setXmpDescp(UserUtils.getUser().getOffice().getId());
+		List<Role> roles=UserUtils.getUser().getRoleList();
+		Boolean isAdmin=false;
+		for(int i=0;i<roles.size();i++){
+			Role role=roles.get(i);
+			if(StringUtils.isNoneBlank(role.getEnname())&&("dept".equals(role.getEnname()))){
+				isAdmin=true;
+				break;
+			}
+		}
+		if(!isAdmin){
+			xmuProject.setXmpDescp(UserUtils.getUser().getOffice().getId());
+		}
+		xmuProject.setCurrentDate(new Date());
 		Page<XmuProject> page = xmuProjectService.findPageForMana(new Page<XmuProject>(request, response), xmuProject); 
 		model.addAttribute("page", page);
 		return "modules/xmu/proj/xmuProjectStudentList";

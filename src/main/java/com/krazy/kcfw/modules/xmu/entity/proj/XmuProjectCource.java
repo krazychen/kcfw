@@ -85,7 +85,7 @@ public class XmuProjectCource extends DataEntity<XmuProjectCource> {
 	}
 
 	@Length(min=0, max=200, message="学院名称长度必须介于 0 和 200 之间")
-	@ExcelField(title="学院名称", fieldType=String.class, value="", align=2, sort=0)
+	@ExcelField(title="学院名称", type=0,fieldType=String.class, value="", align=2, sort=1)
 	public String getXpcOfficeName() {
 		return xpcOfficeName;
 	}
@@ -95,7 +95,7 @@ public class XmuProjectCource extends DataEntity<XmuProjectCource> {
 	}
 	
 	@Length(min=0, max=200, message="项目名称长度必须介于 0 和 200 之间")
-	@ExcelField(title="项目名称", align=2, sort=1)
+	@ExcelField(title="项目名称",type=0, align=2, sort=3)
 	public String getXpcProjName() {
 		return xpcProjName;
 	}
@@ -105,7 +105,7 @@ public class XmuProjectCource extends DataEntity<XmuProjectCource> {
 	}
 	
 	@Length(min=0, max=64, message="课程类型长度必须介于 0 和 64 之间")
-	@ExcelField(title="课程类型", dictType="XMU_PROJECT_COR_TYPE", align=2, sort=2)
+	@ExcelField(title="课程类型",type=0, align=2, sort=4)
 	public String getXpcCourseType() {
 		return xpcCourseType;
 	}
@@ -115,7 +115,7 @@ public class XmuProjectCource extends DataEntity<XmuProjectCource> {
 	}
 	
 	@Length(min=0, max=64, message="开课年级长度必须介于 0 和 64 之间")
-	@ExcelField(title="开课年级", align=2, sort=3)
+	@ExcelField(title="开课年级",type=0, align=2, sort=5)
 	public String getXciCourseGrade() {
 		return xciCourseGrade;
 	}
@@ -125,7 +125,7 @@ public class XmuProjectCource extends DataEntity<XmuProjectCource> {
 	}
 	
 	@Length(min=0, max=64, message="开课学期长度必须介于 0 和 64 之间")
-	@ExcelField(title="开课学期", dictType="XMU_PROJECT_COR_SEMESTER", align=2, sort=4)
+	@ExcelField(title="开课学期",type=0, align=2, sort=6)
 	public String getXciCourseSemester() {
 		return xciCourseSemester;
 	}
@@ -135,7 +135,7 @@ public class XmuProjectCource extends DataEntity<XmuProjectCource> {
 	}
 	
 	@Length(min=0, max=64, message="授课语言长度必须介于 0 和 64 之间")
-	@ExcelField(title="授课语言", dictType="XMU_PROJECT_COR_LANG", align=2, sort=5)
+	@ExcelField(title="授课语言",type=0, align=2, sort=7)
 	public String getXpcCourseLang() {
 		return xpcCourseLang;
 	}
@@ -145,7 +145,7 @@ public class XmuProjectCource extends DataEntity<XmuProjectCource> {
 	}
 	
 	@Length(min=1, max=200, message="项目ID长度必须介于 1 和 200 之间")
-	//@ExcelField(title="项目ID", align=2, sort=12)
+	@ExcelField(title="项目ID",type=0, align=2, sort=2)
 	public String getXpcProjId() {
 		return xpcProjId;
 	}
@@ -155,7 +155,7 @@ public class XmuProjectCource extends DataEntity<XmuProjectCource> {
 	}
 	
 	@Length(min=0, max=64, message="开课单位长度必须介于 0 和 64 之间")
-	@ExcelField(title="开课单位", align=2, sort=13)
+	@ExcelField(title="开课单位",type=0, align=2, sort=8)
 	public String getXpcCourseUnit() {
 		return xpcCourseUnit;
 	}
@@ -165,7 +165,7 @@ public class XmuProjectCource extends DataEntity<XmuProjectCource> {
 	}
 	
 	@Length(min=0, max=64, message="课程名称长度必须介于 0 和 64 之间")
-	@ExcelField(title="课程名称", align=2, sort=14)
+	@ExcelField(title="课程名称",type=0, align=2, sort=9)
 	public String getXpcCourseName() {
 		return xpcCourseName;
 	}
@@ -175,7 +175,7 @@ public class XmuProjectCource extends DataEntity<XmuProjectCource> {
 	}
 	
 	@Length(min=0, max=64, message="学时长度必须介于 0 和 64 之间")
-	@ExcelField(title="学时", align=2, sort=15)
+	@ExcelField(title="学时",type=0, align=2, sort=10)
 	public String getXciCourseHours() {
 		return xciCourseHours;
 	}
@@ -185,7 +185,7 @@ public class XmuProjectCource extends DataEntity<XmuProjectCource> {
 	}
 	
 	@Length(min=0, max=64, message="学分长度必须介于 0 和 64 之间")
-	@ExcelField(title="学分", align=2, sort=16)
+	@ExcelField(title="学分",type=0, align=2, sort=11)
 	public String getXciCourseCredit() {
 		return xciCourseCredit;
 	}
@@ -195,7 +195,7 @@ public class XmuProjectCource extends DataEntity<XmuProjectCource> {
 	}
 	
 	@Length(min=0, max=64, message="学院ID长度必须介于 0 和 64 之间")
-	//@ExcelField(title="学院ID", align=2, sort=17)
+	@ExcelField(title="学院ID",type=0, align=2, sort=0)
 	public String getXpcOfficeId() {
 		return xpcOfficeId;
 	}

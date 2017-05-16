@@ -103,9 +103,9 @@
 		<c:forEach items="${page.list}" var="xmuProjectStudent">
 			<tr>
 				<td> <input type="checkbox" id="${xmuProjectStudent.xpsUserId}" class="i-checks"></td>
-				<td><a  href="#" onclick="openDialogView('查看项目人员', '${ctx}/xmu/proj/xmuProjectStudent/form?id=${xmuProjectStudent.id}','800px', '500px')">
+				<td><!--  <a  href="#" onclick="openDialogView('查看项目人员', '${ctx}/xmu/proj/xmuProjectStudent/form?id=${xmuProjectStudent.id}','800px', '500px')">
 					${xmuProjectStudent.xpsUserName}
-				</a></td>
+				</a>-->${xmuProjectStudent.xpsUserName}</td>
 				<td>
 					${xmuProjectStudent.xpuUserGrade}
 				</td>

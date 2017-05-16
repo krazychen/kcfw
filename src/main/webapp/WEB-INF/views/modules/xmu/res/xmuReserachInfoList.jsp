@@ -85,7 +85,7 @@
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 				<div class="form-group">
 					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学院：</span>
-					<sys:treeselect id="xpiOfficeName" name="xpiOfficeName" value="${xmuReserachInfo.xpiOfficeName}" labelName="xpiOfficeId" labelValue="${xmuReserachInfo.xpiOfficeId}"
+					<sys:treeselect id="xpiOfficeId" name="xpiOfficeId" value="${xmuReserachInfo.xpiOfficeId}" labelName="xpiOfficeName" labelValue="${xmuReserachInfo.xpiOfficeName}"
 							title="部门" url="/sys/office/treeData?type=2" cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="false"/>
 				</div>
 			</div>
@@ -116,7 +116,7 @@
 				<div class="form-group">				
 					<span>年份：</span>
 					<input style="width:210px" id="xpiResearchYears" name="xpiResearchYears" type="text" maxlength="20" class="laydate-icon form-control layer-date input-sm"
-					value="<fmt:formatDate value="${xmuReserachInfo.xpiResearchYears}" pattern="yyyy"/>"/>
+					value="${xmuReserachInfo.xpiResearchYears}"/>
 		 		</div>
 			</div>
 		 </div>	
@@ -143,9 +143,15 @@
 			<shiro:hasPermission name="xmu:res:xmuReserachInfo:audit">
 			    <table:auditRow url="${ctx}/xmu/res/xmuReserachInfo/form" targetAction="${ctx}/xmu/res/xmuReserachInfo/saveAudit" title="科研信息" id="contentTable"></table:auditRow><!-- 审核按钮 -->
 			</shiro:hasPermission>
-			<c:if test="${!fn:contains(role, 'dept')}" >
+			
+			<c:if test="${fn:contains(role, 'Student')}" >
 				<shiro:hasPermission name="xmu:res:xmuReserachInfo:back">
-				    <table:backRow url="${ctx}/xmu/res/xmuReserachInfo/form" targetAction="${ctx}/xmu/res/xmuReserachInfo/back" title="科研信息" id="contentTable"></table:backRow><!-- 撤回按钮 -->
+				    <table:backRow url="${ctx}/xmu/res/xmuReserachInfo/form" status="2" targetAction="${ctx}/xmu/res/xmuReserachInfo/back" title="科研信息" id="contentTable"></table:backRow><!-- 撤回按钮 -->
+				</shiro:hasPermission>
+			</c:if>
+			<c:if test="${fn:contains(role, 'Manager')}" >
+				<shiro:hasPermission name="xmu:res:xmuReserachInfo:back">
+				    <table:backRow url="${ctx}/xmu/res/xmuReserachInfo/form" status="3" targetAction="${ctx}/xmu/res/xmuReserachInfo/back" title="科研信息" id="contentTable"></table:backRow><!-- 撤回按钮 -->
 				</shiro:hasPermission>
 			</c:if>
 			<c:if test="${!fn:contains(role, 'dept')}" >

@@ -30,6 +30,10 @@
 					}
 				}
 			});
+			<c:if test="${error ne null}" >
+				alert('${error}');
+				parent.layer.closeAll();//关闭对话框。
+			</c:if>
 		});
 		
 		function addStu(){

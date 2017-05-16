@@ -4,6 +4,8 @@
 <head>
 	<title>项目人员管理</title>
 	<meta name="decorator" content="default"/>
+	<script src="${ctxStatic}/jquery-select2/3.5.4/select2.js"></script>
+<link href="${ctxStatic}/jquery-select2/3.5.4/select2.css" type="text/css" rel="stylesheet" />
 	<script type="text/javascript">
 		var validateForm;
 		function doSubmit(){//回调函数，在编辑和保存动作时，供openDialog调用提交表单。
@@ -36,8 +38,13 @@
 				idx: idx, delBtn: true, row: row
 			}));
 			$(list+idx).find("select").each(function(){
-				if($(this).attr("data-value"))
+				if($(this).attr("data-value")){
 					$(this).val($(this).attr("data-value"));
+				}
+				if($(this).attr("multiple")){
+					if($(this).attr("data-value"))
+						$(this).val(($(this).attr("data-value")).split(","));
+				}
 			});
 			$(list+idx).find("input[type='checkbox'], input[type='radio']").each(function(){
 				var ss = $(this).attr("data-value").split(',');
@@ -65,6 +72,7 @@
 		}
 	</script>
 </head>
+
 <body class="hideScroll">
 	<form:form id="inputForm" modelAttribute="xmuProject" action="${ctx}/xmu/proj/xmuProjectStudent/saveList" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
@@ -189,7 +197,7 @@
 							
 							
 							<td>
-								<select id="xmuProjectStudentList{{idx}}_xpuUserTeacherJobtitle" name="xmuProjectStudentList[{{idx}}].xpuUserTeacherJobtitle" data-value="{{row.xpuUserTeacherJobtitle}}" class="input-mini" style="height:25px;width:85px;*width:75px">
+								<select id="xmuProjectStudentList{{idx}}_xpuUserTeacherJobtitle"  name="xmuProjectStudentList[{{idx}}].xpuUserTeacherJobtitle" data-value="{{row.xpuUserTeacherJobtitle}}" class="input-mini" style="height:25px;width:85px;*width:75px">
 									<option value=""></option>
 									<c:forEach items="${fns:getDictList('XMU_PROJECT_STU_TEA_JOBTITLE')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
@@ -199,7 +207,7 @@
 							
 							
 							<td>
-								<select id="xmuProjectStudentList{{idx}}_xpuUserTeacherTitle" name="xmuProjectStudentList[{{idx}}].xpuUserTeacherTitle" data-value="{{row.xpuUserTeacherTitle}}" class="input-mini" style="height:25px;width:85px;*width:75px">
+								<select id="xmuProjectStudentList{{idx}}_xpuUserTeacherTitle" multiple="multiple" name="xmuProjectStudentList[{{idx}}].xpuUserTeacherTitle" data-value="{{row.xpuUserTeacherTitle}}" class="input-mini" style="min-height:25px;height:25px;width:255px;*width:245px">
 									<option value=""></option>
 									<c:forEach items="${fns:getDictList('XMU_PROJECT_STU_TEA_TITLE')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
@@ -245,6 +253,8 @@
 					var data = ${fns:toJson(xmuProject.xmuProjectStudentList)};
 					for (var i=0; i<data.length; i++){
 						addRow('#xmuProjectStudentList', xmuProjectStudentRowIdx, xmuProjectStudentTpl, data[i]);
+						var temp="#xmuProjectStudentList"+xmuProjectStudentRowIdx+"_xpuUserTeacherTitle";
+						$(temp).select2();
 						xmuProjectStudentRowIdx = xmuProjectStudentRowIdx + 1;
 					}
 				});

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.krazy.kcfw.common.persistence.Page;
 import com.krazy.kcfw.common.service.CrudService;
 import com.krazy.kcfw.common.utils.StringUtils;
+import com.krazy.kcfw.modules.test.entity.onetomany.TestDataChild2;
 import com.krazy.kcfw.modules.xmu.entity.proj.XmuProject;
 import com.krazy.kcfw.modules.xmu.dao.proj.XmuProjectDao;
 import com.krazy.kcfw.modules.xmu.entity.proj.XmuProjectMana;
@@ -35,8 +36,10 @@ public class XmuProjectService extends CrudService<XmuProjectDao, XmuProject> {
 	
 	public XmuProject get(String id) {
 		XmuProject xmuProject = super.get(id);
-		xmuProject.setXmuProjectManaList(xmuProjectManaDao.findList(new XmuProjectMana(xmuProject)));
-		xmuProject.setXmuProjectRespList(xmuProjectRespDao.findList(new XmuProjectResp(xmuProject)));
+		if(xmuProject!=null){
+			xmuProject.setXmuProjectManaList(xmuProjectManaDao.findList(new XmuProjectMana(xmuProject)));
+			xmuProject.setXmuProjectRespList(xmuProjectRespDao.findList(new XmuProjectResp(xmuProject)));
+		}
 		return xmuProject;
 	}
 	
@@ -57,57 +60,45 @@ public class XmuProjectService extends CrudService<XmuProjectDao, XmuProject> {
 	}
 	
 	@Transactional(readOnly = false)
-	public void save(XmuProject xmuProject,XmuProject t) {
+	public void saveAll(XmuProject xmuProject,XmuProject t) {
 		super.save(xmuProject);
 		
-		if(t.getXmuProjectManaList().size()!=xmuProject.getXmuProjectManaList().size()){
-			XmuProjectMana delxmuProjectMana=new XmuProjectMana();
-			delxmuProjectMana.setXpmProjId(xmuProject);
-			xmuProjectManaDao.delete(delxmuProjectMana);
-			for (XmuProjectMana xmuProjectMana : xmuProject.getXmuProjectManaList()){
-//			if (xmuProjectMana.getId() == null){
-//				continue;
-//			}
-//			if (XmuProjectMana.DEL_FLAG_NORMAL.equals(xmuProjectMana.getDelFlag())){
-//				if (StringUtils.isBlank(xmuProjectMana.getId())){
-			if (StringUtils.isNoneBlank(xmuProjectMana.getXpmUserId())&&XmuProjectMana.DEL_FLAG_DELETE.equals(xmuProjectMana.getDelFlag())){
+		for (XmuProjectResp xmuProjectResp :xmuProject.getXmuProjectRespList()){
+			if (xmuProjectResp.getId() == null){
+				continue;
+			}
+			if (XmuProjectResp.DEL_FLAG_NORMAL.equals(xmuProjectResp.getDelFlag())){
+				if (StringUtils.isBlank(xmuProjectResp.getId())){
+					xmuProjectResp.setXprProjId(xmuProject);
+					xmuProjectResp.preInsert();
+					xmuProjectRespDao.insert(xmuProjectResp);
+				}else{
+					xmuProjectResp.preUpdate();
+					xmuProjectRespDao.update(xmuProjectResp);
+				}
+			}else{
+				xmuProjectRespDao.delete(xmuProjectResp);
+			}
+		}
+		
+		for (XmuProjectMana xmuProjectMana :xmuProject.getXmuProjectManaList()){
+			if (xmuProjectMana.getId() == null){
+				continue;
+			}
+			if (XmuProjectResp.DEL_FLAG_NORMAL.equals(xmuProjectMana.getDelFlag())){
+				if (StringUtils.isBlank(xmuProjectMana.getId())){
 					xmuProjectMana.setXpmProjId(xmuProject);
 					xmuProjectMana.preInsert();
 					xmuProjectManaDao.insert(xmuProjectMana);
-			}
-//				}else{
-//					xmuProjectMana.preUpdate();
-//					xmuProjectManaDao.update(xmuProjectMana);
-//				}
-//			}else{
-//				xmuProjectManaDao.delete(xmuProjectMana);
-//			}
-			}
-		}
-		if(t.getXmuProjectRespList().size()!=xmuProject.getXmuProjectRespList().size()){
-			XmuProjectResp delxmuXmuProjectResp=new XmuProjectResp();
-			delxmuXmuProjectResp.setXprProjId(xmuProject);
-			xmuProjectRespDao.delete(delxmuXmuProjectResp);
-			for (XmuProjectResp xmuProjectResp : xmuProject.getXmuProjectRespList()){
-	//			if (xmuProjectResp.getId() == null){
-	//				continue;
-	//			}
-	//			if (XmuProjectResp.DEL_FLAG_NORMAL.equals(xmuProjectResp.getDelFlag())){
-	//				if (StringUtils.isBlank(xmuProjectResp.getId())){
-				if (StringUtils.isNoneBlank(xmuProjectResp.getXprUserId())&&XmuProjectResp.DEL_FLAG_DELETE.equals(xmuProjectResp.getDelFlag())){
-						xmuProjectResp.setXprProjId(xmuProject);
-						xmuProjectResp.preInsert();
-						xmuProjectRespDao.insert(xmuProjectResp);
+				}else{
+					xmuProjectMana.preUpdate();
+					xmuProjectManaDao.update(xmuProjectMana);
 				}
-	//				}else{
-	//					xmuProjectResp.preUpdate();
-	//					xmuProjectRespDao.update(xmuProjectResp);
-	//				}
-	//			}else{
-	//				xmuProjectRespDao.delete(xmuProjectResp);
-	//			}
+			}else{
+				xmuProjectManaDao.delete(xmuProjectMana);
 			}
 		}
+		
 	}
 	
 	@Transactional(readOnly = false)

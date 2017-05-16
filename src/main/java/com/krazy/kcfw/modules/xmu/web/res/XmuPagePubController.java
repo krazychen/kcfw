@@ -116,7 +116,7 @@ public class XmuPagePubController extends BaseController {
 				}else if("audit".equals(xmuPagePub.getUrlType())){
 					view = "xmuPagePubFormAudit";
 				}else if("form".equals(xmuPagePub.getUrlType())){
-					view="xmuPagePubFormForm";
+					view="xmuPagePubForm";
 				}
 			}
 		}

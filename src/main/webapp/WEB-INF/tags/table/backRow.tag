@@ -8,6 +8,7 @@
 <%@ attribute name="target" type="java.lang.String" required="false"%>
 <%@ attribute name="label" type="java.lang.String" required="false"%>
 <%@ attribute name="closed" type="java.lang.String" required="false"%>
+<%@ attribute name="status" type="java.lang.String" required="false"%>
 <%@ attribute name="targetAction" type="java.lang.String" required="false"%>
 <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="back()" title="撤回"><i class="fa fa-undo"></i> ${label==null?'撤回':label}</button>
 <%-- 使用方法： 1.将本tag写在查询的form之前；2.传入table的id和controller的url --%>
@@ -36,7 +37,8 @@ $(document).ready(function() {
 		  }
 	    var id =  $("#${id} tbody tr td input.i-checks:checkbox:checked").attr("id");
 	    var status=  $("#${id} tbody tr td input.i-checks:checkbox:checked").attr("status"); 
-	    if(status=="1" || status=="4" || status=="5"|| status=="6"){
+	    //if(status=="1" || status=="4" || status=="5"|| status=="6"){
+	    if(status!="${status}"){
 		   top.layer.alert('只能选择待审核的数据!', {icon: 0, title:'警告'});
 			return;
 	   }

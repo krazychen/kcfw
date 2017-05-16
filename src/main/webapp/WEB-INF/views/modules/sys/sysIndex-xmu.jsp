@@ -56,8 +56,8 @@
                                 </span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a class="J_menuItem" href="${ctx}/sys/user/imageEdit">修改头像</a>
-                                </li>
+                               <!--  <li><a class="J_menuItem" href="${ctx}/sys/user/imageEdit">修改头像</a>
+                                </li> -->
                                 <li><a class="J_menuItem" href="${ctx }/sys/user/info">个人资料</a>
                                 </li>
                                 <!-- 

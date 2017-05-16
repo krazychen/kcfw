@@ -3,8 +3,10 @@
  */
 package com.krazy.kcfw.modules.xmu.web.proj;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.common.collect.Lists;
 import com.krazy.kcfw.common.utils.DateUtils;
+import com.krazy.kcfw.common.utils.FileUtils;
 import com.krazy.kcfw.common.utils.MyBeanUtils;
 import com.krazy.kcfw.common.config.Global;
 import com.krazy.kcfw.common.persistence.Page;
@@ -32,6 +35,7 @@ import com.krazy.kcfw.common.web.BaseController;
 import com.krazy.kcfw.common.utils.StringUtils;
 import com.krazy.kcfw.common.utils.excel.ExportExcel;
 import com.krazy.kcfw.common.utils.excel.ImportExcel;
+import com.krazy.kcfw.modules.sys.entity.Role;
 import com.krazy.kcfw.modules.sys.utils.UserUtils;
 import com.krazy.kcfw.modules.xmu.entity.proj.XmuProject;
 import com.krazy.kcfw.modules.xmu.entity.proj.XmuProjectCource;
@@ -171,7 +175,7 @@ public class XmuProjectCourceController extends BaseController {
 			int successNum = 0;
 			int failureNum = 0;
 			StringBuilder failureMsg = new StringBuilder();
-			ImportExcel ei = new ImportExcel(file, 1, 0);
+			ImportExcel ei = new ImportExcel(file, 0, 0);
 			List<XmuProjectCource> list = ei.getDataList(XmuProjectCource.class);
 			for (XmuProjectCource xmuProjectCource : list){
 				try{
@@ -198,16 +202,22 @@ public class XmuProjectCourceController extends BaseController {
 	 */
 	@RequiresPermissions("xmu:proj:xmuProjectCource:import")
     @RequestMapping(value = "import/template")
-    public String importFileTemplate(HttpServletResponse response, RedirectAttributes redirectAttributes) {
+    public void importFileTemplate(HttpServletRequest request,HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
-            String fileName = "项目课程数据导入模板.xlsx";
-    		List<XmuProjectCource> list = Lists.newArrayList(); 
-    		new ExportExcel("项目课程数据", XmuProjectCource.class, 1).setDataList(list).write(response, fileName).dispose();
-    		return null;
+            String fileName = "项目课程数据导入模板.xls";
+//    		List<XmuProjectCource> list = Lists.newArrayList(); 
+//    		new ExportExcel("项目课程数据", XmuProjectCource.class, 1).setDataList(list).write(response, fileName).dispose();
+//    		return null;
+            File file = new File(request.getSession().getServletContext().getRealPath("/")  +"WEB-INF/template/"+fileName);
+            //判断文件是否存在
+            if(!file.exists()) {
+                return;
+            }
+            FileUtils.downFile(file, request, response);
 		} catch (Exception e) {
 			addMessage(redirectAttributes, "导入模板下载失败！失败信息："+e.getMessage());
 		}
-		return "redirect:"+Global.getAdminPath()+"/xmu/proj/xmuProjectCource/?repage";
+//		return "redirect:"+Global.getAdminPath()+"/xmu/proj/xmuProjectCource/?repage";
     }
 	
 	/**
@@ -216,7 +226,23 @@ public class XmuProjectCourceController extends BaseController {
 	 */
 	@RequestMapping(value = "selectProject")
 	public String selectProject(XmuProject xmuProject, String url, String fieldLabels, String fieldKeys, String searchLabel, String searchKey, HttpServletRequest request, HttpServletResponse response, Model model) throws UnsupportedEncodingException {
-		Page<XmuProject> page = xmuProjectService.findPage(new Page<XmuProject>(request, response), xmuProject); 
+//		Page<XmuProject> page = xmuProjectService.findPage(new Page<XmuProject>(request, response), xmuProject); 
+		
+		List<Role> roles=UserUtils.getUser().getRoleList();
+		Boolean isAdmin=false;
+		for(int i=0;i<roles.size();i++){
+			Role role=roles.get(i);
+			if(StringUtils.isNoneBlank(role.getEnname())&&("dept".equals(role.getEnname()))){
+				isAdmin=true;
+				break;
+			}
+		}
+		if(!isAdmin){
+			xmuProject.setXmpDescp(UserUtils.getUser().getOffice().getId());
+		}
+		xmuProject.setCurrentDate(new Date());
+		Page<XmuProject> page = xmuProjectService.findPageForMana(new Page<XmuProject>(request, response), xmuProject); 
+		
 		try {
 			fieldLabels = URLDecoder.decode(fieldLabels, "UTF-8");
 			fieldKeys = URLDecoder.decode(fieldKeys, "UTF-8");

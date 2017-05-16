@@ -7,7 +7,11 @@ import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -106,6 +110,18 @@ public class DictUtils {
 			if (pd != null) {
 
 				Object o = getMethod.invoke(obj);//执行get方法返回一个Object
+				Class<?> valType =getMethod.getReturnType();
+				if (valType == Date.class&&o!=null){
+					SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);					
+					SimpleDateFormat sdf2=new SimpleDateFormat("yyyy-MM-dd");
+					try {
+						Date d2 = sdf.parse(o.toString());
+						o=sdf2.format(d2);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
+				}
 				return o;
 
 			}

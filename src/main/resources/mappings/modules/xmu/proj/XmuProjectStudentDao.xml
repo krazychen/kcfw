@@ -257,7 +257,11 @@
 		LEFT JOIN SYS_USER_ROLE R ON U.ID=R.USER_ID
 		LEFT JOIN SYS_ROLE SR ON R.ROLE_ID=SR.ID 
 		<where>
-			1=1 AND SR.ENNAME='Student'  AND not exists (select 1 from xmu_project_student s where s.xps_user_id = u.id)
+			1=1 AND SR.ENNAME='Student' 
+			<if test="xpsProjId != null and xpsProjId != ''">
+				AND not exists (select 1 from xmu_project_student s where s.xps_user_id = u.id and s.xps_proj_id =#{xpsProjId})
+			</if>
+			 
 			<if test="xpsOfficeId != null and xpsOfficeId != ''">
 				AND U.OFFICE_ID = #{xpsOfficeId}
 			</if>

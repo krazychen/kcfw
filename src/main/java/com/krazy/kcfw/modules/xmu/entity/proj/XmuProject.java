@@ -35,8 +35,25 @@ public class XmuProject extends DataEntity<XmuProject> {
 	private List xpsUserIds;		// 学生IDs
 	private List xciCourseIds;	//课程IDS
 	private List xptTeachingIds;	//课程IDS
+	private Date currentDate;
+	
+	
 
 	
+	/**
+	 * @return the currentDate
+	 */
+	public Date getCurrentDate() {
+		return currentDate;
+	}
+
+	/**
+	 * @param currentDate the currentDate to set
+	 */
+	public void setCurrentDate(Date currentDate) {
+		this.currentDate = currentDate;
+	}
+
 	/**
 	 * @return the xptTeachingIds
 	 */
@@ -117,7 +134,7 @@ public class XmuProject extends DataEntity<XmuProject> {
 	}
 
 	@Length(min=1, max=200, message="项目名称长度必须介于 1 和 200 之间")
-	@ExcelField(title="项目名称", align=2, sort=0)
+	@ExcelField(title="项目名称",type=0, align=2, sort=0)
 	public String getXmpName() {
 		return xmpName;
 	}
@@ -127,7 +144,7 @@ public class XmuProject extends DataEntity<XmuProject> {
 	}
 	
 	@Length(min=1, max=64, message="项目级别长度必须介于 1 和 64 之间")
-	@ExcelField(title="项目级别", dictType="XMU_PROJECT_LEVEL", align=2, sort=1)
+	@ExcelField(title="项目级别", type=0, align=2, sort=1)
 	public String getXmpLevel() {
 		return xmpLevel;
 	}
@@ -136,8 +153,8 @@ public class XmuProject extends DataEntity<XmuProject> {
 		this.xmpLevel = xmpLevel;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@ExcelField(title="项目维护开始时间", align=2, sort=2)
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@ExcelField(title="项目维护开始时间",type=0, align=2, sort=2)
 	public Date getXmpMaintDate() {
 		return xmpMaintDate;
 	}
@@ -146,8 +163,8 @@ public class XmuProject extends DataEntity<XmuProject> {
 		this.xmpMaintDate = xmpMaintDate;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@ExcelField(title="项目维护结束时间", align=2, sort=3)
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@ExcelField(title="项目维护结束时间", type=0,align=2, sort=3)
 	public Date getXmpEndDate() {
 		return xmpEndDate;
 	}
@@ -157,7 +174,7 @@ public class XmuProject extends DataEntity<XmuProject> {
 	}
 	
 	@Length(min=1, max=64, message="项目状态长度必须介于 1 和 64 之间")
-	@ExcelField(title="项目状态", dictType="XMU_PROJECT_STATUS", align=2, sort=4)
+	@ExcelField(title="项目状态", type=0, align=2, sort=4)
 	public String getXmpStatus() {
 		return xmpStatus;
 	}
@@ -167,7 +184,7 @@ public class XmuProject extends DataEntity<XmuProject> {
 	}
 	
 	@Length(min=0, max=2000, message="项目简介长度必须介于 0 和 2000 之间")
-	@ExcelField(title="项目简介", align=2, sort=7)
+	@ExcelField(title="项目简介",type=0, align=2, sort=7)
 	public String getXmpDescp() {
 		return xmpDescp;
 	}
@@ -176,8 +193,8 @@ public class XmuProject extends DataEntity<XmuProject> {
 		this.xmpDescp = xmpDescp;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@ExcelField(title="项目停用时间", align=2, sort=9)
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@ExcelField(title="项目停用时间",type=0, align=2, sort=9)
 	public Date getXmpStopDate() {
 		return xmpStopDate;
 	}

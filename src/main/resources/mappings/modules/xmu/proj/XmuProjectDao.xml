@@ -148,7 +148,7 @@
 	</select>
 	
 	<select id="findListForMana" resultType="XmuProject" >
-		SELECT 
+		SELECT distinct
 			<include refid="xmuProjectColumns"/>
 		FROM xmu_project a
 		LEFT JOIN xmu_project_mana m on a.id=m.XPM_PROJ_ID
@@ -156,7 +156,9 @@
 		<include refid="userJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL} 
-			AND m.XPM_OFFICE_ID = #{xmpDescp}
+			<if test="xmpDescp != null and xmpDescp != ''">
+				AND m.XPM_OFFICE_ID = #{xmpDescp}
+			</if>
 			<if test="xmpName != null and xmpName != ''">
 				AND a.xmp_name LIKE 
 					<if test="dbName == 'oracle'">'%'||#{xmpName}||'%'</if>
@@ -165,6 +167,9 @@
 			</if>
 			<if test="xmpLevel != null and xmpLevel != ''">
 				AND a.xmp_level = #{xmpLevel}
+			</if>
+			<if test="currentDate != null and currentDate != ''">
+				<![CDATA[ AND a.XMP_MAINT_DATE <= #{currentDate} and a.XMP_END_DATE >= #{currentDate}]]>
 			</if>
 		</where>
 		<choose>

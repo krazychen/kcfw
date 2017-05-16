@@ -330,7 +330,7 @@ public class XmuPagePubService extends CrudService<XmuPagePubDao, XmuPagePub> {
 		dao.updateManageStandby(xmuPagePub);
 		
 		Map<String, Object> vars = Maps.newHashMap();
-		vars.put("pass", "3");
+		vars.put("pass", "2");
 	
 		Task xaeTask = taskService.createTaskQuery().processInstanceId(xmuPagePub.getProcInsId()).singleResult();
 		Act e = new Act();

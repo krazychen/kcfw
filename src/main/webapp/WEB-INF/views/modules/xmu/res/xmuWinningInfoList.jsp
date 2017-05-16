@@ -85,7 +85,7 @@
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 				<div class="form-group">
 					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学院：</span>
-					<sys:treeselect id="xwiOfficeName" name="xwiOfficeName" value="${xmuWinningInfo.xwiOfficeName}" labelName="xwiOfficeId" labelValue="${xmuWinningInfo.xwiOfficeId}"
+					<sys:treeselect id="xwiOfficeId" name="xwiOfficeId" value="${xmuWinningInfo.xwiOfficeId}" labelName="xwiOfficeName" labelValue="${xmuWinningInfo.xwiOfficeName}"
 							title="部门" url="/sys/office/treeData?type=2" isAll="true"  cssClass="form-control input-sm" allowClear="true" notAllowSelectParent="false"/>
 				</div>
 			</div>
@@ -143,11 +143,17 @@
 			<shiro:hasPermission name="xmu:res:xmuWinningInfo:audit">
 			    <table:auditRow url="${ctx}/xmu/res/xmuWinningInfo/form" targetAction="${ctx}/xmu/res/xmuWinningInfo/saveAudit" title="获奖信息" id="contentTable"></table:auditRow><!-- 审核按钮 -->
 			</shiro:hasPermission>
-			<c:if test="${!fn:contains(role, 'dept')}" >
+			<c:if test="${fn:contains(role, 'Student')}" >
 				<shiro:hasPermission name="xmu:res:xmuWinningInfo:back">
-				    <table:backRow url="${ctx}/xmu/res/xmuWinningInfo/form" targetAction="${ctx}/xmu/res/xmuWinningInfo/back" title="获奖信息" id="contentTable"></table:backRow><!-- 撤回按钮 -->
+				    <table:backRow url="${ctx}/xmu/res/xmuWinningInfo/form" status="2" targetAction="${ctx}/xmu/res/xmuWinningInfo/back" title="获奖信息" id="contentTable"></table:backRow><!-- 撤回按钮 -->
 				</shiro:hasPermission>
 			</c:if>
+			<c:if test="${fn:contains(role, 'Manager')}" >
+				<shiro:hasPermission name="xmu:res:xmuWinningInfo:back">
+				    <table:backRow url="${ctx}/xmu/res/xmuWinningInfo/form" status="3" targetAction="${ctx}/xmu/res/xmuWinningInfo/back" title="获奖信息" id="contentTable"></table:backRow><!-- 撤回按钮 -->
+				</shiro:hasPermission>
+			</c:if>
+			
 			<c:if test="${!fn:contains(role, 'dept')}" >
 				<shiro:hasPermission name="xmu:res:xmuWinningInfo:del">
 					<button class="btn btn-white btn-sm" onclick="deleteAllList()" data-toggle="tooltip" data-placement="top"><i class="fa fa-trash-o"> ${label==null?'删除':label}</i>
