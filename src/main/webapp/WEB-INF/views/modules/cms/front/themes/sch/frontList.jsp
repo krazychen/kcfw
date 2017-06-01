@@ -115,6 +115,24 @@
 							</c:forEach>
 						</ul>
 				  	</c:if>
+				  	<c:if test="${category.module eq 'req'}">
+						<ul class="mypagetitle">
+							<c:forEach items="${page.list}" var="article">
+								<li><div class="li_page_time"><fmt:formatDate value="${article.updateDate}" pattern="yyyy.MM.dd"/></div>
+									<div class="pre_img1"><img src="${ctxStaticTheme}/images/jiantou.jpg"/></div>
+									<div class="mypagelink">
+									<a href="${ctx}/viewReq-${article.id}">${fns:abbr(article.title,85)}</a>
+									</div>
+								</li>
+							</c:forEach>
+						</ul>
+						<div class="pagination">${page}</div>
+						<script type="text/javascript">
+							function page(n,s){
+								location="${ctx}/listReq?pageNo="+n+"&pageSize="+s;
+							}
+						</script>
+					</c:if>
 				</div>
 			</div>
 		</div>

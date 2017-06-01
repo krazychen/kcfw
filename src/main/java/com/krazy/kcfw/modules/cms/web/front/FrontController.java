@@ -3,6 +3,7 @@
  */
 package com.krazy.kcfw.modules.cms.web.front;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +38,9 @@ import com.krazy.kcfw.modules.cms.service.CommentService;
 import com.krazy.kcfw.modules.cms.service.LinkService;
 import com.krazy.kcfw.modules.cms.service.SiteService;
 import com.krazy.kcfw.modules.cms.utils.CmsUtils;
+import com.krazy.kcfw.modules.sch.entity.req.SchCompReq;
+import com.krazy.kcfw.modules.sch.service.patent.SchPatentUnderService;
+import com.krazy.kcfw.modules.sch.service.req.SchCompReqService;
 import com.krazy.kcfw.modules.sys.entity.User;
 import com.krazy.kcfw.modules.sys.utils.UserUtils;
 
@@ -61,6 +65,8 @@ public class FrontController extends BaseController{
 	private CategoryService categoryService;
 	@Autowired
 	private SiteService siteService;
+	@Autowired
+	private SchCompReqService schCompReqService;
 	
 	/**
 	 * 网站首页
@@ -272,6 +278,54 @@ public class FrontController extends BaseController{
             return "modules/cms/front/themes/"+site.getTheme()+"/"+getTpl(article);
 		}
 		return "error/404";
+	}
+	
+	/**
+	 * 内容列表
+	 */
+	@RequestMapping(value = "listReq")
+	public String list(@RequestParam(required=false, defaultValue="1") Integer pageNo,
+			@RequestParam(required=false, defaultValue="15") Integer pageSize, Model model) {
+
+		Site site = CmsUtils.getSite(Site.defaultSiteId());
+		model.addAttribute("site", site);
+	
+		Category category=new Category();
+		category.setName("企业需求");
+		category.setHref("/listReq.html");
+		category.setModule("req");
+		List<Category> categoryList = new ArrayList<Category>();
+		categoryList.add(category);
+		model.addAttribute("category", category);
+		model.addAttribute("categoryList", categoryList);
+		
+		// 获取内容列表
+		Page<SchCompReq> page2= new Page<SchCompReq>(pageNo, pageSize);
+		SchCompReq ss=new SchCompReq();
+		ss.setCurrentUser(null);
+		page2 = schCompReqService.findPageArt(page2, ss);
+		
+		Page<Article> page = new Page<Article>(pageNo, pageSize);
+		for(int i=0;i<page2.getList().size();i++){
+			SchCompReq scr=page2.getList().get(i);
+			Article ar=new Article();
+			ar.setId(scr.getId());
+			ar.setTitle(scr.getScrName());
+			ar.setUpdateDate(scr.getUpdateDate());
+			page.getList().add(ar);
+		}
+		page.setCount(page.getList().size());
+		
+		model.addAttribute("page", page);
+		
+		String view = "/frontList";
+		if (StringUtils.isNotBlank(category.getCustomListView())){
+			view = "/"+category.getCustomListView();
+		}
+        CmsUtils.addViewConfigAttribute(model, category);
+
+		return "modules/cms/front/themes/"+site.getTheme()+view;
+		
 	}
 	
 	/**

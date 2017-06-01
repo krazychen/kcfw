@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,9 +18,12 @@ import com.google.common.collect.Maps;
 import com.krazy.kcfw.common.config.Global;
 import com.krazy.kcfw.common.persistence.Page;
 import com.krazy.kcfw.common.service.CrudService;
+import com.krazy.kcfw.common.utils.CacheUtils;
 import com.krazy.kcfw.common.utils.StringUtils;
 import com.krazy.kcfw.modules.act.service.ActTaskService;
 import com.krazy.kcfw.modules.act.utils.ActUtils;
+import com.krazy.kcfw.modules.cms.entity.Article;
+import com.krazy.kcfw.modules.cms.entity.Category;
 import com.krazy.kcfw.modules.sch.entity.req.SchCompReq;
 import com.krazy.kcfw.modules.sch.entity.res.SchTechResource;
 import com.krazy.kcfw.modules.sch.dao.req.SchCompReqDao;
@@ -58,9 +62,13 @@ public class SchCompReqService extends CrudService<SchCompReqDao, SchCompReq> {
 	}
 	
 	public Page<SchCompReq> findPage(Page<SchCompReq> page, SchCompReq schCompReq) {
-		if(schCompReq.getCurrentUser()!=null){
+		if(schCompReq!=null&&schCompReq.getCurrentUser()!=null){
 			schCompReq.getSqlMap().put("dsf", dataScopeFilter(schCompReq.getCurrentUser(), "o", "u"));
 		}
+		return super.findPage(page, schCompReq);
+	}
+	
+	public Page<SchCompReq> findPageArt(Page<SchCompReq> page, SchCompReq schCompReq) {
 		return super.findPage(page, schCompReq);
 	}
 	

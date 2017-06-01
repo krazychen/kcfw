@@ -391,7 +391,7 @@
 							</td>
 							<td>			
 								<select id="schPatentUnderInventorList{{idx}}_spiNo" name="schPatentUnderInventorList[{{idx}}].spiNo" data-value="{{row.spiNo}}" maxlength="45" class="input-small editFormSelectWidth required">
-									<c:forEach items="${fns:getDictList('INVENTOR_TYPE')}" var="dict">
+									<c:forEach items="${fns:getDictList('PATENT_NO')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
 									</c:forEach>
 								</select>				

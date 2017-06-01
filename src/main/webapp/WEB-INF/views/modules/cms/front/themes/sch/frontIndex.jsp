@@ -195,7 +195,7 @@
 		<div class="notice2_top">
 			<h3>企业需求</h3>
 			<!-- <a href="${ctx}/list-e7660b429529446b85bb7bed854381c2.html">&gt;更多</a> -->
-			 <a href="#">&gt;更多</a>
+			 <a href="${ctx}/listReq.html">&gt;更多</a>
 		</div>
 		<ul class="news_rt1 notice2_ul">
 		<!-- 
