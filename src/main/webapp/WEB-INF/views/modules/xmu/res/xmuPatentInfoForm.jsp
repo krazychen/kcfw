@@ -57,14 +57,14 @@
 					 if(items=="-1"){
 						 return false;
 					 }else{
-						 $("#xppUserId").val(items[0]);
-						 $("#xppUserStuno").val(items[1]);
-						 $("#xppUserName").val(items[2]);
-						 $("#xppOfficeId").val(items[5]);
-						 $("#xppOfficeName").val(items[6]);
-						 $("#xppUserProfession").find("option[value='"+items[4]+"']").attr("selected",true);
+						 $("#xpiUserId").val(items[0]);
+						 $("#xpiUserStuno").val(items[1]);
+						 $("#xpiUserName").val(items[2]);
+						 $("#xpiOfficeId").val(items[5]);
+						 $("#xpiOfficeName").val(items[6]);
+						 $("#xpiUserProfession").find("option[value='"+items[4]+"']").attr("selected",true);
 						// $("#xaeUserProfession").val(items[4]);
-						 $("#xppUserGrade").val(items[3]);
+						 $("#xpiUserGrade").val(items[3]);
 						 top.layer.close(index);//关闭对话框。
 					 }
 					 

@@ -32,6 +32,7 @@ import com.krazy.kcfw.common.utils.StringUtils;
 import com.krazy.kcfw.common.utils.excel.ExportExcel;
 import com.krazy.kcfw.common.utils.excel.ImportExcel;
 import com.krazy.kcfw.modules.sys.entity.Role;
+import com.krazy.kcfw.modules.sys.entity.User;
 import com.krazy.kcfw.modules.sys.utils.UserUtils;
 import com.krazy.kcfw.modules.xmu.entity.proj.XmuProject;
 import com.krazy.kcfw.modules.xmu.entity.proj.XmuProjectStudent;
@@ -82,7 +83,12 @@ public class XmuProjectStudentController extends BaseController {
 	@RequiresPermissions("xmu:proj:xmuProjectStudent:list")
 	@RequestMapping(value = {"listStu"})
 	public String listStu(XmuProjectStudent xmuProjectStudent, HttpServletRequest request, HttpServletResponse response, Model model) {
-		xmuProjectStudent.setXpsOfficeId(UserUtils.getUser().getOffice().getId());
+		//判断如果是超级管理员账户，则进入任意修改模式
+		User user=UserUtils.getUser();
+		if(user.getRoleNames().indexOf("系统管理员")==-1){
+			xmuProjectStudent.setXpsOfficeId(UserUtils.getUser().getOffice().getId());
+		}
+		//xmuProjectStudent.setXpsOfficeId(UserUtils.getUser().getOffice().getId());
 		Page<XmuProjectStudent> page = xmuProjectStudentService.findUserPage(new Page<XmuProjectStudent>(request, response), xmuProjectStudent); 
 		model.addAttribute("page", page);
 		return "modules/xmu/proj/xmuProjectStudentSelect";

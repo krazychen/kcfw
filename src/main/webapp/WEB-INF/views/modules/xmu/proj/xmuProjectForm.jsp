@@ -117,7 +117,7 @@
 			    type: 2, 
 			    area: ['300px', '420px'],
 			    title:"选择负责人",
-			    content: "${ctx}/tag/treeselect?url=/sys/office/treeData?type=3&notAllowSelectRoot=true&notAllowSelectParent=true&roleEnName=RESP&userURL=treeDataByRoleEnNameNo" ,
+			    content: "${ctx}/tag/treeselect?url=/sys/office/treeData?type=3&notAllowSelectRoot=true&notAllowSelectParent=true&isAll=true&roleEnName=RESP&userURL=treeDataByRoleEnName" ,
 			    btn: ['确定', '关闭']
 	    	       ,yes: function(index, layero){ //或者使用btn1
 							var tree = layero.find("iframe")[0].contentWindow.tree;//h.find("iframe").contents();

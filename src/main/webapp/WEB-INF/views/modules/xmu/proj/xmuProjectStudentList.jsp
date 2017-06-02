@@ -15,6 +15,21 @@
 		    	});
 		});
 		
+		function openMoDai(){
+			var size = $("#contentTable tbody tr td input.i-checks:checked").size();
+			if(size == 0 ){
+				top.layer.alert('请至少选择一条数据!', {icon: 0, title:'警告'});
+				return "-1";
+			}
+			
+			if(size > 1 ){
+				top.layer.alert('只能选择一条数据!', {icon: 0, title:'警告'});
+				return "-1";
+			}
+			var id =  $("#contentTable tbody tr td input.i-checks:checkbox:checked").attr("id");
+			openDialog('修改项目人员', '${ctx}/xmu/proj/xmuProjectStudent/formList?id='+id,'1050px', '550px');
+		}
+		
 		function addStu(){
 			var size = $("#contentTable tbody tr td input.i-checks:checked").size();
 				if(size == 0 ){
@@ -125,7 +140,7 @@
 				<button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="addStu()" title="人员添加"><i class="fa fa-plus"></i> 人员添加</button>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="xmu:proj:xmuProjectStudent:edit">
-				<button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="openDialog('修改项目人员', '${ctx}/xmu/proj/xmuProjectStudent/formList?id=${xmuProject.id}','1050px', '550px')" title="人员修改"><i class="fa fa-file-text-o"></i> 修改</button>
+				<button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="openMoDai()" title="人员修改"><i class="fa fa-file-text-o"></i> 修改</button>
 			</shiro:hasPermission>
 	       <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="left" onclick="sortOrRefresh()" title="刷新"><i class="glyphicon glyphicon-repeat"></i> 刷新</button>
 		

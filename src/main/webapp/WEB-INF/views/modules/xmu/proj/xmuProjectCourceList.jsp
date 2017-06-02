@@ -153,9 +153,10 @@
 			<shiro:hasPermission name="xmu:proj:xmuProjectCource:del">
 				<table:delRow url="${ctx}/xmu/proj/xmuProjectCource/deleteAll" id="contentTable"></table:delRow><!-- 删除按钮 -->
 			</shiro:hasPermission>
+			<!--
 			<shiro:hasPermission name="xmu:proj:xmuProjectCource:import">
-				<table:importExcel url="${ctx}/xmu/proj/xmuProjectCource/import"></table:importExcel><!-- 导入按钮 -->
-			</shiro:hasPermission>
+				<table:importExcel url="${ctx}/xmu/proj/xmuProjectCource/import"></table:importExcel><!-- 导入按钮
+			</shiro:hasPermission> -->
 			<shiro:hasPermission name="xmu:proj:xmuProjectCource:export">
 	       		<table:exportExcel url="${ctx}/xmu/proj/xmuProjectCource/export"></table:exportExcel><!-- 导出按钮 -->
 	       	</shiro:hasPermission>
