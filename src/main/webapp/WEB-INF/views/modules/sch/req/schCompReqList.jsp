@@ -79,7 +79,10 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="schCompReq">
 			<tr>
-				<td><a href="${ctx}/sch/req/schCompReq/form?id=${schCompReq.id}">
+				<td>
+				<c:if test="${schCompReq.scrStatus==1 or schCompReq.scrStatus==3 or schCompReq.scrStatus==4 or schCompReq.scrStatus==5}">
+					<a href="${ctx}/sch/req/schCompReq/form?id=${schCompReq.id}">
+				</c:if>
 					${schCompReq.scrName}
 				</a></td>
 				<td>

@@ -30,7 +30,13 @@
        		<li><a href="${ctx}/index-1${fns:getUrlSuffix()}"><span>${site.id eq '1'?'首　 页':'返回主站'}</span></a></li>
        		<c:forEach items="${fnc:getMainNavList(site.id)}" var="category" varStatus="status">
        			<c:if test="${status.index lt 9}">
-	    		   <li><a href="${ctx}${category.url}" target="${category.target}" data-toggle="dropdown"><span>${category.name}</span></a>
+	    		   <li>
+	    		   <c:if test="${category.module ne 'link' }">
+	    		   		<a href="${ctx}${category.url}" target="${category.target}" data-toggle="dropdown"><span>${category.name}</span></a>
+	    		   </c:if>
+	    		   <c:if test="${category.module eq 'link' }">
+	    		   		<a href="${category.url}" target="${category.target}" data-toggle="dropdown"><span>${category.name}</span></a>
+	    		   </c:if>
     		   		 <ul>
     		   		 <c:forEach items="${fnc:getCategoryList(site.id,category.id,10,'')}" var="subCat" varStatus="catStatus">
 	    		   		 <li><a href="${ctx}${subCat.url}" target="${subCat.target}">${subCat.name}</a></li>

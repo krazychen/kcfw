@@ -107,12 +107,13 @@
 		}
 		
 		function addRow(list, idx, tpl, row){
-			var userIdName='schPatentUnderInventorList'+idx+'_spiUserId';
+			var userIdName='schPatentUnderInventorList'+idx+'_spiUserNo';
 			window[userIdName+'TreeselectCallBack'] = function (v,h,f) { 
 				if (v=="ok"){
 					var userId=$("#"+userIdName+"Id").val();
 					if(userId){
 						setOffice(userId,'schPatentUnderInventorList'+idx+'_spiUserOfficeId','schPatentUnderInventorList'+idx+'_spiUserOfficeName');
+						$('#schPatentUnderInventorList'+idx+'_spiUserId').val(userId);
 					}
 					
 				}else if (v=="clear"){
@@ -120,12 +121,13 @@
 					$("#"+"schPatentUnderInventorList"+idx+"_spiUserOfficeName").val("");
 				}
 			};
-			var teacherIdName='schPatentUnderInventorList'+idx+'_spiTeacherId';
+			var teacherIdName='schPatentUnderInventorList'+idx+'_spiTeacherNo';
 			window[teacherIdName+'TreeselectCallBack'] = function (v,h,f) { 
 				if (v=="ok"){
 					var teacherId=$("#"+teacherIdName+"Id").val();
 					if(teacherId){
 						setOffice(teacherId,'schPatentUnderInventorList'+idx+'_spiTeacherOfficeId','schPatentUnderInventorList'+idx+'_spiTeacherOfficeName');
+						$('#schPatentUnderInventorList'+idx+'_spiTeacherId').val(teacherId);
 					}
 					
 				}else if (v=="clear"){
@@ -177,8 +179,11 @@
 				// $(obj).parent().next().next().children().eq(0).hide();
 				 //$(prefix+"_spiOfficeNameEx").show();
 				$(prefix+"_spiUserIdTd").hide();
+				$(prefix+"_spiUserNameTd").hide();
 				$(prefix+"_spiTeacherIdTd").hide();
+				$(prefix+"_spiTeacherNameTd").hide();
 				$(prefix+"_spiUserNameExTd").show();
+				$(prefix+"_spiUserIdExTd").show();
 				$(prefix+"_spiUserOfficeIdTd").hide();
 				$(prefix+"_spiTeacherOfficeIdTd").hide();
 				$(prefix+"_spiOfficeNameExTd").show();
@@ -190,8 +195,11 @@
 				//$(prefix+"_spiTeacherIdButton").show();
 				 //$(prefix+"_spiUserNameEx").hide();
 				$(prefix+"_spiUserIdTd").hide();
+				$(prefix+"_spiUserNameTd").hide();
 				$(prefix+"_spiTeacherIdTd").show();
+				$(prefix+"_spiTeacherNameTd").show();
 				$(prefix+"_spiUserNameExTd").hide();
+				$(prefix+"_spiUserIdExTd").hide();
 				$(prefix+"_spiUserOfficeIdTd").hide();
 				$(prefix+"_spiTeacherOfficeIdTd").show();
 				$(prefix+"_spiOfficeNameExTd").hide();
@@ -202,8 +210,11 @@
 				//$(obj).parent().next().children().eq(1).hide();
 				// $(prefix+"_spiUserNameEx").hide();
 				$(prefix+"_spiUserIdTd").show();
+				$(prefix+"_spiUserNameTd").show();
 				$(prefix+"_spiTeacherIdTd").hide();
+				$(prefix+"_spiTeacherNameTd").hide();
 				$(prefix+"_spiUserNameExTd").hide();
+				$(prefix+"_spiUserIdExTd").hide();
 				$(prefix+"_spiUserOfficeIdTd").show();
 				$(prefix+"_spiTeacherOfficeIdTd").hide();
 				$(prefix+"_spiOfficeNameExTd").hide();
@@ -329,6 +340,7 @@
 									<th class="hide"></th>
 									<th><span class="help-inline"><font color="red">*</font> </span>发明人类型</th>
 									<th><span class="help-inline"><font color="red">*</font> </span>发明人姓名</th>
+									<th><span class="help-inline"><font color="red"></font> </span>发明人号码</th>
 									<th><span class="help-inline"><font color="red">*</font> </span>发明人单位</th>
 									<th><span class="help-inline"><font color="red">*</font> </span>贡献度(%)</th>
 									<th><span class="help-inline"><font color="red">*</font> </span>排名</th>
@@ -356,16 +368,25 @@
 									</c:forEach>
 								</select>
 							</td>
+							<td id="schPatentUnderInventorList{{idx}}_spiUserNameTd">
+								<sys:treeselect id="schPatentUnderInventorList{{idx}}_spiUserNo" name="schPatentUnderInventorList[{{idx}}].spiUserNo" value="{{row.spiUserNo}}" labelName="schPatentUnderInventorList{{idx}}.spiUserName" labelValue="{{row.spiUserName}}"
+									title="用户" allowInput="true" roleEnName="Student" isAll="true" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormTreeWidth required" allowClear="true" notAllowSelectParent="true"/>
+							</td>
 							<td id="schPatentUnderInventorList{{idx}}_spiUserIdTd">
-								<sys:treeselect id="schPatentUnderInventorList{{idx}}_spiUserId" name="schPatentUnderInventorList[{{idx}}].spiUserId" value="{{row.spiUserId}}" labelName="schPatentUnderInventorList{{idx}}.spiUserName" labelValue="{{row.spiUserName}}"
-									title="用户" allowInput="true" roleEnName="Student" isAll="true" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required" allowClear="true" notAllowSelectParent="true"/>
+								<input id="schPatentUnderInventorList{{idx}}_spiUserId"	name="schPatentUnderInventorList{{idx}}.spiUserId"	value="{{row.spiUserId}}" type="text" readonly="true" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required" />					
+							</td>
+							<td id="schPatentUnderInventorList{{idx}}_spiTeacherNameTd" style="display:none">	
+								<sys:treeselect id="schPatentUnderInventorList{{idx}}_spiTeacherNo" name="schPatentUnderInventorList[{{idx}}].spiTeacherNo" value="{{row.spiTeacherId}}" labelName="schPatentUnderInventorList{{idx}}.spiTeacherName" labelValue="{{row.spiTeacherName}}"
+									title="用户" allowInput="true" roleEnName="teacher" isAll="true" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormTreeWidth required" allowClear="true" notAllowSelectParent="true"/>
 							</td>
 							<td id="schPatentUnderInventorList{{idx}}_spiTeacherIdTd" style="display:none">	
-								<sys:treeselect id="schPatentUnderInventorList{{idx}}_spiTeacherId" name="schPatentUnderInventorList[{{idx}}].spiTeacherId" value="{{row.spiTeacherId}}" labelName="schPatentUnderInventorList{{idx}}.spiTeacherName" labelValue="{{row.spiTeacherName}}"
-									title="用户" allowInput="true" roleEnName="teacher" isAll="true" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormSelectWidth required" allowClear="true" notAllowSelectParent="true"/>
+								<input id="schPatentUnderInventorList{{idx}}_spiTeacherId"	name="schPatentUnderInventorList{{idx}}.spiTeacherId"	value="{{row.spiTeacherId}}" type="text" readonly="true" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required"/>					
 							</td>
 							<td id="schPatentUnderInventorList{{idx}}_spiUserNameExTd" style="display:none">
 								<input id="schPatentUnderInventorList{{idx}}_spiUserNameEX" name="schPatentUnderInventorList[{{idx}}].spiUserNameEX" type="text" value="{{row.spiUserNameEX}}" maxlength="11" class="input-small editFormFieldWidth required"/>
+							</td>
+							<td id="schPatentUnderInventorList{{idx}}_spiUserIdExTd" style="display:none">
+								<input type="text" readonly="true" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth"/>					
 							</td>
 							<td id="schPatentUnderInventorList{{idx}}_spiUserOfficeIdTd">
 								<!--

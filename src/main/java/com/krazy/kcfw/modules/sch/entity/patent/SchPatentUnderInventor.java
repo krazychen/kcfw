@@ -20,9 +20,11 @@ public class SchPatentUnderInventor extends DataEntity<SchPatentUnderInventor> {
 	private String spiTypeCode;		// 发明人类型
 	private String spiTypeName;		// 发明人类型名称
 	private String spiUserId;		// 发明人学生姓名id
+	private String spiUserNo;		// 发明人学生姓名id
 	private String spiUserName;		// 发明人学生姓名
 	private String spiTeacherId;		// 发明人老师姓名id
 	private String spiTeacherName;		// 发明人老师姓名
+	private String spiTeacherNo;		// 发明人老师姓名id
 	private String spiUserNameEX;		// 发明人校外姓名
 	private String spiUserOfficeId;		// 发明人学生单位代码
 	private String spiUserOfficeName;		// 发明人学生单位
@@ -34,6 +36,34 @@ public class SchPatentUnderInventor extends DataEntity<SchPatentUnderInventor> {
 	private String spiNo;		// 排名
 	
 	
+	/**
+	 * @return the spiUserNo
+	 */
+	public String getSpiUserNo() {
+		return spiUserNo;
+	}
+
+	/**
+	 * @param spiUserNo the spiUserNo to set
+	 */
+	public void setSpiUserNo(String spiUserNo) {
+		this.spiUserNo = spiUserNo;
+	}
+
+	/**
+	 * @return the spiTeacherNo
+	 */
+	public String getSpiTeacherNo() {
+		return spiTeacherNo;
+	}
+
+	/**
+	 * @param spiTeacherNo the spiTeacherNo to set
+	 */
+	public void setSpiTeacherNo(String spiTeacherNo) {
+		this.spiTeacherNo = spiTeacherNo;
+	}
+
 	/**
 	 * @return the spiNo
 	 */

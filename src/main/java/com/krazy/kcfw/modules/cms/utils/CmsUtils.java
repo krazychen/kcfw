@@ -330,7 +330,9 @@ public class CmsUtils {
 		
 		List<Article> articles=Lists.newArrayList();
 		SchCompReq qq=new SchCompReq();
-		//qq.setScrStatus("2");
+		
+		//krazy 更新为获取审核状态的企业需求
+		qq.setScrStatus("3");
 		List<SchCompReq> reqPage = schCompReqService.findPageList(qq);
 		if(reqPage.size()>0){
 			if(reqPage.size()<=number){

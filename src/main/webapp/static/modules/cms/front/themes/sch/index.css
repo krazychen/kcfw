@@ -26,27 +26,27 @@ input{ outline:none; font-family:"Microsoft YaHei",宋体;}
 .input_box{width:140px;height:25px; background:url("./images/search.png") no-repeat center center;padding-left:10px;}
 .input_btn{width:24px;height:25px; background:url("./images/search_btn.png") no-repeat center center; cursor:pointer;}
 .nav{overflow:hidden; float:left;}
-.nav li{float:left; display:block;width:142px;height:40px; background:url("./images/nav_li.png") no-repeat right; line-height:40px;}
-.nav a.moren{width:137px;height:40px;background:url("./images/nav_moren.jpg") no-repeat center center;background-size:cover; overflow:hidden;}
-.nav a:hover{width:147px;height:40px;background:url("./images/nav_moren.jpg") no-repeat center center;background-size:cover; overflow:hidden;}
-.nav a{display:block;width:100px;height:40px;text-align:center;font-size:14px;font-family:"Microsoft YaHei",Arial;font-weight:bold;color:#fff; margin:0 auto;}
+.nav li{float:left; display:block;width:124px;height:40px; background:url("./images/nav_li.png") no-repeat right; line-height:40px;}
+.nav a.moren{width:120px;height:40px;background:url("./images/nav_moren.jpg") no-repeat center center;background-size:cover; overflow:hidden;}
+.nav a:hover{width:130px;height:40px;background:url("./images/nav_moren.jpg") no-repeat center center;background-size:cover; overflow:hidden;}
+.nav a{display:block;width:83px;height:40px;text-align:center;font-size:14px;font-family:"Microsoft YaHei",Arial;font-weight:bold;color:#fff; margin:0 auto;}
 .nav li ul{
 	line-height: 30px;
 	list-style-type: none;
 	text-align:left;
-	width: 152px;
+	width: 134px;
 	position: absolute;
 	display: none;
 	z-index: 999;
 }
 .nav li ul li{
-float:left; display:block;width:150px;height:35px; background:url("./images/nav_bg.jpg") no-repeat center; line-height:40px;
+float:left; display:block;width:133px;height:35px; background:url("./images/nav_bg.jpg") no-repeat center; line-height:40px;
  }
 .nav li ul a{
-display:block;width:130px;height:35px;text-align:center;font-size:13px;font-family:"Microsoft YaHei",Arial;font-weight: normal;color:#fff; margin:0 auto;
+display:block;width:113px;height:35px;text-align:center;font-size:13px;font-family:"Microsoft YaHei",Arial;font-weight: normal;color:#fff; margin:0 auto;
 }
 .nav li ul a:hover{
-	width:150px;height:35px;background:url("./images/nav_moren.jpg") no-repeat center center; background-size:cover; overflow:hidden;
+	width:133px;height:35px;background:url("./images/nav_moren.jpg") no-repeat center center; background-size:cover; overflow:hidden;
 }
 
 /*att*/
