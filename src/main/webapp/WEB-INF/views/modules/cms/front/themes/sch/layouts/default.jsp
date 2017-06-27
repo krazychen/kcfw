@@ -27,7 +27,7 @@
 <!--nav-->
 	<div class="main_top">
        <ul class="nav">
-       		<li><a href="${ctx}/index-1${fns:getUrlSuffix()}"><span>${site.id eq '1'?'首　 页':'返回主站'}</span></a></li>
+       		<li><a href="${ctx}/indexNew?siteId=1}"><span>${site.id eq '1'?'首　 页':'返回主站'}</span></a></li>
        		<c:forEach items="${fnc:getMainNavList(site.id)}" var="category" varStatus="status">
        			<c:if test="${status.index lt 9}">
 	    		   <li>

@@ -39,14 +39,14 @@
 			</div>
 			<div style="float: left; line-height: 30px; padding-left: 10px;">
 				<span style="color: #2F2F2F; font-weight: bold;">您当前的位置：</span> <a
-					href="${ctx}/index-${site.id}${urlSuffix}" style="color: #2F2F2F;">首页</a>
+					href="${ctx}/indexNew?siteId=${site.id}" style="color: #2F2F2F;">首页</a>
 				<c:forEach items="${fnc:getCategoryListByIds(category.parentIds)}"
 					var="tpl">
 					<c:if test="${tpl.id ne '1'}"> >> <a
-							href="${ctx}/list-${tpl.id}${urlSuffix}">${tpl.name}</a>
+							href="${ctx}/listNew?categoryId=${tpl.id}">${tpl.name}</a>
 					</c:if>
 				</c:forEach>
-				>> <a href="${ctx}/list-${category.id}${urlSuffix}">${category.name}</a>
+				>> <a href="${ctx}/listNew?categoryId=${category.id}">${category.name}</a>
 			</div>
 		</div>
 	</div>
@@ -66,7 +66,7 @@
 				    			</c:otherwise>
 				    		</c:choose>
 			   			</c:when>
-			   			<c:otherwise><c:set var="url" value="${ctx}/list-${tpl.id}${urlSuffix}"/></c:otherwise>
+			   			<c:otherwise><c:set var="url" value="${ctx}/listNew?categoryId=${tpl.id}"/></c:otherwise>
 			   		</c:choose>
 					<h3><em></em><a href="${url}" target="${tpl.target}" >${fns:abbr(tpl.name,22)}</a></h3><ul><li></li></ul>
 				</c:forEach>
@@ -93,7 +93,7 @@
 								<li><div class="li_page_time"><fmt:formatDate value="${article.updateDate}" pattern="yyyy.MM.dd"/></div>
 									<div class="pre_img1"><img src="${ctxStaticTheme}/images/jiantou.jpg"/></div>
 									<div class="mypagelink">
-									<a href="${ctx}/view-${article.category.id}-${article.id}${urlSuffix}">${fns:abbr(article.title,85)}</a>
+									<a href="${ctx}/viewNew?categoryId=${article.category.id}&contentId=${article.id}">${fns:abbr(article.title,85)}</a>
 									</div>
 								</li>
 							</c:forEach>
@@ -101,7 +101,7 @@
 						<div class="pagination">${page}</div>
 						<script type="text/javascript">
 							function page(n,s){
-								location="${ctx}/list-${category.id}${urlSuffix}?pageNo="+n+"&pageSize="+s;
+								location="${ctx}/listNew?categoryId=${category.id}&pageNo="+n+"&pageSize="+s;
 							}
 						</script>
 					</c:if>
@@ -121,7 +121,7 @@
 								<li><div class="li_page_time"><fmt:formatDate value="${article.updateDate}" pattern="yyyy.MM.dd"/></div>
 									<div class="pre_img1"><img src="${ctxStaticTheme}/images/jiantou.jpg"/></div>
 									<div class="mypagelink">
-									<a href="${ctx}/viewReq-${article.id}">${fns:abbr(article.title,85)}</a>
+									<a href="${ctx}/viewReqNew?reqId=${article.id}">${fns:abbr(article.title,85)}</a>
 									</div>
 								</li>
 							</c:forEach>

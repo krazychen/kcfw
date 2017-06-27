@@ -23,8 +23,8 @@
 		<span style="color:#2F2F2F; font-weight:bold;">您当前的位置：</span>
 		<a href="${ctx}/index-${site.id}${urlSuffix}" style="color:#2F2F2F;">首页</a> 
 		<c:forEach items="${fnc:getCategoryListByIds(category.parentIds)}" var="tpl">
-			<c:if test="${tpl.id ne '1'}"> >> <a href="${ctx}/list-${tpl.id}${urlSuffix}">${tpl.name}</a></c:if>
-		</c:forEach> >> <a href="${ctx}/list-${category.id}${urlSuffix}">${category.name}</a> >> 信息详情
+			<c:if test="${tpl.id ne '1'}"> >> <a href="${ctx}/listNew?categoryId=${tpl.id}">${tpl.name}</a></c:if>
+		</c:forEach> >> <a href="${ctx}/listNew?categoryId=${category.id}">${category.name}</a> >> 信息详情
 </div>
 </div>
 </div>

@@ -322,8 +322,12 @@ public class Category extends TreeEntity<Category> {
 	public static boolean isRoot(String id){
 		return id != null && id.equals("1");
 	}
-
+	
    	public String getUrl() {
-        return CmsUtils.getUrlDynamic(this);
+        return CmsUtils.getUrlDynamicNew(this);
    	}
+
+//   	public String getUrl() {
+//        return CmsUtils.getUrlDynamic(this);
+//   	}
 }

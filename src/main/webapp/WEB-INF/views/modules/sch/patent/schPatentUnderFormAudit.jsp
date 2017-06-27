@@ -120,6 +120,7 @@
 									<th class="hide"></th>
 									<th><span class="help-inline"><font color="red">*</font> </span>发明人类型</th>
 									<th><span class="help-inline"><font color="red">*</font> </span>发明人姓名</th>
+									<th><span class="help-inline"><font color="red"></font> </span>发明人教工号/学号</th>
 									<th><span class="help-inline"><font color="red">*</font> </span>发明人单位</th>
 									<th><span class="help-inline"><font color="red">*</font> </span>贡献度(%)</th>
 									<th>备注</th>
@@ -133,6 +134,7 @@
 										</td>
 										<td>${inventor.spiTypeName}</td>
 										<td>${inventor.spiUserName}${inventor.spiTeacherName}${inventor.spiUserNameEX}</td>
+										<td>${inventor.spiUserId}${inventor.spiTeacherId}</td>
 										<td>${inventor.spiUserOfficeName}${inventor.spiTeacherOfficeName}${inventor.spiOfficeNameEx}</td>
 										<td>${inventor.spiContributionPer}</td>
 										<td>${inventor.spiRemark}</td>

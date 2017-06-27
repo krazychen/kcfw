@@ -229,8 +229,12 @@ public class Article extends DataEntity<Article> {
 	}
 
    	public String getUrl() {
-        return CmsUtils.getUrlDynamic(this);
+        return CmsUtils.getUrlDynamicNew(this);
    	}
+	
+//   	public String getUrl() {
+//        return CmsUtils.getUrlDynamic(this);
+//   	}
 
    	public String getImageSrc() {
         return CmsUtils.formatImageSrcToWeb(this.image);

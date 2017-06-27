@@ -340,7 +340,7 @@
 									<th class="hide"></th>
 									<th><span class="help-inline"><font color="red">*</font> </span>发明人类型</th>
 									<th><span class="help-inline"><font color="red">*</font> </span>发明人姓名</th>
-									<th><span class="help-inline"><font color="red"></font> </span>发明人号码</th>
+									<th><span class="help-inline"><font color="red"></font> </span>发明人教工号/学号</th>
 									<th><span class="help-inline"><font color="red">*</font> </span>发明人单位</th>
 									<th><span class="help-inline"><font color="red">*</font> </span>贡献度(%)</th>
 									<th><span class="help-inline"><font color="red">*</font> </span>排名</th>
@@ -369,18 +369,18 @@
 								</select>
 							</td>
 							<td id="schPatentUnderInventorList{{idx}}_spiUserNameTd">
-								<sys:treeselect id="schPatentUnderInventorList{{idx}}_spiUserNo" name="schPatentUnderInventorList[{{idx}}].spiUserNo" value="{{row.spiUserNo}}" labelName="schPatentUnderInventorList{{idx}}.spiUserName" labelValue="{{row.spiUserName}}"
+								<sys:treeselect id="schPatentUnderInventorList{{idx}}_spiUserNo" name="schPatentUnderInventorList[{{idx}}].spiUserNo" value="{{row.spiUserNo}}" labelName="schPatentUnderInventorList[{{idx}}].spiUserName" labelValue="{{row.spiUserName}}"
 									title="用户" allowInput="true" roleEnName="Student" isAll="true" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormTreeWidth required" allowClear="true" notAllowSelectParent="true"/>
 							</td>
 							<td id="schPatentUnderInventorList{{idx}}_spiUserIdTd">
-								<input id="schPatentUnderInventorList{{idx}}_spiUserId"	name="schPatentUnderInventorList{{idx}}.spiUserId"	value="{{row.spiUserId}}" type="text" readonly="true" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required" />					
+								<input id="schPatentUnderInventorList{{idx}}_spiUserId"	name="schPatentUnderInventorList[{{idx}}].spiUserId"	value="{{row.spiUserId}}" type="text" readonly="true" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required" />					
 							</td>
 							<td id="schPatentUnderInventorList{{idx}}_spiTeacherNameTd" style="display:none">	
-								<sys:treeselect id="schPatentUnderInventorList{{idx}}_spiTeacherNo" name="schPatentUnderInventorList[{{idx}}].spiTeacherNo" value="{{row.spiTeacherId}}" labelName="schPatentUnderInventorList{{idx}}.spiTeacherName" labelValue="{{row.spiTeacherName}}"
+								<sys:treeselect id="schPatentUnderInventorList{{idx}}_spiTeacherNo" name="schPatentUnderInventorList[{{idx}}].spiTeacherNo" value="{{row.spiTeacherNo}}" labelName="schPatentUnderInventorList[{{idx}}].spiTeacherName" labelValue="{{row.spiTeacherName}}"
 									title="用户" allowInput="true" roleEnName="teacher" isAll="true" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-large editFormTreeWidth required" allowClear="true" notAllowSelectParent="true"/>
 							</td>
 							<td id="schPatentUnderInventorList{{idx}}_spiTeacherIdTd" style="display:none">	
-								<input id="schPatentUnderInventorList{{idx}}_spiTeacherId"	name="schPatentUnderInventorList{{idx}}.spiTeacherId"	value="{{row.spiTeacherId}}" type="text" readonly="true" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required"/>					
+								<input id="schPatentUnderInventorList{{idx}}_spiTeacherId"	name="schPatentUnderInventorList[{{idx}}].spiTeacherId"	value="{{row.spiTeacherId}}" type="text" readonly="true" htmlEscape="false" maxlength="64" class="input-large editFormFieldWidth required"/>					
 							</td>
 							<td id="schPatentUnderInventorList{{idx}}_spiUserNameExTd" style="display:none">
 								<input id="schPatentUnderInventorList{{idx}}_spiUserNameEX" name="schPatentUnderInventorList[{{idx}}].spiUserNameEX" type="text" value="{{row.spiUserNameEX}}" maxlength="11" class="input-small editFormFieldWidth required"/>

@@ -64,7 +64,7 @@
 <div class="news fl">
 	<div
 		style="float: right; position: relative; top: 100px; padding-right: 5px; border-bottom: 1px solid #CCC; width: 340px; margin-right: 15px; text-align: right;">
-		<a style="color: #9d0c2a" href="${ctx}/list-4ca4a6c7cd574fd985dfb154daee2bac.html">&gt;更多</a>
+		<a style="color: #9d0c2a" href="${ctx}/listNew?categoryId=4ca4a6c7cd574fd985dfb154daee2bac">&gt;更多</a>
 	</div>
 	<div style="height: 95px;">
 		<c:forEach items="${fnc:getArticleList(site.id, '4ca4a6c7cd574fd985dfb154daee2bac', 1, 'posid:2')}" var="article">
@@ -132,7 +132,7 @@
 <div class="notice">
 	<div class="notice_top">
 		<h3>信息公开</h3>
-		<a href="${ctx}/list-6ac1fc5f127d4ab790062b47f5870078.html">&gt;更多</a>
+		<a href="${ctx}/listNew?categoryId=6ac1fc5f127d4ab790062b47f5870078">&gt;更多</a>
 	</div>
 	<ul class="news_rt notice_ul">
 		<c:forEach items="${fnc:getArticleList(site.id, '6ac1fc5f127d4ab790062b47f5870078', 12, '')}" var="article">
@@ -157,7 +157,7 @@
 	<div class="notice2" style="margin-left:0px;">
 		<div class="notice2_top">
 			<h3>事务通知</h3>
-			<a href="${ctx}/list-a84c9d420d834c62aa9f0cc41a58217d.html">&gt;更多</a>
+			<a href="${ctx}/listNew?categoryId=a84c9d420d834c62aa9f0cc41a58217d">&gt;更多</a>
 		</div>
 		<ul class="news_rt1 notice2_ul">
 			<c:forEach items="${fnc:getArticleList(site.id, 'a84c9d420d834c62aa9f0cc41a58217d', 6, '')}" var="article">
@@ -178,7 +178,7 @@
 	<div class="notice2">
 		<div class="notice2_top">
 			<h3>成果展示</h3>
-			<a href="${ctx}/list-62d7056dc9b045c2b093234f5af44ea0.html">&gt;更多</a>
+			<a href="${ctx}/listNew?categoryId=62d7056dc9b045c2b093234f5af44ea0">&gt;更多</a>
 		</div>
 		<ul class="news_rt1 notice2_ul">
 			<c:forEach items="${fnc:getArticleList(site.id, '62d7056dc9b045c2b093234f5af44ea0', 6, '')}" var="article">
@@ -202,7 +202,7 @@
 	<div class="notice2" style="margin-left:0px;">
 		<div class="notice2_top">
 			<h3>企业需求</h3>
-			<!-- <a href="${ctx}/list-e7660b429529446b85bb7bed854381c2.html">&gt;更多</a> -->
+			<!-- <a href="${ctx}/listNew?categoryId=e7660b429529446b85bb7bed854381c2.html">&gt;更多</a> -->
 			 <a href="${ctx}/listReq.html">&gt;更多</a>
 		</div>
 		<ul class="news_rt1 notice2_ul">
@@ -217,7 +217,7 @@
 				<!-- 取消跳转
 				<a href="${ctx}/viewReq-${article.id}" style="width:300px"
 				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,80)}</a> -->
-				<a href="#}" style="width:300px"
+				<a href="#" style="width:300px"
 				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,80)}</a>
 				<c:if test="${fnc:compareCurDate(article.updateDate) }">
 					<div class="li_time">
@@ -233,7 +233,7 @@
 	<div class="notice2">
 		<div class="notice2_top">
 			<h3 style="padding-left:13px">服务闽西南</h3>
-			<a href="${ctx}/list-5d9f257f11a242188359cbff97357759.html">&gt;更多</a>
+			<a href="${ctx}/listNew?categoryId=5d9f257f11a242188359cbff97357759">&gt;更多</a>
 		</div>
 		<ul class="news_rt1 notice2_ul">
 			<c:forEach items="${fnc:getArticleList(site.id, '5d9f257f11a242188359cbff97357759', 6, '')}" var="article">

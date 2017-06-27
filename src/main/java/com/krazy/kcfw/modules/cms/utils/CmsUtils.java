@@ -229,6 +229,22 @@ public class CmsUtils {
 	public static void removeCache(String key) {
 		CacheUtils.remove(CMS_CACHE, key);
 	}
+	
+    /**
+     * 获得文章动态URL地址
+   	 * @param article
+   	 * @return url
+   	 */
+    public static String getUrlDynamicNew(Article article) {
+        if(StringUtils.isNotBlank(article.getLink())){
+            return article.getLink();
+        }
+        StringBuilder str = new StringBuilder();
+        str.append(context.getContextPath()).append(Global.getFrontPath());
+        str.append("/viewNew?categoryId=").append(article.getCategory().getId()).append("&contentId=").append(article.getId());
+        return str.toString();
+    }
+
 
     /**
      * 获得文章动态URL地址
@@ -245,6 +261,25 @@ public class CmsUtils {
         return str.toString();
     }
 
+    /**
+     * 获得栏目动态URL地址
+   	 * @param category
+   	 * @return url
+   	 */
+    public static String getUrlDynamicNew(Category category) {
+        if(StringUtils.isNotBlank(category.getHref())){
+            if(!category.getHref().contains("://")){
+                return context.getContextPath()+Global.getFrontPath()+category.getHref();
+            }else{
+                return category.getHref();
+            }
+        }
+        StringBuilder str = new StringBuilder();
+        str.append(context.getContextPath()).append(Global.getFrontPath());
+        str.append("/listNew?categoryId=").append(category.getId());
+        return str.toString();
+    }
+    
     /**
      * 获得栏目动态URL地址
    	 * @param category
