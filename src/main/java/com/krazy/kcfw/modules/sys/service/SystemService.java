@@ -138,7 +138,7 @@ public class SystemService extends BaseService implements InitializingBean {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<User> findUserByOfficeIdAndRoleEnName(String officeId,String roleEnName) {
-		List<User> list = (List<User>)CacheUtils.get(UserUtils.USER_CACHE+"-"+roleEnName, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + officeId);
+		List<User> list = (List<User>)CacheUtils.get(UserUtils.USER_CACHE+"-"+officeId+roleEnName, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + officeId+roleEnName);
 		if (list == null){
 			
 			HashMap<String,String> pars=new HashMap<String,String>();
@@ -146,14 +146,14 @@ public class SystemService extends BaseService implements InitializingBean {
 			pars.put("officeId", officeId);
 			
 			list = userDao.findUsersByRoleEnName(pars);
-			CacheUtils.put(UserUtils.USER_CACHE+"-"+roleEnName, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + officeId, list);
+			CacheUtils.put(UserUtils.USER_CACHE+"-"+officeId+roleEnName, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + officeId+roleEnName, list);
 		}
 		return list;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<User> findUserExOfficeIdAndRoleEnName(String officeId,String roleEnName) {
-		List<User> list = (List<User>)CacheUtils.get(UserUtils.USER_CACHE+"-"+roleEnName, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + officeId);
+		List<User> list = (List<User>)CacheUtils.get(UserUtils.USER_CACHE+"-"+officeId+roleEnName, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + officeId+roleEnName);
 		if (list == null){
 			
 			HashMap<String,String> pars=new HashMap<String,String>();
@@ -161,7 +161,7 @@ public class SystemService extends BaseService implements InitializingBean {
 			pars.put("officeId", officeId);
 			
 			list = userDao.findUsersExcludeRoleEnName(pars);
-			CacheUtils.put(UserUtils.USER_CACHE+"-"+roleEnName, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + officeId, list);
+			CacheUtils.put(UserUtils.USER_CACHE+"-"+officeId+roleEnName, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ +officeId+roleEnName, list);
 		}
 		return list;
 	}

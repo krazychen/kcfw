@@ -217,7 +217,7 @@
 				<!-- 取消跳转
 				<a href="${ctx}/viewReq-${article.id}" style="width:300px"
 				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,80)}</a> -->
-				<a href="#" style="width:300px"
+				<a href="#" style="width:278px"
 				title="${fns:abbr(article.title,60)}" target="_blank">${fns:abbr(article.title,80)}</a>
 				<c:if test="${fnc:compareCurDate(article.updateDate) }">
 					<div class="li_time">
