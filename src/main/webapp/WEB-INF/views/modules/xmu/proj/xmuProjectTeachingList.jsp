@@ -180,7 +180,7 @@
 		<c:forEach items="${page.list}" var="xmuProjectTeaching">
 			<tr>
 				<td> <input type="checkbox" id="${xmuProjectTeaching.id}" class="i-checks"></td>
-				<td><a  href="#" onclick="openDialogView('查看学年教学', '${ctx}/xmu/proj/xmuProjectTeaching/form?id=${xmuProjectTeaching.id}','800px', '500px')">
+				<td><a  href="#" onclick="openDialogView('查看学年教学', '${ctx}/xmu/proj/xmuProjectTeaching/formList?xptTeachingIds=${xmuProjectTeaching.id}','800px', '500px')">
 					${xmuProjectTeaching.xptProjName}
 				</a></td>
 				<td>

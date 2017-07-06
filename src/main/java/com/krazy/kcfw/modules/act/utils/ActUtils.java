@@ -51,6 +51,7 @@ public class ActUtils {
 	public static final String[] PD_XMU_WINNING_INFO = new String[]{"XMU_WINNING_INFO", "XMU_WINNING_INFO"};
 	public static final String[] PD_XMU_RESERACH_INFO = new String[]{"XMU_RESERACH_INFO", "XMU_RESERACH_INFO"};
 	public static final String[] PD_XMU_OUTSIDE_EXCHANGE = new String[]{"XMU_OUTSIDE_EXCHANGE", "XMU_OUTSIDE_EXCHANGE"};
+	public static final String[] PD_XMU_REPORT_MNT = new String[]{"XMU_REPORT_MNT", "XMU_REPORT_MNT"};
 	
 //	/**
 //	 * 流程定义Map（自动初始化）

@@ -286,7 +286,7 @@
 						<input id="xmuProjectManaList{{idx}}_xpmUserName" name="xmuProjectManaList[{{idx}}].xpmUserName" class="form-control" type="text" readonly="true" value="{{row.xpmUserName}}"/>
 					</td>
 					<td class="text-center" width="10">
-						{{#delBtn}}<span class="close" onclick="delRow(this, '#xmuProjectRespList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+						{{#delBtn}}<span class="close" onclick="delRow(this, '#xmuProjectManaList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
 					</td>
 				</tr>//-->
 			</script>

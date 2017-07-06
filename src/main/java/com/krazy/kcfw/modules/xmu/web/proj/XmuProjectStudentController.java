@@ -128,13 +128,13 @@ public class XmuProjectStudentController extends BaseController {
 		if(xmuProject.getXpsUserIds()!=null){
 			//获取用户
 			XmuProjectStudent xmuProjectStudent=new XmuProjectStudent();
-			xmuProjectStudent.setXpsOfficeId(UserUtils.getUser().getOffice().getId());
+//			xmuProjectStudent.setXpsOfficeId(UserUtils.getUser().getOffice().getId());
 			xmuProjectStudent.setXpsUserIds(xmuProject.getXpsUserIds());
 			List<XmuProjectStudent> lists=xmuProjectStudentService.findUserList(xmuProjectStudent);
 			xmuProject.setXmuProjectStudentList(lists);
 		}else{
 			XmuProjectStudent xmuProjectStudent=new XmuProjectStudent();
-			xmuProjectStudent.setXpsOfficeId(UserUtils.getUser().getOffice().getId());
+//			xmuProjectStudent.setXpsOfficeId(UserUtils.getUser().getOffice().getId());
 			xmuProjectStudent.setXpsProjId(xmuProject.getId());
 			List<XmuProjectStudent> lists=xmuProjectStudentService.findList(xmuProjectStudent);
 			xmuProject.setXmuProjectStudentList(lists);

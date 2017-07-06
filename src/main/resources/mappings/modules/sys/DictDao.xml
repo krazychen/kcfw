@@ -93,6 +93,12 @@
 		WHERE id = #{id}
 	</update>
 	
+	<update id="updateByType">
+		UPDATE sys_dict SET 
+			value = #{value}
+		WHERE type = #{type}
+	</update>
+	
 	<update id="delete">
 		DELETE FROM sys_dict 
 		WHERE id = #{id}
