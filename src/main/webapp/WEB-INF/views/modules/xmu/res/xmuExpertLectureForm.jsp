@@ -42,8 +42,8 @@
 				<tr>
 					<td class="width-15 active"><label class="pull-right">项目名称：</label></td>
 					<td class="width-35">
-						<sys:gridselect url="${ctx}/xmu/proj/xmuProjectCource/selectProject" id="xelProjId" name="xelProjId"  value="${xmuExpertTeaching.xetProjId}"  title="选择项目" labelName="xelProjName" 
-						labelValue="${xmuExpertTeaching.xelProjName}" cssClass="form-control required" fieldLabels="项目名称|项目开始时间|项目结束时间|项目简介" fieldKeys="xmpName|xmpMaintDate|xmpEndDate|xmpDescp" searchLabel="项目名称" searchKey="xmpName" ></sys:gridselect>
+						<sys:gridselect url="${ctx}/xmu/proj/xmuProjectCource/selectProject" id="xelProjId" name="xelProjId"  value="${xmuExpertLecture.xelProjId}"  title="选择项目" labelName="xelProjName" 
+						labelValue="${xmuExpertLecture.xelProjName}" cssClass="form-control required" fieldLabels="项目名称|项目开始时间|项目结束时间|项目简介" fieldKeys="xmpName|xmpMaintDate|xmpEndDate|xmpDescp" searchLabel="项目名称" searchKey="xmpName" ></sys:gridselect>
 					</td>
 					<td class="width-15 active"><label class="pull-right">学院：</label></td>
 					<td class="width-35">

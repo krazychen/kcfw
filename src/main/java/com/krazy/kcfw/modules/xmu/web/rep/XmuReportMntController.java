@@ -3,6 +3,9 @@
  */
 package com.krazy.kcfw.modules.xmu.web.rep;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,9 +44,11 @@ import com.krazy.kcfw.modules.sys.entity.User;
 import com.krazy.kcfw.modules.sys.service.DictService;
 import com.krazy.kcfw.modules.sys.utils.DictUtils;
 import com.krazy.kcfw.modules.sys.utils.UserUtils;
+import com.krazy.kcfw.modules.xmu.entity.proj.XmuProject;
 import com.krazy.kcfw.modules.xmu.entity.proj.XmuProjectStudent;
 import com.krazy.kcfw.modules.xmu.entity.rep.XmuReportMnt;
 import com.krazy.kcfw.modules.xmu.entity.res.XmuAcademicEvent;
+import com.krazy.kcfw.modules.xmu.service.proj.XmuProjectService;
 import com.krazy.kcfw.modules.xmu.service.rep.XmuReportMntService;
 
 /**
@@ -63,6 +68,9 @@ public class XmuReportMntController extends BaseController {
 	
 	@Autowired
 	private TaskService taskService;
+	
+	@Autowired
+	private XmuProjectService xmuProjectService;
 	
 	@RequiresPermissions("xmu:rep:xmuReportMnt:list")
 	@RequestMapping(value ="uploadTemplate")
@@ -211,7 +219,7 @@ public class XmuReportMntController extends BaseController {
 	/**
 	 * 保存项目汇报
 	 */
-	@RequiresPermissions(value={"xmu:rep:xmuReportMnt:add","xmu:rep:xmuReportMnt:edit"},logical=Logical.OR)
+	@RequiresPermissions(value={"xmu:rep:xmuReportMnt:view"},logical=Logical.OR)
 	@RequestMapping(value = "saveAudit")
 	public String saveAduit(XmuReportMnt xmuReportMnt, Model model, RedirectAttributes redirectAttributes) throws Exception{
 		if (StringUtils.isBlank(xmuReportMnt.getAct().getFlag())
@@ -234,7 +242,7 @@ public class XmuReportMntController extends BaseController {
 	/**
 	 * 撤回项目汇报
 	 */
-	@RequiresPermissions(value={"xmu:rep:xmuReportMnt:add","xmu:rep:xmuReportMnt:edit"},logical=Logical.OR)
+	@RequiresPermissions(value={"xmu:rep:xmuReportMnt:view"},logical=Logical.OR)
 	@RequestMapping(value = "backToEnd")
 	public String backToEnd(XmuReportMnt xmuReportMnt, Model model, RedirectAttributes redirectAttributes) throws Exception{
 		if (!beanValidator(model, xmuReportMnt)){
@@ -248,7 +256,7 @@ public class XmuReportMntController extends BaseController {
 	/**
 	 * 撤回项目汇报
 	 */
-	@RequiresPermissions(value={"xmu:rep:xmuReportMnt:add","xmu:rep:xmuReportMnt:edit"},logical=Logical.OR)
+	@RequiresPermissions(value={"xmu:rep:xmuReportMnt:view"},logical=Logical.OR)
 	@RequestMapping(value = "back")
 	public String back(XmuReportMnt xmuReportMnt, Model model, RedirectAttributes redirectAttributes) throws Exception{
 		if (!beanValidator(model, xmuReportMnt)){
@@ -361,5 +369,46 @@ public class XmuReportMntController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/xmu/rep/xmuReportMnt/?repage";
     }
 	
-
+	/**
+	 * 选择项目
+	 * @throws UnsupportedEncodingException 
+	 */
+	@RequestMapping(value = "selectProject")
+	public String selectProject(XmuProject xmuProject, String url, String fieldLabels, String fieldKeys, String searchLabel, String searchKey, HttpServletRequest request, HttpServletResponse response, Model model) throws UnsupportedEncodingException {
+//		Page<XmuProject> page = xmuProjectService.findPage(new Page<XmuProject>(request, response), xmuProject); 
+		
+		List<Role> roles=UserUtils.getUser().getRoleList();
+		Boolean isAdmin=false;
+		for(int i=0;i<roles.size();i++){
+			Role role=roles.get(i);
+			if(StringUtils.isNoneBlank(role.getEnname())&&("dept".equals(role.getEnname()))){
+				isAdmin=true;
+				break;
+			}
+		}
+		if(!isAdmin){
+			xmuProject.setXmpDescp(UserUtils.getUser().getOffice().getId());
+		}
+		xmuProject.setCurrentDate(new Date());
+		Page<XmuProject> page = xmuProjectService.findPageForMana(new Page<XmuProject>(request, response), xmuProject); 
+		
+		try {
+			fieldLabels = URLDecoder.decode(fieldLabels, "UTF-8");
+			fieldKeys = URLDecoder.decode(fieldKeys, "UTF-8");
+			searchLabel = URLDecoder.decode(searchLabel, "UTF-8");
+			searchKey = URLDecoder.decode(searchKey, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("labelNames", fieldLabels.split("\\|"));
+		model.addAttribute("labelValues", fieldKeys.split("\\|"));
+		model.addAttribute("fieldLabels", fieldLabels);
+		model.addAttribute("fieldKeys", fieldKeys);
+		model.addAttribute("url", url);
+		model.addAttribute("searchLabel", searchLabel);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("obj", xmuProject);
+		model.addAttribute("page", page);
+		return "modules/sys/gridselect";
+	}
 }

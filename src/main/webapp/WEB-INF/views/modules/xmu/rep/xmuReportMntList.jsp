@@ -113,18 +113,23 @@
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 				<div class="form-group">
 					<span>项目名称：</span>
-					<form:input path="xrmProjName" htmlEscape="false" maxlength="200"  class=" form-control input-sm"/>
+					<sys:gridselect url="${ctx}/xmu/rep/xmuReportMnt/selectProject" id="xrmProjId" name="xrmProjId"  value="${xmuReportMnt.xrmProjId}"  title="选择项目" labelName="xrmProjName" 
+					labelValue="${xmuReportMnt.xrmProjName}" cssClass="form-control required" fieldLabels="项目名称|项目开始时间|项目结束时间|项目简介" fieldKeys="xmpName|xmpMaintDate|xmpEndDate|xmpDescp" searchLabel="项目名称" searchKey="xmpName" ></sys:gridselect>
+					<!-- 
+					<form:input path="xrmProjName" htmlEscape="false" maxlength="200"  class=" form-control input-sm"/> -->
 				</div>
 			</div>
 		</div>
 	</form:form>
-			<div class="row" style="margin-bottom:7px">
+	<c:if test="${fn:contains(role, 'dept')}" >
+		<div class="row" style="margin-bottom:7px">
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 				<div class="form-group">
 					<button class="btn btn-sm " data-toggle="tooltip" data-placement="left" onclick="openFileUpload()" title="上传下载模版">上传下载模版</button>
 				</div>
 			</div>
 		 </div>	
+	</c:if>
 	<br/>
 	</div>
 	</div>

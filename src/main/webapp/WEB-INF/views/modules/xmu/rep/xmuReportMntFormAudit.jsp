@@ -59,8 +59,11 @@
 				<tr>
 					<td class="width-15 active"><label class="pull-right"><font color="red">*</font>项目名称：</label></td>
 					<td class="width-35">
+						<sys:gridselect url="${ctx}/xmu/rep/xmuReportMnt/selectProject" id="xrmProjId" name="xrmProjId"  value="${xmuReportMnt.xrmProjId}"  title="选择项目" labelName="xrmProjName" 
+					labelValue="${xmuReportMnt.xrmProjName}" cssClass="form-control required" fieldLabels="项目名称|项目开始时间|项目结束时间|项目简介" fieldKeys="xmpName|xmpMaintDate|xmpEndDate|xmpDescp" searchLabel="项目名称" searchKey="xmpName" ></sys:gridselect>
+					<!-- 
 						<form:input path="xrmProjId" htmlEscape="false" type="hidden" maxlength="200" class="form-control "/>
-						<form:input path="xrmProjName" htmlEscape="false" maxlength="64" class="form-control "/>
+						<form:input path="xrmProjName" htmlEscape="false" maxlength="64" class="form-control "/> -->
 					</td>
 					<td class="width-15 active"><label class="pull-right">下载模版：</label></td>
 					<td class="width-35">

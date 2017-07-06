@@ -71,8 +71,8 @@
 				<tr>
 					<td class="width-15 active"><label class="pull-right">汇报说明：</label></td>
 					<td colspan="5">
-						<form:textarea id="xrmDescp" htmlEscape="true" path="xrmDescp" rows="2" maxlength="2000" class="input-xxlarge"/>
-						<sys:ckeditor readonly="true" replace="xrmDescp" uploadPath="/xrmDescp " height="250px"/>
+						<form:textarea id="xrmDescp" htmlEscape="false" path="xrmDescp" rows="2" maxlength="2000" class="input-xxlarge"/>
+						<sys:ckeditor replace="xrmDescp" uploadPath="/xrmDescp " height="250px"/>
 					</td>
 				</tr>
 				<tr>
