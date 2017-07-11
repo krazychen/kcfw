@@ -64,7 +64,8 @@ public class XmuPagePubService extends CrudService<XmuPagePubDao, XmuPagePub> {
 	
 	public Page<XmuPagePub> findPage(Page<XmuPagePub> page, XmuPagePub xmuPagePub) {
 		xmuPagePub.getSqlMap().put("dsf", dataScopeFilter(xmuPagePub.getCurrentUser(), "o", "u"));
-		xmuPagePub.getSqlMap().put("actUser", "or (instr(a.xpp_college_standby,'"+xmuPagePub.getCurrentUser().getId()+"')>0 )");
+		xmuPagePub.getSqlMap().put("actUser", "or (instr(a.xpp_college_standby,'"+xmuPagePub.getCurrentUser().getId()+"')>0 ");
+		xmuPagePub.getSqlMap().put("actUser2", " )");
 		return super.findPage(page, xmuPagePub);
 	}
 	

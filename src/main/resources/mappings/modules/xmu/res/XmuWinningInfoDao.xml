@@ -80,6 +80,28 @@
 		</where>
 		<!-- 数据范围过滤 -->
 		${sqlMap.dsf} ${sqlMap.actUser}
+			<if test="xwiOfficeName != null and xwiOfficeName != ''">
+				AND a.xwi_office_name = #{xwiOfficeName}
+			</if>
+			<if test="xwiUserProfession != null and xwiUserProfession != ''">
+				AND a.xwi_user_profession = #{xwiUserProfession}
+			</if>
+			<if test="xwiUserName != null and xwiUserName != ''">
+				AND a.xwi_user_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xwiUserName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xwiUserName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xwiUserName},'%')</if>
+			</if>
+			<if test="xwiWinningName != null and xwiWinningName != ''">
+				AND a.xwi_winning_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xwiWinningName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xwiWinningName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xwiWinningName},'%')</if>
+			</if>
+			<if test="xwiWinningYears != null and xwiWinningYears != ''">
+				AND a.xwi_winning_years = #{xwiWinningYears}
+			</if>
+			${sqlMap.actUser2}
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}

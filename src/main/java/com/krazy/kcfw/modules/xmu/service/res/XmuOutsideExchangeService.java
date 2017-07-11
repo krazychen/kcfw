@@ -64,7 +64,8 @@ public class XmuOutsideExchangeService extends CrudService<XmuOutsideExchangeDao
 	
 	public Page<XmuOutsideExchange> findPage(Page<XmuOutsideExchange> page, XmuOutsideExchange xmuOutsideExchange) {
 		xmuOutsideExchange.getSqlMap().put("dsf", dataScopeFilter(xmuOutsideExchange.getCurrentUser(), "o", "u"));
-		xmuOutsideExchange.getSqlMap().put("actUser", "or (instr(a.xoe_college_standby,'"+xmuOutsideExchange.getCurrentUser().getId()+"')>0 )");
+		xmuOutsideExchange.getSqlMap().put("actUser", "or (instr(a.xoe_college_standby,'"+xmuOutsideExchange.getCurrentUser().getId()+"')>0 ");
+		xmuOutsideExchange.getSqlMap().put("actUser2", " )");
 		return super.findPage(page, xmuOutsideExchange);
 	}
 	

@@ -84,6 +84,28 @@
 		</where>
 		<!-- 数据范围过滤 -->
 		${sqlMap.dsf} ${sqlMap.actUser}
+			<if test="xppOfficeName != null and xppOfficeName != ''">
+				AND a.xpp_office_name = #{xppOfficeName}
+			</if>
+			<if test="xppUserProfession != null and xppUserProfession != ''">
+				AND a.xpp_user_profession = #{xppUserProfession}
+			</if>
+			<if test="xppUserName != null and xppUserName != ''">
+				AND a.xpp_user_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xppUserName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xppUserName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xppUserName},'%')</if>
+			</if>
+			<if test="xppPageName != null and xppPageName != ''">
+				AND a.xpp_page_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xppPageName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xppPageName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xppPageName},'%')</if>
+			</if>
+			<if test="xppPageTime != null and xppPageTime != ''">
+				AND a.xpp_page_time = #{xppPageTime}
+			</if>
+		${sqlMap.actUser2}
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}

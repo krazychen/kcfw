@@ -66,7 +66,8 @@ public class XmuAcademicEventService extends CrudService<XmuAcademicEventDao, Xm
 	
 	public Page<XmuAcademicEvent> findPage(Page<XmuAcademicEvent> page, XmuAcademicEvent xmuAcademicEvent) {
 		xmuAcademicEvent.getSqlMap().put("dsf", dataScopeFilter(xmuAcademicEvent.getCurrentUser(), "o", "u"));
-		xmuAcademicEvent.getSqlMap().put("actUser", "or (instr(a.xae_college_standby,'"+xmuAcademicEvent.getCurrentUser().getId()+"')>0 )");
+		xmuAcademicEvent.getSqlMap().put("actUser", "or (instr(a.xae_college_standby,'"+xmuAcademicEvent.getCurrentUser().getId()+"')>0 ");
+		xmuAcademicEvent.getSqlMap().put("actUser2", " )");
 		return super.findPage(page, xmuAcademicEvent);
 	}
 	

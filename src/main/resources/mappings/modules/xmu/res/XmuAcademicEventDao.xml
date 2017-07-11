@@ -80,6 +80,25 @@
 		</where>
 		<!-- 数据范围过滤 -->
 		${sqlMap.dsf}  ${sqlMap.actUser}
+			<if test="xaeOfficeId != null and xaeOfficeId != ''">
+				AND a.xae_office_id = #{xaeOfficeId}
+			</if>
+			<if test="xaeUserProfession != null and xaeUserProfession != ''">
+				AND a.xae_user_profession = #{xaeUserProfession}
+			</if>
+			<if test="xaeUserName != null and xaeUserName != ''">
+				AND a.xae_user_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xaeUserName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xaeUserName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xaeUserName},'%')</if>
+			</if>
+			<if test="xaeEventName != null and xaeEventName != ''">
+				AND a.xae_event_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xaeEventName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xaeEventName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xaeEventName},'%')</if>
+			</if>
+		${sqlMap.actUser2}
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}

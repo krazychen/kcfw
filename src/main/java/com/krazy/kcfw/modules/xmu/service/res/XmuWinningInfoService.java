@@ -64,7 +64,8 @@ public class XmuWinningInfoService extends CrudService<XmuWinningInfoDao, XmuWin
 	
 	public Page<XmuWinningInfo> findPage(Page<XmuWinningInfo> page, XmuWinningInfo xmuWinningInfo) {
 		xmuWinningInfo.getSqlMap().put("dsf", dataScopeFilter(xmuWinningInfo.getCurrentUser(), "o", "u"));
-		xmuWinningInfo.getSqlMap().put("actUser", "or (instr(a.xwi_college_standby,'"+xmuWinningInfo.getCurrentUser().getId()+"')>0 )");
+		xmuWinningInfo.getSqlMap().put("actUser", "or (instr(a.xwi_college_standby,'"+xmuWinningInfo.getCurrentUser().getId()+"')>0 ");
+		xmuWinningInfo.getSqlMap().put("actUser2", " )");
 		return super.findPage(page, xmuWinningInfo);
 	}
 	

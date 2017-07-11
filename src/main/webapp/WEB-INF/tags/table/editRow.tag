@@ -7,6 +7,7 @@
 <%@ attribute name="height" type="java.lang.String" required="false"%>
 <%@ attribute name="target" type="java.lang.String" required="false"%>
 <%@ attribute name="label" type="java.lang.String" required="false"%>
+<%@ attribute name="status" type="java.lang.String" required="false"%>
 <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="edit()" title="修改"><i class="fa fa-file-text-o"></i> ${label==null?'修改':label}</button>
                         </button>
 <%-- 使用方法： 1.将本tag写在查询的form之前；2.传入table的id和controller的url --%>
@@ -34,6 +35,14 @@ $(document).ready(function() {
 				top.layer.alert('只能选择一条数据!', {icon: 0, title:'警告'});
 				return;
 			  }
+		  if('${status}'){
+			  var status1 =  $("#${id} tbody tr td input.i-checks:checkbox:checked").attr("status");
+			  if(status1!=1){
+				  top.layer.alert('只能选择未审核的订单!', {icon: 0, title:'警告'});
+				  return;
+			  }
+		  }
+		  
 		    var id =  $("#${id} tbody tr td input.i-checks:checkbox:checked").attr("id");
 		    openDialog("修改"+'${title}',"${url}?id="+id,"${width==null?'800px':width}", "${height==null?'500px':height}","${target}");
 		}

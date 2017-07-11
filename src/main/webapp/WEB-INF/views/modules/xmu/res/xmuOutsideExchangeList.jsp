@@ -45,6 +45,14 @@
 			    top.layer.close(index);
 			});
 		}
+		
+		function openModify(status,id){
+			if(status!='1'){
+				top.layer.alert('只能选择未审核的订单!', {icon: 0, title:'警告'});
+			}else{
+				openDialog('修改校外交流', '${ctx}/xmu/res/xmuOutsideExchange/form?id='+id,'800px', '500px')
+			}
+		}
 
 	</script>
 </head>
@@ -135,7 +143,7 @@
 					<table:addRow url="${ctx}/xmu/res/xmuOutsideExchange/form" title="校外交流"></table:addRow><!-- 增加按钮 -->
 				</shiro:hasPermission>
 				<shiro:hasPermission name="xmu:res:xmuOutsideExchange:edit">
-				    <table:editRow url="${ctx}/xmu/res/xmuOutsideExchange/form" title="校外交流" id="contentTable"></table:editRow><!-- 编辑按钮 -->
+				    <table:editRow url="${ctx}/xmu/res/xmuOutsideExchange/form" status="1" title="校外交流" id="contentTable"></table:editRow><!-- 编辑按钮 -->
 				</shiro:hasPermission>
 				<shiro:hasPermission name="xmu:res:xmuOutsideExchange:submit">
 			   		<table:submitRow url="${ctx}/xmu/res/xmuOutsideExchange/form" title="校外交流" id="contentTable"></table:submitRow><!-- 提交按钮 -->
@@ -239,7 +247,7 @@
 						<a href="#" onclick="openDialogView('查看校外交流', '${ctx}/xmu/res/xmuOutsideExchange/form?id=${xmuOutsideExchange.id}&urlType=view','800px', '500px')" class="btn btn-info btn-xs" ><i class="fa fa-search-plus"></i> 查看</a>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="xmu:res:xmuOutsideExchange:edit">
-    					<a href="#" onclick="openDialog('修改校外交流', '${ctx}/xmu/res/xmuOutsideExchange/form?id=${xmuOutsideExchange.id}','800px', '500px')" class="btn btn-success btn-xs" ><i class="fa fa-edit"></i> 修改</a>
+    					<a href="#" onclick='openModify("${xmuOutsideExchange.xoeStatus}","${xmuOutsideExchange.id}")' class="btn btn-success btn-xs" ><i class="fa fa-edit"></i> 修改</a>
     				</shiro:hasPermission>
     				<shiro:hasPermission name="xmu:res:xmuOutsideExchange:del">
 						<a href="${ctx}/xmu/res/xmuOutsideExchange/delete?id=${xmuOutsideExchange.id}" onclick="return confirmx('确认要删除该校外交流吗？', this.href)"   class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> 删除</a>

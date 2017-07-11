@@ -153,14 +153,14 @@
 		 	</tbody>
 		</table>
 		
-		<c:if test="${not empty xmuPagePub.act.procInsId}">
+		<c:if test="${not empty xmuPatentInfo.act.procInsId}">
 			</br>
-			<act:histoicFlow procInsId="${xmuPagePub.act.procInsId}" />
+			<act:histoicFlow procInsId="${xmuPatentInfo.act.procInsId}" />
 		</c:if>
 		
-		<c:if test="${empty xmuPagePub.act.procInsId}">
+		<c:if test="${empty xmuPatentInfo.act.procInsId}">
 			</br>
-			<act:histoicFlow procInsId="${xmuPagePub.procInsId}" />
+			<act:histoicFlow procInsId="${xmuPatentInfo.procInsId}" />
 		</c:if>
 	</form:form>
 </body>

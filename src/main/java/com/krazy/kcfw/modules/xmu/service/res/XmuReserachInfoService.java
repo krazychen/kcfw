@@ -63,7 +63,8 @@ public class XmuReserachInfoService extends CrudService<XmuReserachInfoDao, XmuR
 	
 	public Page<XmuReserachInfo> findPage(Page<XmuReserachInfo> page, XmuReserachInfo xmuReserachInfo) {
 		xmuReserachInfo.getSqlMap().put("dsf", dataScopeFilter(xmuReserachInfo.getCurrentUser(), "o", "u"));
-		xmuReserachInfo.getSqlMap().put("actUser", "or (instr(a.xpi_college_standby,'"+xmuReserachInfo.getCurrentUser().getId()+"')>0 )");
+		xmuReserachInfo.getSqlMap().put("actUser", "or (instr(a.xpi_college_standby,'"+xmuReserachInfo.getCurrentUser().getId()+"')>0 ");
+		xmuReserachInfo.getSqlMap().put("actUser2", " )");
 		return super.findPage(page, xmuReserachInfo);
 	}
 	

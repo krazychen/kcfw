@@ -157,14 +157,14 @@
 		 	</tbody>
 		</table>
 		
-		<c:if test="${not empty xmuPagePub.act.procInsId}">
+		<c:if test="${not empty xmuOutsideExchange.act.procInsId}">
 			</br>
-			<act:histoicFlow procInsId="${xmuPagePub.act.procInsId}" />
+			<act:histoicFlow procInsId="${xmuOutsideExchange.act.procInsId}" />
 		</c:if>
 		
-		<c:if test="${empty xmuPagePub.act.procInsId}">
+		<c:if test="${empty xmuOutsideExchange.act.procInsId}">
 			</br>
-			<act:histoicFlow procInsId="${xmuPagePub.procInsId}" />
+			<act:histoicFlow procInsId="${xmuOutsideExchange.procInsId}" />
 		</c:if>
 	</form:form>
 </body>

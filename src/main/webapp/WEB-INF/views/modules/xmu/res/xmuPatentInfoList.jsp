@@ -41,6 +41,14 @@
 			    top.layer.close(index);
 			});
 		}
+		
+		function openModify(status,id){
+			if(status!='1'){
+				top.layer.alert('只能选择未审核的订单!', {icon: 0, title:'警告'});
+			}else{
+				openDialog('修改专利信息', '${ctx}/xmu/res/xmuPatentInfo/form?id='+id,'800px', '500px');
+			}
+		}
 	</script>
 </head>
 <body class="gray-bg">
@@ -123,7 +131,7 @@
 					<table:addRow url="${ctx}/xmu/res/xmuPatentInfo/form" title="专利信息"></table:addRow><!-- 增加按钮 -->
 				</shiro:hasPermission>
 				<shiro:hasPermission name="xmu:res:xmuPatentInfo:edit">
-				    <table:editRow url="${ctx}/xmu/res/xmuPatentInfo/form" title="专利信息" id="contentTable"></table:editRow><!-- 编辑按钮 -->
+				    <table:editRow url="${ctx}/xmu/res/xmuPatentInfo/form" status="1" title="专利信息" id="contentTable"></table:editRow><!-- 编辑按钮 -->
 				</shiro:hasPermission>
 				<shiro:hasPermission name="xmu:res:xmuPatentInfo:submit">
 			   		<table:submitRow url="${ctx}/xmu/res/xmuPatentInfo/form" title="专利信息" id="contentTable"></table:submitRow><!-- 提交按钮 -->
@@ -223,7 +231,7 @@
 						<a href="#" onclick="openDialogView('查看专利信息', '${ctx}/xmu/res/xmuPatentInfo/form?id=${xmuPatentInfo.id}&urlType=view','800px', '500px')" class="btn btn-info btn-xs" ><i class="fa fa-search-plus"></i> 查看</a>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="xmu:res:xmuPatentInfo:edit">
-    					<a href="#" onclick="openDialog('修改专利信息', '${ctx}/xmu/res/xmuPatentInfo/form?id=${xmuPatentInfo.id}','800px', '500px')" class="btn btn-success btn-xs" ><i class="fa fa-edit"></i> 修改</a>
+    					<a href="#" onclick='openModify("${xmuPatentInfo.xpiStatus}","${xmuPatentInfo.id}")' class="btn btn-success btn-xs" ><i class="fa fa-edit"></i> 修改</a>
     				</shiro:hasPermission>
     				<shiro:hasPermission name="xmu:res:xmuPatentInfo:del">
 						<a href="${ctx}/xmu/res/xmuPatentInfo/delete?id=${xmuPatentInfo.id}" onclick="return confirmx('确认要删除该专利信息吗？', this.href)"   class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> 删除</a>

@@ -38,7 +38,8 @@
 			  }
 		var id =  $("#${id} tbody tr td input.i-checks:checkbox:checked").attr("id");
 		 var status=  $("#${id} tbody tr td input.i-checks:checkbox:checked").attr("status"); 
-		 if(status=="1" || status=="4" || status=="5"|| status=="6"){
+		// if(status=="1" || status=="4" || status=="5"|| status=="6"){
+		 if(status!="${status}"){
 			top.layer.alert('只能选择待审核的数据进行审核!', {icon: 0, title:'警告'});
 				return;
 		 }

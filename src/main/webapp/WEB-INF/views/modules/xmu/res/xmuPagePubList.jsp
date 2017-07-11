@@ -44,7 +44,14 @@
 				window.location = "${ctx}/xmu/res/xmuAcademicEvent/deleteAll?ids="+ids;
 			    top.layer.close(index);
 			});
+		}
+		function openModify(status,id){
+			if(status!='1'){
+				top.layer.alert('只能选择未审核的订单!', {icon: 0, title:'警告'});
+			}else{
+				openDialog('修改论文发表', '${ctx}/xmu/res/xmuPagePub/form?id='+id,'800px', '500px')
 			}
+		}
 	</script>
 </head>
 <body class="gray-bg">
@@ -134,7 +141,7 @@
 					<table:addRow url="${ctx}/xmu/res/xmuPagePub/form" title="论文发表"></table:addRow><!-- 增加按钮 -->
 				</shiro:hasPermission>
 				<shiro:hasPermission name="xmu:res:xmuPagePub:edit">
-				    <table:editRow url="${ctx}/xmu/res/xmuPagePub/form" title="论文发表" id="contentTable"></table:editRow><!-- 编辑按钮 -->
+				    <table:editRow url="${ctx}/xmu/res/xmuPagePub/form" status="1" title="论文发表" id="contentTable"></table:editRow><!-- 编辑按钮 -->
 				</shiro:hasPermission>
 				<shiro:hasPermission name="xmu:res:xmuPagePub:submit">
 			   		<table:submitRow url="${ctx}/xmu/res/xmuPagePub/form" title="论文发表" id="contentTable"></table:submitRow><!-- 提交按钮 -->
@@ -243,7 +250,7 @@
 						<a href="#" onclick="openDialogView('查看论文发表', '${ctx}/xmu/res/xmuPagePub/form?id=${xmuPagePub.id}&urlType=view','800px', '500px')" class="btn btn-info btn-xs" ><i class="fa fa-search-plus"></i> 查看</a>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="xmu:res:xmuPagePub:edit">
-    					<a href="#" onclick="openDialog('修改论文发表', '${ctx}/xmu/res/xmuPagePub/form?id=${xmuPagePub.id}','800px', '500px')" class="btn btn-success btn-xs" ><i class="fa fa-edit"></i> 修改</a>
+    					<a href="#" onclick='openModify("${xmuPagePub.xppStatus}","${xmuPagePub.id}")' class="btn btn-success btn-xs" ><i class="fa fa-edit"></i> 修改</a>
     				</shiro:hasPermission>
     				<shiro:hasPermission name="xmu:res:xmuPagePub:del">
 						<a href="${ctx}/xmu/res/xmuPagePub/delete?id=${xmuPagePub.id}" onclick="return confirmx('确认要删除该论文发表吗？', this.href)"   class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> 删除</a>

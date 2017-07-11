@@ -84,7 +84,7 @@
 		   		<tr>
 					<td class="width-15 active"><label class="pull-right">学号：</label></td>
 					<td class="width-35">
-						<form:input readonly="true" path="xwiUserStuno" htmlEscape="false" maxlength="64" class="form-control "/></c:if>
+						<form:input readonly="true" path="xwiUserStuno" htmlEscape="false" maxlength="64" class="form-control "/>
 					</td>
 					<td class="width-15 active"><label class="pull-right">姓名：</label></td>
 					<td class="width-35">

@@ -64,7 +64,8 @@ public class XmuPatentInfoService extends CrudService<XmuPatentInfoDao, XmuPaten
 	
 	public Page<XmuPatentInfo> findPage(Page<XmuPatentInfo> page, XmuPatentInfo xmuPatentInfo) {
 		xmuPatentInfo.getSqlMap().put("dsf", dataScopeFilter(xmuPatentInfo.getCurrentUser(), "o", "u"));
-		xmuPatentInfo.getSqlMap().put("actUser", "or (instr(a.xpi_college_standby,'"+xmuPatentInfo.getCurrentUser().getId()+"')>0 )");
+		xmuPatentInfo.getSqlMap().put("actUser", "or (instr(a.xpi_college_standby,'"+xmuPatentInfo.getCurrentUser().getId()+"')>0 ");
+		xmuPatentInfo.getSqlMap().put("actUser2", " )");
 		return super.findPage(page, xmuPatentInfo);
 	}
 	
