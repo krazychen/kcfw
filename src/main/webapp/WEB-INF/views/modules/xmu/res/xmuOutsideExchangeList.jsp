@@ -149,9 +149,17 @@
 			   		<table:submitRow url="${ctx}/xmu/res/xmuOutsideExchange/form" title="校外交流" id="contentTable"></table:submitRow><!-- 提交按钮 -->
 				</shiro:hasPermission>
 			</c:if>
-			<shiro:hasPermission name="xmu:res:xmuOutsideExchange:audit">
-			    <table:auditRow url="${ctx}/xmu/res/xmuOutsideExchange/form" targetAction="${ctx}/xmu/res/xmuOutsideExchange/saveAudit" title="校外交流" id="contentTable"></table:auditRow><!-- 审核按钮 -->
-			</shiro:hasPermission>
+			<c:if test="${fn:contains(role, 'Manager')}" >
+				<shiro:hasPermission name="xmu:res:xmuOutsideExchange:audit">
+				    <table:auditRow url="${ctx}/xmu/res/xmuOutsideExchange/form" status="2" targetAction="${ctx}/xmu/res/xmuOutsideExchange/saveAudit" title="校外交流" id="contentTable"></table:auditRow><!-- 审核按钮 -->
+				</shiro:hasPermission>
+			</c:if>
+			<c:if test="${fn:contains(role, 'dept')}" >
+				<shiro:hasPermission name="xmu:res:xmuOutsideExchange:audit">
+				    <table:auditRow url="${ctx}/xmu/res/xmuOutsideExchange/form" status="3" targetAction="${ctx}/xmu/res/xmuOutsideExchange/saveAudit" title="校外交流" id="contentTable"></table:auditRow><!-- 审核按钮 -->
+				</shiro:hasPermission>
+			</c:if>
+			
 			<c:if test="${fn:contains(role, 'Student')}" >
 				<shiro:hasPermission name="xmu:res:xmuOutsideExchange:back">
 				    <table:backRow url="${ctx}/xmu/res/xmuOutsideExchange/form" status="2" targetAction="${ctx}/xmu/res/xmuOutsideExchange/back" title="校外交流" id="contentTable"></table:backRow><!-- 撤回按钮 -->

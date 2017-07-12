@@ -148,9 +148,17 @@
 			   		<table:submitRow url="${ctx}/xmu/res/xmuWinningInfo/form" title="获奖信息" id="contentTable"></table:submitRow><!-- 提交按钮 -->
 				</shiro:hasPermission>
 			</c:if>
-			<shiro:hasPermission name="xmu:res:xmuWinningInfo:audit">
-			    <table:auditRow url="${ctx}/xmu/res/xmuWinningInfo/form" targetAction="${ctx}/xmu/res/xmuWinningInfo/saveAudit" title="获奖信息" id="contentTable"></table:auditRow><!-- 审核按钮 -->
-			</shiro:hasPermission>
+			<c:if test="${fn:contains(role, 'Manager')}" >
+				<shiro:hasPermission name="xmu:res:xmuWinningInfo:audit">
+				    <table:auditRow url="${ctx}/xmu/res/xmuWinningInfo/form" status="2" targetAction="${ctx}/xmu/res/xmuWinningInfo/saveAudit" title="获奖信息" id="contentTable"></table:auditRow><!-- 审核按钮 -->
+				</shiro:hasPermission>
+			</c:if>
+			<c:if test="${fn:contains(role, 'dept')}" >	
+				<shiro:hasPermission name="xmu:res:xmuWinningInfo:audit">
+				    <table:auditRow url="${ctx}/xmu/res/xmuWinningInfo/form" status="3" targetAction="${ctx}/xmu/res/xmuWinningInfo/saveAudit" title="获奖信息" id="contentTable"></table:auditRow><!-- 审核按钮 -->
+				</shiro:hasPermission>
+			</c:if>
+			
 			<c:if test="${fn:contains(role, 'Student')}" >
 				<shiro:hasPermission name="xmu:res:xmuWinningInfo:back">
 				    <table:backRow url="${ctx}/xmu/res/xmuWinningInfo/form" status="2" targetAction="${ctx}/xmu/res/xmuWinningInfo/back" title="获奖信息" id="contentTable"></table:backRow><!-- 撤回按钮 -->
