@@ -214,7 +214,7 @@
 					${xmuAcademicEvent.xaeOfficeName}
 				</td>
 				<td>
-					${fns:getDictLabel(xmuAcademicEvent.xaeUserGrade, 'XMU_PROJECT_COR_GRADE', '')}
+					${fns:getDictLabel(xmuAcademicEvent.xaeUserProfession, 'XMU_PROJECT_COR_PROFESSION', '')}
 				</td>
 				<td>
 					${xmuAcademicEvent.xaeEventYears}

@@ -226,7 +226,7 @@
 					${xmuOutsideExchange.xoeOfficeName}
 				</td>
 				<td>
-					${fns:getDictLabel(xmuOutsideExchange.xoeUserGrade, 'XMU_PROJECT_COR_GRADE', '')}
+					${fns:getDictLabel(xmuOutsideExchange.xoeUserProfession, 'XMU_PROJECT_COR_PROFESSION', '')}
 				</td>
 				<td>
 					${xmuOutsideExchange.xoeExchangeYears}

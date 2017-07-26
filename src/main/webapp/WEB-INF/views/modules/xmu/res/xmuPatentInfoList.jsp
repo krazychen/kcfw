@@ -214,7 +214,7 @@
 					${xmuPatentInfo.xpiOfficeName}
 				</td>
 				<td>
-					${fns:getDictLabel(xmuPatentInfo.xpiUserGrade, 'XMU_PROJECT_COR_GRADE', '')}
+					${fns:getDictLabel(xmuPatentInfo.xpiUserProfession, 'XMU_PROJECT_COR_PROFESSION', '')}
 				</td>
 				<td>
 					${xmuPatentInfo.xpiPatentYears}

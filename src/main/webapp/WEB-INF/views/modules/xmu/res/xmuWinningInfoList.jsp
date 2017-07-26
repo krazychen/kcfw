@@ -224,7 +224,7 @@
 					${xmuWinningInfo.xwiOfficeName}
 				</td>
 				<td>
-					${fns:getDictLabel(xmuWinningInfo.xwiUserGrade, 'XMU_PROJECT_COR_GRADE', '')}
+					${fns:getDictLabel(xmuWinningInfo.xwiUserProfession, 'XMU_PROJECT_COR_PROFESSION', '')}
 				</td>
 				<td>
 					${xmuWinningInfo.xwiWinningYears}

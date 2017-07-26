@@ -224,7 +224,7 @@
 					${xmuReserachInfo.xpiOfficeName}
 				</td>
 				<td>
-					${fns:getDictLabel(xmuReserachInfo.xpiUserGrade, 'XMU_PROJECT_COR_GRADE', '')}
+					${fns:getDictLabel(xmuReserachInfo.xpiUserProfession, 'XMU_PROJECT_COR_PROFESSION', '')}
 				</td>
 				<td>
 					${xmuReserachInfo.xpiResearchYears}

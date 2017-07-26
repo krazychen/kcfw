@@ -227,7 +227,7 @@
 					${xmuPagePub.xppOfficeName}
 				</td>
 				<td>
-					${fns:getDictLabel(xmuPagePub.xppUserGrade, 'XMU_PROJECT_COR_GRADE', '')}
+					${fns:getDictLabel(xmuPagePub.xppUserProfession, 'XMU_PROJECT_COR_PROFESSION', '')}
 				</td>
 				<td>
 					${xmuPagePub.xppPageName}
