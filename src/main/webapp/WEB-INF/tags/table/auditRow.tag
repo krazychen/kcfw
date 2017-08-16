@@ -61,6 +61,10 @@
 		    	 var body = top.layer.getChildFrame('body', index);
 		         var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
 		         var inputForm = body.find('#inputForm');
+		         if(!body.find('textarea').val()){
+		        	 top.layer.alert('请填写审批意见!', {icon: 0, title:'警告'});
+		        	 return;
+		         }
 		         if("${targetAction}"!=""){
 		        	 inputForm.attr("action","${targetAction}");
 		         }
@@ -88,6 +92,10 @@
 		    	 var body = top.layer.getChildFrame('body', index);
 		         var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
 		         var inputForm = body.find('#inputForm');
+		         if(!body.find('textarea').val()){
+		        	 top.layer.alert('请填写审批意见!', {icon: 0, title:'警告'});
+		        	 return;
+		         }
 		         if("${targetAction}"!=""){
 		        	 inputForm.attr("action","${targetAction}");
 		         }
@@ -115,6 +123,10 @@
 		    	 var body = top.layer.getChildFrame('body', index);
 		         var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
 		         var inputForm = body.find('#inputForm');
+		         if(!body.find('textarea').val()){
+		        	 top.layer.alert('请填写审批意见!', {icon: 0, title:'警告'});
+		        	 return;
+		         }
 		         if("${targetAction}"!=""){
 		        	 inputForm.attr("action","${targetAction}");
 		         }

@@ -81,4 +81,9 @@ public class XmuProjectStudentService extends CrudService<XmuProjectStudentDao, 
 	public List<XmuProjectStudent> findUserList(XmuProjectStudent xmuProjectStudent) {
 		return dao.findUserList(xmuProjectStudent);
 	}
+	
+	public List<XmuProjectStudent> findUserActive(XmuProjectStudent entity){
+		return dao.findUserActive(entity);
+	}
+
 }

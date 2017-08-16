@@ -137,6 +137,17 @@
 		</choose>
 	</select>
 	
+	<select id="findUserActive" resultType="XmuProjectStudent" >
+		SELECT 
+			<include refid="xmuProjectStudentColumns"/>
+		FROM xmu_project_student a
+		left join xmu_project xp on a.xps_proj_id=xp.id
+		<where>	
+			to_char(xp.xmp_end_date,'yyyy-MM-dd') >to_char(sysdate,'yyyy-MM-dd')
+			and a.xps_user_id = #{xpsUserId}
+		</where>		
+	</select>
+	
 	<insert id="insert">
 		INSERT INTO xmu_project_student(
 			id,

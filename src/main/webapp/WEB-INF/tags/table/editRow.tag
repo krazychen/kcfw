@@ -8,6 +8,8 @@
 <%@ attribute name="target" type="java.lang.String" required="false"%>
 <%@ attribute name="label" type="java.lang.String" required="false"%>
 <%@ attribute name="status" type="java.lang.String" required="false"%>
+<%@ attribute name="stu" type="java.lang.String" required="false"%>
+
 <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="edit()" title="修改"><i class="fa fa-file-text-o"></i> ${label==null?'修改':label}</button>
                         </button>
 <%-- 使用方法： 1.将本tag写在查询的form之前；2.传入table的id和controller的url --%>
@@ -24,7 +26,11 @@ $(document).ready(function() {
 });
 
 	function edit(){
-
+		if("${stu}"=="true"){
+			top.layer.alert('项目已经关闭!', {icon: 0, title:'警告'});
+			return;
+		}
+		
 		  var size = $("#${id} tbody tr td input.i-checks:checked").size();
 		  if(size == 0 ){
 				top.layer.alert('请至少选择一条数据!', {icon: 0, title:'警告'});

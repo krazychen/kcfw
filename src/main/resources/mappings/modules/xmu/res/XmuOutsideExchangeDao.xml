@@ -33,7 +33,7 @@
 	</sql>
 	
 	<sql id="xmuOutsideExchangeJoins">
-		LEFT JOIN sys_office xoeOfficeName ON xoeOfficeName.id = a.xoe_office_name
+		LEFT JOIN sys_office xoeOfficeName ON xoeOfficeName.id = a.xoe_office_id
 	</sql>
 	
 	<sql id="userJoins">

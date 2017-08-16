@@ -105,7 +105,7 @@
 				</tr>
 				<tr>
 					<td class="width-15 active"><label class="pull-right"><font color="red">*</font>您的审批意见：</label></td>
-					<td colspan="5">
+					<td colspan="5" id="actComment">
 						<form:textarea path="act.comment" class="form-control required" rows="5" maxlength="2000" />
 					</td>
 				</tr>

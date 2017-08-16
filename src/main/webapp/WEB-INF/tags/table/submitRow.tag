@@ -8,6 +8,7 @@
 <%@ attribute name="target" type="java.lang.String" required="false"%>
 <%@ attribute name="label" type="java.lang.String" required="false"%>
 <%@ attribute name="closed" type="java.lang.String" required="false"%>
+<%@ attribute name="stu" type="java.lang.String" required="false"%>
 <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="submit()" title="提交"><i class="fa fa-check"></i> ${label==null?'提交':label}</button>
 <%-- 使用方法： 1.将本tag写在查询的form之前；2.传入table的id和controller的url --%>
 <script type="text/javascript">
@@ -23,6 +24,11 @@ $(document).ready(function() {
 });
 
 	function submit(){
+		
+		if("${stu}"=="true"){
+			top.layer.alert('项目已经关闭!', {icon: 0, title:'警告'});
+			return;
+		}
 		
 		var size = $("#${id} tbody tr td input.i-checks:checked").size();
 		  if(size == 0 ){

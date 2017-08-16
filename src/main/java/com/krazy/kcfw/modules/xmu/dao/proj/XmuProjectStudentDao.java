@@ -19,4 +19,7 @@ import com.krazy.kcfw.modules.xmu.entity.proj.XmuProjectStudent;
 public interface XmuProjectStudentDao extends CrudDao<XmuProjectStudent> {
 
 	public List<XmuProjectStudent> findUserList(XmuProjectStudent entity);
+	
+	public List<XmuProjectStudent> findUserActive(XmuProjectStudent entity);
+
 }

@@ -10,6 +10,7 @@
 <%@ attribute name="closed" type="java.lang.String" required="false"%>
 <%@ attribute name="status" type="java.lang.String" required="false"%>
 <%@ attribute name="targetAction" type="java.lang.String" required="false"%>
+<%@ attribute name="stu" type="java.lang.String" required="false"%>
 <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="back()" title="撤回"><i class="fa fa-undo"></i> ${label==null?'撤回':label}</button>
 <%-- 使用方法： 1.将本tag写在查询的form之前；2.传入table的id和controller的url --%>
 <script type="text/javascript">
@@ -25,6 +26,10 @@ $(document).ready(function() {
 });
 
 	function back(){
+		if("${stu}"=="true"){
+			top.layer.alert('项目已经关闭!', {icon: 0, title:'警告'});
+			return;
+		}
 		var size = $("#${id} tbody tr td input.i-checks:checked").size();
 	  if(size == 0 ){
 			top.layer.alert('请至少选择一条数据!', {icon: 0, title:'警告'});

@@ -14,7 +14,10 @@
 		});
 		
 		function deleteAllList(){
-
+			if("${stu}"=="true"){
+				top.layer.alert('项目已经关闭!', {icon: 0, title:'警告'});
+				return;
+			}
 			// var url = $(this).attr('data-url');
 			  var str="";
 			  var ids="";
@@ -139,13 +142,13 @@
 		<div class="pull-left">
 			<c:if test="${!fn:contains(role, 'dept')}" >
 				<shiro:hasPermission name="xmu:res:xmuReserachInfo:add">
-					<table:addRow url="${ctx}/xmu/res/xmuReserachInfo/form" title="科研信息"></table:addRow><!-- 增加按钮 -->
+					<table:addRow url="${ctx}/xmu/res/xmuReserachInfo/form" stu="${stu}" title="科研信息"></table:addRow><!-- 增加按钮 -->
 				</shiro:hasPermission>
 				<shiro:hasPermission name="xmu:res:xmuReserachInfo:edit">
-				    <table:editRow url="${ctx}/xmu/res/xmuReserachInfo/form" status="1" title="科研信息" id="contentTable"></table:editRow><!-- 编辑按钮 -->
+				    <table:editRow url="${ctx}/xmu/res/xmuReserachInfo/form" stu="${stu}" status="1" title="科研信息" id="contentTable"></table:editRow><!-- 编辑按钮 -->
 				</shiro:hasPermission>
 				<shiro:hasPermission name="xmu:res:xmuReserachInfo:submit">
-			   		<table:submitRow url="${ctx}/xmu/res/xmuReserachInfo/form" title="科研信息" id="contentTable"></table:submitRow><!-- 提交按钮 -->
+			   		<table:submitRow url="${ctx}/xmu/res/xmuReserachInfo/form" stu="${stu}" title="科研信息" id="contentTable"></table:submitRow><!-- 提交按钮 -->
 				</shiro:hasPermission>
 			</c:if>
 			<c:if test="${fn:contains(role, 'Manager')}" >
@@ -161,7 +164,7 @@
 			
 			<c:if test="${fn:contains(role, 'Student')}" >
 				<shiro:hasPermission name="xmu:res:xmuReserachInfo:back">
-				    <table:backRow url="${ctx}/xmu/res/xmuReserachInfo/form" status="2" targetAction="${ctx}/xmu/res/xmuReserachInfo/back" title="科研信息" id="contentTable"></table:backRow><!-- 撤回按钮 -->
+				    <table:backRow url="${ctx}/xmu/res/xmuReserachInfo/form" stu="${stu}" status="2" targetAction="${ctx}/xmu/res/xmuReserachInfo/back" title="科研信息" id="contentTable"></table:backRow><!-- 撤回按钮 -->
 				</shiro:hasPermission>
 			</c:if>
 			<c:if test="${fn:contains(role, 'Manager')}" >
@@ -248,12 +251,14 @@
 					<shiro:hasPermission name="xmu:res:xmuReserachInfo:view">
 						<a href="#" onclick="openDialogView('查看科研信息', '${ctx}/xmu/res/xmuReserachInfo/form?id=${xmuReserachInfo.id}&urlType=view','800px', '500px')" class="btn btn-info btn-xs" ><i class="fa fa-search-plus"></i> 查看</a>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="xmu:res:xmuReserachInfo:edit">
-    					<a href="#" onclick='openModify("${xmuReserachInfo.xpiStatus}","${xmuReserachInfo.id}")' class="btn btn-success btn-xs" ><i class="fa fa-edit"></i> 修改</a>
-    				</shiro:hasPermission>
-    				<shiro:hasPermission name="xmu:res:xmuReserachInfo:del">
-						<a href="${ctx}/xmu/res/xmuReserachInfo/delete?id=${xmuReserachInfo.id}" onclick="return confirmx('确认要删除该科研信息吗？', this.href)"   class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> 删除</a>
-					</shiro:hasPermission>
+					<c:if test="${stu ne 'true'}" >
+						<shiro:hasPermission name="xmu:res:xmuReserachInfo:edit">
+	    					<a href="#" onclick='openModify("${xmuReserachInfo.xpiStatus}","${xmuReserachInfo.id}")' class="btn btn-success btn-xs" ><i class="fa fa-edit"></i> 修改</a>
+	    				</shiro:hasPermission>
+	    				<shiro:hasPermission name="xmu:res:xmuReserachInfo:del">
+							<a href="${ctx}/xmu/res/xmuReserachInfo/delete?id=${xmuReserachInfo.id}" onclick="return confirmx('确认要删除该科研信息吗？', this.href)"   class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> 删除</a>
+						</shiro:hasPermission>
+					</c:if>
 				</td>
 			</tr>
 		</c:forEach>

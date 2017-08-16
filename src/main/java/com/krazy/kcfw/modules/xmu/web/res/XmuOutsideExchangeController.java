@@ -90,6 +90,14 @@ public class XmuOutsideExchangeController extends BaseController {
 				roleB.append(",");
 			}
 		}
+		if(roleB.indexOf("Student")!=-1){
+			XmuProjectStudent entity=new XmuProjectStudent();
+			entity.setXpsUserId(UserUtils.getUser().getId());
+			List<XmuProjectStudent> listS=xmuProjectStudentService.findUserActive(entity);
+			if(listS.size()==0){
+				model.addAttribute("stu","true");
+			}
+		}
 		model.addAttribute("role",roleB.toString());	
 		model.addAttribute("page", page);
 		return "modules/xmu/res/xmuOutsideExchangeList";

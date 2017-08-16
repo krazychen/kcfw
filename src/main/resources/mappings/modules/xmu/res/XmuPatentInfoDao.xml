@@ -32,7 +32,7 @@
 	</sql>
 	
 	<sql id="xmuPatentInfoJoins">
-		LEFT JOIN sys_office xpiOfficeName ON xpiOfficeName.id = a.xpi_office_name
+		LEFT JOIN sys_office xpiOfficeName ON xpiOfficeName.id = a.xpi_office_id
 	</sql>
 	
 	<sql id="userJoins">
