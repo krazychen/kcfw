@@ -118,7 +118,7 @@ ${columnField?substring(0, columnField?last_index_of(","))}
 			</#list>
 		</where>
 		<!-- 数据范围过滤 -->
-		${sqlMap.dsf}
+		${"$"}{sqlMap.dsf}
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${"$"}{page.orderBy}

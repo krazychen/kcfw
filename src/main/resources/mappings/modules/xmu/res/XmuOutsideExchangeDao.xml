@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krazy.kcfw.modules.xmu.dao.res.XmuOutsideExchangeDao">
+    
+	<sql id="xmuOutsideExchangeColumns">
+		a.xoe_office_name AS "xoeOfficeName",
+		a.xoe_user_profession AS "xoeUserProfession",
+		a.xoe_user_name AS "xoeUserName",
+		a.xoe_exchange_years AS "xoeExchangeYears",
+		a.xoe_exchange_school AS "xoeExchangeSchool",
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.xoe_proj_id AS "xoeProjId",
+		a.xoe_proj_name AS "xoeProjName",
+		a.xoe_office_id AS "xoeOfficeId",
+		a.xoe_user_id AS "xoeUserId",
+		a.xoe_user_grade AS "xoeUserGrade",
+		a.xoe_user_stuno AS "xoeUserStuno",
+		a.proc_ins_id AS "procInsId",
+		a.xoe_status AS "xoeStatus",
+		a.xoe_college_comment AS "xoeCollegeComment",
+		a.xoe_manage_comment AS "xoeManageComment",
+		a.xoe_college_standby AS "xoeCollegeStandby",
+		a.xoe_manage_standby AS "xoeManageStandby",
+		a.xoe_exchange_area AS "xoeExchangeArea",
+		a.xoe_exchange_time AS "xoeExchangeTime",
+		a.xoe_exchange_type AS "xoeExchangeType",
+		a.xoe_exchange_way AS "xoeExchangeWay"
+	</sql>
+	
+	<sql id="xmuOutsideExchangeJoins">
+		LEFT JOIN sys_office xoeOfficeName ON xoeOfficeName.id = a.xoe_office_id
+	</sql>
+	
+	<sql id="userJoins">
+		JOIN sys_user u ON u.id = a.create_by
+		JOIN sys_office o ON o.id = u.office_id
+    </sql>
+	
+    
+	<select id="get" resultType="XmuOutsideExchange" >
+		SELECT 
+			<include refid="xmuOutsideExchangeColumns"/>
+		FROM xmu_outside_exchange a
+		<include refid="xmuOutsideExchangeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="XmuOutsideExchange" >
+		SELECT 
+			<include refid="xmuOutsideExchangeColumns"/>
+		FROM xmu_outside_exchange a
+		<include refid="xmuOutsideExchangeJoins"/>
+		<include refid="userJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="xoeOfficeName != null and xoeOfficeName != ''">
+				AND a.xoe_office_name = #{xoeOfficeName}
+			</if>
+			<if test="xoeUserProfession != null and xoeUserProfession != ''">
+				AND a.xoe_user_profession = #{xoeUserProfession}
+			</if>
+			<if test="xoeUserName != null and xoeUserName != ''">
+				AND a.xoe_user_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xoeUserName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xoeUserName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xoeUserName},'%')</if>
+			</if>
+			<if test="xoeExchangeYears != null and xoeExchangeYears != ''">
+				AND a.xoe_exchange_years = #{xoeExchangeYears}
+			</if>
+			<if test="xoeExchangeSchool != null and xoeExchangeSchool != ''">
+				AND a.xoe_exchange_school LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xoeExchangeSchool}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xoeExchangeSchool}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xoeExchangeSchool},'%')</if>
+			</if>
+		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf} ${sqlMap.actUser}
+			<if test="xoeOfficeName != null and xoeOfficeName != ''">
+				AND a.xoe_office_name = #{xoeOfficeName}
+			</if>
+			<if test="xoeUserProfession != null and xoeUserProfession != ''">
+				AND a.xoe_user_profession = #{xoeUserProfession}
+			</if>
+			<if test="xoeUserName != null and xoeUserName != ''">
+				AND a.xoe_user_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xoeUserName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xoeUserName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xoeUserName},'%')</if>
+			</if>
+			<if test="xoeExchangeYears != null and xoeExchangeYears != ''">
+				AND a.xoe_exchange_years = #{xoeExchangeYears}
+			</if>
+			<if test="xoeExchangeSchool != null and xoeExchangeSchool != ''">
+				AND a.xoe_exchange_school LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xoeExchangeSchool}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xoeExchangeSchool}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xoeExchangeSchool},'%')</if>
+			</if>
+		${sqlMap.actUser2}
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="XmuOutsideExchange" >
+		SELECT 
+			<include refid="xmuOutsideExchangeColumns"/>
+		FROM xmu_outside_exchange a
+		<include refid="xmuOutsideExchangeJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO xmu_outside_exchange(
+			xoe_office_name,
+			xoe_user_profession,
+			xoe_user_name,
+			xoe_exchange_years,
+			xoe_exchange_school,
+			id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			xoe_proj_id,
+			xoe_proj_name,
+			xoe_office_id,
+			xoe_user_id,
+			xoe_user_grade,
+			xoe_user_stuno,
+			proc_ins_id,
+			xoe_status,
+			xoe_college_comment,
+			xoe_manage_comment,
+			xoe_college_standby,
+			xoe_manage_standby,
+			xoe_exchange_area,
+			xoe_exchange_time,
+			xoe_exchange_type,
+			xoe_exchange_way
+		) VALUES (
+			#{xoeOfficeName},
+			#{xoeUserProfession},
+			#{xoeUserName},
+			#{xoeExchangeYears},
+			#{xoeExchangeSchool},
+			#{id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{xoeProjId},
+			#{xoeProjName},
+			#{xoeOfficeId},
+			#{xoeUserId},
+			#{xoeUserGrade},
+			#{xoeUserStuno},
+			#{procInsId},
+			#{xoeStatus},
+			#{xoeCollegeComment},
+			#{xoeManageComment},
+			#{xoeCollegeStandby},
+			#{xoeManageStandby},
+			#{xoeExchangeArea},
+			#{xoeExchangeTime},
+			#{xoeExchangeType},
+			#{xoeExchangeWay}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE xmu_outside_exchange SET 	
+			xoe_office_name = #{xoeOfficeName},
+			xoe_user_profession = #{xoeUserProfession},
+			xoe_user_name = #{xoeUserName},
+			xoe_exchange_years = #{xoeExchangeYears},
+			xoe_exchange_school = #{xoeExchangeSchool},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			xoe_proj_id = #{xoeProjId},
+			xoe_proj_name = #{xoeProjName},
+			xoe_office_id = #{xoeOfficeId},
+			xoe_user_id = #{xoeUserId},
+			xoe_user_grade = #{xoeUserGrade},
+			xoe_user_stuno = #{xoeUserStuno},
+			xoe_status = #{xoeStatus},
+			xoe_exchange_area = #{xoeExchangeArea},
+			xoe_exchange_time = #{xoeExchangeTime},
+			xoe_exchange_type = #{xoeExchangeType},
+			xoe_exchange_way = #{xoeExchangeWay}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM xmu_outside_exchange
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE xmu_outside_exchange SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="XmuOutsideExchange" statementType="STATEMENT">
+		select * FROM xmu_outside_exchange  where ${propertyName} = '${value}'
+	</select>
+	
+	<update id="updateStatus">
+		UPDATE xmu_outside_exchange SET 
+			xoe_status = #{xoeStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateCollegeStandby">
+		UPDATE xmu_outside_exchange SET 
+			xoe_COLLEGE_STANDBY = #{xoeCollegeStandby},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateManageStandby">
+		UPDATE xmu_outside_exchange SET 
+			Xoe_MANAGE_STANDBY = #{xoeManageStandby},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateCollegeComment">
+		UPDATE xmu_outside_exchange SET 
+			xoe_college_comment = #{xoeCollegeComment},
+			xoe_status = #{xoeStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateManageComment">
+		UPDATE xmu_outside_exchange SET 
+			xoe_manage_comment = #{xoeManageComment},
+			xoe_status = #{xoeStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>	
+	
+</mapper>

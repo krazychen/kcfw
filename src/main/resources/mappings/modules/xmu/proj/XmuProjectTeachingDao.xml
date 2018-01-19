@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krazy.kcfw.modules.xmu.dao.proj.XmuProjectTeachingDao">
+    
+	<sql id="xmuProjectTeachingColumns">
+		a.xpt_proj_name AS "xptProjName",
+		a.xpt_proj_level AS "xptProjLevel",
+		a.xpt_teaching_name AS "xptTeachingName",
+		a.xpt_teaching_lang AS "xptTeachingLang",
+		a.xpt_teaching_office AS "xptTeachingOffice",
+		a.xpt_teaching_grade AS "xptTeachingGrade",
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.xpt_proj_id AS "xptProjId",
+		a.xpt_office_id AS "xptOfficeId",
+		a.xpt_office_name AS "xptOfficeName",
+		a.xpt_teaching_info_id AS "xptTeachingInfoId",
+		a.xpt_teaching_profeesion AS "xptTeachingProfeesion",
+		a.xpt_teaching_hours AS "xptTeachingHours",
+		a.xpt_teaching_stu AS "xptTeachingStu",
+		a.xpt_teaching_teacher AS "xptTeachingTeacher",
+		a.xpt_teaching_jobtitle AS "xptTeachingJobtitle",
+		a.xpt_teaching_title AS "xptTeachingTitle"
+	</sql>
+	
+	<sql id="xmuTeachingInfoColumns">
+		a.XTI_TEACHING_NAME AS "xptTeachingName",
+		a.XTI_TEACHING_LANG AS "xptTeachingLang",
+		a.XTI_TEACHING_OFFICE AS "xptTeachingOffice",
+		a.XTI_TEACHING_GRADE AS "xptTeachingGrade",
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.XTI_TEACHING_PROFEESION AS "xptTeachingProfeesion",
+		a.XTI_TEACHING_HOURS AS "xptTeachingHours",
+		a.XTI_TEACHING_STU AS "xptTeachingStu",
+		a.XTI_TEACHING_TEACHER AS "xptTeachingTeacher",
+		a.XTI_TEACHING_JOBTITLE AS "xptTeachingJobtitle",
+		a.XTI_TEACHING_TITLE AS "xptTeachingTitle"
+	</sql>
+	
+	<sql id="xmuProjectTeachingJoins">
+	</sql>
+	
+	<sql id="userJoins">
+		JOIN sys_user u ON u.id = a.create_by
+		JOIN sys_office o ON o.id = u.office_id
+    </sql>
+	
+    
+	<select id="get" resultType="XmuProjectTeaching" >
+		SELECT 
+			<include refid="xmuProjectTeachingColumns"/>
+		FROM xmu_project_teaching a
+		<include refid="xmuProjectTeachingJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="XmuProjectTeaching" >
+		SELECT 
+			<include refid="xmuProjectTeachingColumns"/>
+		FROM xmu_project_teaching a
+		<include refid="xmuProjectTeachingJoins"/>
+		<include refid="userJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="xptProjName != null and xptProjName != ''">
+				AND a.xpt_proj_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xptProjName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xptProjName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xptProjName},'%')</if>
+			</if>
+			<if test="xptProjId != null and xptProjId != ''">
+				AND a.xpt_proj_id = #{xptProjId}
+			</if>
+			<if test="xptTeachingInfoId != null and xptTeachingInfoId != ''">
+				AND a.xpt_teaching_info_id = #{xptTeachingInfoId}
+			</if>
+			<if test="xptProjLevel != null and xptProjLevel != ''">
+				AND a.xpt_proj_level = #{xptProjLevel}
+			</if>
+			<if test="xptTeachingName != null and xptTeachingName != ''">
+				AND a.xpt_teaching_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xptTeachingName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xptTeachingName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xptTeachingName},'%')</if>
+			</if>
+			<if test="xptTeachingLang != null and xptTeachingLang != ''">
+				AND a.xpt_teaching_lang = #{xptTeachingLang}
+			</if>
+			<if test="xptTeachingOffice != null and xptTeachingOffice != ''">
+				AND a.xpt_teaching_office LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xptTeachingOffice}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xptTeachingOffice}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xptTeachingOffice},'%')</if>
+			</if>
+			<if test="xptTeachingGrade != null and xptTeachingGrade != ''">
+				AND a.xpt_teaching_grade LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xptTeachingGrade}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xptTeachingGrade}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xptTeachingGrade},'%')</if>
+			</if>
+		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="XmuProjectTeaching" >
+		SELECT 
+			<include refid="xmuProjectTeachingColumns"/>
+		FROM xmu_project_teaching a
+		<include refid="xmuProjectTeachingJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO xmu_project_teaching(
+			xpt_proj_name,
+			xpt_proj_level,
+			xpt_teaching_name,
+			xpt_teaching_lang,
+			xpt_teaching_office,
+			xpt_teaching_grade,
+			id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			xpt_proj_id,
+			xpt_office_id,
+			xpt_office_name,
+			xpt_teaching_info_id,
+			xpt_teaching_profeesion,
+			xpt_teaching_hours,
+			xpt_teaching_stu,
+			xpt_teaching_teacher,
+			xpt_teaching_jobtitle,
+			xpt_teaching_title
+		) VALUES (
+			#{xptProjName},
+			#{xptProjLevel},
+			#{xptTeachingName},
+			#{xptTeachingLang},
+			#{xptTeachingOffice},
+			#{xptTeachingGrade},
+			#{id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{xptProjId},
+			#{xptOfficeId},
+			#{xptOfficeName},
+			#{xptTeachingInfoId},
+			#{xptTeachingProfeesion},
+			#{xptTeachingHours},
+			#{xptTeachingStu},
+			#{xptTeachingTeacher},
+			#{xptTeachingJobtitle},
+			#{xptTeachingTitle}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE xmu_project_teaching SET 	
+			xpt_proj_name = #{xptProjName},
+			xpt_proj_level = #{xptProjLevel},
+			xpt_teaching_name = #{xptTeachingName},
+			xpt_teaching_lang = #{xptTeachingLang},
+			xpt_teaching_office = #{xptTeachingOffice},
+			xpt_teaching_grade = #{xptTeachingGrade},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			xpt_proj_id = #{xptProjId},
+			xpt_office_id = #{xptOfficeId},
+			xpt_office_name = #{xptOfficeName},
+			xpt_teaching_info_id = #{xptTeachingInfoId},
+			xpt_teaching_profeesion = #{xptTeachingProfeesion},
+			xpt_teaching_hours = #{xptTeachingHours},
+			xpt_teaching_stu = #{xptTeachingStu},
+			xpt_teaching_teacher = #{xptTeachingTeacher},
+			xpt_teaching_jobtitle = #{xptTeachingJobtitle},
+			xpt_teaching_title = #{xptTeachingTitle}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM xmu_project_teaching
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE xmu_project_teaching SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="XmuProjectTeaching" statementType="STATEMENT">
+		select * FROM xmu_project_teaching  where ${propertyName} = '${value}'
+	</select>
+	
+	<select id="findTeachingInfoList" resultType="XmuProjectTeaching" >
+		SELECT 
+			<include refid="xmuTeachingInfoColumns"/>
+		FROM xmu_teaching_info a
+		<include refid="xmuProjectTeachingJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="xptTeachingName != null and xptTeachingName != ''">
+				AND a.XTI_TEACHING_NAME LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xptTeachingName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xptTeachingName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xptTeachingName},'%')</if>
+			</if>
+			<if test="xptTeachingLang != null and xptTeachingLang != ''">
+				AND a.XTI_TEACHING_LANG = #{xptTeachingLang}
+			</if>
+			<if test="xptTeachingOffice != null and xptTeachingOffice != ''">
+				AND a.XTI_TEACHING_OFFICE LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xptTeachingOffice}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xptTeachingOffice}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xptTeachingOffice},'%')</if>
+			</if>
+			<if test="xptTeachingGrade != null and xptTeachingGrade != ''">
+				AND a.XTI_TEACHING_GRADE LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xptTeachingGrade}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xptTeachingGrade}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xptTeachingGrade},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getTeachingInfo" resultType="XmuProjectTeaching" >
+		SELECT 
+			<include refid="xmuTeachingInfoColumns"/>
+		FROM xmu_teaching_info a
+		<include refid="xmuProjectTeachingJoins"/>
+		<where>
+			a.id = #{id}			
+		</where>
+
+	</select>
+	
+</mapper>

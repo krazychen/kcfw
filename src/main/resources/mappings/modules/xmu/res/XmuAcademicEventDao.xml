@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krazy.kcfw.modules.xmu.dao.res.XmuAcademicEventDao">
+    
+	<sql id="xmuAcademicEventColumns">
+		a.xae_office_name AS "xaeOfficeName",
+		a.xae_user_profession AS "xaeUserProfession",
+		a.xae_user_name AS "xaeUserName",
+		a.xae_event_name AS "xaeEventName",
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.xae_proj_id AS "xaeProjId",
+		a.xae_proj_name AS "xaeProjName",
+		a.xae_office_id AS "xaeOfficeId",
+		a.xae_user_id AS "xaeUserId",
+		a.xae_user_grade AS "xaeUserGrade",
+		a.xae_user_stuno AS "xaeUserStuno",
+		a.xae_event_years AS "xaeEventYears",
+		a.xae_event_type AS "xaeEventType",
+		a.xae_event_area_id AS "xaeEventAreaId",
+		a.xae_event_area_name AS "xaeEventAreaName",
+		a.xae_event_way AS "xaeEventWay",
+		a.xae_event_school AS "xaeEventSchool",
+		a.proc_ins_id AS "procInsId",
+		a.xae_status AS "xaeStatus",
+		a.xae_college_comment AS "xaeCollegeComment",
+		a.xae_manage_comment AS "xaeManageComment",
+		a.XAE_COLLEGE_STANDBY AS "xaeCollegeStandby",
+		a.XAE_MANAGE_STANDBY AS "xaeManageStandby"
+	</sql>
+	
+	<sql id="xmuAcademicEventJoins">
+		LEFT JOIN sys_office xaeOfficeName ON xaeOfficeName.id = a.xae_office_id
+	</sql>
+	
+	<sql id="userJoins">
+		JOIN sys_user u ON u.id = a.create_by
+		JOIN sys_office o ON o.id = u.office_id
+    </sql>
+	
+    
+	<select id="get" resultType="XmuAcademicEvent" >
+		SELECT 
+			<include refid="xmuAcademicEventColumns"/>
+		FROM xmu_academic_event a
+		<include refid="xmuAcademicEventJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="XmuAcademicEvent" >
+		SELECT 
+			<include refid="xmuAcademicEventColumns"/>
+		FROM xmu_academic_event a
+		<include refid="xmuAcademicEventJoins"/>
+		<include refid="userJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="xaeOfficeId != null and xaeOfficeId != ''">
+				AND a.xae_office_id = #{xaeOfficeId}
+			</if>
+			<if test="xaeUserProfession != null and xaeUserProfession != ''">
+				AND a.xae_user_profession = #{xaeUserProfession}
+			</if>
+			<if test="xaeUserName != null and xaeUserName != ''">
+				AND a.xae_user_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xaeUserName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xaeUserName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xaeUserName},'%')</if>
+			</if>
+			<if test="xaeEventName != null and xaeEventName != ''">
+				AND a.xae_event_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xaeEventName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xaeEventName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xaeEventName},'%')</if>
+			</if>
+		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}  ${sqlMap.actUser}
+			<if test="xaeOfficeId != null and xaeOfficeId != ''">
+				AND a.xae_office_id = #{xaeOfficeId}
+			</if>
+			<if test="xaeUserProfession != null and xaeUserProfession != ''">
+				AND a.xae_user_profession = #{xaeUserProfession}
+			</if>
+			<if test="xaeUserName != null and xaeUserName != ''">
+				AND a.xae_user_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xaeUserName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xaeUserName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xaeUserName},'%')</if>
+			</if>
+			<if test="xaeEventName != null and xaeEventName != ''">
+				AND a.xae_event_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xaeEventName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xaeEventName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xaeEventName},'%')</if>
+			</if>
+		${sqlMap.actUser2}
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="XmuAcademicEvent" >
+		SELECT 
+			<include refid="xmuAcademicEventColumns"/>
+		FROM xmu_academic_event a
+		<include refid="xmuAcademicEventJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO xmu_academic_event(
+			xae_office_name,
+			xae_user_profession,
+			xae_user_name,
+			xae_event_name,
+			id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			xae_proj_id,
+			xae_proj_name,
+			xae_office_id,
+			xae_user_id,
+			xae_user_grade,
+			xae_user_stuno,
+			xae_event_years,
+			xae_event_type,
+			xae_event_area_id,
+			xae_event_area_name,
+			xae_event_way,
+			xae_event_school,
+			proc_ins_id,
+			xae_status,
+			xae_college_comment,
+			xae_manage_comment,
+			XAE_COLLEGE_STANDBY,
+			XAE_MANAGE_STANDBY
+		) VALUES (
+			#{xaeOfficeName},
+			#{xaeUserProfession},
+			#{xaeUserName},
+			#{xaeEventName},
+			#{id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{xaeProjId},
+			#{xaeProjName},
+			#{xaeOfficeId},
+			#{xaeUserId},
+			#{xaeUserGrade},
+			#{xaeUserStuno},
+			#{xaeEventYears},
+			#{xaeEventType},
+			#{xaeEventAreaId},
+			#{xaeEventAreaName},
+			#{xaeEventWay},
+			#{xaeEventSchool},
+			#{procInsId},
+			#{xaeStatus},
+			#{xaeCollegeComment},
+			#{xaeManageComment},
+			#{xaeCollegeStandby},
+			#{xaeManageStandby}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE xmu_academic_event SET 	
+			xae_office_name = #{xaeOfficeName},
+			xae_user_profession = #{xaeUserProfession},
+			xae_user_name = #{xaeUserName},
+			xae_event_name = #{xaeEventName},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			xae_proj_id = #{xaeProjId},
+			xae_proj_name = #{xaeProjName},
+			xae_office_id = #{xaeOfficeId},
+			xae_user_id = #{xaeUserId},
+			xae_user_grade = #{xaeUserGrade},
+			xae_user_stuno = #{xaeUserStuno},
+			xae_event_years = #{xaeEventYears},
+			xae_event_type = #{xaeEventType},
+			xae_event_area_id = #{xaeEventAreaId},
+			xae_event_area_name = #{xaeEventAreaName},
+			xae_event_way = #{xaeEventWay},
+			xae_event_school = #{xaeEventSchool}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM xmu_academic_event
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE xmu_academic_event SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="XmuAcademicEvent" statementType="STATEMENT">
+		select * FROM xmu_academic_event  where ${propertyName} = '${value}'
+	</select>
+	
+	<update id="updateStatus">
+		UPDATE xmu_academic_event SET 
+			xae_status = #{xaeStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateCollegeStandby">
+		UPDATE xmu_academic_event SET 
+			XAE_COLLEGE_STANDBY = #{xaeCollegeStandby},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateManageStandby">
+		UPDATE xmu_academic_event SET 
+			XAE_MANAGE_STANDBY = #{xaeManageStandby},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateCollegeComment">
+		UPDATE xmu_academic_event SET 
+			xae_college_comment = #{xaeCollegeComment},
+			xae_status = #{xaeStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateManageComment">
+		UPDATE xmu_academic_event SET 
+			xae_manage_comment = #{xaeManageComment},
+			xae_status = #{xaeStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+</mapper>

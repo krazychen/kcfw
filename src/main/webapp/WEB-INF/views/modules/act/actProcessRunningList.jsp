@@ -31,19 +31,59 @@
 		</form>
 	</script>
 </head>
-<body>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content">
+	<div class="ibox">
+	<div class="ibox-content">
+	
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/act/process/">流程管理</a></li>
 		<li><a href="${ctx}/act/process/deploy/">部署流程</a></li>
 		<li class="active"><a href="${ctx}/act/process/running/">运行中的流程</a></li>
 	</ul>
-	<form id="searchForm" action="${ctx}/act/process/running/" method="post" class="breadcrumb form-search">
-		<label>流程实例ID：</label><input type="text" id="procInsId" name="procInsId" value="${procInsId}" class="input-medium"/>
-		<label>流程定义Key：</label><input type="text" id="procDefKey" name="procDefKey" value="${procDefKey}" class="input-medium"/>
-		&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
-	</form>
+	
 	<sys:message content="${message}"/>
-	<table class="table table-striped table-bordered table-condensed">
+	<!--查询条件-->
+	<div class="row">
+	<div class="col-sm-12">
+		<form id="searchForm" action="${ctx}/act/process/running/" method="post" class="form-inline">
+			<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
+			<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+			<table:sortColumn id="orderBy" name="orderBy" value="${page.orderBy}" callback="sortOrRefresh();"/><!-- 支持排序 -->
+			<div class="row" style="margin-bottom:7px">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+				<div class="form-group">
+					<sapn>流程实例ID：</sapn><input style="width:210px" type="text" id="procInsId" name="procInsId" value="${procInsId}" class=" form-control input-sm"/>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+				<div class="form-group">
+					<sapn>流程定义Key：</sapn><input style="width:210px" type="text" id="procDefKey" name="procDefKey" value="${procDefKey}" class=" form-control input-sm"/>
+				</div>
+			</div>
+		</div>
+		</form>
+
+	<br/>
+	</div>
+	</div>
+	
+	<!-- 工具栏 -->
+	<div class="row">
+	<div class="col-sm-12">
+		<div class="pull-left">
+	       <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="left" onclick="sortOrRefresh()" title="刷新"><i class="glyphicon glyphicon-repeat"></i> 刷新</button>
+		
+			</div>
+		<div class="pull-right">
+			<button  class="btn btn-primary btn-rounded btn-outline btn-sm " onclick="search()" ><i class="fa fa-search"></i> 查询</button>
+			<button  class="btn btn-primary btn-rounded btn-outline btn-sm " onclick="reset()" ><i class="fa fa-refresh"></i> 重置</button>
+		</div>
+	</div>
+	</div>
+	
+	<!-- 表格 -->
+	<table id="contentTable" style="word-break:break-all; word-wrap:break-all;" class="table table-striped table-bordered table-hover table-condensed dataTables-example dataTable">
 		<thead>
 			<tr>
 				<th>执行ID</th>
@@ -71,6 +111,12 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">${page}</div>
+	<!-- 分页代码 -->
+	<table:page page="${page}"></table:page>
+	<br/>
+	<br/>
+	</div>
+</div>
+</div>
 </body>
 </html>

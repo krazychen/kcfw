@@ -3,6 +3,7 @@
  */
 package com.krazy.kcfw.modules.xmu.web.proj;
 
+import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.common.collect.Lists;
 import com.krazy.kcfw.common.utils.DateUtils;
+import com.krazy.kcfw.common.utils.FileUtils;
 import com.krazy.kcfw.common.utils.MyBeanUtils;
 import com.krazy.kcfw.common.config.Global;
 import com.krazy.kcfw.common.persistence.Page;
@@ -87,13 +89,14 @@ public class XmuProjectController extends BaseController {
 		if (!beanValidator(model, xmuProject)){
 			return form(xmuProject, model);
 		}
-		if(!xmuProject.getIsNewRecord()){//编辑表单保存
-			XmuProject t = xmuProjectService.get(xmuProject.getId());//从数据库取出记录的值
-			MyBeanUtils.copyBeanNotNull2Bean(xmuProject, t);//将编辑表单中的非NULL值覆盖数据库记录中的值
-			xmuProjectService.save(t);//保存
-		}else{//新增表单保存
-			xmuProjectService.save(xmuProject);//保存
-		}
+		//从数据库取出记录的值
+		XmuProject t = xmuProjectService.get(xmuProject.getId());
+//		if(!xmuProject.getIsNewRecord()){//编辑表单保存		
+//			MyBeanUtils.copyBeanNotNull2Bean(xmuProject, t);//将编辑表单中的非NULL值覆盖数据库记录中的值
+			xmuProjectService.saveAll(xmuProject,t);//保存
+//		}else{//新增表单保存
+//			xmuProjectService.saveAll(xmuProject,t);//保存
+//		}
 		addMessage(redirectAttributes, "保存项目成功");
 		return "redirect:"+Global.getAdminPath()+"/xmu/proj/xmuProject/?repage";
 	}
@@ -151,7 +154,7 @@ public class XmuProjectController extends BaseController {
 			int successNum = 0;
 			int failureNum = 0;
 			StringBuilder failureMsg = new StringBuilder();
-			ImportExcel ei = new ImportExcel(file, 1, 0);
+			ImportExcel ei = new ImportExcel(file, 0, 0);
 			List<XmuProject> list = ei.getDataList(XmuProject.class);
 			for (XmuProject xmuProject : list){
 				try{
@@ -178,16 +181,21 @@ public class XmuProjectController extends BaseController {
 	 */
 	@RequiresPermissions("xmu:proj:xmuProject:import")
     @RequestMapping(value = "import/template")
-    public String importFileTemplate(HttpServletResponse response, RedirectAttributes redirectAttributes) {
+    public void importFileTemplate(HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
-            String fileName = "项目数据导入模板.xlsx";
-    		List<XmuProject> list = Lists.newArrayList(); 
-    		new ExportExcel("项目数据", XmuProject.class, 1).setDataList(list).write(response, fileName).dispose();
-    		return null;
+            String fileName = "项目数据导入模板.xls";
+//    		List<XmuProject> list = Lists.newArrayList(); 
+//    		new ExportExcel("", XmuProject.class, 2).setDataList(list).write(response, fileName).dispose();
+            File file = new File(request.getSession().getServletContext().getRealPath("/")  +"WEB-INF/template/"+fileName);
+            //判断文件是否存在
+            if(!file.exists()) {
+                return;
+            }
+            FileUtils.downFile(file, request, response);
 		} catch (Exception e) {
 			addMessage(redirectAttributes, "导入模板下载失败！失败信息："+e.getMessage());
 		}
-		return "redirect:"+Global.getAdminPath()+"/xmu/proj/xmuProject/?repage";
+//		return "redirect:"+Global.getAdminPath()+"/xmu/proj/xmuProject/?repage";
     }
 	
 

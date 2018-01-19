@@ -4,12 +4,14 @@
 package com.krazy.kcfw.modules.sys.web;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.web.util.SavedRequest;
@@ -194,6 +196,8 @@ public class LoginController extends BaseController{
 	public String index(HttpServletRequest request, HttpServletResponse response) {
 		Principal principal = UserUtils.getPrincipal();
 
+		String indexPage=Global.getConfig("adminPathPage");
+		
 		// 登录成功后，验证码计算器清零
 		isValidateCodeLogin(principal.getLoginName(), false, true);
 		
@@ -218,7 +222,7 @@ public class LoginController extends BaseController{
 				return renderString(response, principal);
 			}
 			if (request.getParameter("index") != null){
-				return "modules/sys/sysIndex";
+				return "modules/sys/"+indexPage;
 			}
 			return "redirect:" + adminPath + "/login";
 		}
@@ -273,7 +277,7 @@ public class LoginController extends BaseController{
 			return "modules/sys/sysIndex-ace";
 		}
 		
-		return "modules/sys/sysIndex";
+		return "modules/sys/"+indexPage;
 	}
 	
 	/**

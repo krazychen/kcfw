@@ -91,7 +91,7 @@ public class User extends DataEntity<User> {
 	}
 
 	@SupCol(isUnique="true", isHide="true")
-	@ExcelField(title="ID", type=1, align=2, sort=1)
+	//@ExcelField(title="ID", type=1, align=2, sort=1)
 	public String getId() {
 		return id;
 	}

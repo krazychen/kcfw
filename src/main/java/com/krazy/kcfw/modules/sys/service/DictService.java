@@ -36,6 +36,13 @@ public class DictService extends CrudService<DictDao, Dict> {
 		super.save(dict);
 		CacheUtils.remove(DictUtils.CACHE_DICT_MAP);
 	}
+	
+
+	public void updateByType(Dict dict){
+		dao.update(dict);
+		CacheUtils.remove(DictUtils.CACHE_DICT_MAP);
+	}
+
 
 	@Transactional(readOnly = false)
 	public void delete(Dict dict) {

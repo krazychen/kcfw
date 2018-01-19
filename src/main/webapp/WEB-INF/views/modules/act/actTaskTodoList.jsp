@@ -47,32 +47,69 @@
 		}
 	</script>
 </head>
-<body>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content">
+	<div class="ibox">
+	<div class="ibox-content">
+	
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/act/task/todo/">待办任务</a></li>
 		<li><a href="${ctx}/act/task/historic/">已办任务</a></li>
 	<!-- <li><a href="${ctx}/act/task/process/">新建任务</a></li> -->	
 	</ul>
-	<form:form id="searchForm" modelAttribute="act" action="${ctx}/act/task/todo/" method="get" class="breadcrumb form-search">
-		<div>
-			<label>流程类型：&nbsp;</label>
-			<form:select path="procDefKey" class="input-medium">
-				<form:option value="" label="全部流程"/>
-				<form:options items="${fns:getDictList('act_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-			</form:select>
-			<label>创建时间：</label>
-			<input id="beginDate"  name="beginDate"  type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:163px;"
-				value="<fmt:formatDate value="${act.beginDate}" pattern="yyyy-MM-dd"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
-				　--　
-			<input id="endDate" name="endDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:163px;"
-				value="<fmt:formatDate value="${act.endDate}" pattern="yyyy-MM-dd"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
-			&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
-		</div>
-	</form:form>
 	<sys:message content="${message}"/>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<!--查询条件-->
+	<div class="row">
+	<div class="col-sm-12">
+		<form:form id="searchForm" modelAttribute="act" action="${ctx}/act/task/todo/" method="get" class="form-inline">
+			<div class="row" style="margin-bottom:7px">
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="form-group">
+						<span>流程类型：&nbsp;</span>
+						<form:select style="width:210px" path="procDefKey" class="form-control m-b">
+							<form:option value="" label="全部流程"/>
+							<form:options items="${fns:getDictList('act_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+						</form:select>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="form-group">
+						<span>创建时间从：</span>
+						<input style="width:210px" id="beginDate"  name="beginDate"  type="text" readonly="readonly" maxlength="20" class=" form-control input-sm Wdate" 
+							value="<fmt:formatDate value="${act.beginDate}" pattern="yyyy-MM-dd"/>"
+								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="form-group">
+						<span>创建时间到：</span>
+						<input style="width:210px" id="endDate" name="endDate" type="text" readonly="readonly" maxlength="20" class=" form-control input-sm Wdate" 
+							value="<fmt:formatDate value="${act.endDate}" pattern="yyyy-MM-dd"/>"
+								onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
+					</div>
+			</div>
+		 </div>	
+	</form:form>
+	<br/>
+	</div>
+	</div>
+	
+		<!-- 工具栏 -->
+	<div class="row">
+	<div class="col-sm-12">
+		<div class="pull-left">
+	       <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="left" onclick="sortOrRefresh()" title="刷新"><i class="glyphicon glyphicon-repeat"></i> 刷新</button>
+		
+			</div>
+		<div class="pull-right">
+			<button  class="btn btn-primary btn-rounded btn-outline btn-sm " onclick="search()" ><i class="fa fa-search"></i> 查询</button>
+			<button  class="btn btn-primary btn-rounded btn-outline btn-sm " onclick="reset()" ><i class="fa fa-refresh"></i> 重置</button>
+		</div>
+	</div>
+	</div>
+	
+	<!-- 表格 -->
+	<table id="contentTable" style="word-break:break-all; word-wrap:break-all;" class="table table-striped table-bordered table-hover table-condensed dataTables-example dataTable">
 		<thead>
 			<tr>
 				<th>标题</th>
@@ -146,5 +183,10 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<br/>
+	<br/>
+	</div>
+</div>
+</div>
 </body>
 </html>

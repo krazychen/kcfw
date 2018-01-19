@@ -59,7 +59,7 @@
 			mainObj.css("width","auto");
 			frameObj.height(strs[0] - 70);
 			var leftWidth = ($("#left").width() < 0 ? 0 : $("#left").width());
-			$("#right").width($("#content").width()- leftWidth - $("#openClose").width() -60);
+			$("#right").width($("#content").width()- leftWidth - $("#openClose").width() -70);
 			$(".ztree").width(leftWidth - 10).height(frameObj.height() - 26);
 		}
 	</script>

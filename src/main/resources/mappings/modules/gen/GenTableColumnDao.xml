@@ -137,7 +137,7 @@
 		WHERE id = #{id}
 	</update>
 	
-	<update id="deleteByGenTable">
+	<update id="deleteByGenTableId">
 		DELETE FROM gen_table_column 
 		WHERE gen_table_id = #{id}
 	</update>

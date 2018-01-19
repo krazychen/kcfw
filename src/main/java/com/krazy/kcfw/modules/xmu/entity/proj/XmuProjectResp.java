@@ -44,7 +44,7 @@ public class XmuProjectResp extends DataEntity<XmuProjectResp> {
 	}
 	
 	@Length(min=1, max=64, message="项目学院ID长度必须介于 1 和 64 之间")
-	@ExcelField(title="项目学院ID", fieldType=String.class, value="", align=2, sort=7)
+	//@ExcelField(title="项目学院ID", fieldType=String.class, value="", align=2, sort=7)
 	public String getXprOfficeId() {
 		return xprOfficeId;
 	}
@@ -64,7 +64,7 @@ public class XmuProjectResp extends DataEntity<XmuProjectResp> {
 	}
 	
 	@Length(min=1, max=64, message="学院负责人ID长度必须介于 1 和 64 之间")
-	@ExcelField(title="学院负责人ID", fieldType=String.class, value="", align=2, sort=9)
+	//@ExcelField(title="学院负责人ID", fieldType=String.class, value="", align=2, sort=9)
 	public String getXprUserId() {
 		return xprUserId;
 	}

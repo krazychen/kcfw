@@ -45,6 +45,13 @@ public class ActUtils {
 	public static final String[] PD_TECH_CONCRACT = new String[]{"TECH_CONTRACT", "sch_tech_concract"};
 	public static final String[] PD_COMP_REQ = new String[]{"COMP_REQ", "sch_comp_req"};
 	public static final String[] PD_TECH_RES = new String[]{"TECH_RESOURCE_APPLY", "sch_tech_resource_apply"};
+	public static final String[] PD_XMU_ACADEMIC_EVENT = new String[]{"XMU_ACADEMIC_EVENT", "XMU_ACADEMIC_EVENT"};
+	public static final String[] PD_XMU_PAGE_PUB = new String[]{"XMU_PAGE_PUB", "XMU_PAGE_PUB"};
+	public static final String[] PD_XMU_PATENT_INFO = new String[]{"XMU_PATENT_INFO", "XMU_PATENT_INFO"};
+	public static final String[] PD_XMU_WINNING_INFO = new String[]{"XMU_WINNING_INFO", "XMU_WINNING_INFO"};
+	public static final String[] PD_XMU_RESERACH_INFO = new String[]{"XMU_RESERACH_INFO", "XMU_RESERACH_INFO"};
+	public static final String[] PD_XMU_OUTSIDE_EXCHANGE = new String[]{"XMU_OUTSIDE_EXCHANGE", "XMU_OUTSIDE_EXCHANGE"};
+	public static final String[] PD_XMU_REPORT_MNT = new String[]{"XMU_REPORT_MNT", "XMU_REPORT_MNT"};
 	
 //	/**
 //	 * 流程定义Map（自动初始化）

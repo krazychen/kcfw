@@ -51,7 +51,8 @@
 				idx: idx, delBtn: true, row: row
 			}));
 			$(list+idx).find("select").each(function(){
-				$(this).val($(this).attr("data-value"));
+				if($(this).attr("data-value"))
+					$(this).val($(this).attr("data-value"));
 			});
 			$(list+idx).find("input[type='checkbox'], input[type='radio']").each(function(){
 				var ss = $(this).attr("data-value").split(',');

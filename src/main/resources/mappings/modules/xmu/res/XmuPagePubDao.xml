@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krazy.kcfw.modules.xmu.dao.res.XmuPagePubDao">
+    
+	<sql id="xmuPagePubColumns">
+		a.xpp_office_name AS "xppOfficeName",
+		a.xpp_user_profession AS "xppUserProfession",
+		a.xpp_user_name AS "xppUserName",
+		a.xpp_page_name AS "xppPageName",
+		a.xpp_page_time AS "xppPageTime",
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.xpp_proj_id AS "xppProjId",
+		a.xpp_proj_name AS "xppProjName",
+		a.xpp_office_id AS "xppOfficeId",
+		a.xpp_user_id AS "xppUserId",
+		a.xpp_user_grade AS "xppUserGrade",
+		a.xpp_user_stuno AS "xppUserStuno",
+		a.proc_ins_id AS "procInsId",
+		a.xpp_status AS "xppStatus",
+		a.xpp_college_comment AS "xppCollegeComment",
+		a.xpp_manage_comment AS "xppManageComment",
+		a.xpp_college_standby AS "xppCollegeStandby",
+		a.xpp_manage_standby AS "xppManageStandby",
+		a.xpp_page_publication AS "xppPagePublication",
+		a.xpp_page_author_no AS "xppPageAuthorNo",
+		a.xpp_page_type AS "xppPageType",
+		a.xpp_page_factor AS "xppPageFactor",
+		a.xpp_page_attachment AS "xppPageAttachment",
+		a.xpp_page_remark AS "xppPageRemark"
+	</sql>
+	
+	<sql id="xmuPagePubJoins">
+		LEFT JOIN sys_office xppOfficeName ON xppOfficeName.id = a.xpp_office_id
+	</sql>
+	
+	<sql id="userJoins">
+		JOIN sys_user u ON u.id = a.create_by
+		JOIN sys_office o ON o.id = u.office_id
+    </sql>
+	
+    
+	<select id="get" resultType="XmuPagePub" >
+		SELECT 
+			<include refid="xmuPagePubColumns"/>
+		FROM xmu_page_pub a
+		<include refid="xmuPagePubJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="XmuPagePub" >
+		SELECT 
+			<include refid="xmuPagePubColumns"/>
+		FROM xmu_page_pub a
+		<include refid="xmuPagePubJoins"/>
+		<include refid="userJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="xppOfficeName != null and xppOfficeName != ''">
+				AND a.xpp_office_name = #{xppOfficeName}
+			</if>
+			<if test="xppUserProfession != null and xppUserProfession != ''">
+				AND a.xpp_user_profession = #{xppUserProfession}
+			</if>
+			<if test="xppUserName != null and xppUserName != ''">
+				AND a.xpp_user_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xppUserName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xppUserName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xppUserName},'%')</if>
+			</if>
+			<if test="xppPageName != null and xppPageName != ''">
+				AND a.xpp_page_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xppPageName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xppPageName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xppPageName},'%')</if>
+			</if>
+			<if test="xppPageTime != null and xppPageTime != ''">
+				AND a.xpp_page_time = #{xppPageTime}
+			</if>
+		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf} ${sqlMap.actUser}
+			<if test="xppOfficeName != null and xppOfficeName != ''">
+				AND a.xpp_office_name = #{xppOfficeName}
+			</if>
+			<if test="xppUserProfession != null and xppUserProfession != ''">
+				AND a.xpp_user_profession = #{xppUserProfession}
+			</if>
+			<if test="xppUserName != null and xppUserName != ''">
+				AND a.xpp_user_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xppUserName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xppUserName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xppUserName},'%')</if>
+			</if>
+			<if test="xppPageName != null and xppPageName != ''">
+				AND a.xpp_page_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xppPageName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xppPageName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xppPageName},'%')</if>
+			</if>
+			<if test="xppPageTime != null and xppPageTime != ''">
+				AND a.xpp_page_time = #{xppPageTime}
+			</if>
+		${sqlMap.actUser2}
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="XmuPagePub" >
+		SELECT 
+			<include refid="xmuPagePubColumns"/>
+		FROM xmu_page_pub a
+		<include refid="xmuPagePubJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO xmu_page_pub(
+			xpp_office_name,
+			xpp_user_profession,
+			xpp_user_name,
+			xpp_page_name,
+			xpp_page_time,
+			id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			xpp_proj_id,
+			xpp_proj_name,
+			xpp_office_id,
+			xpp_user_id,
+			xpp_user_grade,
+			xpp_user_stuno,
+			proc_ins_id,
+			xpp_status,
+			xpp_college_comment,
+			xpp_manage_comment,
+			xpp_college_standby,
+			xpp_manage_standby,
+			xpp_page_publication,
+			xpp_page_author_no,
+			xpp_page_type,
+			xpp_page_factor,
+			xpp_page_attachment,
+			xpp_page_remark
+		) VALUES (
+			#{xppOfficeName},
+			#{xppUserProfession},
+			#{xppUserName},
+			#{xppPageName},
+			#{xppPageTime},
+			#{id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{xppProjId},
+			#{xppProjName},
+			#{xppOfficeId},
+			#{xppUserId},
+			#{xppUserGrade},
+			#{xppUserStuno},
+			#{procInsId},
+			#{xppStatus},
+			#{xppCollegeComment},
+			#{xppManageComment},
+			#{xppCollegeStandby},
+			#{xppManageStandby},
+			#{xppPagePublication},
+			#{xppPageAuthorNo},
+			#{xppPageType},
+			#{xppPageFactor},
+			#{xppPageAttachment},
+			#{xppPageRemark}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE xmu_page_pub SET 	
+			xpp_office_name = #{xppOfficeName},
+			xpp_user_profession = #{xppUserProfession},
+			xpp_user_name = #{xppUserName},
+			xpp_page_name = #{xppPageName},
+			xpp_page_time = #{xppPageTime},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			xpp_proj_id = #{xppProjId},
+			xpp_proj_name = #{xppProjName},
+			xpp_office_id = #{xppOfficeId},
+			xpp_user_id = #{xppUserId},
+			xpp_user_grade = #{xppUserGrade},
+			xpp_user_stuno = #{xppUserStuno},
+			xpp_status = #{xppStatus},
+			xpp_page_publication = #{xppPagePublication},
+			xpp_page_author_no = #{xppPageAuthorNo},
+			xpp_page_type = #{xppPageType},
+			xpp_page_factor = #{xppPageFactor},
+			xpp_page_attachment = #{xppPageAttachment},
+			xpp_page_remark = #{xppPageRemark}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM xmu_page_pub
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE xmu_page_pub SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="XmuPagePub" statementType="STATEMENT">
+		select * FROM xmu_page_pub  where ${propertyName} = '${value}'
+	</select>
+	
+	<update id="updateStatus">
+		UPDATE xmu_page_pub SET 
+			xpp_status = #{xppStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateCollegeStandby">
+		UPDATE xmu_page_pub SET 
+			xpp_COLLEGE_STANDBY = #{xppCollegeStandby},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateManageStandby">
+		UPDATE xmu_page_pub SET 
+			XPP_MANAGE_STANDBY = #{xppManageStandby},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateCollegeComment">
+		UPDATE xmu_page_pub SET 
+			xpp_college_comment = #{xppCollegeComment},
+			xpp_status = #{xppStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateManageComment">
+		UPDATE xmu_page_pub SET 
+			xpp_manage_comment = #{xppManageComment},
+			xpp_status = #{xppStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>	
+</mapper>

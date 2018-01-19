@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>com.krazy.kcfw</groupId>
-	<artifactId>kcfw</artifactId>
+	<artifactId>kcfw-ws</artifactId>
 	<version>1.2.7</version>
 	<packaging>war</packaging>
 	
-	<name>kcfw</name>
+	<name>kcfw-ws</name>
 	<url>https://github.com/krazychen/kcfw</url>
 	<inceptionYear>2012-2020</inceptionYear>
 	

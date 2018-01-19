@@ -624,6 +624,40 @@ public class UserController extends BaseController {
 		}
 		return mapList;
 	}
+	
+	@RequiresPermissions("user")
+	@ResponseBody
+	@RequestMapping(value = "treeDataByRoleEnNameAllOffice")
+	public List<Map<String, Object>> treeDataByRoleEnNameAllOffice(@RequestParam(required=false) String officeId,@RequestParam(required=false) String roleEnName, HttpServletResponse response) {
+		List<Map<String, Object>> mapList = Lists.newArrayList();
+		List<User> list = systemService.findUserByOfficeIdAndRoleEnName("", roleEnName);
+		for (int i=0; i<list.size(); i++){
+			User e = list.get(i);
+			Map<String, Object> map = Maps.newHashMap();
+			map.put("id", "u_"+e.getId());
+			map.put("pId", officeId);
+			map.put("name", StringUtils.replace(e.getName(), " ", ""));
+			mapList.add(map);
+		}
+		return mapList;
+	}
+	
+	@RequiresPermissions("user")
+	@ResponseBody
+	@RequestMapping(value = "treeDataByRoleEnNameNo")
+	public List<Map<String, Object>> treeDataByRoleEnNameNo(@RequestParam(required=false) String officeId,@RequestParam(required=false) String roleEnName, HttpServletResponse response) {
+		List<Map<String, Object>> mapList = Lists.newArrayList();
+		List<User> list = systemService.findUserByOfficeIdAndRoleEnNameNo(officeId, roleEnName);
+		for (int i=0; i<list.size(); i++){
+			User e = list.get(i);
+			Map<String, Object> map = Maps.newHashMap();
+			map.put("id", "u_"+e.getId());
+			map.put("pId", officeId);
+			map.put("name", StringUtils.replace(e.getName(), " ", ""));
+			mapList.add(map);
+		}
+		return mapList;
+	}
     
 //	@InitBinder
 //	public void initBinder(WebDataBinder b) {

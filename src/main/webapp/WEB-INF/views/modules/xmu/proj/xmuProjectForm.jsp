@@ -30,14 +30,29 @@
 					}
 				}
 			});
+			
+			laydate({
+	            elem: '#xmpMaintDate', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+	            event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+	        });
+			laydate({
+	            elem: '#xmpEndDate', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+	            event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+	        });
+			laydate({
+	            elem: '#xmpStopDate', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+	            event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+	        });
 		});
 		
 		function addUser(list, idx, tpl, row){
 			var vals=$('input[id$=_xpmUserId]');
+			var delFlags=$('#xmuProjectManaList').find('input[id$=_delFlag]');
 			var cuids=[];
 			if(vals){
 				for(var i=0;i<vals.length;i++){
-					cuids.push($(vals[i]).val());
+					if($(delFlags[i]).val()=='1' || $(delFlags[i]).val()=='0')
+						cuids.push($(vals[i]).val());
 				}
 			}
 			// 正常打开	
@@ -45,31 +60,33 @@
 			    type: 2, 
 			    area: ['300px', '420px'],
 			    title:"选择管理员",
-			    content: "${ctx}/tag/treeselect?url=/sys/office/treeData?type=3&checked=true&selectIds="+cuids.join(",")+"&roleEnName=Manager" ,
+			    content: "${ctx}/tag/treeselect?url=/sys/office/treeData?type=3&notAllowSelectRoot=true&notAllowSelectParent=true&isAll=true&roleEnName=Manager&userURL=treeDataByRoleEnName" ,
 			    btn: ['确定', '关闭']
 	    	       ,yes: function(index, layero){ //或者使用btn1
 							var tree = layero.find("iframe")[0].contentWindow.tree;//h.find("iframe").contents();
-							var nodes = [],parents=[];
-							nodes = tree.getCheckedNodes(true);
+							var nodes = [],ids=[],names=[],parents=[];
+							nodes = tree.getSelectedNodes();
+							
 							for(var i=0; i<nodes.length; i++) {
-								if (nodes[i].isParent&&nodes[i].level != 0){
-									parents.push(nodes[i]);
+								if (nodes[i].level == 0){
+									top.layer.msg("不能选择根节点（"+nodes[i].name+"）请重新选择。", {icon: 0});
+									return false;
 								}
+								if (nodes[i].isParent){
+									top.layer.msg("不能选择父节点（"+nodes[i].name+"）请重新选择。", {icon: 0});
+									return false;
+								}
+								ids.push(nodes[i].id);
+								parents.push(nodes[i].getParentNode());
+								names.push(nodes[i].name);
+								break; 
 							}
-							
-							$(list).children().remove();
-							
-							for(var i=0;i<parents.length;i++){
-								var childrens=parents[i].children;
-								var ids = [], names = [];
-								for(var j=0;j<childrens.length;j++){
-									if(childrens[j].checked){
-										ids.push(childrens[j].id);
-										names.push(childrens[j].name);
-									}
-								}
+							if(cuids.indexOf(ids.join(",").replace(/u_/ig,""))!=-1){
+								top.layer.msg(nodes[0].name+"已经存在，请重新选择。", {icon: 0});
+							}else{
+
 								xmuProjectManaRowIdx = xmuProjectManaRowIdx + 1;
-								var data={"xpmOfficeId":(parents[i].id).replace(/u_/ig,""),"xpmOfficeName":parents[i].name,
+								var data={"xpmOfficeId":(parents[0].id).replace(/u_/ig,""),"xpmOfficeName":parents[0].name,
 										"xpmUserId":ids.join(",").replace(/u_/ig,""),"xpmUserName":names.join(",")};
 								addRow(list,xmuProjectManaRowIdx,tpl,data);
 							}
@@ -87,10 +104,12 @@
 		
 		function addUser2(list, idx, tpl, row){
 			var vals=$('input[id$=_xprUserId]');
+			var delFlags=$('#xmuProjectRespList').find('input[id$=_delFlag]');
 			var cuids=[];
 			if(vals){
 				for(var i=0;i<vals.length;i++){
-					cuids.push($(vals[i]).val());
+					if($(delFlags[i]).val()=='1' || $(delFlags[i]).val()=='0')
+						cuids.push($(vals[i]).val());
 				}
 			}
 			// 正常打开	
@@ -98,34 +117,38 @@
 			    type: 2, 
 			    area: ['300px', '420px'],
 			    title:"选择负责人",
-			    content: "${ctx}/tag/treeselect?url=/sys/office/treeData?type=3&checked=true&selectIds="+cuids.join(",")+"&roleEnName=RESP" ,
+			    content: "${ctx}/tag/treeselect?url=/sys/office/treeData?type=3&notAllowSelectRoot=true&notAllowSelectParent=true&isAll=true&roleEnName=RESP&userURL=treeDataByRoleEnName" ,
 			    btn: ['确定', '关闭']
 	    	       ,yes: function(index, layero){ //或者使用btn1
 							var tree = layero.find("iframe")[0].contentWindow.tree;//h.find("iframe").contents();
-							var nodes = [],parents=[];
-							nodes = tree.getCheckedNodes(true);
+							var nodes = [],ids=[],names=[],parents=[];
+							nodes = tree.getSelectedNodes();
+							
 							for(var i=0; i<nodes.length; i++) {
-								if (nodes[i].isParent&&nodes[i].level != 0){
-									parents.push(nodes[i]);
+								if (nodes[i].level == 0){
+									top.layer.msg("不能选择根节点（"+nodes[i].name+"）请重新选择。", {icon: 0});
+									return false;
 								}
+								if (nodes[i].isParent){
+									top.layer.msg("不能选择父节点（"+nodes[i].name+"）请重新选择。", {icon: 0});
+									return false;
+								}
+								ids.push(nodes[i].id);
+								parents.push(nodes[i].getParentNode());
+								names.push(nodes[i].name);
+								break; 
 							}
+							//$(list).children().remove();
+							if(cuids.indexOf(ids.join(",").replace(/u_/ig,""))!=-1){
+								top.layer.msg(nodes[0].name+"已经存在，请重新选择。", {icon: 0});
+							}else{
 							
-							$(list).children().remove();
-							
-							for(var i=0;i<parents.length;i++){
-								var childrens=parents[i].children;
-								var ids = [], names = [];
-								for(var j=0;j<childrens.length;j++){
-									if(childrens[j].checked){
-										ids.push(childrens[j].id);
-										names.push(childrens[j].name);
-									}
-								}
 								xmuProjectRespRowIdx = xmuProjectRespRowIdx + 1;
-								var data={"xprOfficeId":(parents[i].id).replace(/u_/ig,""),"xprOfficeName":parents[i].name,
+								var data={"xprOfficeId":(parents[0].id).replace(/u_/ig,""),"xprOfficeName":parents[0].name,
 										"xprUserId":ids.join(",").replace(/u_/ig,""),"xprUserName":names.join(",")};
 								addRow(list,xmuProjectRespRowIdx,tpl,data);
 							}
+							
 							//$("#${id}Id").val(ids.join(",").replace(/u_/ig,""));
 							//$("#${id}Name").val(names.join(","));
 							//$("#${id}Name").focus();
@@ -194,26 +217,25 @@
 					<td class="width-15 active"><label class="pull-right">项目开始时间：</label></td>
 					<td class="width-35">
 						<input id="xmpMaintDate" name="xmpMaintDate" type="text" maxlength="20" class="laydate-icon form-control layer-date formDateMaxWidth"
-							value="<fmt:formatDate value="${xmuProject.xmpMaintDate}" pattern="yyyy-MM-dd HH:mm:ss"/>" />
+							value="<fmt:formatDate value="${xmuProject.xmpMaintDate}" pattern="yyyy-MM-dd"/>" />
 					</td>
 					<td class="width-15 active"><label class="pull-right">项目结束时间：</label></td>
 					<td class="width-35">
 						<input id="xmpEndDate" name="xmpEndDate" type="text" maxlength="20" class="laydate-icon form-control layer-date formDateMaxWidth"
-							value="<fmt:formatDate value="${xmuProject.xmpEndDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
+							value="<fmt:formatDate value="${xmuProject.xmpEndDate}" pattern="yyyy-MM-dd"/>"/>
 					</td>
 				</tr>
 				<tr>
 					<td class="width-15 active"><label class="pull-right"><font color="red">*</font>项目状态：</label></td>
 					<td class="width-35">
 						<form:select path="xmpStatus" class="form-control required">
-							<form:option value="" label=""/>
 							<form:options items="${fns:getDictList('XMU_PROJECT_STATUS')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 						</form:select>
 					</td>
 					<td class="width-15 active"><label class="pull-right">项目停用时间：</label></td>
 					<td class="width-35">
 						<input id="xmpStopDate" name="xmpStopDate" type="text" maxlength="20" class="laydate-icon form-control layer-date formDateMaxWidth"
-							value="<fmt:formatDate value="${xmuProject.xmpStopDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
+							value="<fmt:formatDate value="${xmuProject.xmpStopDate}" pattern="yyyy-MM-dd"/>"/>
 					</td>
 					
 				</tr>
@@ -241,6 +263,7 @@
 						<th class="hide"></th>
 						<th>项目学院名称</th>
 						<th>学院管理员名称</th>
+						<th width="10">&nbsp;</th>
 					</tr>
 				</thead>
 				<tbody id="xmuProjectManaList">
@@ -262,7 +285,9 @@
 						<input id="xmuProjectManaList{{idx}}_xpmUserId" name="xmuProjectManaList[{{idx}}].xpmUserId" type="hidden" value="{{row.xpmUserId}}"/>
 						<input id="xmuProjectManaList{{idx}}_xpmUserName" name="xmuProjectManaList[{{idx}}].xpmUserName" class="form-control" type="text" readonly="true" value="{{row.xpmUserName}}"/>
 					</td>
-					
+					<td class="text-center" width="10">
+						{{#delBtn}}<span class="close" onclick="delRow(this, '#xmuProjectManaList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+					</td>
 				</tr>//-->
 			</script>
 			<script type="text/javascript">
@@ -278,12 +303,14 @@
 			</div>
 				<div id="tab-2" class="tab-pane">
 			<a class="btn btn-white btn-sm" onclick="addUser2('#xmuProjectRespList', xmuProjectRespRowIdx, xmuProjectRespTpl);" title="新增"><i class="fa fa-plus"></i> 新增</a>
+
 			<table id="contentTable" class="table table-striped table-bordered table-condensed">
 				<thead>
 					<tr>
 						<th class="hide"></th>
 						<th>项目学院名称</th>
 						<th>学院负责人名称</th>
+						<th width="10">&nbsp;</th>
 					</tr>
 				</thead>
 				<tbody id="xmuProjectRespList">
@@ -306,6 +333,9 @@
 						<input id="xmuProjectRespList{{idx}}_xprUserName" name="xmuProjectRespList[{{idx}}].xprUserName" class="form-control" type="text" readonly="true" value="{{row.xprUserName}}"/>
 					</td>
 					
+					<td class="text-center" width="10">
+						{{#delBtn}}<span class="close" onclick="delRow(this, '#xmuProjectRespList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+					</td>
 				</tr>//-->
 			</script>
 			<script type="text/javascript">

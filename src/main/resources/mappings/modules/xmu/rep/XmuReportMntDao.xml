@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krazy.kcfw.modules.xmu.dao.rep.XmuReportMntDao">
+    
+	<sql id="xmuReportMntColumns">
+		a.xrm_months AS "xrmMonths",
+		a.xrm_office_id AS "xrmOfficeId",
+		a.xrm_proj_id AS "xrmProjId",
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.xrm_proj_name AS "xrmProjName",
+		a.xrm_office_name AS "xrmOfficeName",
+		a.xrm_descp AS "xrmDescp",
+		a.xrm_files AS "xrmFiles",
+		a.proc_ins_id AS "procInsId",
+		a.xrm_status AS "xrmStatus",
+		a.xrm_college_comment AS "xrmCollegeComment",
+		a.xrm_manage_comment AS "xrmManageComment",
+		a.xrm_college_standby AS "xrmCollegeStandby",
+		a.xrm_manage_standby AS "xrmManageStandby"
+	</sql>
+	
+	<sql id="xmuReportMntJoins">
+		LEFT JOIN sys_office xrmOfficeId ON xrmOfficeId.id = a.xrm_office_id
+	</sql>
+	
+	<sql id="userJoins">
+		JOIN sys_user u ON u.id = a.create_by
+		JOIN sys_office o ON o.id = u.office_id
+    </sql>
+	
+    
+	<select id="get" resultType="XmuReportMnt" >
+		SELECT 
+			<include refid="xmuReportMntColumns"/>
+		FROM xmu_report_mnt a
+		<include refid="xmuReportMntJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="XmuReportMnt" >
+		SELECT 
+			<include refid="xmuReportMntColumns"/>
+		FROM xmu_report_mnt a
+		<include refid="xmuReportMntJoins"/>
+		<include refid="userJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="xrmMonths != null and xrmMonths != ''">
+				AND a.xrm_months = #{xrmMonths}
+			</if>
+			<if test="xrmOfficeId != null and xrmOfficeId != ''">
+				AND a.xrm_office_id = #{xrmOfficeId}
+			</if>
+			<if test="xrmProjName != null and xrmProjName != ''">
+				AND a.xrmProjName LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xrmProjName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xrmProjName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xrmProjName},'%')</if>
+			</if>
+			<if test="xrmProjId != null and xrmProjId != ''">
+				AND a.xrm_proj_id = #{xrmProjId}
+			</if>
+		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf} ${sqlMap.actUser}
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="XmuReportMnt" >
+		SELECT 
+			<include refid="xmuReportMntColumns"/>
+		FROM xmu_report_mnt a
+		<include refid="xmuReportMntJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO xmu_report_mnt(
+			xrm_months,
+			xrm_office_id,
+			xrm_proj_id,
+			id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			xrm_proj_name,
+			xrm_office_name,
+			xrm_descp,
+			xrm_files,
+			proc_ins_id,
+			xrm_status,
+			xrm_college_comment,
+			xrm_manage_comment,
+			Xrm_COLLEGE_STANDBY,
+			Xrm_MANAGE_STANDBY
+		) VALUES (
+			#{xrmMonths},
+			#{xrmOfficeId},
+			#{xrmProjId},
+			#{id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{xrmProjName},
+			#{xrmOfficeName},
+			#{xrmDescp},
+			#{xrmFiles},
+			#{procInsId},
+			#{xrmStatus},
+			#{xrmCollegeComment},
+			#{xrmManageComment},
+			#{xrmCollegeStandby},
+			#{xrmManageStandby}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE xmu_report_mnt SET 	
+			xrm_months = #{xrmMonths},
+			xrm_office_id = #{xrmOfficeId},
+			xrm_proj_id = #{xrmProjId},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			xrm_proj_name = #{xrmProjName},
+			xrm_office_name = #{xrmOfficeName},
+			xrm_descp = #{xrmDescp},
+			xrm_files = #{xrmFiles}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM xmu_report_mnt
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE xmu_report_mnt SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="XmuReportMnt" statementType="STATEMENT">
+		select * FROM xmu_report_mnt  where ${propertyName} = '${value}'
+	</select>
+	
+	<update id="updateStatus">
+		UPDATE xmu_report_mnt SET 
+			xrm_status = #{xrmStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateCollegeStandby">
+		UPDATE xmu_report_mnt SET 
+			Xrm_COLLEGE_STANDBY = #{xrmCollegeStandby},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateManageStandby">
+		UPDATE xmu_report_mnt SET 
+			Xrm_MANAGE_STANDBY = #{xrmManageStandby},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateCollegeComment">
+		UPDATE xmu_report_mnt SET 
+			xrm_college_comment = #{xrmCollegeComment},
+			xrm_status = #{xrmStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateManageComment">
+		UPDATE xmu_report_mnt SET 
+			xrm_manage_comment = #{xrmManageComment},
+			xrm_status = #{xrmStatus},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+</mapper>

@@ -60,10 +60,10 @@
 					<div class="col-sm-12">
 						<div class="pull-left">
 							<shiro:hasPermission name="gen:genTable:edit">
-								<table:addRow url="${ctx}/gen/genTable/form" title="业务表" target="location" closed="true" width="1150px" height="650px"></table:addRow><!-- 增加按钮 -->
+								<table:addRow url="${ctx}/gen/genTable/form" title="业务表" target="location" closed="true" width="1350px" height="630px"></table:addRow><!-- 增加按钮 -->
 							</shiro:hasPermission>
 							<shiro:hasPermission name="gen:genTable:edit">
-			    				<table:editRow url="${ctx}/gen/genTable/form" id="contentTable"  title="业务表" width="1150px" height="650px"></table:editRow><!-- 编辑按钮 -->
+			    				<table:editRow url="${ctx}/gen/genTable/form" id="contentTable"  title="业务表" width="1350px" height="630px"></table:editRow><!-- 编辑按钮 -->
 							</shiro:hasPermission>
 							<shiro:hasPermission name="gen:genTable:edit">
 								<table:delRow url="${ctx}/gen/genTable/delete" id="contentTable"></table:delRow><!-- 删除按钮 -->
@@ -94,16 +94,16 @@
 						<c:forEach items="${page.list}" var="genTable">
 							<tr>
 								<td> <input type="checkbox" id="${genTable.id}" class="i-checks"></td>
-								<td><a href="#" onclick="openDialogView('查看业务表','${ctx}/gen/genTable/form?id=${genTable.id}','1150px', '650px')">${genTable.name}</a></td>
+								<td><a href="#" onclick="openDialogView('查看业务表','${ctx}/gen/genTable/form?id=${genTable.id}','950px', '650px')">${genTable.name}</a></td>
 								<td>${genTable.comments}</td>
 								<td>${genTable.className}</td>
 								<td title="点击查询子表"><a href="javascript:" onclick="$('#parentTable').val('${genTable.parentTable}');$('#searchForm').submit();">${genTable.parentTable}</a></td>
 								<td>
 									<shiro:hasPermission name="gen:genScheme:edit">
-										<a href="#" onclick="openDialogView('查看业务表', '${ctx}/gen/genTable/form?id=${genTable.id}','1150px', '650px')" class="btn btn-info btn-xs" ><i class="fa fa-search-plus"></i> 查看</a>
+										<a href="#" onclick="openDialogView('查看业务表', '${ctx}/gen/genTable/form?id=${genTable.id}','1350px', '630px')" class="btn btn-info btn-xs" ><i class="fa fa-search-plus"></i> 查看</a>
 									</shiro:hasPermission>
 									<shiro:hasPermission name="gen:genScheme:edit">
-				    					<a href="#" onclick="openDialog('修改业务表', '${ctx}/gen/genTable/form?id=${genTable.id}','1150px', '650px')" class="btn btn-success btn-xs" ><i class="fa fa-edit"></i> 修改</a>
+				    					<a href="#" onclick="openDialog('修改业务表', '${ctx}/gen/genTable/form?id=${genTable.id}','1350px', '630px')" class="btn btn-success btn-xs" ><i class="fa fa-edit"></i> 修改</a>
 				    				</shiro:hasPermission>
 				    				<shiro:hasPermission name="gen:genScheme:edit">
 										<a href="${ctx}/gen/genTable/delete?id=${genTable.id}" onclick="return confirmx('确认要删除该业务表吗？', this.href)"   class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> 删除</a>

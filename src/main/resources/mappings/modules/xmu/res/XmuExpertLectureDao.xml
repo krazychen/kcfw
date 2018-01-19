@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krazy.kcfw.modules.xmu.dao.res.XmuExpertLectureDao">
+    
+	<sql id="xmuExpertLectureColumns">
+		a.xel_proj_name AS "xelProjName",
+		a.xel_expret_office AS "xelExpretOffice",
+		a.xel_expert_profession AS "xelExpertProfession",
+		a.xel_expert_name AS "xelExpertName",
+		a.xel_expert_title AS "xelExpertTitle",
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.xel_proj_id AS "xelProjId",
+		a.xel_expert_grade AS "xelExpertGrade",
+		a.xel_expert_lecture_name AS "xelExpertLectureName",
+		a.xel_expert_area AS "xelExpertArea",
+		a.xel_expert_unit AS "xelExpertUnit",
+		a.xel_expert_job_title AS "xelExpertJobTitle",
+		a.xel_expret_office_id AS "xelExpretOfficeId",
+		a.xel_expert_area_id AS "xelExpertAreaId"
+	</sql>
+	
+	<sql id="xmuExpertLectureJoins">
+		LEFT JOIN sys_office xelExpretOffice ON xelExpretOffice.id = a.xel_expret_office
+		LEFT JOIN sys_area xelExpertArea ON xelExpertArea.id = a.xel_expert_area
+	</sql>
+	
+	<sql id="userJoins">
+		JOIN sys_user u ON u.id = a.create_by
+		JOIN sys_office o ON o.id = u.office_id
+    </sql>
+	
+    
+	<select id="get" resultType="XmuExpertLecture" >
+		SELECT 
+			<include refid="xmuExpertLectureColumns"/>
+		FROM xmu_expert_lecture a
+		<include refid="xmuExpertLectureJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="XmuExpertLecture" >
+		SELECT 
+			<include refid="xmuExpertLectureColumns"/>
+		FROM xmu_expert_lecture a
+		<include refid="xmuExpertLectureJoins"/>
+		<include refid="userJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="xelProjName != null and xelProjName != ''">
+				AND a.xel_proj_name = #{xelProjName}
+			</if>
+			<if test="xelExpretOffice != null and xelExpretOffice != ''">
+				AND a.xel_expret_office = #{xelExpretOffice}
+			</if>
+			<if test="xelExpertProfession != null and xelExpertProfession != ''">
+				AND a.xel_expert_profession = #{xelExpertProfession}
+			</if>
+			<if test="xelExpertName != null and xelExpertName != ''">
+				AND a.xel_expert_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xelExpertName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xelExpertName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xelExpertName},'%')</if>
+			</if>
+			<if test="xelExpertTitle != null and xelExpertTitle != ''">
+				AND a.xel_expert_title = #{xelExpertTitle}
+			</if>
+			<if test="xelExpertArea != null and xelExpertArea != ''">
+				AND a.xel_expert_area = #{xelExpertArea}
+			</if>
+		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="XmuExpertLecture" >
+		SELECT 
+			<include refid="xmuExpertLectureColumns"/>
+		FROM xmu_expert_lecture a
+		<include refid="xmuExpertLectureJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO xmu_expert_lecture(
+			xel_proj_name,
+			xel_expret_office,
+			xel_expert_profession,
+			xel_expert_name,
+			xel_expert_title,
+			id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			xel_proj_id,
+			xel_expert_grade,
+			xel_expert_lecture_name,
+			xel_expert_area,
+			xel_expert_unit,
+			xel_expert_job_title,
+			xel_expret_office_id,
+			xel_expert_area_id
+		) VALUES (
+			#{xelProjName},
+			#{xelExpretOffice},
+			#{xelExpertProfession},
+			#{xelExpertName},
+			#{xelExpertTitle},
+			#{id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{xelProjId},
+			#{xelExpertGrade},
+			#{xelExpertLectureName},
+			#{xelExpertArea},
+			#{xelExpertUnit},
+			#{xelExpertJobTitle},
+			#{xelExpretOfficeId},
+			#{xelExpertAreaId}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE xmu_expert_lecture SET 	
+			xel_proj_name = #{xelProjName},
+			xel_expret_office = #{xelExpretOffice},
+			xel_expert_profession = #{xelExpertProfession},
+			xel_expert_name = #{xelExpertName},
+			xel_expert_title = #{xelExpertTitle},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			xel_proj_id = #{xelProjId},
+			xel_expert_grade = #{xelExpertGrade},
+			xel_expert_lecture_name = #{xelExpertLectureName},
+			xel_expert_area = #{xelExpertArea},
+			xel_expert_unit = #{xelExpertUnit},
+			xel_expert_job_title = #{xelExpertJobTitle},
+			xel_expret_office_id = #{xelExpretOfficeId},
+			xel_expert_area_id = #{xelExpertAreaId}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM xmu_expert_lecture
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE xmu_expert_lecture SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="XmuExpertLecture" statementType="STATEMENT">
+		select * FROM xmu_expert_lecture  where ${propertyName} = '${value}'
+	</select>
+	
+	
+</mapper>

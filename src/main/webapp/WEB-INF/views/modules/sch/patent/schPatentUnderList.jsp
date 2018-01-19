@@ -39,7 +39,7 @@
 			</li>
 			<li><label>指导老师：</label>
 				<sys:treeselect id="spuAdvisTeacherId" name="spuAdvisTeacherId" value="${schPatentUnder.spuAdvisTeacherId}" labelName="spuAdvisTeacherName" labelValue="${schPatentUnder.spuAdvisTeacherName}"
-					title="用户" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
+					title="用户" roleEnName="teacher" userURL="treeDataByRoleEnName" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</li>
 			<li><label>申请状态：</label>
 				<form:select path="spuStatus" class="input-medium">

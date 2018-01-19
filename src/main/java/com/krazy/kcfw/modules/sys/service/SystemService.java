@@ -3,6 +3,7 @@
  */
 package com.krazy.kcfw.modules.sys.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -148,6 +149,20 @@ public class SystemService extends BaseService implements InitializingBean {
 			list = userDao.findUsersByRoleEnName(pars);
 			CacheUtils.put(UserUtils.USER_CACHE+"-"+roleEnName, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + officeId, list);
 		}
+		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<User> findUserByOfficeIdAndRoleEnNameNo(String officeId,String roleEnName) {
+//		List<User> list = (List<User>)CacheUtils.get(UserUtils.USER_CACHE+"-"+roleEnName, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + officeId);
+//		if (list == null){
+			HashMap<String,String> pars=new HashMap<String,String>();
+			pars.put("roleEnName",roleEnName );
+//			pars.put("officeId", officeId);
+			
+			List<User> list = userDao.findUsersByRoleEnName(pars);
+//			CacheUtils.put(UserUtils.USER_CACHE+"-"+roleEnName, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + officeId, list);
+//		}
 		return list;
 	}
 	
